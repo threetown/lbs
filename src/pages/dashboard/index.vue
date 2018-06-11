@@ -43,6 +43,11 @@
         }
       }
     },
+    watch: {
+      $route(to) {
+        
+      }
+    },
     methods: {
       handleClickUserDropdown(name){
         if (name === "setting") {
