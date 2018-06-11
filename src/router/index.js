@@ -40,7 +40,7 @@ Vue.use(Router)
 const routes = [
   {
     path: '/', name: 'dashboard', component: dashboard,
-    redirect: '/application',
+    redirect: '/application/app',
     meta: {
       title: '管理平台'
     },

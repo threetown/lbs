@@ -73,8 +73,8 @@
         },
         created() {
             this.active_name = this.$route.name;
-            console.log(this.active_name)
-            this.open_names = ['application'];
+            let relative_path_arr = this.$route.path.split('/');
+            this.open_names = relative_path_arr.length > 1 ?[relative_path_arr[1]] : ['application'];
         }
     }
 </script>
