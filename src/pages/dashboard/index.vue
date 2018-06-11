@@ -89,6 +89,9 @@
       padding: 25px;
       color: #999;
     }
+    .mormal-tabs-bd{
+      padding: 15px 25px 25px;
+    }
   }
   .dashboard{
     position: absolute;
