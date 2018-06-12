@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="sidebar-menu-con">
+    <div class="sidebar-menu-con" :style="{ width: '200px', overflow: 'auto'}">
       <sidebar-menu></sidebar-menu>
     </div>
     <div class="singlePageBox">
@@ -62,6 +62,11 @@
 
 
 <style lang="less">
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-track,::-webkit-scrollbar-thumb{border-radius:999px;border:10px solid #ebedf0;}
+  ::-webkit-scrollbar-track{box-shadow:1px 1px 8px rgba(0,0,0,.2) inset;}
+  ::-webkit-scrollbar-thumb{min-height:20px;background-clip:content-box;border:10px solid #498aff;}
+  ::-webkit-scrollbar-corner{background:transparent;}
   .m-25 {
     margin: 25px;
   }
