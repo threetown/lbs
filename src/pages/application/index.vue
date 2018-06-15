@@ -1,111 +1,215 @@
 <template>
     <div>
-        <Row :gutter="28" class="mb-24">
-            <Col span="12">
-                <div class="normal-block-mod">
-                    <div class="mormal-block-hd ivu-row">
-                        <h2 class="mbm-title">基本信息</h2>
-                    </div>
-                    <div class="mormal-block-bd">
-                        <dl class="basicInfo">
-                            <dt>用户名</dt>
-                            <dd>amap_13007128888</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>昵称</dt>
-                            <dd>jun13008888</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>性别</dt>
-                            <dd>保密</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>生日</dt>
-                            <dd>未设置</dd>
-                        </dl>
-                    </div>
-                </div>
-            </Col>
-            <Col span="12">
-                <div class="normal-block-mod">
-                    <div class="mormal-block-hd ivu-row">
-                        <h2 class="mbm-title">企业信息</h2>
-                    </div>
-                    <div class="mormal-block-bd">
-                        <dl class="basicInfo">
-                            <dt>所属行业</dt>
-                            <dd>未设置</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>企业名称</dt>
-                            <dd>国信达数据有限公司</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>企业官网</dt>
-                            <dd>www.baidu.com</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>企业简介</dt>
-                            <dd>企业简介企简介企业简介企业简介企业简介</dd>
-                        </dl>
-                    </div>
-                </div>
-            </Col>
-        </Row>
-        <Row :gutter="28" class="mb-24">
-            <Col span="24">
-                <div class="normal-block-mod">
-                    <div class="mormal-block-hd ivu-row">
-                        <h2 class="mbm-title">安全设置</h2>
-                    </div>
-                    <div class="mormal-block-bd">
-                        <Row class="safeSetting">
-                            <Col class="text-blank" span="4">绑定手机</Col>
-                            <Col span="16">您已绑定了手机176****0996 [您的手机为安全手机，可以找回密码，但不能用于登录]</Col>
-                            <Col class="tar" span="4">已设置 | 修改</Col>
-                        </Row>
-                        <Row class="safeSetting">
-                            <Col class="text-blank" span="4">绑定邮箱</Col>
-                            <Col span="16">绑定邮箱主要用于接收密保信息，保障账户安全。</Col>
-                            <Col class="tar" span="4">已设置 | 修改</Col>
-                        </Row>
-                        <Row class="safeSetting">
-                            <Col class="text-blank" span="4">帐号密码</Col>
-                            <Col span="16">安全性高的密码可以使帐号更安全。建议您定期更换密码，设置一个包含字母，符号或数字中至少两项
-且长度超过6位的密码。</Col>
-                            <Col class="tar" span="4">已设置 | 修改</Col>
+        <div class="full-block-mod">
+            <div class="Header clearfix">
+                <h2 class="title">我的应用 <strong>您可以在这里创建、设置并管理您的应用及Key</strong></h2>
+                <Button class="fr" type="primary" icon="ios-plus-outline" slot="extra" size="large">新增服务</Button>
+            </div>
+            
+            <div class="collapse">
+                <div class="panel">
+                    <div class="hd">
+                        <Row>
+                            <Col span="4" class="title">
+                                <Icon type="ios-list"></Icon>智慧楼盘
+                            </Col>
+                            <Col span="4">2018-05-08创建</Col>
+                            <Col span="14" class="action">
+                                <Icon type="compose"></Icon>
+                                <Icon type="trash-a"></Icon>
+                                <Button type="blue">添加新key</Button>
+                            </Col>
+                            <Col span="2" class="tac"><Icon type="ios-arrow-down"></Icon></Col>
                         </Row>
                     </div>
+                    <div class="bd">
+                        <Table border :columns="mapColumns" :data="mapServerData"></Table>
+                    </div>
                 </div>
-            </Col>
-        </Row>
+                <div class="panel">
+                    <div class="hd">
+                        <Row>
+                            <Col span="4" class="title">
+                                <Icon type="ios-list"></Icon>智慧楼盘
+                            </Col>
+                            <Col span="4">2018-05-08创建</Col>
+                            <Col span="14" class="action">
+                                <Icon type="compose"></Icon>
+                                <Icon type="trash-a"></Icon>
+                                <Button type="blue">添加新key</Button>
+                            </Col>
+                            <Col span="2" class="tac"><Icon type="ios-arrow-down"></Icon></Col>
+                        </Row>
+                    </div>
+                    <div class="bd" style="display: none;">
+                        <Table border :columns="mapColumns" :data="mapServerData"></Table>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="hd">
+                        <Row>
+                            <Col span="4" class="title">
+                                <Icon type="ios-list"></Icon>智慧楼盘
+                            </Col>
+                            <Col span="4">2018-05-08创建</Col>
+                            <Col span="14" class="action">
+                                <Icon type="compose"></Icon>
+                                <Icon type="trash-a"></Icon>
+                                <Button type="blue">添加新key</Button>
+                            </Col>
+                            <Col span="2" class="tac"><Icon type="ios-arrow-down"></Icon></Col>
+                        </Row>
+                    </div>
+                    <div class="bd" style="display: none;">
+                        <Table border :columns="mapColumns" :data="mapServerData"></Table>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
     </div>
 </template>
 
+<script>
+    export default {
+        data () {
+            return {
+                curOpen: 1,
+                mapColumns: [
+                    {
+                        title: 'Key名称',
+                        key: 'name'
+                    },
+                    {
+                        title: 'Key名称',
+                        key: 'key'
+                    },
+                    {
+                        title: '绑定服务',
+                        key: 'type'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, '编辑'),
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, '删除'),
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, '数据统计')
+                            ]);
+                        }
+                    }
+                    
+                ],
+                mapServerData: [
+                    {
+                        name: 'www',
+                        key: '20180611',
+                        type: 'New York No. 1 Lake Park'
+                    },
+                    {
+                        name: 'www',
+                        key: '20180611',
+                        type: 'New York No. 1 Lake Park'
+                    }
+                ]
+            }
+        }
+    }
+</script>
 
 <style lang="less">
-    .text-blank{
-        color: #000;
+    .clearfix:after{content:'\0020';display:block;height:0;clear:both;visibility:hidden;}
+    .clearfix{*zoom:1;}
+    .fr{float: right;}
+    .tar{text-align: right;}
+    .tac{
+        text-align: center;
     }
-    .basicInfo{
-        font-family: 'Microsoft YaHei';
-        font-size: 14px;
-        line-height: 32px;
-        display: flex;
-        dt{
-            color: #ccc;
-            width: 68px;
-            display: inline-block;
-        }
-        dd{
-            flex: 1;
+    .full-block-mod{
+        padding: 30px;
+        background-color: #fff;
+    }
+    .Header{
+        margin-bottom: 25px;
+        .title{
+            font-weight: normal;
+            color: #333;
+            font-size: 18px;
+            line-height: 24px;
+            float: left;
+            strong{
+                font-weight: normal;
+                font-size: 14px;
+                color: #999;
+                display: block;
+            }
         }
     }
-    .safeSetting{
-        border-bottom: 1px solid #e5e5e5;
-        padding: 38px 0;
-        .tar{
-            text-align: right;
+    .collapse{
+
+        .panel{
+            .hd{
+                height: 58px;
+                padding: 12px 0;
+                border-top: 1px solid #E5E5E5;
+                font-size: 14px;
+                line-height: 32px;
+                color: #666;
+                &:hover{
+                    .action{
+                        i{
+                            display: inline-block;
+                        }
+                    }
+                }
+                .title{
+                    font-size: 16px;
+                    color: #008AFF;
+                    i{
+                        font-size: 22px;
+                        vertical-align: middle;
+                        margin-right: 5px;
+                    }
+                }
+                .action{
+                    text-align: right;
+                    i{
+                        font-size: 22px;
+                        color: #666;
+                        vertical-align: middle;
+                        margin: 0 4px;
+                        display: none;
+                        cursor: pointer;
+                    }
+                    .ivu-btn-blue{
+                        color: #008AFF;
+                        font-size: 14px;
+                        height: 32px;
+                        border: 1px solid #008AFF;
+                        background-color: #fff;
+                        margin-left: 20px;
+                    }
+                }
+            }
+            .bd{
+
+            }
         }
     }
 </style>
