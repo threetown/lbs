@@ -22,11 +22,14 @@
             line-height: 40px;
         }
     }
+    .ivu-modal-body{
+        padding: 30px 30px 0;
+    }
     .ivu-modal-content{
         border-radius: 3px;
         .content{
             h3{
-                color: #333;
+                color: @black;
                 font-weight: bold;
                 font-size: 16px;
                 line-height: 32px;
@@ -35,7 +38,6 @@
                 color: #999;
                 font-size: 14px;
             }
-            
         }
     }
     .ivu-modal-footer{
@@ -52,20 +54,23 @@
 
     &.custom-warning-modal{
         .ivu-modal-header{
-            background-color: #FF5151;
+            background-color: @custom-warning-color;
             .title{
-                color: #fff;
+                color: @white;
             }
+        }
+        .ivu-modal-body{
+            padding-bottom: 20px;
         }
         .ivu-modal-footer{
             border-top: 1px solid #eee;
             .ivu-btn-primary{
-                background-color: #ff5151;
-                border-color: #FF5151;
+                background-color: @custom-warning-color;
+                border-color: @custom-warning-color;
             }
         }
         .ivu-modal-close .ivu-icon-ios-close-empty{
-            color: #fff;
+            color: @white;
         }
         
     }

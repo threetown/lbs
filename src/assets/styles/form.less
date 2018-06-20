@@ -1,0 +1,21 @@
+@custom-input-height: 40px;
+
+.custom-form{
+
+    .ivu-form-item-label{
+        font-size: @basic-font-size;
+        color: @black;
+    }
+    .ivu-input{
+        height: @custom-input-height;
+        font-size: @basic-font-size;
+    }
+    .ivu-select-single .ivu-select-selection{
+        height: @custom-input-height;
+        .ivu-select-placeholder,
+        .ivu-select-selected-value{
+            height: @custom-input-height;
+            line-height: @custom-input-height;
+        }
+    }
+}
