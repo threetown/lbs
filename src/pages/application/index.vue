@@ -134,7 +134,7 @@
             class-name="custom-modal vertical-center-modal"
             width="772">
             <h2 class="title" slot="header">创建新Key</h2>
-            <Form :model="createKeyForm" ref="createKeyForm" :rules="ruleCreateQuota" :label-width="90" class="custom-form">
+            <Form :model="createKeyForm" ref="createKeyForm" :rules="ruleCreateKey" :label-width="95" class="custom-form">
                 <FormItem label="key名称" prop="name" class="hasTooltip">
                     <Input v-model="createKeyForm.name"></Input>
                     <Tooltip placement="bottom-end" class="whiteTooltip">
@@ -164,8 +164,8 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     </Tooltip>
                 </FormItem>
                 <FormItem prop="isRead">
-                    <Checkbox v-model="createKeyForm.isRead">
-                        阅读并同意 <a href="" target="_blank">国信达服务条款及隐私权政策</a>、<a href="" target="_blank">Web服务API使用条款</a>和<a href="" target="_blank">国信达地图API服务条款</a>
+                    <Checkbox v-model="createKeyForm.isRead" style="font-size: 14px;">
+                        阅读并同意 <a href="" target="_blank">国信达服务条款及隐私权政策</a>、<a href="" target="_blank">Web服务API使用条款</a> 和 <a href="" target="_blank">国信达地图API服务条款</a>
                     </Checkbox>
                 </FormItem>
             </Form>
@@ -292,6 +292,14 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     type: 'web',
                     desc: '',
                     isRead: true
+                },
+                ruleCreateKey: {
+                    name: [
+                        { required: true, message: "请输入key名称", trigger: 'blur' }
+                    ],
+                    type: [
+                        { required: true, message: "请选择服务平台", trigger: 'change' }
+                    ]
                 }
             }
         },
