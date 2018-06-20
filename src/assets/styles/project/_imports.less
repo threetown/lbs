@@ -1,0 +1,67 @@
+@root-line-height: 1.5;
+
+@white: white;
+@red: hsl(0, 80%, 50%);
+@light-blue: hsl(190, 80%, 97%);
+
+@color: hsl(0, 0%, 47%);
+@border-color: hsl(0, 0%, 90%);
+@light-color: hsl(0, 0%, 98%);
+@mute-color: hsl(0, 0%, 73%);
+@dark-color: hsl(0, 0%, 7%);
+@black: #333333;
+@light-grey:rgb(238, 238, 238);
+@grey: #a3a3a3;
+@light-orange:rgb(255, 249, 228);
+@border-hover-color:rgb(255, 138, 0);
+
+@font-normal: "Open Sans", Tahoma, Arial, "Source Han Sans CN", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", "STHeiti", sans-serif;
+@font-song: "Open Sans", SimSun, STSong, sans-serif;
+@font-mono: Monaco, 'Ubuntu Mono', 'Lucida Console', 'Courier New', Courier, monospace;
+
+
+.clearfix() {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+.opacity(@opacity) {
+  opacity: @opacity;
+  @opacity-ie: (@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})";
+}
+
+.rotated {
+  transform: rotate(180deg);
+  -ms-transform: rotate(180deg); /* IE 9 */
+  -moz-transform: rotate(180deg); /* Firefox */
+  -webkit-transform: rotate(180deg); /* Safari and Chrome */
+  -o-transform: rotate(180deg); /* Opera */
+}
+
+.arrow(@direction; @fg:red; @width:8px; @bg:transparent; ) {
+    content: ' ';
+    border: @width/2 solid @bg;
+    width: 0;
+    height: 0;
+    display: block;
+    & when (@direction = up) {
+        border-bottom-color: @fg;
+        margin-left: -@width/2;
+    }
+    & when (@direction = down) {
+        border-top-color: @fg;
+        margin-left: -@width/2;
+    }
+    & when (@direction = left) {
+        border-right-color: @fg;
+        margin-top: -@width/2;
+    }
+    & when (@direction = right) {
+        border-left-color: @fg;
+        margin-top: -@width/2;
+    }
+}
