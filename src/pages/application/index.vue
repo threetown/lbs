@@ -17,7 +17,7 @@
                             <Col span="14" class="action">
                                 <Icon type="compose"></Icon>
                                 <Icon type="trash-a" @click="deleteItem"></Icon>
-                                <Button class="btn-blue" type="ghost">添加新key</Button>
+                                <Button class="btn-blue" type="ghost" @click="createQuotaModal">添加新key</Button>
                             </Col>
                             <Col span="2" class="tac"><Icon type="ios-arrow-down"></Icon></Col>
                         </Row>
@@ -128,6 +128,48 @@
                 <Button type="primary" size="large" @click.prevent="createQuota('createQuotaForm')">提交</Button>
             </div>
         </Modal> <!-- 提升配额 -->
+
+        <Modal
+            v-model="isCreateKeyModal"
+            class-name="custom-modal vertical-center-modal"
+            width="772">
+            <h2 class="title" slot="header">创建新Key</h2>
+            <Form :model="createKeyForm" ref="createKeyForm" :rules="ruleCreateQuota" :label-width="90" class="custom-form">
+                <FormItem label="key名称" prop="name" class="hasTooltip">
+                    <Input v-model="createKeyForm.name"></Input>
+                    <Tooltip placement="bottom-end" class="whiteTooltip">
+                        <Icon type="ios-help-outline"></Icon>
+                        <div slot="content">
+                            <p>规范命名会让数据统计和数据分析更准确</p>
+                            <p>建议命名方式: <span class="t-blue">[应用名 + 应用场景]</span></p>
+                        </div>
+                    </Tooltip>
+                </FormItem>
+                <FormItem label="服务平台" prop="type">
+                    <RadioGroup v-model="createKeyForm.type">
+                        <Radio label="male">Web服务</Radio>
+                        <Radio label="female">地图服务</Radio>
+                    </RadioGroup>
+                </FormItem>
+                <FormItem label="ID白名单" prop="desc" class="hasTooltip">
+                    <Input v-model="createKeyForm.desc" type="textarea" placeholder="非必填，留空表示无IP限制
+添加IP白名单后，只有白名单中的IP可访问服务
+IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多个IP请每行填写一条"></Input>
+                    <Tooltip content="为什么要设置IP白名单，应该设置哪个IP？" placement="bottom-end" class="whiteTooltip">
+                        <Icon type="ios-help-outline"></Icon>
+                    </Tooltip>
+                </FormItem>
+                <FormItem prop="isRead">
+                    <Checkbox v-model="createKeyForm.isRead">
+                        阅读并同意 <a href="">国信达服务条款及隐私权政策</a>、<a href="">Web服务API使用条款</a>和<a href="">国信达地图API服务条款</a>
+                    </Checkbox>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="text" size="large" @click="closeKeyFormModal('createKeyForm')">取消</Button>
+                <Button type="primary" size="large" @click.prevent="createKey('createKeyForm')">提交</Button>
+            </div>
+        </Modal> <!-- 创建新Key -->
     </div>
 </template>
 
@@ -138,6 +180,7 @@
                 isOpenCreateAppModal: false,
                 isOpenDeleteModal: false,
                 isOpenQuotaModal: false,
+                isCreateKeyModal: false,
                 curOpen: 1,
                 mapColumns: [
                     {
@@ -236,6 +279,12 @@
                     phone: [
                         { required: true, message: "请填写联系方式", trigger: 'blur' }
                     ]
+                },
+                createKeyForm: {
+                    name: '',
+                    type: '',
+                    desc: '',
+                    isRead: true
                 }
             }
         },
@@ -273,13 +322,30 @@
                 this.$refs[name].resetFields();
                 this.isOpenQuotaModal = false;
             },
+            createQuotaModal(){
+                this.isCreateKeyModal = true;
+            },
             createQuota(name){
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
-                        // TODO，创建新应用
+                        // TODO，提升配额
                         self.$Message.success('操作成功！');
                         self.isOpenQuotaModal = false;
+                    }
+                })
+            },
+            closeKeyFormModal(name){
+                this.$refs[name].resetFields();
+                this.isCreateKeyModal = false;
+            },
+            createKey(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        // TODO，创建新Key
+                        self.$Message.success('操作成功！');
+                        self.isCreateKeyModal = false;
                     }
                 })
             }

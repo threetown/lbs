@@ -30,4 +30,35 @@
         font-size: 14px;
         line-height: 22px;
     }
+    .hasTooltip{
+        .ivu-input-wrapper{
+            width: 94%;
+        }
+        .ivu-tooltip{
+            float: right;
+            &-rel{
+                vertical-align: middle;
+                padding-right: 12px;
+                i{
+                    font-size: 20px;
+                    height: 20px;
+                    color: @blue;
+                    vertical-align: middle;
+                    
+                }
+            }
+        }
+    }    
+}
+
+.whiteTooltip{
+    .ivu-tooltip-inner{
+        background-color: @white;
+        color: #666;
+        font-size: 12px;
+        line-height: 20px;
+    }
+    .ivu-tooltip-popper[x-placement^=bottom] .ivu-tooltip-arrow{
+        border-bottom-color: @white;
+    }
 }
