@@ -102,6 +102,32 @@
                 <Button type="primary" size="large" @click.prevent="createApp('createAppForm')">提交</Button>
             </div>
         </Modal> <!-- 创建应用 -->
+
+        <Modal
+            v-model="isOpenQuotaModal"
+            class-name="custom-modal vertical-center-modal"
+            width="482">
+            <h2 class="title" slot="header">提升配额</h2>
+            <Form :model="createQuotaForm" ref="createQuotaForm" :rules="ruleCreateQuota" :label-width="80" class="custom-form">
+                <FormItem label="key信息" prop="key">
+                    <Input v-model="createQuotaForm.key" disabled></Input>
+                </FormItem>
+                <FormItem label="您的姓名" prop="username">
+                    <Input v-model="createQuotaForm.username" placeholder="请输入您的姓名"></Input>
+                </FormItem>
+                <FormItem label="联系方式" prop="phone">
+                    <Input v-model="createQuotaForm.phone" placeholder="请输入联系方式"></Input>
+                </FormItem>
+                <FormItem label="备注" prop="desc">
+                    <Input v-model="createQuotaForm.desc" type="textarea"></Input>
+                    <span class="tips">提交后我们的工作人员会在2小时内与您联系。</span>
+                </FormItem>
+            </Form>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="closeQuotaFormModal('createQuotaForm')">取消</Button>
+                <Button type="primary" size="large" @click.prevent="createQuota('createQuotaForm')">提交</Button>
+            </div>
+        </Modal> <!-- 提升配额 -->
     </div>
 </template>
 
@@ -111,6 +137,7 @@
             return {
                 isOpenCreateAppModal: false,
                 isOpenDeleteModal: false,
+                isOpenQuotaModal: false,
                 curOpen: 1,
                 mapColumns: [
                     {
@@ -119,7 +146,7 @@
                         align: 'center'
                     },
                     {
-                        title: 'Key名称',
+                        title: 'Key',
                         key: 'key',
                         align: 'center'
                     },
@@ -157,7 +184,7 @@
                                     class: 'items',
                                     on: {
                                         click: () => {
-                                            this.createItem(params.id)
+                                            this.createItem(params)
                                         }
                                     }
                                 }, '提升配额')
@@ -169,14 +196,14 @@
                 mapServerData: [
                     {
                         id: '1',
-                        name: 'www',
-                        key: '20180611',
+                        name: 'IP服务',
+                        key: '04cf966c67b926f950cbe0b76aac9935',
                         type: 'New York No. 1 Lake Park'
                     },
                     {
                         id: '3',
                         name: 'www',
-                        key: '20180611',
+                        key: '04cf966c67b926f950cbe0b76aac9935',
                         type: 'New York No. 1 Lake Park'
                     }
                 ],
@@ -194,6 +221,20 @@
                     ],
                     type: [
                         { required: true, message: "请选择应用类型", trigger: 'blur' }
+                    ]
+                },
+                createQuotaForm: {
+                    key: '',
+                    username: '',
+                    phone: '',
+                    desc: ''
+                },
+                ruleCreateQuota: {
+                    username: [
+                        { required: true,  message: "请填写您的姓名", trigger: 'blur' },
+                    ],
+                    phone: [
+                        { required: true, message: "请填写联系方式", trigger: 'blur' }
                     ]
                 }
             }
@@ -223,14 +264,30 @@
             },
             deleteItem(row){
                 this.isOpenDeleteModal = true;
+            },
+            createItem(params){ // 提升配额
+                this.createQuotaForm.key = params.row.name;
+                this.isOpenQuotaModal = true;
+            },
+            closeQuotaFormModal(name){
+                this.$refs[name].resetFields();
+                this.isOpenQuotaModal = false;
+            },
+            createQuota(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        // TODO，创建新应用
+                        self.$Message.success('操作成功！');
+                        self.isOpenQuotaModal = false;
+                    }
+                })
             }
         }
     }
 </script>
 
 <style lang="less">
-    .clearfix:after{content:'\0020';display:block;height:0;clear:both;visibility:hidden;}
-    .clearfix{*zoom:1;}
     .fr{float: right;}
     .tar{text-align: right;}
     .tac{
