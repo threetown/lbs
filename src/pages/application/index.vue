@@ -147,9 +147,13 @@
                 </FormItem>
                 <FormItem label="服务平台" prop="type">
                     <RadioGroup v-model="createKeyForm.type">
-                        <Radio label="male">Web服务</Radio>
-                        <Radio label="female">地图服务</Radio>
+                        <Radio :label="item.type" v-for="item in panelServiceType">{{item.name}}</Radio>
                     </RadioGroup>
+                </FormItem>
+                <FormItem label="可使用服务">
+                    <ul class="panelServiceList">
+                        <li v-for="item in panelServiceItems"><a :href="item.url" target="_blank">{{item.name}}</a></li>
+                    </ul>
                 </FormItem>
                 <FormItem label="ID白名单" prop="desc" class="hasTooltip">
                     <Input v-model="createKeyForm.desc" type="textarea" placeholder="非必填，留空表示无IP限制
@@ -161,7 +165,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 </FormItem>
                 <FormItem prop="isRead">
                     <Checkbox v-model="createKeyForm.isRead">
-                        阅读并同意 <a href="">国信达服务条款及隐私权政策</a>、<a href="">Web服务API使用条款</a>和<a href="">国信达地图API服务条款</a>
+                        阅读并同意 <a href="" target="_blank">国信达服务条款及隐私权政策</a>、<a href="" target="_blank">Web服务API使用条款</a>和<a href="" target="_blank">国信达地图API服务条款</a>
                     </Checkbox>
                 </FormItem>
             </Form>
@@ -174,6 +178,9 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
 </template>
 
 <script>
+    import * as basicConfig from 'src/config/basicConfig'
+    import * as tools from 'src/util/tools'
+
     export default {
         data () {
             return {
@@ -282,7 +289,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 },
                 createKeyForm: {
                     name: '',
-                    type: '',
+                    type: 'web',
                     desc: '',
                     isRead: true
                 }
@@ -349,6 +356,15 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     }
                 })
             }
+        },
+        computed: {
+            panelServiceType(){
+                return tools.getRootData(basicConfig.PanelService)
+            },
+            panelServiceItems() {
+                const self = this;
+                return tools.getChildrenData(basicConfig.PanelService, self.createKeyForm.type)
+            }
         }
     }
 </script>
@@ -362,6 +378,23 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
     .full-block-mod{
         padding: 30px;
         background-color: #fff;
+    }
+    .panelServiceList{
+        overflow: hidden;
+        li{
+            width: 33.33%;
+            height: 32px;
+            line-height: 32px;
+            float: left;
+            padding-right: 22px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            a{
+                font-size: 14px;
+                color: #008AFF;
+            }
+        }
     }
     .Header{
         margin-bottom: 25px;
