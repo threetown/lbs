@@ -84,6 +84,7 @@
             v-model="isOpenCreateAppModal"
             class-name="custom-modal vertical-center-modal"
             width="482">
+            <Icon type="ios-close-empty" slot="close" @click="closeCreateAppModal('createAppForm')"></Icon>
             <h2 class="title" slot="header">创建应用</h2>
             <Form :model="createAppForm" ref="createAppForm" :rules="ruleCreateApp" :label-width="80" class="custom-form">
                 <FormItem label="应用名称" prop="name">
@@ -91,9 +92,7 @@
                 </FormItem>
                 <FormItem label="应用类型" prop="type">
                     <Select v-model="createAppForm.type" :placeholder="createAppForm.placeholder.type">
-                        <Option value="beijing">New York</Option>
-                        <Option value="shanghai">London</Option>
-                        <Option value="shenzhen">Sydney</Option>
+                        <Option v-for="item in panelServiceType" :value="item.type">{{ item.name }}</Option>
                     </Select>
                 </FormItem>
             </Form>
@@ -107,6 +106,7 @@
             v-model="isOpenQuotaModal"
             class-name="custom-modal vertical-center-modal"
             width="482">
+            <Icon type="ios-close-empty" slot="close" @click="closeQuotaFormModal('createQuotaForm')"></Icon>
             <h2 class="title" slot="header">提升配额</h2>
             <Form :model="createQuotaForm" ref="createQuotaForm" :rules="ruleCreateQuota" :label-width="80" class="custom-form">
                 <FormItem label="key信息" prop="key">
@@ -133,6 +133,7 @@
             v-model="isCreateKeyModal"
             class-name="custom-modal vertical-center-modal"
             width="772">
+            <Icon type="ios-close-empty" slot="close" @click="closeKeyFormModal('createKeyForm')"></Icon>
             <h2 class="title" slot="header">创建新Key</h2>
             <Form :model="createKeyForm" ref="createKeyForm" :rules="ruleCreateKey" :label-width="95" class="custom-form">
                 <FormItem label="key名称" prop="name" class="hasTooltip">
@@ -315,9 +316,12 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     if(valid) {
                         // TODO，创建新应用
                         self.$Message.success('操作成功！');
-                        self.isOpenCreateAppModal = false;
+                        self.closeCreateAppModal(name);
                     }
                 })
+            },
+            editAppModel(){ // 编辑应用
+
             },
             closeCreateAppModal(name){
                 this.$refs[name].resetFields();
@@ -346,7 +350,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     if(valid) {
                         // TODO，提升配额
                         self.$Message.success('操作成功！');
-                        self.isOpenQuotaModal = false;
+                        self.closeQuotaFormModal(name);
                     }
                 })
             },
@@ -360,7 +364,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     if(valid) {
                         // TODO，创建新Key
                         self.$Message.success('操作成功！');
-                        self.isCreateKeyModal = false;
+                        self.closeKeyFormModal(name);
                     }
                 })
             }
