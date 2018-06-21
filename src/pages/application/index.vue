@@ -16,8 +16,8 @@
                             <Col span="4">{{item.createTime}}创建</Col>
                             <Col span="14" class="action">
                                 <Icon type="compose" @click="triggerAppModel(item, index, 'edit')"></Icon>
-                                <Icon type="trash-a" @click="deleteItem"></Icon>
-                                <Button class="btn-blue" type="ghost" @click="createQuotaModal">添加新key</Button>
+                                <Icon type="trash-a" @click="triggerDeleteModel(item, index, 'app')"></Icon>
+                                <Button class="btn-blue" type="ghost" @click="triggerCreateQuotaModal">添加新key</Button>
                             </Col>
                             <Col span="2" class="tac arrow"><Icon type="ios-arrow-down" @click="toggleTab(index)"></Icon></Col>
                         </Row>
@@ -35,10 +35,10 @@
             ok-text="确认"
             @on-ok="deleteApp"
             width="378">
-            <h2 class="title" slot="header">删除应用</h2>
+            <h2 class="title" slot="header">删除{{deleteModelData.type === 'key' ? 'Key' : '应用'}}</h2>
             <div class="content">
-                <h3>您确定要删除应用吗?</h3>
-                <p>删除应用会将该应用及其下所有Key移至回收站，请您谨慎操作!</p>
+                <h3>您确定要删除{{deleteModelData.type === 'key' ? 'Key' : '应用'}}吗?</h3>
+                <p>{{deleteModelData.type === 'key' ? '该Key删除后将被移至回收站,请您谨慎操作!' : '删除应用会将该应用及其下所有Key移至回收站，请您谨慎操作!'}}</p>
             </div>
         </Modal> <!-- 删除 -->
 
@@ -60,7 +60,7 @@
             </Form>
             <div slot="footer" >
                 <Button type="text" size="large" @click="closeCreateAppModal('createAppForm')">取消</Button>
-                <Button type="primary" size="large" @click.prevent="createApp('createAppForm')">提交</Button>
+                <Button type="primary" size="large" @click.prevent="submitApp('createAppForm')">提交</Button>
             </div>
         </Modal> <!-- 创建应用 -->
 
@@ -96,7 +96,7 @@
             class-name="custom-modal vertical-center-modal"
             width="772">
             <Icon type="ios-close-empty" slot="close" @click="closeKeyFormModal('createKeyForm')"></Icon>
-            <h2 class="title" slot="header">创建新Key</h2>
+            <h2 class="title" slot="header">{{ editKeyModalStatus === 'edit' ? '编辑' : '创建新' }}Key</h2>
             <Form :model="createKeyForm" ref="createKeyForm" :rules="ruleCreateKey" :label-width="95" class="custom-form">
                 <FormItem label="key名称" prop="name" class="hasTooltip">
                     <Input v-model="createKeyForm.name"></Input>
@@ -110,7 +110,7 @@
                 </FormItem>
                 <FormItem label="服务平台" prop="type">
                     <RadioGroup v-model="createKeyForm.type">
-                        <Radio :label="item.type" v-for="item in panelServiceType">{{item.name}}</Radio>
+                        <Radio :label="item.type" v-for="item in panelServiceType" :disabled="(editKeyModalStatus === 'edit') ? true : false" >{{item.name}}</Radio>
                     </RadioGroup>
                 </FormItem>
                 <FormItem label="可使用服务">
@@ -152,6 +152,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 isOpenQuotaModal: false,
                 isCreateKeyModal: false,
                 AppModalStatus: '',
+                editKeyModalStatus: '',
                 curOpen: 0,
                 mapColumns: [
                     {
@@ -182,7 +183,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                                     class: 'items',
                                     on: {
                                         click: () => {
-                                            this.editItem(params)
+                                            this.triggerCreateQuotaModal(params, params.index, 'edit')
                                         }
                                     }
                                 }, '编辑'),
@@ -190,7 +191,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                                     class: 'items',
                                     on: {
                                         click: () => {
-                                            this.deleteItem(params)
+                                            this.triggerDeleteModel(params, params.index, 'key')
                                         }
                                     }
                                 }, '删除'),
@@ -212,19 +213,17 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                         "id": "501672",
                         "name": "智慧选址",
                         "createTime": "2018-06-21",
-                        "industryId": 24,
+                        "type": 'web',
                         "children": [
                             {
                                 "key": "3839dc8c17483f15990d9cc6e8cf7de6",
                                 "name": "一个神奇的Key",
-                                "bind": "Web\u670d\u52a1",
-                                "type": "1"
+                                "type": "Web\u670d\u52a1"
                             },
                             {
                                 "key": "7d8e65345cba571902266131db2f8b03",
                                 "name": "两个神奇的Key",
-                                "bind": "Android\u5e73\u53f0",
-                                "type": "31"
+                                "type": "Android\u5e73\u53f0"
                             }
                         ]
                     },
@@ -232,7 +231,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                         "id": "501670",
                         "name": "智慧楼盘",
                         "createTime": "2018-06-21",
-                        "industryId": 25,
+                        "type": 'map',
                         "children": []
                     }
                 ],
@@ -279,39 +278,55 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     type: [
                         { required: true, message: "请选择服务平台", trigger: 'change' }
                     ]
+                },
+                deleteModelData: {
+                    id: '',
+                    type: '',
+                    index: ''
                 }
             }
         },
         methods: {
             deleteApp(){
-                // TODO
-                this.$Message.success('操作成功');
+                if(this.deleteModelData.type === 'key'){
+                    // TODO
+                    this.$Message.success('Key删除成功');
+                }else{
+                    // TODO
+                    this.$Message.success('应用删除成功');
+                }
                 this.isOpenDeleteModal = false;
             },
-            createApp(name){
+            submitApp(name){ // 提交-编辑/创建应用
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
                         // TODO，创建新应用
-                        self.$Message.success('操作成功！');
+                        if(self.AppModalStatus === 'edit'){
+                            self.$Message.success('修改成功！');
+                        }else{
+                            self.$Message.success('创建成功！');
+                        }
                         self.closeCreateAppModal(name);
                     }
                 })
             },
-            triggerAppModel(params, type){ // 新建/编辑应用
+            triggerAppModel(params, index, type){ // 新建/编辑应用
                 if(type === 'edit'){
-                    this.AppModalStatus = type;
+                    this.createAppForm.name = params.name;
+                    this.createAppForm.type = params.type;
                 }
+                this.AppModalStatus = type;
                 this.isOpenCreateAppModal = true;
             },
             closeCreateAppModal(name){
                 this.$refs[name].resetFields();
                 this.isOpenCreateAppModal = false;
             },
-            editItem(params){
-                console.log(params)
-            },
-            deleteItem(row){
+            triggerDeleteModel(params, index, type){
+                this.deleteModelData.id = params.id;
+                this.deleteModelData.type = type;
+                this.deleteModelData.index = index;
                 this.isOpenDeleteModal = true;
             },
             createItem(params){ // 提升配额
@@ -322,7 +337,11 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 this.$refs[name].resetFields();
                 this.isOpenQuotaModal = false;
             },
-            createQuotaModal(){
+            triggerCreateQuotaModal(params, index, type){
+                if(type === 'edit'){
+                    this.createKeyForm.name = params.row.name;
+                }
+                this.editKeyModalStatus = type;
                 this.isCreateKeyModal = true;
             },
             createQuota(name){
@@ -366,11 +385,6 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
 </script>
 
 <style lang="less">
-    .fr{float: right;}
-    .tar{text-align: right;}
-    .tac{
-        text-align: center;
-    }
     .full-block-mod{
         padding: 30px;
         background-color: #fff;
@@ -456,6 +470,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 .arrow{
                     i{
                         cursor: pointer;
+                        width: 20px;
                         -webkit-transform: rotate(0deg);
                         -ms-transform: rotate(0deg);
                         transform: rotate(0deg);
