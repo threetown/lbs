@@ -3,65 +3,27 @@
         <div class="full-block-mod">
             <div class="Header clearfix">
                 <h2 class="title">我的应用 <strong>您可以在这里创建、设置并管理您的应用及Key</strong></h2>
-                <Button class="fr" type="primary" icon="ios-plus-outline" slot="extra" size="large" @click="isOpenCreateAppModal = !isOpenCreateAppModal">创建新应用</Button>
+                <Button class="fr" type="primary" icon="ios-plus-outline" slot="extra" size="large" @click="triggerAppModel">创建新应用</Button>
             </div>
             
             <div class="collapse">
-                <div class="panel">
+                <div :class="index === curOpen ? 'panel active' : 'panel'" v-for="(item, index) in appServerData">
                     <div class="hd">
                         <Row>
                             <Col span="4" class="title">
-                                <Icon type="ios-list"></Icon>智慧楼盘
+                                <Icon type="ios-list"></Icon>{{item.name}}
                             </Col>
-                            <Col span="4">2018-05-08创建</Col>
+                            <Col span="4">{{item.createTime}}创建</Col>
                             <Col span="14" class="action">
-                                <Icon type="compose"></Icon>
+                                <Icon type="compose" @click="triggerAppModel(item, index, 'edit')"></Icon>
                                 <Icon type="trash-a" @click="deleteItem"></Icon>
                                 <Button class="btn-blue" type="ghost" @click="createQuotaModal">添加新key</Button>
                             </Col>
-                            <Col span="2" class="tac"><Icon type="ios-arrow-down"></Icon></Col>
+                            <Col span="2" class="tac arrow"><Icon type="ios-arrow-down" @click="toggleTab(index)"></Icon></Col>
                         </Row>
                     </div>
                     <div class="bd">
-                        <Table border :columns="mapColumns" :data="mapServerData" class="appTable"></Table>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="hd">
-                        <Row>
-                            <Col span="4" class="title">
-                                <Icon type="ios-list"></Icon>智慧楼盘
-                            </Col>
-                            <Col span="4">2018-05-08创建</Col>
-                            <Col span="14" class="action">
-                                <Icon type="compose"></Icon>
-                                <Icon type="trash-a" @click="deleteItem"></Icon>
-                                <Button class="btn-blue" type="ghost">添加新key</Button>
-                            </Col>
-                            <Col span="2" class="tac"><Icon type="ios-arrow-down"></Icon></Col>
-                        </Row>
-                    </div>
-                    <div class="bd" style="display: none;">
-                        <Table border :columns="mapColumns" :data="mapServerData"></Table>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="hd">
-                        <Row>
-                            <Col span="4" class="title">
-                                <Icon type="ios-list"></Icon>智慧楼盘
-                            </Col>
-                            <Col span="4">2018-05-08创建</Col>
-                            <Col span="14" class="action">
-                                <Icon type="compose"></Icon>
-                                <Icon type="trash-a"></Icon>
-                                <Button class="btn-blue" type="ghost">添加新key</Button>
-                            </Col>
-                            <Col span="2" class="tac"><Icon type="ios-arrow-down"></Icon></Col>
-                        </Row>
-                    </div>
-                    <div class="bd" style="display: none;">
-                        <Table border :columns="mapColumns" :data="mapServerData"></Table>
+                        <Table border :columns="mapColumns" :data="item.children" class="appTable"></Table>
                     </div>
                 </div>
             </div>
@@ -85,7 +47,7 @@
             class-name="custom-modal vertical-center-modal"
             width="482">
             <Icon type="ios-close-empty" slot="close" @click="closeCreateAppModal('createAppForm')"></Icon>
-            <h2 class="title" slot="header">创建应用</h2>
+            <h2 class="title" slot="header">{{AppModalStatus === 'edit' ? '编辑应用' : '创建应用'}}</h2>
             <Form :model="createAppForm" ref="createAppForm" :rules="ruleCreateApp" :label-width="80" class="custom-form">
                 <FormItem label="应用名称" prop="name">
                     <Input v-model="createAppForm.name" :placeholder="createAppForm.placeholder.name"></Input>
@@ -189,7 +151,8 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 isOpenDeleteModal: false,
                 isOpenQuotaModal: false,
                 isCreateKeyModal: false,
-                curOpen: 1,
+                AppModalStatus: '',
+                curOpen: 0,
                 mapColumns: [
                     {
                         title: 'Key名称',
@@ -244,18 +207,33 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     }
                     
                 ],
-                mapServerData: [
+                appServerData: [
                     {
-                        id: '1',
-                        name: 'IP服务',
-                        key: '04cf966c67b926f950cbe0b76aac9935',
-                        type: 'New York No. 1 Lake Park'
+                        "id": "501672",
+                        "name": "智慧选址",
+                        "createTime": "2018-06-21",
+                        "industryId": 24,
+                        "children": [
+                            {
+                                "key": "3839dc8c17483f15990d9cc6e8cf7de6",
+                                "name": "一个神奇的Key",
+                                "bind": "Web\u670d\u52a1",
+                                "type": "1"
+                            },
+                            {
+                                "key": "7d8e65345cba571902266131db2f8b03",
+                                "name": "两个神奇的Key",
+                                "bind": "Android\u5e73\u53f0",
+                                "type": "31"
+                            }
+                        ]
                     },
                     {
-                        id: '3',
-                        name: 'www',
-                        key: '04cf966c67b926f950cbe0b76aac9935',
-                        type: 'New York No. 1 Lake Park'
+                        "id": "501670",
+                        "name": "智慧楼盘",
+                        "createTime": "2018-06-21",
+                        "industryId": 25,
+                        "children": []
                     }
                 ],
                 createAppForm: {
@@ -320,8 +298,11 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     }
                 })
             },
-            editAppModel(){ // 编辑应用
-
+            triggerAppModel(params, type){ // 新建/编辑应用
+                if(type === 'edit'){
+                    this.AppModalStatus = type;
+                }
+                this.isOpenCreateAppModal = true;
             },
             closeCreateAppModal(name){
                 this.$refs[name].resetFields();
@@ -367,6 +348,9 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                         self.closeKeyFormModal(name);
                     }
                 })
+            },
+            toggleTab(index){
+                this.curOpen = this.curOpen === index ? '' : index;
             }
         },
         computed: {
@@ -425,7 +409,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
         }
     }
     .collapse{
-
+        border-bottom: 1px solid #E5E5E5;
         .panel{
             .hd{
                 height: 58px;
@@ -469,9 +453,27 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                         margin-left: 20px;
                     }
                 }
+                .arrow{
+                    i{
+                        cursor: pointer;
+                        -webkit-transform: rotate(0deg);
+                        -ms-transform: rotate(0deg);
+                        transform: rotate(0deg);
+                    }
+                }
             }
             .bd{
-
+                display: none;
+            }
+            &.active{
+                .arrow{
+                    -webkit-transform: rotate(180deg);
+                    -ms-transform: rotate(180deg);
+                    transform: rotate(180deg);
+                }
+                .bd{
+                    display: block;
+                }
             }
         }
     }
