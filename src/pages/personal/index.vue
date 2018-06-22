@@ -13,15 +13,27 @@
                         </dl>
                         <dl class="basicInfo">
                             <dt>昵称</dt>
-                            <dd>jun13008888</dd>
+                            <dd>
+                                <span v-show="!edit.nickname">{{userinfo.nickname ? userinfo.nickname : '未填写'}}</span>
+                                <span v-show="!edit.nickname" class="editButton" title="修改昵称" @click="edit.nickname = !edit.nickname"><Icon type="compose"></Icon></span>
+                                <!-- <transition name="fade"> -->
+                                    <div v-show="edit.nickname" class="editCtrl">
+                                        <Input v-model="userinfo.currentNickname" style="width: 150px"></Input>
+                                        <span class="editGroup">
+                                            <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditNickname"></Icon>
+                                            <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveNickname"></Icon>
+                                        </span>
+                                    </div>
+                                <!-- </transition> -->
+                            </dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>性别</dt>
-                            <dd>保密</dd>
+                            <dd>{{userinfo.sex ? userinfo.sex : '保密'}} <Icon type="compose"></Icon></dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>生日</dt>
-                            <dd>未设置</dd>
+                            <dd>{{userinfo.birthday ? userinfo.birthday : '未设置'}} <Icon type="compose"></Icon></dd>
                         </dl>
                     </div>
                 </div>
@@ -34,19 +46,19 @@
                     <div class="mormal-block-bd">
                         <dl class="basicInfo">
                             <dt>所属行业</dt>
-                            <dd>未设置</dd>
+                            <dd>未设置 <Icon type="compose"></Icon></dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>企业名称</dt>
-                            <dd>国信达数据有限公司</dd>
+                            <dd>国信达数据有限公司 <Icon type="compose"></Icon></dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>企业官网</dt>
-                            <dd>www.baidu.com</dd>
+                            <dd>www.baidu.com <Icon type="compose"></Icon></dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>企业简介</dt>
-                            <dd>企业简介企简介企业简介企业简介企业简介</dd>
+                            <dd>企业简介企简介企业简介企业简介企业简介 <Icon type="compose"></Icon></dd>
                         </dl>
                     </div>
                 </div>
@@ -81,10 +93,82 @@
     </div>
 </template>
 
+<script>
+    export default {
+        name: 'personal',
+        data () {
+            return {
+                userinfo: {
+                    nickname: 'leon',
+                    currentNickname : 'leon',
+                    sex: '',
+                    birthday: ''
+                },
+                edit: {
+                    nickname: false
+                }
+            }
+        },
+        methods: {
+            cancelEditNickname () {
+                this.userinfo.currentNickname = this.userinfo.nickname;
+                this.edit.nickname = false;
+            },
+            handleSaveNickname () {
+                // TODO
+                this.userinfo.nickname = this.userinfo.currentNickname;
+                this.edit.nickname = false;
+            }
+        }
+    }
+</script>
 
 <style lang="less">
     .text-blank{
         color: #000;
+    }
+    .editButton{
+        font-size: 16px;
+        width: 18px;
+        height: 16px;
+        color: #008AFF;
+        cursor: pointer;
+        text-align: center;
+        display: inline-block;
+        vertical-align: middle;
+        i{
+            vertical-align: top;
+        }
+    }
+    .editCtrl{
+        display: inline-block;
+        .ivu-input-wrapper{
+            vertical-align: top;
+            .ivu-input{
+                height: 30px;
+                font-size: 14px;
+                color: #666;
+            }
+        }
+        .editGroup{
+            height: 30px;
+            display: inline-block;
+            vertical-align: top;
+            font-size: 0;
+            i{
+                cursor: pointer;
+                font-size: 22px;
+                line-height: 30px;
+                vertical-align: middle;
+                margin: 0 5px;
+                &.cancel{
+                    color: #FF5151;
+                }
+                &.submit{
+                    color: #00A85B;
+                }
+            }
+        }
     }
     .basicInfo{
         font-family: 'Microsoft YaHei';
@@ -108,4 +192,5 @@
             text-align: right;
         }
     }
+
 </style>
