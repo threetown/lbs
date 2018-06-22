@@ -45,7 +45,17 @@
                         </dl>
                         <dl class="basicInfo">
                             <dt>生日</dt>
-                            <dd>{{userinfo.birthday ? userinfo.birthday : '未设置'}} <Icon type="compose"></Icon></dd>
+                            <dd>
+                                <span v-show="!edit.birthday">{{userinfo.birthday ? userinfo.birthday : '未设置'}}</span>
+                                <span v-show="!edit.birthday" class="editButton" title="修改性别" @click="edit.birthday = !edit.birthday"><Icon type="compose"></Icon></span>
+                                <div v-show="edit.birthday" class="editCtrl">
+                                    <DatePicker @on-change="setBirthday" type="date" placeholder="选择日期" style="width: 150px;vertical-align: top;"></DatePicker>
+                                    <span class="editGroup">
+                                        <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditBirthday"></Icon>
+                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveBirthday"></Icon>
+                                    </span>
+                                </div>
+                            </dd>
                         </dl>
                     </div>
                 </div>
@@ -118,11 +128,13 @@
                     currentNickname : 'leon',
                     gender: 0, // 0，保密；1，男；2，女
                     currentGender: 0,
-                    birthday: ''
+                    birthday: '',
+                    currentBirthday: ''
                 },
                 edit: {
                     nickname: false,
-                    gender: false
+                    gender: false,
+                    birthday: false
                 }
             }
         },
@@ -143,6 +155,18 @@
             handleSaveGender() {
                 this.userinfo.gender = this.userinfo.currentGender;
                 this.edit.gender = false;
+            },
+            setBirthday(datatime){
+                this.userinfo.currentBirthday = datatime;
+            },
+            cancelEditBirthday() {
+                this.userinfo.currentBirthday = this.userinfo.birthday;
+                this.edit.birthday = false;
+            },
+            handleSaveBirthday(){
+                // TODO
+                this.userinfo.birthday = this.userinfo.currentBirthday;
+                this.edit.birthday = false;
             }
         },
         computed: {
@@ -186,6 +210,9 @@
                 color: #666;
             }
         }
+        .ivu-select-dropdown{
+            font-size: 12px;
+        }
         .editGroup{
             height: 30px;
             display: inline-block;
@@ -211,6 +238,7 @@
         font-size: 14px;
         line-height: 32px;
         display: flex;
+        margin-bottom: 5px;
         dt{
             color: #999;
             width: 68px;
