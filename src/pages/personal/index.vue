@@ -29,7 +29,19 @@
                         </dl>
                         <dl class="basicInfo">
                             <dt>性别</dt>
-                            <dd>{{userinfo.sex ? userinfo.sex : '保密'}} <Icon type="compose"></Icon></dd>
+                            <dd>
+                                <span v-show="!edit.gender">{{labelGender}}</span>
+                                <span v-show="!edit.gender" class="editButton" title="修改性别" @click="edit.gender = !edit.gender"><Icon type="compose"></Icon></span>
+                                <div v-show="edit.gender" class="editCtrl">
+                                    <RadioGroup v-model="userinfo.currentGender">
+                                        <Radio :label="item.value" v-for="item in genderArr">{{item.label}}</Radio>
+                                    </RadioGroup>
+                                    <span class="editGroup">
+                                        <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditGender"></Icon>
+                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveGender"></Icon>
+                                    </span>
+                                </div>
+                            </dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>生日</dt>
@@ -94,6 +106,9 @@
 </template>
 
 <script>
+    import * as basicConfig from 'src/config/basicConfig'
+    import * as tools from 'src/util/tools'
+
     export default {
         name: 'personal',
         data () {
@@ -101,11 +116,13 @@
                 userinfo: {
                     nickname: 'leon',
                     currentNickname : 'leon',
-                    sex: '',
+                    gender: 0, // 0，保密；1，男；2，女
+                    currentGender: 0,
                     birthday: ''
                 },
                 edit: {
-                    nickname: false
+                    nickname: false,
+                    gender: false
                 }
             }
         },
@@ -118,6 +135,23 @@
                 // TODO
                 this.userinfo.nickname = this.userinfo.currentNickname;
                 this.edit.nickname = false;
+            },
+            cancelEditGender(){
+                this.userinfo.currentGender = this.userinfo.gender;
+                this.edit.gender = false;
+            },
+            handleSaveGender() {
+                this.userinfo.gender = this.userinfo.currentGender;
+                this.edit.gender = false;
+            }
+        },
+        computed: {
+            genderArr(){
+                return basicConfig.gender;
+            },
+            labelGender(){
+                const self = this;
+                return tools.getDictData(self.genderArr, self.userinfo.gender)
             }
         }
     }
@@ -142,7 +176,9 @@
     }
     .editCtrl{
         display: inline-block;
-        .ivu-input-wrapper{
+        .ivu-input-wrapper,
+        .ivu-radio-group,
+        .ivu-radio-wrapper{
             vertical-align: top;
             .ivu-input{
                 height: 30px;

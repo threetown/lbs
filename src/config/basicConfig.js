@@ -38,6 +38,13 @@ let PanelService = [
     }
 ]
 
+let gender = [
+    { label: '男', value: 1 },
+    { label: '女', value: 2 },
+    { label: '保密', value: 0 }
+]
+
 export {
-    PanelService
+    PanelService,
+    gender
 }

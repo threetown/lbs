@@ -35,3 +35,32 @@ export const getChildrenData = (dataArr, value) => {
     }
     return result;
 }
+
+/**
+ * 
+ * @param {array} dataArr 
+ * @param {string} value 
+ * @param {string} type 
+ */
+export const getDictData = (dataArr, value, type) => {
+    let result = null;
+    let Type = type ? type : 'label';
+    if(dataArr && dataArr instanceof Array) {
+        switch(Type){
+            case 'value':
+                for(let i = 0; i< dataArr.length; i++){
+                    if(dataArr[i].label === value){
+                        result = dataArr[i].value;
+                    }
+                }
+                break;
+            default:
+                for(let i = 0; i< dataArr.length; i++){
+                    if(dataArr[i].value === value){
+                        result = dataArr[i].label;
+                    }
+                }
+        }
+    }
+    return result;
+}
