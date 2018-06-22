@@ -129,22 +129,47 @@
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定手机</Col>
                             <Col span="16">您已绑定了手机176****0996 [您的手机为安全手机，可以找回密码，但不能用于登录]</Col>
-                            <Col class="tar" span="4">已设置 | 修改</Col>
+                            <Col class="tar" span="4">已设置 | <a @click="triggerAuthenticateModal">修改</a></Col>
                         </Row>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定邮箱</Col>
                             <Col span="16">绑定邮箱主要用于接收密保信息，保障账户安全。</Col>
-                            <Col class="tar" span="4">已设置 | 修改</Col>
+                            <Col class="tar" span="4">已设置 | <a>修改</a></Col>
                         </Row>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">帐号密码</Col>
                             <Col span="16">安全性高的密码可以使帐号更安全。建议您定期更换密码，设置一个包含字母，符号或数字中至少两项且长度超过6位的密码。</Col>
-                            <Col class="tar" span="4">已设置 | 修改</Col>
+                            <Col class="tar" span="4">已设置 | <a>修改</a></Col>
                         </Row>
                     </div>
                 </div>
             </Col>
         </Row>
+        <Modal
+            v-model="isOpenAuthenticateModal"
+            class-name="custom-modal vertical-center-modal"
+            width="480">
+            <Icon type="ios-close-empty" slot="close" @click="closeAuthenticateModal('AuthenticateForm')"></Icon>
+            <h2 class="title" slot="header">身份验证</h2>
+            <Alert type="warning" show-icon style="margin-bottom: 32px;">为了您的账号安全，进行敏感操作前须先验证身份。</Alert>
+            <Form class="custom-form" :model="AuthenticateForm" ref="AuthenticateForm" :rules="ruleAuthenticate" label-position="left" :label-width="92">
+                <FormItem label="验证方式">
+                    <span class="text">手机验证</span>
+                </FormItem>
+                <FormItem label="绑定手机">
+                    <span class="text">13007126958</span>
+                </FormItem>
+                <FormItem class="sendCodeItem" label="短信验证码" prop="code">
+                    <Input v-model.trim="AuthenticateForm.code" placeholder="请输入短信验证码"></Input>
+                    <Button type="primary" size="large" @click.prevent="sendSMSCode" v-show="!computedTime">发送验证码</Button>
+                    <Button size="large" disabled v-show="computedTime">{{computedTime}}s后再次发送</Button>
+                </FormItem>
+            </Form>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="closeAuthenticateModal('AuthenticateForm')">取消</Button>
+                <Button type="primary" size="large" @click.prevent="handleAuthenticate('AuthenticateForm')">提交</Button>
+            </div>
+        </Modal> <!-- 创建应用 -->
     </div>
 </template>
 
@@ -179,7 +204,18 @@
                     companyName: false,
                     companyProfile: false,
                     industry: false
-                }
+                },
+                isOpenAuthenticateModal: false,
+                computedTime: 0,
+                AuthenticateForm: {
+                    code: ''
+                },
+                ruleAuthenticate: {
+                    code: [
+                        { required: true, message: '请输入短信验证码', trigger: 'blur' }
+                    ]
+                },
+                timer: null
             }
         },
         methods: {
@@ -235,6 +271,42 @@
             handleSaveCompanyProfile() {
                 this.userinfo.companyProfile = this.userinfo.currentCompanyProfile;
                 this.edit.companyProfile = false;
+            },
+            modifyPhone(){
+                console.log('修改手机')
+            },
+            triggerAuthenticateModal(){
+                this.isOpenAuthenticateModal = true;
+            },
+            closeAuthenticateModal(name){
+                this.$refs[name].resetFields();
+                this.isOpenAuthenticateModal = false;
+                // clear timer
+                this.computedTime = 0;
+                clearInterval(this.timer);
+            },
+            handleAuthenticate(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        // TODO，提升配额
+                        self.$Message.success('操作成功！');
+                        self.closeAuthenticateModal(name);
+                    }
+                })
+            },
+            sendSMSCode(){
+                let self = this;
+                self.computedTime = 120;
+                self.timer = setInterval(() => {
+                    self.computedTime--;
+                    if (self.computedTime == 0) {
+                        clearInterval(self.timer);
+                    }
+                }, 1000);
+
+                // TODO,setSMS
+                self.$Message.success('短信发送成功');
             }
         },
         computed: {
