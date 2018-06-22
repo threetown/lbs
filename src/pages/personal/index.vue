@@ -129,22 +129,26 @@
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定手机</Col>
                             <Col span="16">您已绑定了手机176****0996 [您的手机为安全手机，可以找回密码，但不能用于登录]</Col>
-                            <Col class="tar" span="4">已设置 | <a @click="triggerAuthenticateModal">修改</a></Col>
+                            <Col class="tar" span="4">已设置 | <a @click="triggerModifyPhone">修改</a></Col>
                         </Row>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定邮箱</Col>
                             <Col span="16">绑定邮箱主要用于接收密保信息，保障账户安全。</Col>
-                            <Col class="tar" span="4">已设置 | <a>修改</a></Col>
+                            <Col class="tar" span="4">
+                                <span v-if="BindMailForm.mail">{{BindMailForm.mail}}</span>
+                                <span v-else><span style="color: #333;">未设置</span> | <a @click="triggerBindMail">设置</a></span>
+                            </Col>
                         </Row>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">帐号密码</Col>
                             <Col span="16">安全性高的密码可以使帐号更安全。建议您定期更换密码，设置一个包含字母，符号或数字中至少两项且长度超过6位的密码。</Col>
-                            <Col class="tar" span="4">已设置 | <a>修改</a></Col>
+                            <Col class="tar" span="4">已设置 | <a @click="triggerModifyPassword">修改</a></Col>
                         </Row>
                     </div>
                 </div>
             </Col>
         </Row>
+
         <Modal
             v-model="isOpenAuthenticateModal"
             class-name="custom-modal vertical-center-modal"
@@ -152,7 +156,7 @@
             <Icon type="ios-close-empty" slot="close" @click="closeAuthenticateModal('AuthenticateForm')"></Icon>
             <h2 class="title" slot="header">身份验证</h2>
             <Alert type="warning" show-icon style="margin-bottom: 32px;">为了您的账号安全，进行敏感操作前须先验证身份。</Alert>
-            <Form class="custom-form" :model="AuthenticateForm" ref="AuthenticateForm" :rules="ruleAuthenticate" label-position="left" :label-width="92">
+            <Form class="custom-form" :model="AuthenticateForm" ref="AuthenticateForm" :rules="AuthenticateForm.rule" label-position="left" :label-width="92">
                 <FormItem label="验证方式">
                     <span class="text">手机验证</span>
                 </FormItem>
@@ -161,15 +165,84 @@
                 </FormItem>
                 <FormItem class="sendCodeItem" label="短信验证码" prop="code">
                     <Input v-model.trim="AuthenticateForm.code" placeholder="请输入短信验证码"></Input>
-                    <Button type="primary" size="large" @click.prevent="sendSMSCode" v-show="!computedTime">发送验证码</Button>
-                    <Button size="large" disabled v-show="computedTime">{{computedTime}}s后再次发送</Button>
+                    <Button type="primary" size="large" @click.prevent="AuthenticateSendSMSCode" v-show="!AuthenticateForm.computedTime">发送验证码</Button>
+                    <Button size="large" disabled v-show="AuthenticateForm.computedTime">{{AuthenticateForm.computedTime}}s后再次发送</Button>
                 </FormItem>
             </Form>
             <div slot="footer" >
                 <Button type="text" size="large" @click="closeAuthenticateModal('AuthenticateForm')">取消</Button>
                 <Button type="primary" size="large" @click.prevent="handleAuthenticate('AuthenticateForm')">提交</Button>
             </div>
-        </Modal> <!-- 创建应用 -->
+        </Modal> <!-- 身份验证 -->
+
+        <Modal
+            v-model="isOpenModifyPhoneModal"
+            class-name="custom-modal vertical-center-modal"
+            width="480">
+            <Icon type="ios-close-empty" slot="close" @click="closeModifyPhoneModal('ModifyPhoneForm')"></Icon>
+            <h2 class="title" slot="header">修改绑定手机</h2>
+            <Form class="custom-form" :model="ModifyPhoneForm" ref="ModifyPhoneForm" :rules="ModifyPhoneForm.rule" label-position="left" :label-width="92">
+                <FormItem label="新绑定手机" prop="phone">
+                    <Input v-model.trim="ModifyPhoneForm.phone" placeholder="新绑定手机"></Input>
+                </FormItem>
+                <FormItem class="sendCodeItem" label="短信验证码" prop="code">
+                    <Input v-model.trim="ModifyPhoneForm.code" placeholder="请输入短信验证码"></Input>
+                    <Button type="primary" size="large" @click.prevent="ModifyPhoneSendSMSCode" v-show="!ModifyPhoneForm.computedTime">发送验证码</Button>
+                    <Button size="large" disabled v-show="ModifyPhoneForm.computedTime">{{ModifyPhoneForm.computedTime}}s后再次发送</Button>
+                </FormItem>
+            </Form>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="closeModifyPhoneModal('ModifyPhoneForm')">取消</Button>
+                <Button type="primary" size="large" @click.prevent="handleModifyPhone('ModifyPhoneForm')">提交</Button>
+            </div>
+        </Modal> <!-- 修改绑定手机 -->
+
+        <Modal
+            v-model="isOpenBindMailModal"
+            class-name="custom-modal vertical-center-modal"
+            width="480">
+            <Icon type="ios-close-empty" slot="close" @click="closeBindMailModal('BindMailForm')"></Icon>
+            <h2 class="title" slot="header">绑定邮箱</h2>
+            <Alert type="warning" show-icon style="margin-bottom: 32px;">邮箱将作为您的邮箱登录信息，登录邮箱设置后不可更换。</Alert>
+            <Form class="custom-form" :model="BindMailForm" ref="BindMailForm" :rules="BindMailForm.rule" label-position="left" :label-width="92">
+                <FormItem label="邮箱" prop="mail">
+                    <Input v-model.trim="BindMailForm.mail" placeholder="邮箱"></Input>
+                </FormItem>
+                <FormItem class="sendCodeItem" label="邮件验证码" prop="code">
+                    <Input v-model.trim="BindMailForm.code" placeholder="请输入邮件验证码"></Input>
+                    <Button type="primary" size="large" @click.prevent="BindMailSendSMSCode" v-show="!BindMailForm.computedTime">发送验证码</Button>
+                    <Button size="large" disabled v-show="BindMailForm.computedTime">{{BindMailForm.computedTime}}s后再次发送</Button>
+                    <div class="tips" v-show="BindMailForm.code.length == 0" style="clear:both;margin-top: 12px;">如果没有收到验证码邮件，请核实邮箱是否正常使用，并检查垃圾邮件。</div>
+                </FormItem>
+            </Form>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="closeBindMailModal('BindMailForm')">取消</Button>
+                <Button type="primary" size="large" @click.prevent="handleBindMail('BindMailForm')">提交</Button>
+            </div>
+        </Modal> <!-- 绑定邮箱 -->
+
+        <Modal
+            v-model="isOpenModifyPasswordModal"
+            class-name="custom-modal vertical-center-modal"
+            width="480">
+            <Icon type="ios-close-empty" slot="close" @click="closeModifyPasswordModal('ModifyPasswordForm')"></Icon>
+            <h2 class="title" slot="header">修改密码</h2>
+            <Form class="custom-form" :model="ModifyPasswordForm" ref="ModifyPasswordForm" :rules="ModifyPasswordForm.rule" label-position="left" :label-width="92">
+                <FormItem label="旧密码" prop="oldpassword">
+                    <Input type="password" v-model.trim="ModifyPasswordForm.oldpassword" placeholder="旧密码"></Input>
+                </FormItem>
+                <FormItem label="新密码" prop="password">
+                    <Input type="password" v-model.trim="ModifyPasswordForm.password" placeholder="新密码"></Input>
+                </FormItem>
+                <FormItem label="确认密码" prop="cpassword">
+                    <Input type="password" v-model.trim="ModifyPasswordForm.cpassword" placeholder="确认密码"></Input>
+                </FormItem>
+            </Form>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="closeModifyPasswordModal('ModifyPasswordForm')">取消</Button>
+                <Button type="primary" size="large" @click.prevent="handleModifyPassword('ModifyPasswordForm')">提交</Button>
+            </div>
+        </Modal> <!-- 修改密码 -->
     </div>
 </template>
 
@@ -180,6 +253,26 @@
     export default {
         name: 'personal',
         data () {
+            const customValidatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入新密码'));
+                } else {
+                    if (this.ModifyPasswordForm.cpassword !== '') {
+                        // 对第二个密码框单独验证
+                        this.$refs.ModifyPasswordForm.validateField('cpassword');
+                    }
+                    callback();
+                }
+            };
+            const customValidatePassCheck = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.ModifyPasswordForm.password) {
+                    callback(new Error('两次密码不一致'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 userinfo: {
                     nickname: 'leon',
@@ -206,16 +299,64 @@
                     industry: false
                 },
                 isOpenAuthenticateModal: false,
-                computedTime: 0,
                 AuthenticateForm: {
-                    code: ''
+                    code: '',
+                    computedTime: 0,
+                    timer: null,
+                    rule: {
+                        code: [
+                            { required: true, message: '请输入短信验证码', trigger: 'blur' }
+                        ]
+                    }
                 },
-                ruleAuthenticate: {
-                    code: [
-                        { required: true, message: '请输入短信验证码', trigger: 'blur' }
-                    ]
+                isOpenModifyPhoneModal: false,
+                ModifyPhoneForm: {
+                    phone: '',
+                    code: '',
+                    computedTime: 0,
+                    timer: null,
+                    rule: {
+                        phone: [{
+                            required: true, message: '请输入新手机号', trigger: 'blur'
+                        }],
+                        code: [
+                            { required: true, message: '请输入短信验证码', trigger: 'blur' }
+                        ]
+                    }
                 },
-                timer: null
+                isOpenBindMailModal: false,
+                BindMailForm: {
+                    mail: '',
+                    code: '',
+                    computedTime: 0,
+                    timer: null,
+                    rule: {
+                        mail: [
+                            { required: true, message: '请输入邮箱', trigger: 'blur' },
+                            { type: 'email', message: '邮箱格式有误', trigger: 'blur' }
+                        ],
+                        code: [
+                            { required: true, message: '请输入邮件验证码', trigger: 'blur' }
+                        ]
+                    }
+                },
+                isOpenModifyPasswordModal: false,
+                ModifyPasswordForm: {
+                    oldpassword: '',
+                    password: '',
+                    cpassword: '',
+                    rule: {
+                        oldpassword: [
+                            { required: true, message: '请输入旧密码', trigger: 'blur' }
+                        ],
+                        password: [
+                            { required: true, validator: customValidatePass, trigger: 'blur' }
+                        ],
+                        cpassword: [
+                            { required: true, validator: customValidatePassCheck, trigger: 'blur' }
+                        ]
+                    }
+                }
             }
         },
         methods: {
@@ -272,8 +413,94 @@
                 this.userinfo.companyProfile = this.userinfo.currentCompanyProfile;
                 this.edit.companyProfile = false;
             },
-            modifyPhone(){
-                console.log('修改手机')
+            triggerModifyPhone(){
+                // this.triggerAuthenticateModal();
+                this.isOpenModifyPhoneModal = true;
+            },
+            closeModifyPhoneModal(name){
+                this.$refs[name].resetFields();
+                this.isOpenModifyPhoneModal = false;
+                // clear timer
+                this.ModifyPhoneForm.computedTime = 0;
+                clearInterval(this.ModifyPhoneForm.timer);
+            },
+            handleModifyPhone(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        // TODO，提升配额
+                        self.$Message.success('操作成功！');
+                        self.closeModifyPhoneModal(name);
+                    }
+                })
+            },
+            ModifyPhoneSendSMSCode(){
+                let self = this;
+                self.ModifyPhoneForm.computedTime = 120;
+                self.ModifyPhoneForm.timer = setInterval(() => {
+                    self.ModifyPhoneForm.computedTime--;
+                    if (self.ModifyPhoneForm.computedTime == 0) {
+                        clearInterval(self.ModifyPhoneForm.timer);
+                    }
+                }, 1000);
+
+                // TODO,setSMS
+                self.$Message.success('短信发送成功');
+            },
+            triggerBindMail(){
+                // this.triggerAuthenticateModal();
+                this.isOpenBindMailModal = true;
+            },
+            closeBindMailModal(name){
+                this.$refs[name].resetFields();
+                this.isOpenBindMailModal = false;
+                // clear timer
+                this.BindMailForm.computedTime = 0;
+                clearInterval(this.BindMailForm.timer);
+            },
+            handleBindMail(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        // TODO，提升配额
+                        self.$Message.success('操作成功！');
+                        self.closeBindMailModal(name);
+                    }
+                })
+            },
+            BindMailSendSMSCode(){
+                let self = this;
+                self.BindMailForm.computedTime = 120;
+                self.BindMailForm.timer = setInterval(() => {
+                    self.BindMailForm.computedTime--;
+                    if (self.BindMailForm.computedTime == 0) {
+                        clearInterval(self.BindMailForm.timer);
+                    }
+                }, 1000);
+
+                // TODO,setSMS
+                self.$Message.success('邮件验证码发送成功');
+            },
+            triggerModifyPassword(){
+                // this.triggerAuthenticateModal();
+                this.isOpenModifyPasswordModal = true;
+            },
+            closeModifyPasswordModal(name){
+                this.$refs[name].resetFields();
+                this.isOpenModifyPasswordModal = false;
+                // clear timer
+                this.ModifyPasswordForm.computedTime = 0;
+                clearInterval(this.ModifyPasswordForm.timer);
+            },
+            handleModifyPassword(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        // TODO，提升配额
+                        self.$Message.success('操作成功！');
+                        self.closeModifyPasswordModal(name);
+                    }
+                })
             },
             triggerAuthenticateModal(){
                 this.isOpenAuthenticateModal = true;
@@ -282,8 +509,8 @@
                 this.$refs[name].resetFields();
                 this.isOpenAuthenticateModal = false;
                 // clear timer
-                this.computedTime = 0;
-                clearInterval(this.timer);
+                this.AuthenticateForm.computedTime = 0;
+                clearInterval(this.AuthenticateForm.timer);
             },
             handleAuthenticate(name){
                 const self = this;
@@ -295,13 +522,30 @@
                     }
                 })
             },
-            sendSMSCode(){
+            closeAuthenticateModal(name){
+                this.$refs[name].resetFields();
+                this.isOpenAuthenticateModal = false;
+                // clear timer
+                this.AuthenticateForm.computedTime = 0;
+                clearInterval(this.AuthenticateForm.timer);
+            },
+            handleAuthenticate(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        // TODO，提升配额
+                        self.$Message.success('操作成功！');
+                        self.closeAuthenticateModal(name);
+                    }
+                })
+            },
+            AuthenticateSendSMSCode(){
                 let self = this;
-                self.computedTime = 120;
-                self.timer = setInterval(() => {
-                    self.computedTime--;
-                    if (self.computedTime == 0) {
-                        clearInterval(self.timer);
+                self.AuthenticateForm.computedTime = 120;
+                self.AuthenticateForm.timer = setInterval(() => {
+                    self.AuthenticateForm.computedTime--;
+                    if (self.AuthenticateForm.computedTime == 0) {
+                        clearInterval(self.AuthenticateForm.timer);
                     }
                 }, 1000);
 
