@@ -68,19 +68,52 @@
                     <div class="mormal-block-bd">
                         <dl class="basicInfo">
                             <dt>所属行业</dt>
-                            <dd>未设置 <Icon type="compose"></Icon></dd>
+                            <dd>
+                                <span v-show="!edit.industry">{{userinfo.industry ? userinfo.industry : '未设置'}}</span>
+                                <span v-show="!edit.industry" class="editButton" title="修改昵称"><Icon type="compose"></Icon></span>
+                            </dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>企业名称</dt>
-                            <dd>国信达数据有限公司 <Icon type="compose"></Icon></dd>
+                            <dd>
+                                <span v-show="!edit.companyName">{{userinfo.companyName ? userinfo.companyName : '未填写'}}</span>
+                                <span v-show="!edit.companyName" class="editButton" title="修改昵称" @click="edit.companyName = !edit.companyName"><Icon type="compose"></Icon></span>
+                                <div v-show="edit.companyName" class="editCtrl">
+                                    <Input v-model="userinfo.currentCompanyName" style="width: 220px"></Input>
+                                    <span class="editGroup">
+                                        <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditCompanyName"></Icon>
+                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveCompanyName"></Icon>
+                                    </span>
+                                </div>
+                            </dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>企业官网</dt>
-                            <dd>www.baidu.com <Icon type="compose"></Icon></dd>
+                            <dd>
+                                <span v-show="!edit.website">{{userinfo.website ? userinfo.website : '未填写'}}</span>
+                                <span v-show="!edit.website" class="editButton" title="修改昵称" @click="edit.website = !edit.website"><Icon type="compose"></Icon></span>
+                                <div v-show="edit.website" class="editCtrl">
+                                    <Input v-model="userinfo.currentWebsite" style="width: 220px"></Input>
+                                    <span class="editGroup">
+                                        <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditWebsite"></Icon>
+                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveWebsite"></Icon>
+                                    </span>
+                                </div>
+                            </dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>企业简介</dt>
-                            <dd>企业简介企简介企业简介企业简介企业简介 <Icon type="compose"></Icon></dd>
+                            <dd>
+                                <span v-show="!edit.companyProfile">{{userinfo.companyProfile ? userinfo.companyProfile : '未填写'}}</span>
+                                <span v-show="!edit.companyProfile" class="editButton" title="修改昵称" @click="edit.companyProfile = !edit.companyProfile"><Icon type="compose"></Icon></span>
+                                <div v-show="edit.companyProfile" class="editCtrl">
+                                    <Input v-model="userinfo.currentCompanyProfile" style="width: 360px"></Input>
+                                    <span class="editGroup">
+                                        <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditCompanyProfile"></Icon>
+                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveCompanyProfile"></Icon>
+                                    </span>
+                                </div>
+                            </dd>
                         </dl>
                     </div>
                 </div>
@@ -129,12 +162,23 @@
                     gender: 0, // 0，保密；1，男；2，女
                     currentGender: 0,
                     birthday: '',
-                    currentBirthday: ''
+                    currentBirthday: '',
+                    website: 'www.cindata.cn',
+                    currentWebsite: 'www.cindata.cn',
+                    companyName: '北京国信达数据技术有限公司',
+                    currentCompanyName:  '北京国信达数据技术有限公司',
+                    companyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
+                    currentCompanyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
+                    industry: ''
                 },
                 edit: {
                     nickname: false,
                     gender: false,
-                    birthday: false
+                    birthday: false,
+                    website: false,
+                    companyName: false,
+                    companyProfile: false,
+                    industry: false
                 }
             }
         },
@@ -167,6 +211,30 @@
                 // TODO
                 this.userinfo.birthday = this.userinfo.currentBirthday;
                 this.edit.birthday = false;
+            },
+            cancelEditWebsite() {
+                this.userinfo.currentWebsite = this.userinfo.website;
+                this.edit.website = false;
+            },
+            handleSaveWebsite() {
+                this.userinfo.website = this.userinfo.currentWebsite;
+                this.edit.website = false;
+            },
+            cancelEditCompanyName() {
+                this.userinfo.currentCompanyName = this.userinfo.companyName;
+                this.edit.companyName = false;
+            },
+            handleSaveCompanyName() {
+                this.userinfo.companyName = this.userinfo.currentCompanyName;
+                this.edit.companyName = false;
+            },
+            cancelEditCompanyProfile() {
+                this.userinfo.currentCompanyProfile = this.userinfo.companyProfile;
+                this.edit.companyProfile = false;
+            },
+            handleSaveCompanyProfile() {
+                this.userinfo.companyProfile = this.userinfo.currentCompanyProfile;
+                this.edit.companyProfile = false;
             }
         },
         computed: {
