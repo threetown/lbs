@@ -40,16 +40,39 @@
             }
         }
     }
+
     .ivu-modal-footer{
         border-top: 0;
+        padding-right: 30px;
+        padding-bottom: 30px;
         .ivu-btn-large{
-            height: 40px;
             padding: 6px 26px;
+            height: 40px;
         }
         .ivu-btn-text{
             border-color: #ddd;
             color: #666;
         }
+    }
+    
+
+    .ivu-alert{
+        padding-right: 16px;
+        &-warning{
+            background-color: #FEFBE8;
+            border-color: #FAE596;
+            color: #666;
+            border-radius: 3px;
+            font-size: 14px;
+            line-height: 20px;
+            .ivu-alert-icon{
+                font-size: 24px;
+                color: #FFBE47;
+                left: 10px;
+                top: 6px;
+            }
+        }
+        
     }
 
     &.custom-warning-modal{
@@ -64,6 +87,8 @@
         }
         .ivu-modal-footer{
             border-top: 1px solid #eee;
+            padding-right: 18px;
+            padding-bottom: 12px;
             .ivu-btn-primary{
                 background-color: @custom-warning-color;
                 border-color: @custom-warning-color;

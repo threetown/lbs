@@ -1,0 +1,35 @@
+{
+    "code": 0,
+    "msg": "\u8c03\u7528\u6210\u529f",
+    "data": [
+        {
+            "id": "501672",
+            "name": "智慧选址",
+            "createTime": "2018-06-21",
+            "industryId": 24,
+            "children": [
+                {
+                    "key": "3839dc8c17483f15990d9cc6e8cf7de6",
+                    "name": "ppppppppp",
+                    "bind": "Web\u670d\u52a1",
+                    "type": "1"
+                },
+                {
+                    "key": "7d8e65345cba571902266131db2f8b03",
+                    "name": "pppppppp",
+                    "bind": "Android\u5e73\u53f0",
+                    "type": "31"
+                }
+            ]
+        },
+        {
+            "id": "501670",
+            "name": "智慧楼盘",
+            "createTime": "2018-06-21",
+            "industryId": 25,
+            "children": []
+        }
+    ],
+    "help": "",
+    "dom": ""
+}
