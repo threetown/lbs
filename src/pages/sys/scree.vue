@@ -84,133 +84,180 @@
             <div class="header">
                 <h2 class="title">业务分析 <strong>每日业务总量分析</strong></h2>
             </div>
+            <Row class="safeSetting">
+                <Col span="12">&nbsp;</Col>
+                <Col span="12">
+                    <Select v-model="defaultDate" size="large" style="width:120px;float: right;">
+                        <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </Col>
+            </Row>
             <div class="content">
-                暂无数据
+                <div class="business-analysis" style="height: 100%">
+                    <div id="business-analysis-echarts" class="echarts" style="height: 100%"></div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
+<script>
+    import echarts from "echarts";
+    import echartsConfig from "src/config/echartsConfig";
 
-<style lang="less">
-    ul,li{
-        list-style: none;
-    }
-    .mb-12{
-        margin-bottom: 12px;
-    }
-    .countPanel{
-        margin-bottom: 12px;
-        .ivu-col{
-            background: #fff;
-            width: 23%;
-        }
-    }
-    .dataPanel{
-        position: relative;
-        height: 92px;
-        padding: 22px 5px 22px 48px;
-        i{
-            position: absolute;
-            left: 10px;
-            top: 28px;
-            font-size: 24px;
-            line-height: 28px;
-            width: 28px;
-            height: 28px;
-            text-align: center;
-            border-radius: 50%;
-            background-color: #D6F2FF;
-            color: #00A0EB;
-        }
-        .data{
-            .num{
-                font-size: 20px;
-                line-height: 24px;
-                font-family: 'MicrosoftYaHei';
-                font-weight: bold;
-                color: #333;
+    export default {
+        name: 'sys-scree',
+        data() {
+            return {
+                defaultDate: '30',
+                dateList: [
+                    { label: '近30天', value: '30' },
+                    { label: '近一周', value: '7' },
+                    { label: '今天', value: '1'}
+                ]
             }
-            .tips{
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-        &.type-warning{
-            i{
-                color: #FF6C00;
-                background-color: #FFE5CC;
-            }
-        }
-        &.type-error{
-            i{
-                color: #F71A1A;
-                background-color: #FFDFDF;
-            }
-            
-        }
-    }
-    .todayData{
-        background-color: #fff;
-        overflow: hidden;
-        height: 120px;
-        padding: 22px;
-        text-align: center;
-        li{
-            position: relative;
-            width: 33.33%;
-            float: left;
-            height: 76px;
-            &::before{
-                position: absolute;
-                content: '';
-                right: 0;
-                top: 50%;
-                margin-top: -27px;
-                width: 1px;
-                height: 54px;
-                background-color: #E5E5E5;
-            }
-            &:last-child::before{
-                display: none;
-            }
-            .num{
-                font-size: 26px;
-                color: #008AFF;
-                display: block;
-                line-height: 34px;
-            }
-            .info{
-                font-size: 14px;
-                color: #999;
-            }
-        }
-    }
-
-    .full-echart-panel{
-        padding: 20px;
-        background-color: #fff;
-        .header{
-            font-family: MicrosoftYaHei;
-            .title{
-                font-size:16px;
-                color:#333;
-                line-height:24px;
-                strong{
-                    font-weight: normal;
-                    font-size: 14px;
-                    color: #999;
-                    display: block;
+        },
+        methods: {
+            setCharts(){
+                this.myChart = echarts.init(document.getElementById('business-analysis-echarts'));
+                let option = echartsConfig.lineChartOptions()
+                if (option && typeof option === "object") {
+                    this.myChart.setOption(option);
                 }
             }
+        },
+        created: function() {
+            
+        },
+        mounted(){
+            const self = this
+            this.$nextTick(function(){
+                self.setCharts()
+            })
         }
-        .content{
-            text-align: center;
-            font-size: 16px;
-            color: #666;
-            height: 266px;
-            line-height: 266px;
-        }
+    };
+</script>
+
+<style lang="less">
+ul,
+li {
+  list-style: none;
+}
+.mb-12 {
+  margin-bottom: 12px;
+}
+.countPanel {
+  margin-bottom: 12px;
+  .ivu-col {
+    background: #fff;
+    width: 23%;
+  }
+}
+.dataPanel {
+  position: relative;
+  height: 92px;
+  padding: 22px 5px 22px 48px;
+  i {
+    position: absolute;
+    left: 10px;
+    top: 28px;
+    font-size: 24px;
+    line-height: 28px;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #d6f2ff;
+    color: #00a0eb;
+  }
+  .data {
+    .num {
+      font-size: 20px;
+      line-height: 24px;
+      font-family: "MicrosoftYaHei";
+      font-weight: bold;
+      color: #333;
     }
+    .tips {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  &.type-warning {
+    i {
+      color: #ff6c00;
+      background-color: #ffe5cc;
+    }
+  }
+  &.type-error {
+    i {
+      color: #f71a1a;
+      background-color: #ffdfdf;
+    }
+  }
+}
+.todayData {
+  background-color: #fff;
+  overflow: hidden;
+  height: 120px;
+  padding: 22px;
+  text-align: center;
+  li {
+    position: relative;
+    width: 33.33%;
+    float: left;
+    height: 76px;
+    &::before {
+      position: absolute;
+      content: "";
+      right: 0;
+      top: 50%;
+      margin-top: -27px;
+      width: 1px;
+      height: 54px;
+      background-color: #e5e5e5;
+    }
+    &:last-child::before {
+      display: none;
+    }
+    .num {
+      font-size: 26px;
+      color: #008aff;
+      display: block;
+      line-height: 34px;
+    }
+    .info {
+      font-size: 14px;
+      color: #999;
+    }
+  }
+}
+
+.full-echart-panel {
+  padding: 20px;
+  background-color: #fff;
+  .header {
+    font-family: MicrosoftYaHei;
+    margin-bottom: 12px;
+    .title {
+      font-size: 16px;
+      color: #333;
+      line-height: 24px;
+      strong {
+        font-weight: normal;
+        font-size: 14px;
+        color: #999;
+        display: block;
+      }
+    }
+  }
+  .content {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    height: 266px;
+    line-height: 266px;
+  }
+}
 </style>
