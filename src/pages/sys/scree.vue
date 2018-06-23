@@ -80,7 +80,8 @@
                 </div>
             </Col>
         </Row>
-        <div class="full-echart-panel">
+
+        <div class="full-echart-panel mb-12">
             <div class="header">
                 <h2 class="title">业务分析 <strong>每日业务总量分析</strong></h2>
             </div>
@@ -98,6 +99,49 @@
                 </div>
             </div>
         </div>
+
+        <div class="full-echart-panel mb-12">
+            <div class="header">
+                <h2 class="title">流量分析 <strong>每日业务总量分析</strong></h2>
+            </div>
+            <Row class="safeSetting">
+                <Col span="12">
+                    <RadioGroup v-model="defaultType" type="button" size="large">
+                        <Radio label="访问次数"></Radio>
+                        <Radio label="访问人数"></Radio>
+                    </RadioGroup>
+                </Col>
+                <Col span="12">
+                    <Select v-model="defaultDate" size="large" style="width:120px;float: right;">
+                        <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </Col>
+            </Row>
+            <div class="content">
+                <div class="flow-analysis" style="height: 100%">
+                    <div id="flow-analysis-echarts" class="echarts" style="height: 100%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="full-echart-panel mb-12">
+            <div class="header">
+                <h2 class="title">用户分析 <strong>每日新增用户数，当前用户总数：0</strong></h2>
+            </div>
+            <Row class="safeSetting">
+                <Col span="12">&nbsp;</Col>
+                <Col span="12">
+                    <Select v-model="defaultDate" size="large" style="width:120px;float: right;">
+                        <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </Col>
+            </Row>
+            <div class="content">
+                <div class="user-analysis" style="height: 100%">
+                    <div id="user-analysis-echarts" class="echarts" style="height: 100%"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -110,6 +154,7 @@
         data() {
             return {
                 defaultDate: '30',
+                defaultType: '访问次数',
                 dateList: [
                     { label: '近30天', value: '30' },
                     { label: '近一周', value: '7' },
@@ -120,9 +165,21 @@
         methods: {
             setCharts(){
                 this.myChart = echarts.init(document.getElementById('business-analysis-echarts'));
-                let option = echartsConfig.lineChartOptions()
+                let option = echartsConfig.lineAreaChartOptions()
                 if (option && typeof option === "object") {
                     this.myChart.setOption(option);
+                }
+
+                this.myFlowChart = echarts.init(document.getElementById('flow-analysis-echarts'));
+                let flowOption = echartsConfig.lineAreaChartOptions()
+                if (flowOption && typeof flowOption === "object") {
+                    this.myFlowChart.setOption(flowOption);
+                }
+
+                this.myUserChart = echarts.init(document.getElementById('user-analysis-echarts'));
+                let userOption = echartsConfig.lineChartOptions()
+                if (userOption && typeof userOption === "object") {
+                    this.myUserChart.setOption(userOption);
                 }
             }
         },
@@ -256,8 +313,8 @@ li {
     text-align: center;
     font-size: 16px;
     color: #666;
-    height: 266px;
-    line-height: 266px;
+    height: 300px;
+    line-height: 300px;
   }
 }
 </style>
