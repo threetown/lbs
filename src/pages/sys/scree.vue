@@ -61,21 +61,16 @@
             <Col span="12">
                 <div class="normal-block-mod">
                     <div class="mormal-block-hd ivu-row">
-                        <h2 class="mbm-title">企业信息</h2>
+                        <h2 class="mbm-title">用户动态</h2>
                     </div>
                     <div class="mormal-block-bd">
-                        <dl class="basicInfo">
-                            <dt>所属行业</dt>
-                            <dd>未设置</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>企业名称</dt>
-                            <dd>国信达数据有限公司</dd>
-                        </dl>
-                        <dl class="basicInfo">
-                            <dt>企业官网</dt>
-                            <dd>www.baidu.com</dd>
-                        </dl>
+                        <ul class="dynamic-list">
+                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">刚刚</span></li>
+                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">15:30:26</span></li>
+                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">昨天 15:30:26</span></li>
+                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">06-08  15:30:26</span></li>
+                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">06-28  15:30:26</span></li>
+                        </ul>
                     </div>
                 </div>
             </Col>
@@ -196,10 +191,6 @@
 </script>
 
 <style lang="less">
-ul,
-li {
-  list-style: none;
-}
 .mb-12 {
   margin-bottom: 12px;
 }
@@ -316,5 +307,21 @@ li {
     height: 300px;
     line-height: 300px;
   }
+}
+
+.dynamic-list{
+    li{
+        position: relative;
+        height: 25px;
+        line-height: 25px;
+        padding-right: 110px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        .date{
+            position: absolute;
+            right: 0;
+        }
+    }
 }
 </style>
