@@ -5,10 +5,10 @@
         </div>
         <Row style="margin-bottom: 22px;">
             <Col span="16">
-                <Select size="large" v-model="severModel" style="width:200px">
+                <Select size="large" v-model="search.currentType" style="width:200px">
                     <Option v-for="item in search.statusType" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
-                <Select size="large" v-model="statusModel" style="width:200px">
+                <Select size="large" v-model="search.currentDate" style="width:200px">
                     <Option v-for="item in search.dateType" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </Col>
@@ -23,11 +23,13 @@
         data () {
             return {
                 search: {
+                    currentType: '0',
                     statusType: [
                         { label: '全部申请', value: '0' },
                         { label: '已通过', value: '1' },
                         { label: '未通过', value: '2' }
                     ],
+                    currentDate: '0',
                     dateType: [
                         { label: '全部申请', value: '0' },
                         { label: '近三个月申请', value: '3' },
