@@ -23,7 +23,7 @@
                         </Row>
                     </div>
                     <div class="bd">
-                        <Table border :columns="mapColumns" :data="item.children" class="appTable"></Table>
+                        <Table border :columns="mapColumns" :data="item.children" class="custom-table"></Table>
                     </div>
                 </div>
             </div>
@@ -385,10 +385,6 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
 </script>
 
 <style lang="less">
-    .full-block-mod{
-        padding: 30px;
-        background-color: #fff;
-    }
     .panelServiceList{
         overflow: hidden;
         li{
@@ -403,22 +399,6 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             a{
                 font-size: 14px;
                 color: #008AFF;
-            }
-        }
-    }
-    .Header{
-        margin-bottom: 25px;
-        .title{
-            font-weight: normal;
-            color: #333;
-            font-size: 18px;
-            line-height: 24px;
-            float: left;
-            strong{
-                font-weight: normal;
-                font-size: 14px;
-                color: #999;
-                display: block;
             }
         }
     }
@@ -489,19 +469,6 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 .bd{
                     display: block;
                 }
-            }
-        }
-    }
-    .appTable{
-        .ivu-table{
-            font-size: 14px;
-        }        
-        .action-group{
-            font-size: 14px;
-            .items{
-                color: #008AFF;
-                margin: 0 6px;
-                cursor: pointer;
             }
         }
     }
