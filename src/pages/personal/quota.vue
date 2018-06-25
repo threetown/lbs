@@ -165,8 +165,8 @@
                         "price": 3000,
                         "upPrice": 2000,
                         "status": 1,
-                        "used": 0,
-                        "percent": 0
+                        "used": 2000,
+                        "percent": 100
                     },
                     {
                         "id": 2,
