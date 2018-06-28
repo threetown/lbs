@@ -6,15 +6,20 @@
                 <Button class="fr" type="primary" icon="ios-plus-outline" slot="extra" size="large" @click="triggerAppModel">创建新应用</Button>
             </div>
             
-            <div class="collapse">
+            <div class="LoadingBox" style="height: 300px;" v-show="Loading.state">
+                <Spin fix>
+                    {{Loading.info}}
+                </Spin>
+            </div>
+            <div v-if="!Loading.state" class="collapse">
                 <div :class="index === curOpen ? 'panel active' : 'panel'" v-for="(item, index) in appServerData">
                     <div class="hd">
                         <Row>
-                            <Col span="4" class="title">
-                                <Icon type="ios-list"></Icon>{{item.name}}
+                            <Col span="5" class="title">
+                                <Icon type="ios-list"></Icon>{{item.appName}}
                             </Col>
-                            <Col span="4">{{item.createTime}}创建</Col>
-                            <Col span="14" class="action">
+                            <Col span="5">{{item.createdDt}} 创建</Col>
+                            <Col span="12" class="action">
                                 <Icon type="compose" @click="triggerAppModel(item, index, 'edit')"></Icon>
                                 <Icon type="trash-a" @click="triggerDeleteModel(item, index, 'app')"></Icon>
                                 <Button class="btn-blue" type="ghost" @click="triggerCreateQuotaModal">添加新key</Button>
@@ -23,7 +28,7 @@
                         </Row>
                     </div>
                     <div class="bd">
-                        <Table border :columns="mapColumns" :data="item.children" class="custom-table"></Table>
+                        <Table border :columns="mapColumns" :data="item.keyInfos" class="custom-table"></Table>
                     </div>
                 </div>
             </div>
@@ -54,7 +59,7 @@
                 </FormItem>
                 <FormItem label="应用类型" prop="type">
                     <Select v-model="createAppForm.type" :placeholder="createAppForm.placeholder.type">
-                        <Option v-for="item in panelServiceType" :value="item.type">{{ item.name }}</Option>
+                        <Option v-for="item in panelServiceType" :value="item.code" :key="item.code">{{ item.name }}</Option>
                     </Select>
                 </FormItem>
             </Form>
@@ -144,6 +149,10 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
     import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
+    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, getPostApp } from 'src/service/application'
+
+    import axios from 'axios'
+
     export default {
         data () {
             return {
@@ -154,27 +163,22 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 AppModalStatus: '',
                 editKeyModalStatus: '',
                 curOpen: 0,
+                Loading: {
+                    state: true,
+                    info: '完命加载中，请稍等...'
+                },
                 mapColumns: [
                     {
-                        title: 'Key名称',
-                        key: 'name',
-                        align: 'center'
+                        title: 'Key名称', key: 'keyName', align: 'center'
                     },
                     {
-                        title: 'Key',
-                        key: 'key',
-                        align: 'center'
+                        title: 'Key', key: 'keyCode', align: 'center'
                     },
                     {
-                        title: '绑定服务',
-                        key: 'type',
-                        align: 'center'
+                        title: '绑定服务', key: 'serviceTypeMajorName', align: 'center'
                     },
                     {
-                        title: '操作',
-                        key: 'action',
-                        align: 'center',
-                        width: 200,
+                        title: '操作', key: 'action', align: 'center', width: 200,
                         render: (h, params) => {
                             return h('div',
                             {class: 'action-group'},
@@ -206,35 +210,8 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                             ]);
                         }
                     }
-                    
                 ],
-                appServerData: [
-                    {
-                        "id": "501672",
-                        "name": "智慧选址",
-                        "createTime": "2018-06-21",
-                        "type": 'web',
-                        "children": [
-                            {
-                                "key": "3839dc8c17483f15990d9cc6e8cf7de6",
-                                "name": "一个神奇的Key",
-                                "type": "Web\u670d\u52a1"
-                            },
-                            {
-                                "key": "7d8e65345cba571902266131db2f8b03",
-                                "name": "两个神奇的Key",
-                                "type": "Android\u5e73\u53f0"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "501670",
-                        "name": "智慧楼盘",
-                        "createTime": "2018-06-21",
-                        "type": 'map',
-                        "children": []
-                    }
-                ],
+                appServerData: [],
                 createAppForm: {
                     name: '',
                     type: '',
@@ -267,7 +244,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 },
                 createKeyForm: {
                     name: '',
-                    type: 'web',
+                    type: '',
                     desc: '',
                     isRead: true
                 },
@@ -283,7 +260,8 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     id: '',
                     type: '',
                     index: ''
-                }
+                },
+                panelServiceType: []
             }
         },
         methods: {
@@ -301,11 +279,30 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
-                        // TODO，创建新应用
+                        let data = {
+                            "appType": self.createAppForm.type,
+                            "appName": self.createAppForm.name,
+                            "appId": self.createAppForm.id
+                        }
                         if(self.AppModalStatus === 'edit'){
-                            self.$Message.success('修改成功！');
+                            // 编辑应用
+                            ajaxUpdateApp(data).then(res => {
+                                self.$Message.success(res.message);
+                            })                            
                         }else{
-                            self.$Message.success('创建成功！');
+                            // 创建新应用
+                            ajaxCreateApp(data).then(res => {
+                                if(res.state === 0){
+                                    ajaxPostApp({"statusCd": 1}).then(result => {
+                                        if(result.state === 0){
+                                            self.appServerData = result.data.appKeyInfo;
+                                        }
+                                    })
+                                    self.$Message.success('创建成功！');
+                                }else{
+                                    self.$Message.error(res.message);
+                                }
+                            })
                         }
                         self.closeCreateAppModal(name);
                     }
@@ -315,6 +312,9 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 if(type === 'edit'){
                     this.createAppForm.name = params.name;
                     this.createAppForm.type = params.type;
+                    this.createAppForm.id = params.appId;
+                }else{
+                    this.createAppForm.id = '';
                 }
                 this.AppModalStatus = type;
                 this.isOpenCreateAppModal = true;
@@ -339,7 +339,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             },
             triggerCreateQuotaModal(params, index, type){
                 if(type === 'edit'){
-                    this.createKeyForm.name = params.row.name;
+                    this.createKeyForm.name = params.row.keyName;
                 }
                 this.editKeyModalStatus = type;
                 this.isCreateKeyModal = true;
@@ -373,18 +373,39 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             }
         },
         computed: {
-            panelServiceType(){
-                return tools.getRootData(basicConfig.PanelService)
-            },
             panelServiceItems() {
                 const self = this;
                 return tools.getChildrenData(basicConfig.PanelService, self.createKeyForm.type)
             }
+        },
+        created(){
+            const self = this;
+            const params = {
+                type: 'appType',
+                app: {
+                    "statusCd": 1
+                }
+            }
+            // 调用 应用类型 和 应用列表接口
+            Promise.all([ajaxAppType(params.type),getPostApp(params.app)]).then(res => {
+                if(res[0].state === 0){
+                    self.panelServiceType = res[0].data.dict;
+                }
+
+                if(res[1].state === 0){
+                    let resource = res[1].data;
+                    self.appServerData = resource.appKeyInfo;
+                    self.Loading.state = false;
+                }else{
+                    self.Loading.info = res[1].message;
+                    // self.$Message.error(res[1].message);
+                }
+            })
         }
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     .panelServiceList{
         overflow: hidden;
         li{
@@ -422,6 +443,9 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 .title{
                     font-size: 16px;
                     color: #008AFF;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                     i{
                         font-size: 22px;
                         vertical-align: middle;
