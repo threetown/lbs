@@ -5,3 +5,6 @@ export const ajaxCreateApp = (data) => fetch({ url: '/center/appInfo/insert', me
 export const ajaxUpdateApp = (data) => fetch({ url: '/center/appInfo/update', method: 'post', data })  // 编辑应用
 
 export const ajaxAppType = (params) => fetch({ url: '/center/dict/list/'+params, method: 'get' })    // 应用类型列表
+
+/* local data */
+export const getPostApp = (params) => fetch({ url: '/static/mock/data/app.json', method: 'get', params })

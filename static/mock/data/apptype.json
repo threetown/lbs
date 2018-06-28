@@ -1,0 +1,30 @@
+{
+    "data": {
+        "dict": [
+            {
+                "code": "1",
+                "name": "旅游"
+            },
+            {
+                "code": "2",
+                "name": "教育"
+            },
+            {
+                "code": "3",
+                "name": "音乐"
+            },
+            {
+                "code": "4",
+                "name": "金融"
+            },
+            {
+                "code": "5",
+                "name": "房产"
+            }
+        ]
+    },
+    "message": "success",
+    "page": 5,
+    "state": 0,
+    "success": true
+}
