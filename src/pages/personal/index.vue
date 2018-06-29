@@ -129,7 +129,10 @@
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定手机</Col>
                             <Col span="16">您已绑定了手机 {{userinfo.phone | FormatPhone}} [您的手机为安全手机，可以找回密码，但不能用于登录]</Col>
-                            <Col class="tar" span="4">已设置 | <a @click="triggerModifyPhone">修改</a></Col>
+                            <Col class="tar" span="4">                                
+                                <span v-if="userinfo.phone">已设置</span>
+                                <span v-else style="color: #333;">未设置</span> | <a @click="triggerModifyPhone">设置</a>
+                            </Col>
                         </Row>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定邮箱</Col>
@@ -187,13 +190,16 @@
                 </FormItem>
                 <FormItem class="sendCodeItem" label="短信验证码" prop="code">
                     <Input v-model.trim="ModifyPhoneForm.code" placeholder="请输入短信验证码"></Input>
-                    <Button type="primary" size="large" @click.prevent="ModifyPhoneSendSMSCode" v-show="!ModifyPhoneForm.computedTime">发送验证码</Button>
+                    <Button type="primary" size="large" @click.prevent="ModifyPhoneSendSMSCode('ModifyPhoneForm')" v-show="!ModifyPhoneForm.computedTime">发送验证码</Button>
                     <Button size="large" disabled v-show="ModifyPhoneForm.computedTime">{{ModifyPhoneForm.computedTime}}s后再次发送</Button>
                 </FormItem>
             </Form>
             <div slot="footer" >
                 <Button type="text" size="large" @click="closeModifyPhoneModal('ModifyPhoneForm')">取消</Button>
-                <Button type="primary" size="large" @click.prevent="handleModifyPhone('ModifyPhoneForm')">提交</Button>
+                <Button type="primary" size="large" :loading="ModifyPhoneForm.loading" @click.prevent="handleModifyPhone('ModifyPhoneForm')">
+                    <span v-if="!ModifyPhoneForm.loading">提交</span>
+                    <span v-else>正在提交</span>
+                </Button>
             </div>
         </Modal> <!-- 修改绑定手机 -->
 
@@ -319,10 +325,12 @@
                     code: '',
                     computedTime: 0,
                     timer: null,
+                    loading: false,
                     rule: {
-                        phone: [{
-                            required: true, message: '请输入新手机号', trigger: 'blur'
-                        }],
+                        phone: [
+                            { required: true, message: '请输入新手机号', trigger: 'blur' },
+                            { pattern: /^((1[3-8][0-9])+\d{8})$/, message: '请填写正确的手机号码' }
+                        ],
                         code: [
                             { required: true, message: '请输入短信验证码', trigger: 'blur' }
                         ]
@@ -432,24 +440,40 @@
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
-                        // TODO，提升配额
-                        self.$Message.success('操作成功！');
-                        self.closeModifyPhoneModal(name);
+                        self.ModifyPhoneForm.loading = true;
+                        let changeData = {
+                            phone: self.ModifyPhoneForm.phone
+                        }
+                        ajaxPostChangePhone(changeData).then(res => {
+                            if(res.state === 0){
+                                self.userinfo.phone = self.ModifyPhoneForm.phone;
+                                self.closeModifyPhoneModal(name);
+                                self.$Message.success(res.message)
+                            }else{
+                                self.$Message.error(res.message)
+                            }
+                            self.ModifyPhoneForm.loading = false;
+                        })
                     }
                 })
             },
-            ModifyPhoneSendSMSCode(){
+            ModifyPhoneSendSMSCode(name){
                 let self = this;
-                self.ModifyPhoneForm.computedTime = 120;
-                self.ModifyPhoneForm.timer = setInterval(() => {
-                    self.ModifyPhoneForm.computedTime--;
-                    if (self.ModifyPhoneForm.computedTime == 0) {
-                        clearInterval(self.ModifyPhoneForm.timer);
-                    }
-                }, 1000);
+                this.$refs[name].validateField('phone', (valid) => {
+                    if(!!!valid) {
+                        self.ModifyPhoneForm.computedTime = 120;
+                        self.ModifyPhoneForm.timer = setInterval(() => {
+                            self.ModifyPhoneForm.computedTime--;
+                            if (self.ModifyPhoneForm.computedTime == 0) {
+                                clearInterval(self.ModifyPhoneForm.timer);
+                            }
+                        }, 1000);
 
-                // TODO,setSMS
-                self.$Message.success('短信发送成功');
+                        // TODO，发送手机验证码
+                        self.$Message.success('短信发送成功');
+                    }
+                })
+                
             },
             triggerBindMail(){
                 // this.triggerAuthenticateModal();
@@ -589,13 +613,6 @@
                         phone: userResource.telephone
                     }
                 }
-            })
-
-            ajaxPostChangePhone({
-                "staffId": 421,
-                "phone": "13007126958"
-            }).then(res => {
-                console.log(res, 575)
             })
         }
     }
