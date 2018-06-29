@@ -40,7 +40,7 @@ fetch.interceptors.response.use(
                     console.log('response:403, 当前用户无相关操作权限！')
                     break;
                 default:
-                    console.log('其它非200错误：' + error.response.message)
+                    console.error('错误信息：' + error.response.status + '-'+ error.response.statusText)
             }
         }
         return Promise.reject(error.response.data);

@@ -13,7 +13,7 @@ export const getRootData = (dataArr) => {
     let result = [];
     if (dataArr && dataArr instanceof Array) {
         for (let i = 0; i < dataArr.length; i++) {
-            result.push({ "name": dataArr[i].name, "type": dataArr[i].type})
+            result.push({ "name": dataArr[i].name, "code": dataArr[i].code})
         }
     }
     return result;
@@ -28,7 +28,7 @@ export const getChildrenData = (dataArr, value) => {
     let result = [];
     if (dataArr && dataArr instanceof Array) {
         for (let i = 0; i < dataArr.length; i++) {
-            if(dataArr[i].type === value){
+            if(dataArr[i].code === value){
                 result = dataArr[i].children;
             }
         }
