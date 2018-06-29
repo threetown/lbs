@@ -9,7 +9,7 @@
                     <div class="mormal-block-bd">
                         <dl class="basicInfo">
                             <dt>用户名</dt>
-                            <dd>amap_13007128888</dd>
+                            <dd>{{userinfo.username}}</dd>
                         </dl>
                         <dl class="basicInfo">
                             <dt>昵称</dt>
@@ -212,11 +212,11 @@
             <Alert type="warning" show-icon style="margin-bottom: 32px;">邮箱将作为您的邮箱登录信息，登录邮箱设置后不可更换。</Alert>
             <Form class="custom-form" :model="BindMailForm" ref="BindMailForm" :rules="BindMailForm.rule" label-position="left" :label-width="92">
                 <FormItem label="邮箱" prop="mail">
-                    <Input v-model.trim="userinfo.email" placeholder="邮箱"></Input>
+                    <Input v-model.trim="BindMailForm.mail" placeholder="邮箱"></Input>
                 </FormItem>
                 <FormItem class="sendCodeItem" label="邮件验证码" prop="code">
                     <Input v-model.trim="BindMailForm.code" placeholder="请输入邮件验证码"></Input>
-                    <Button type="primary" size="large" @click.prevent="BindMailSendSMSCode" v-show="!BindMailForm.computedTime">发送验证码</Button>
+                    <Button type="primary" size="large" @click.prevent="BindMailSendSMSCode('BindMailForm')" v-show="!BindMailForm.computedTime">发送验证码</Button>
                     <Button size="large" disabled v-show="BindMailForm.computedTime">{{BindMailForm.computedTime}}s后再次发送</Button>
                     <div class="tips" v-show="BindMailForm.code.length == 0" style="clear:both;margin-top: 12px;">如果没有收到验证码邮件，请核实邮箱是否正常使用，并检查垃圾邮件。</div>
                 </FormItem>
@@ -256,7 +256,7 @@
     import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
-    import { ajaxPostUserinfo, ajaxPostChangePhone } from 'src/service/personal'
+    import { ajaxPostUserinfo, ajaxPostChangePhone, ajaxPostChangeMail, ajaxPostChangePassword } from 'src/service/personal'
 
     export default {
         name: 'personal',
@@ -282,23 +282,7 @@
                 }
             };
             return {
-                userinfo: {
-                    nickname: 'leon',
-                    currentNickname : 'leon',
-                    gender: 0, // 0，保密；1，男；2，女
-                    currentGender: 0,
-                    birthday: '',
-                    currentBirthday: '',
-                    website: 'www.cindata.cn',
-                    currentWebsite: 'www.cindata.cn',
-                    companyName: '北京国信达数据技术有限公司',
-                    currentCompanyName:  '北京国信达数据技术有限公司',
-                    companyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
-                    currentCompanyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
-                    industry: '',
-                    phone: '',
-                    email: ''
-                },
+                userinfo: {},
                 edit: {
                     nickname: false,
                     gender: false,
@@ -490,24 +474,36 @@
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
-                        // TODO，提升配额
-                        self.$Message.success('操作成功！');
-                        self.closeBindMailModal(name);
+                        let data = {
+                            "email": self.BindMailForm.mail
+                        }
+                        ajaxPostChangeMail(data).then(res => {
+                            if(res.state === 0){
+                                self.closeBindMailModal(name);
+                                self.$Message.success(res.message);
+                            }else{
+                                self.$Message.error(res.message);
+                            }                            
+                        })
                     }
                 })
             },
-            BindMailSendSMSCode(){
+            BindMailSendSMSCode(name){
                 let self = this;
-                self.BindMailForm.computedTime = 120;
-                self.BindMailForm.timer = setInterval(() => {
-                    self.BindMailForm.computedTime--;
-                    if (self.BindMailForm.computedTime == 0) {
-                        clearInterval(self.BindMailForm.timer);
+                this.$refs[name].validateField('mail', (valid) => {
+                    console.log(name,valid)
+                    if(!!!valid) {                     
+                        self.BindMailForm.computedTime = 120;
+                        self.BindMailForm.timer = setInterval(() => {
+                            self.BindMailForm.computedTime--;
+                            if (self.BindMailForm.computedTime == 0) {
+                                clearInterval(self.BindMailForm.timer);
+                            }
+                        }, 1000);
+                        // TODO，发送手机验证码
+                        self.$Message.success('验证码发送到邮箱，请注意查收！');
                     }
-                }, 1000);
-
-                // TODO,setSMS
-                self.$Message.success('邮件验证码发送成功');
+                })
             },
             triggerModifyPassword(){
                 // this.triggerAuthenticateModal();
@@ -523,10 +519,21 @@
             handleModifyPassword(name){
                 const self = this;
                 this.$refs[name].validate((valid) => {
+                    console.log(name,valid)
                     if(valid) {
-                        // TODO，提升配额
-                        self.$Message.success('操作成功！');
-                        self.closeModifyPasswordModal(name);
+                        let data = {
+                            "oldPassword": self.ModifyPasswordForm.oldpassword,
+                            "newPassword": self.ModifyPasswordForm.password
+                        }
+                        ajaxPostChangePassword(data).then(res => {
+                            console.log(res)
+                            if(res.state === 0){
+                                self.closeModifyPasswordModal(name);
+                                self.$Message.success(res.message);
+                            }else{
+                                self.$Message.error(res.message)
+                            }
+                        })
                     }
                 })
             },
@@ -579,6 +586,34 @@
 
                 // TODO,setSMS
                 self.$Message.success('短信发送成功');
+            },
+            setUserInfo(){
+                const self = this;
+                ajaxPostUserinfo('421').then(res => {
+                    if(res.state === 0){
+                        let userResource = res.data.data;
+                        self.userinfo = {
+                            username: userResource.loginName,
+                            nickname: userResource.staffName,
+                            currentNickname : userResource.staffName,
+                            gender: userResource.sex ? userResource.sex : 0, // 0，保密；1，男；2，女
+                            currentGender: userResource.sex ? userResource.sex : 0,
+                            birthday: userResource.birthday,
+                            currentBirthday: userResource.birthday,
+                            website: userResource.website,
+                            currentWebsite: userResource.website,
+                            companyName: userResource.companyName,
+                            currentCompanyName:  userResource.companyName,
+                            companyProfile: userResource.introduction,
+                            currentCompanyProfile: userResource.introduction,
+                            industry: '',
+                            email: userResource.email,
+                            phone: userResource.telephone
+                        }
+                    }
+                }).catch(error =>{
+                    self.$Message.error(error)
+                })
             }
         },
         computed: {
@@ -591,29 +626,7 @@
             }
         },
         created(){
-            const self = this;
-            ajaxPostUserinfo('421').then(res => {
-                if(res.state === 0){
-                    let userResource = res.data.data;
-                    self.userinfo = {
-                        nickname: 'leon',
-                        currentNickname : 'leon',
-                        gender: 0, // 0，保密；1，男；2，女
-                        currentGender: 0,
-                        birthday: '',
-                        currentBirthday: '',
-                        website: 'www.cindata.cn',
-                        currentWebsite: 'www.cindata.cn',
-                        companyName: '北京国信达数据技术有限公司',
-                        currentCompanyName:  '北京国信达数据技术有限公司',
-                        companyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
-                        currentCompanyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
-                        industry: '',
-                        email: userResource.email,
-                        phone: userResource.telephone
-                    }
-                }
-            })
+            this.setUserInfo()
         }
     }
 </script>
