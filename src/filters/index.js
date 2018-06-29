@@ -1,5 +1,7 @@
-import { formatDate } from './formatDate';
+import { FormatDate } from './formatDate';
+import { FormatPhone } from './formatPhone';
 
 export default {
-    formatDate
+    FormatDate,
+    FormatPhone
 };

@@ -1,4 +1,4 @@
-export const formatDate = function (date, fmt = 'YYYY-MM-DD HH:mm:ss') {
+export const FormatDate = function (date, fmt = 'YYYY-MM-DD HH:mm:ss') {
     if (date) {
         var oDate = new Date();
         oDate.setTime(date);
