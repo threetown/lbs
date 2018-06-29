@@ -128,14 +128,14 @@
                     <div class="mormal-block-bd">
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定手机</Col>
-                            <Col span="16">您已绑定了手机176****0996 [您的手机为安全手机，可以找回密码，但不能用于登录]</Col>
+                            <Col span="16">您已绑定了手机 {{userinfo.phone | FormatPhone}} [您的手机为安全手机，可以找回密码，但不能用于登录]</Col>
                             <Col class="tar" span="4">已设置 | <a @click="triggerModifyPhone">修改</a></Col>
                         </Row>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定邮箱</Col>
                             <Col span="16">绑定邮箱主要用于接收密保信息，保障账户安全。</Col>
                             <Col class="tar" span="4">
-                                <span v-if="BindMailForm.mail">{{BindMailForm.mail}}</span>
+                                <span v-if="userinfo.email">{{userinfo.email}}</span>
                                 <span v-else><span style="color: #333;">未设置</span> | <a @click="triggerBindMail">设置</a></span>
                             </Col>
                         </Row>
@@ -161,7 +161,7 @@
                     <span class="text">手机验证</span>
                 </FormItem>
                 <FormItem label="绑定手机">
-                    <span class="text">13007126958</span>
+                    <span class="text">{{userinfo.phone}}</span>
                 </FormItem>
                 <FormItem class="sendCodeItem" label="短信验证码" prop="code">
                     <Input v-model.trim="AuthenticateForm.code" placeholder="请输入短信验证码"></Input>
@@ -206,7 +206,7 @@
             <Alert type="warning" show-icon style="margin-bottom: 32px;">邮箱将作为您的邮箱登录信息，登录邮箱设置后不可更换。</Alert>
             <Form class="custom-form" :model="BindMailForm" ref="BindMailForm" :rules="BindMailForm.rule" label-position="left" :label-width="92">
                 <FormItem label="邮箱" prop="mail">
-                    <Input v-model.trim="BindMailForm.mail" placeholder="邮箱"></Input>
+                    <Input v-model.trim="userinfo.email" placeholder="邮箱"></Input>
                 </FormItem>
                 <FormItem class="sendCodeItem" label="邮件验证码" prop="code">
                     <Input v-model.trim="BindMailForm.code" placeholder="请输入邮件验证码"></Input>
@@ -250,6 +250,8 @@
     import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
+    import { ajaxPostUserinfo, ajaxPostChangePhone } from 'src/service/personal'
+
     export default {
         name: 'personal',
         data () {
@@ -287,7 +289,9 @@
                     currentCompanyName:  '北京国信达数据技术有限公司',
                     companyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
                     currentCompanyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
-                    industry: ''
+                    industry: '',
+                    phone: '',
+                    email: ''
                 },
                 edit: {
                     nickname: false,
@@ -561,6 +565,38 @@
                 const self = this;
                 return tools.getDictData(self.genderArr, self.userinfo.gender)
             }
+        },
+        created(){
+            const self = this;
+            ajaxPostUserinfo('421').then(res => {
+                if(res.state === 0){
+                    let userResource = res.data.data;
+                    self.userinfo = {
+                        nickname: 'leon',
+                        currentNickname : 'leon',
+                        gender: 0, // 0，保密；1，男；2，女
+                        currentGender: 0,
+                        birthday: '',
+                        currentBirthday: '',
+                        website: 'www.cindata.cn',
+                        currentWebsite: 'www.cindata.cn',
+                        companyName: '北京国信达数据技术有限公司',
+                        currentCompanyName:  '北京国信达数据技术有限公司',
+                        companyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
+                        currentCompanyProfile: '面向全国提供房地产数据、房地产数据产品及房地产数据分析、房地产评估及咨询、软件开发等综合性服务。',
+                        industry: '',
+                        email: userResource.email,
+                        phone: userResource.telephone
+                    }
+                }
+            })
+
+            ajaxPostChangePhone({
+                "staffId": 421,
+                "phone": "13007126958"
+            }).then(res => {
+                console.log(res, 575)
+            })
         }
     }
 </script>
