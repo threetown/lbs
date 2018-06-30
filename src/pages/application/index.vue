@@ -11,26 +11,31 @@
                     {{Loading.info}}
                 </Spin>
             </div>
-            <div v-if="!Loading.state" class="collapse">
-                <div :class="index === curOpen ? 'panel active' : 'panel'" v-for="(item, index) in appServerData">
-                    <div class="hd">
-                        <Row>
-                            <Col span="5" class="title">
-                                <Icon type="ios-list"></Icon>{{item.appName}}
-                            </Col>
-                            <Col span="5">{{item.createdDt}} 创建</Col>
-                            <Col span="12" class="action">
-                                <Icon type="compose" @click="triggerAppModel(item, index, 'edit')"></Icon>
-                                <Icon type="trash-a" @click="triggerDeleteModel(item, index, 'app')"></Icon>
-                                <Button class="btn-blue" type="ghost" @click="triggerCreateQuotaModal(item,'create')">添加新key</Button>
-                            </Col>
-                            <Col span="2" class="tac arrow"><Icon type="ios-arrow-down" @click="toggleTab(index)"></Icon></Col>
-                        </Row>
-                    </div>
-                    <div class="bd">
-                        <Table border :columns="mapColumns" :data="item.keyInfos" class="custom-table"></Table>
+            <div v-if="!Loading.state">
+                <div class="collapse">
+                    <div :class="index === curOpen ? 'panel active' : 'panel'" v-for="(item, index) in appServerData">
+                        <div class="hd">
+                            <Row>
+                                <Col span="5" class="title">
+                                    <Icon type="ios-list"></Icon>{{item.appName}}
+                                </Col>
+                                <Col span="5">{{item.createdDt}} 创建</Col>
+                                <Col span="12" class="action">
+                                    <Icon type="compose" @click="triggerAppModel(item, index, 'edit')"></Icon>
+                                    <Icon type="trash-a" @click="triggerDeleteModel(item, index, 'app')"></Icon>
+                                    <Button class="btn-blue" type="ghost" @click="triggerCreateQuotaModal(item,'create')">添加新key</Button>
+                                </Col>
+                                <Col span="2" class="tac arrow"><Icon type="ios-arrow-down" @click="toggleTab(index)"></Icon></Col>
+                            </Row>
+                        </div>
+                        <div class="bd">
+                            <Table border :columns="mapColumns" :data="item.keyInfos" class="custom-table"></Table>
+                        </div>
                     </div>
                 </div>
+                <!-- <div class="custom-Page">
+                    <Page :total="Page.total" @on-change="PageChange" show-total></Page>
+                </div> -->
             </div>
         </div>
 
@@ -76,7 +81,7 @@
             class-name="custom-modal vertical-center-modal"
             width="482">
             <Icon type="ios-close-empty" slot="close" @click="closeQuotaFormModal('createQuotaForm')"></Icon>
-            <h2 class="title" slot="header">提升配额</h2>
+            <h2 class="title" slot="header">查看配额</h2>
             <Form :model="createQuotaForm" ref="createQuotaForm" :rules="ruleCreateQuota" :label-width="80" class="custom-form">
                 <FormItem label="key信息" prop="key">
                     <Input v-model="createQuotaForm.key" disabled></Input>
@@ -264,7 +269,12 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     loading: false
                 },
                 serviceTypeResource: [],
-                panelAppType: []
+                panelAppType: [],
+                Page: {
+                    total: 0,
+                    current: 1,
+                    size: 10
+                }
             }
         },
         methods: {
@@ -447,15 +457,24 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             },
             getAppServerList(){
                 const self = this;
-                ajaxPostApp({ "statusCd": 1 }).then(res => {
+                let data = {
+                    "page": this.Page.current, // 当前页码
+                    "rows": this.Page.size, // 每页记录数
+                    "statusCd": 1
+                }
+                ajaxPostApp(data).then(res => {
                     if(res.state === 0){
                         let resource = res.data;
                         self.appServerData = resource.appKeyInfo;
+                        self.Page.total = res.page;
                         self.Loading.state = false;
                     }else{
                         self.Loading.info = res.message;
                     }
                 })
+            },
+            PageChange(page){
+                this.Page.current = page;
             }
         },
         computed: {
