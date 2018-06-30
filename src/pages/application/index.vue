@@ -22,7 +22,7 @@
                             <Col span="12" class="action">
                                 <Icon type="compose" @click="triggerAppModel(item, index, 'edit')"></Icon>
                                 <Icon type="trash-a" @click="triggerDeleteModel(item, index, 'app')"></Icon>
-                                <Button class="btn-blue" type="ghost" @click="triggerCreateQuotaModal">添加新key</Button>
+                                <Button class="btn-blue" type="ghost" @click="triggerCreateQuotaModal(item,'create')">添加新key</Button>
                             </Col>
                             <Col span="2" class="tac arrow"><Icon type="ios-arrow-down" @click="toggleTab(index)"></Icon></Col>
                         </Row>
@@ -55,17 +55,17 @@
             <h2 class="title" slot="header">{{AppModalStatus === 'edit' ? '编辑应用' : '创建应用'}}</h2>
             <Form :model="createAppForm" ref="createAppForm" :rules="ruleCreateApp" :label-width="80" class="custom-form">
                 <FormItem label="应用名称" prop="name">
-                    <Input v-model="createAppForm.name" :placeholder="createAppForm.placeholder.name"></Input>
+                    <Input v-model="createAppForm.name" placeholder="支持汉字/数字/字母/下划线/中划线，不超过15个 "></Input>
                 </FormItem>
                 <FormItem label="应用类型" prop="type">
-                    <Select v-model="createAppForm.type" :placeholder="createAppForm.placeholder.type">
-                        <Option v-for="item in panelServiceType" :value="item.code" :key="item.code">{{ item.name }}</Option>
+                    <Select v-model="createAppForm.type" placeholder="请选择应用类型">
+                        <Option v-for="item in panelAppType" :value="item.code" :key="item.code">{{ item.name }}</Option>
                     </Select>
                 </FormItem>
             </Form>
             <div slot="footer" >
                 <Button type="text" size="large" @click="closeCreateAppModal('createAppForm')">取消</Button>
-                <Button type="primary" size="large" @click.prevent="submitApp('createAppForm')">提交</Button>
+                <Button type="primary" size="large" :loading="createAppForm.loading" @click.prevent="submitApp('createAppForm')">提交</Button>
             </div>
         </Modal> <!-- 创建应用 -->
 
@@ -115,12 +115,12 @@
                 </FormItem>
                 <FormItem label="服务平台" prop="type">
                     <RadioGroup v-model="createKeyForm.type">
-                        <Radio :label="item.type" v-for="item in panelServiceType" :disabled="(editKeyModalStatus === 'edit') ? true : false" >{{item.name}}</Radio>
+                        <Radio :label="item.code" v-for="item in panelServiceType" :disabled="(editKeyModalStatus === 'edit') ? true : false" >{{item.name}}</Radio>
                     </RadioGroup>
                 </FormItem>
                 <FormItem label="可使用服务">
                     <ul class="panelServiceList">
-                        <li v-for="item in panelServiceItems"><a :href="item.url" target="_blank">{{item.name}}</a></li>
+                        <li v-for="item in panelServiceItems"><a :href="item.url" target="_blank">{{item.serviceName}}</a></li>
                     </ul>
                 </FormItem>
                 <FormItem label="ID白名单" prop="desc" class="hasTooltip">
@@ -139,7 +139,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             </Form>
             <div slot="footer">
                 <Button type="text" size="large" @click="closeKeyFormModal('createKeyForm')">取消</Button>
-                <Button type="primary" size="large" @click.prevent="createKey('createKeyForm')">提交</Button>
+                <Button type="primary" size="large" :loading="createKeyForm.loading" :disabled="!createKeyForm.isRead ? true : false" @click.prevent="createKey('createKeyForm')">提交</Button>
             </div>
         </Modal> <!-- 创建新Key -->
     </div>
@@ -149,9 +149,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
     import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
-    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, getPostApp } from 'src/service/application'
-
-    import axios from 'axios'
+    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey, getPostApp } from 'src/service/application'
 
     export default {
         data () {
@@ -187,7 +185,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                                     class: 'items',
                                     on: {
                                         click: () => {
-                                            this.triggerCreateQuotaModal(params, params.index, 'edit')
+                                            this.triggerCreateQuotaModal(params, 'edit')
                                         }
                                     }
                                 }, '编辑'),
@@ -215,10 +213,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 createAppForm: {
                     name: '',
                     type: '',
-                    placeholder: {
-                        name: "支持汉字/数字/字母/下划线/中划线，不超过15个",
-                        type: "请选择应用类型"
-                    }
+                    loading: false
                 },
                 ruleCreateApp: {
                     name: [
@@ -246,11 +241,15 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     name: '',
                     type: '',
                     desc: '',
-                    isRead: true
+                    keyId: '',
+                    isRead: false,
+                    loading: false
                 },
                 ruleCreateKey: {
                     name: [
-                        { required: true, message: "请输入key名称", trigger: 'blur' }
+                        { required: true, message: "请输入key名称", trigger: 'blur' },
+                        { max: 15, message:"最多填入15个字符", trigger: 'blur' },
+                        { pattern:/^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"Key名称只能使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }
                     ],
                     type: [
                         { required: true, message: "请选择服务平台", trigger: 'change' }
@@ -261,7 +260,8 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     type: '',
                     index: ''
                 },
-                panelServiceType: []
+                serviceTypeResource: [],
+                panelAppType: []
             }
         },
         methods: {
@@ -279,39 +279,43 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
-                        let data = {
+                        let params = {
                             "appType": self.createAppForm.type,
                             "appName": self.createAppForm.name,
-                            "appId": self.createAppForm.id
                         }
+                        self.createAppForm.loading = true;
                         if(self.AppModalStatus === 'edit'){
                             // 编辑应用
-                            ajaxUpdateApp(data).then(res => {
-                                self.$Message.success(res.message);
-                            })                            
+                            Object.assign(params,{"appId": self.createAppForm.id})
+                            ajaxUpdateApp(params).then(res => {
+                                if(res.state === 0){
+                                    self.getAppServerList();
+                                    self.closeCreateAppModal(name);
+                                    self.$Message.success(res.message);
+                                }else{
+                                    self.$Message.error(res.message)
+                                }
+                            })
                         }else{
                             // 创建新应用
-                            ajaxCreateApp(data).then(res => {
+                            ajaxCreateApp(params).then(res => {
                                 if(res.state === 0){
-                                    ajaxPostApp({"statusCd": 1}).then(result => {
-                                        if(result.state === 0){
-                                            self.appServerData = result.data.appKeyInfo;
-                                        }
-                                    })
-                                    self.$Message.success('创建成功！');
+                                    self.getAppServerList();
+                                    self.closeCreateAppModal(name);
+                                    self.$Message.success(res.message);
                                 }else{
                                     self.$Message.error(res.message);
                                 }
+                                self.createAppForm.loading = false;
                             })
                         }
-                        self.closeCreateAppModal(name);
                     }
                 })
             },
             triggerAppModel(params, index, type){ // 新建/编辑应用
                 if(type === 'edit'){
-                    this.createAppForm.name = params.name;
-                    this.createAppForm.type = params.type;
+                    this.createAppForm.name = params.appName;
+                    this.createAppForm.type = params.appType;
                     this.createAppForm.id = params.appId;
                 }else{
                     this.createAppForm.id = '';
@@ -337,10 +341,21 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 this.$refs[name].resetFields();
                 this.isOpenQuotaModal = false;
             },
-            triggerCreateQuotaModal(params, index, type){
+            triggerCreateQuotaModal(params, type){
+                console.log(params, 339)
+                const self = this;
                 if(type === 'edit'){
+                    this.createKeyForm.appId = params.row.appId;
                     this.createKeyForm.name = params.row.keyName;
+                    this.createKeyForm.desc = params.row.whitelist;
+                    this.createKeyForm.keyId = params.row.keyId;
+
+                    this.createKeyForm.type = params.row.serviceTypeMajor; // 只用来高亮显示 服务平台
+                }else if(type === 'create'){
+                    this.createKeyForm.appId = params.appId;
+                    this.createKeyForm.type = self.serviceTypeResource[0].code; // 初始化高亮显示 默认取第一个
                 }
+                
                 this.editKeyModalStatus = type;
                 this.isCreateKeyModal = true;
             },
@@ -358,24 +373,70 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 this.$refs[name].resetFields();
                 this.isCreateKeyModal = false;
             },
-            createKey(name){
+            createKey(name){ // 新建/编辑 key
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
-                        // TODO，创建新Key
-                        self.$Message.success('操作成功！');
-                        self.closeKeyFormModal(name);
+                        self.createKeyForm.loading = true;
+                        let params = {
+                            "appId": self.createKeyForm.appId,
+                            "keyName": self.createKeyForm.name,
+                            "whitelist": self.createKeyForm.desc
+                        }
+                        if(self.editKeyModalStatus === 'edit'){
+                            let data = Object.assign(params, { "keyId": self.createKeyForm.keyId })
+                            ajaxUpdateKey(data).then(res => {
+                                if(res.state === 0){
+                                    self.getAppServerList();
+                                    self.closeKeyFormModal(name);
+                                    self.$Message.success(res.message);
+                                }else{
+                                    self.$Message.error(res.message)
+                                }
+                                self.createKeyForm.loading = false;
+                            })
+                        }else if(self.editKeyModalStatus === 'create'){
+                            let data =  Object.assign(params, {
+                                "code": self.createKeyForm.type
+                            })
+                            ajaxCreateKey(data).then(res => {
+                                if(res.state === 0){
+                                    self.getAppServerList();
+                                    self.closeKeyFormModal(name);
+                                    self.$Message.success(res.message);
+                                }else{
+                                     self.$Message.error(res.message);
+                                }
+                                self.createKeyForm.loading = false;
+                            })
+                        }
                     }
                 })
             },
             toggleTab(index){
                 this.curOpen = this.curOpen === index ? '' : index;
+            },
+            getAppServerList(){
+                const self = this;
+                ajaxPostApp({ "statusCd": 1 }).then(res => {
+                    if(res.state === 0){
+                        let resource = res.data;
+                        self.appServerData = resource.appKeyInfo;
+                        self.Loading.state = false;
+                    }else{
+                        self.Loading.info = res.message;
+                    }
+                })
             }
         },
         computed: {
+            panelServiceType(){
+                const self = this;
+                return tools.getRootData(self.serviceTypeResource)
+            },
             panelServiceItems() {
                 const self = this;
-                return tools.getChildrenData(basicConfig.PanelService, self.createKeyForm.type)
+                return tools.getChildrenData(self.serviceTypeResource, self.createKeyForm.type)
             }
         },
         created(){
@@ -386,19 +447,18 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     "statusCd": 1
                 }
             }
-            // 调用 应用类型 和 应用列表接口
-            Promise.all([ajaxAppType(params.type),getPostApp(params.app)]).then(res => {
-                if(res[0].state === 0){
-                    self.panelServiceType = res[0].data.dict;
-                }
+            // 调用 应用列表接口、应用类型 和服务平台接口
+            Promise.all([self.getAppServerList(), ajaxAppType(params.type), ajaxServiceType()]).then(res => {
 
                 if(res[1].state === 0){
-                    let resource = res[1].data;
-                    self.appServerData = resource.appKeyInfo;
-                    self.Loading.state = false;
-                }else{
-                    self.Loading.info = res[1].message;
-                    // self.$Message.error(res[1].message);
+                    self.panelAppType = res[1].data.dict;
+                }
+
+                if(res[2].state === 0){
+                    let result = res[2].data.serviceInfo;
+                    self.serviceTypeResource = result;
+                    // 初始化 createKeyForm.type
+                    self.createKeyForm.type = result[0].code;
                 }
             })
         }
