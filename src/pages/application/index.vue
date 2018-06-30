@@ -37,13 +37,15 @@
         <Modal
             v-model="isOpenDeleteModal"
             class-name="custom-modal custom-warning-modal vertical-center-modal"
-            ok-text="确认"
-            @on-ok="deleteApp"
             width="378">
             <h2 class="title" slot="header">删除{{deleteModelData.type === 'key' ? 'Key' : '应用'}}</h2>
             <div class="content">
                 <h3>您确定要删除{{deleteModelData.type === 'key' ? 'Key' : '应用'}}吗?</h3>
                 <p>{{deleteModelData.type === 'key' ? '该Key删除后将被移至回收站,请您谨慎操作!' : '删除应用会将该应用及其下所有Key移至回收站，请您谨慎操作!'}}</p>
+            </div>
+            <div slot="footer" >
+                <Button type="text" size="large">取消</Button>
+                <Button type="primary" size="large" :loading="deleteModelData.loading" @click.prevent="deleteApp">确认</Button>
             </div>
         </Modal> <!-- 删除 -->
 
@@ -256,9 +258,10 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     ]
                 },
                 deleteModelData: {
-                    id: '',
+                    appId: '',
                     type: '',
-                    index: ''
+                    keyId: '',
+                    loading: false
                 },
                 serviceTypeResource: [],
                 panelAppType: []
@@ -266,14 +269,36 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
         },
         methods: {
             deleteApp(){
-                if(this.deleteModelData.type === 'key'){
-                    // TODO
-                    this.$Message.success('Key删除成功');
-                }else{
-                    // TODO
-                    this.$Message.success('应用删除成功');
+                const self = this;
+                let params = {
+                    "statusCd": 2,
+                    "appId": this.deleteModelData.appId
                 }
-                this.isOpenDeleteModal = false;
+                self.deleteModelData.loading = true;
+                if(this.deleteModelData.type === 'key'){
+                    let data = Object.assign(params, { "keyId": self.deleteModelData.keyId })
+                    ajaxUpdateKey(data).then(res => {
+                        if(res.state === 0){
+                            self.getAppServerList();
+                            self.isOpenDeleteModal = false;
+                            self.$Message.success(res.message)
+                        }else{
+                            self.$Message.error(res.message)
+                        }
+                        self.deleteModelData.loading = false;
+                    })
+                }else{
+                    ajaxUpdateApp(params).then(res => {
+                        if(res.state === 0){
+                            self.getAppServerList();
+                            self.isOpenDeleteModal = false;
+                            self.$Message.success(res.message)
+                        }else{
+                            self.$Message.error(res.message)
+                        }
+                        self.deleteModelData.loading = false;
+                    })
+                }
             },
             submitApp(name){ // 提交-编辑/创建应用
                 const self = this;
@@ -328,9 +353,13 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 this.isOpenCreateAppModal = false;
             },
             triggerDeleteModel(params, index, type){
-                this.deleteModelData.id = params.id;
+                if(type === 'app'){
+                    this.deleteModelData.appId = params.appId;
+                }else if(type === 'key'){
+                    this.deleteModelData.appId = params.row.appId;
+                    this.deleteModelData.keyId = params.row.keyId;
+                }
                 this.deleteModelData.type = type;
-                this.deleteModelData.index = index;
                 this.isOpenDeleteModal = true;
             },
             createItem(params){ // 提升配额
