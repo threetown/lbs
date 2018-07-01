@@ -4,7 +4,7 @@
             <h2 class="title">高额配管分析管理<strong>您可以在这里查看Web服务Key的每日调用量，还可以申请更高的调用次数。</strong></h2>
         </div>
         <div style="margin-bottom: 22px;">
-            <Select size="large" v-model="Analysis.currentType" style="width:420px">
+            <Select size="large" v-model="Analysis.currentType" @on-change="queryQueryList" style="width:420px">
                 <Option v-for="item in Analysis.typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
         </div>
@@ -38,16 +38,16 @@
 </template>
 
 <script>
+    import * as tools from 'src/util/tools'
+    import { ajaxPostQuotaType, ajaxPostQuotaList } from 'src/service/personal'
+
     export default {
         name: 'personal-record',
         data () {
             return {
                 Analysis: {
                     currentType: '3839dc8c17483f15990d9cc6e8cf7de6',
-                    typeList: [
-                        { label: '智慧楼盘-3839dc8c17483f15990d9cc6e8cf7de6', value: '3839dc8c17483f15990d9cc6e8cf7de6' },
-                        { label: '智慧选址-7d8e65345cba571902266131db2f8b03', value: '7d8e65345cba571902266131db2f8b03' }
-                    ],
+                    typeList: [],
                     dateType: [
                         { label: '全部申请', value: '0' },
                         { label: '近三个月申请', value: '3' },
@@ -202,6 +202,55 @@
             closeQuotaFormModal(name){
                 this.$refs[name].resetFields();
                 this.isOpenQuotaModal = false;
+            },
+            init(router){
+                this.getQuotaType(router)
+            },
+            queryQueryList(value){
+                this.Analysis.currentType = value;
+                this.getQuotaList()
+            },
+            getQuotaList(){
+                const self = this;
+                let data = {
+                    keyId: self.quotaKeyId,
+                    staffId: 421
+                }
+                ajaxPostQuotaList(data).then(res => {
+                    if(res.state === 0){
+                        self.recordData = tools.getQuotaList(res.data.data.rows);
+                    }
+                })
+            },
+            getQuotaType(router){
+                const self = this;
+                ajaxPostQuotaType().then(res => {
+                    if(res.state === 0){
+                        self.Analysis.typeList = tools.getQuotaType(res.data.data)
+                        self.Analysis.currentType = router ? router: self.Analysis.typeList[0].value;
+                    }else{
+                        console.error(res.message)
+                    }
+                }).then(rs => {
+                    self.getQuotaList()
+                })
+            }
+        },
+        computed: {
+            quotaKeyId(){
+                const self = this;
+                return tools.getQuotaKeyId(self.Analysis.typeList, self.Analysis.currentType)
+            }
+        },
+        created(){
+            const self = this;
+            this.init(self.$route.query.keyCode)
+        },
+        watch: {
+            '$route' (to, from) {
+                if(to.query){
+                    this.init(to.query.keyCode)
+                }
             }
         }
     }

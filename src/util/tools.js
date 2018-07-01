@@ -64,3 +64,52 @@ export const getDictData = (dataArr, value, type) => {
     }
     return result;
 }
+
+
+export const getQuotaType = (resourceArr) => {
+    // {
+    //     "keyCode": "377716c941154ca6b89e0d54f08569e4",
+    //     "appName": "招行抵押",
+    //     "keyId": 52
+    // }
+    // { label: '智慧楼盘-3839dc8c17483f15990d9cc6e8cf7de6', value: '3839dc8c17483f15990d9cc6e8cf7de6' }
+    let result = [];
+    if(resourceArr && resourceArr instanceof Array){
+        for (let i = 0; i < resourceArr.length; i++) {
+            const item = resourceArr[i];
+            result.push({ 'label': item.appName + '-' + item.keyCode, 'value': item.keyCode, 'id': item.keyId })
+        }
+    }
+    return result;
+}
+
+export const getQuotaList = (resourceArr) => {
+    let result = [];
+    if(resourceArr && resourceArr instanceof Array){
+        for (let i = 0; i < resourceArr.length; i++) {
+            const item = resourceArr[i];
+            result.push({
+                "id": item.serviceId,
+                "type": item.serviceName,
+                "price": item.dailyTotalCnt,
+                "upPrice": item.concurrencyMax,
+                "status": 1,
+                "used": 0,
+                "percent": 0
+            })
+        }
+    }
+    return result;
+}
+
+export const getQuotaKeyId = (resourceArr, keyCode) => {
+    let result = null;
+    if(resourceArr && resourceArr instanceof Array){
+        for (let i = 0; i < resourceArr.length; i++) {
+            if(resourceArr[i].value === keyCode){
+                result = resourceArr[i].id;
+            }
+        }
+    }
+    return result;
+}
