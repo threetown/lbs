@@ -133,3 +133,13 @@ export const getQuotaRecord = (resourceArr) => {
     }
     return result;
 }
+
+export const getAppId = (resourceArr) => {
+    let result = [];
+    if(resourceArr && resourceArr instanceof Array){
+        for (let i = 0; i < resourceArr.length; i++) {
+            result.push(resourceArr[i].appId)
+        }
+    }
+    return result;
+}
