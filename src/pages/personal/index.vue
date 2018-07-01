@@ -34,7 +34,7 @@
                                 <span v-show="!edit.gender" class="editButton" title="修改性别" @click="edit.gender = !edit.gender"><Icon type="compose"></Icon></span>
                                 <div v-show="edit.gender" class="editCtrl">
                                     <RadioGroup v-model="userinfo.currentGender">
-                                        <Radio :label="item.value" v-for="item in genderArr">{{item.label}}</Radio>
+                                        <Radio :label="item.value" v-for="item in genderArr" :key="item.value">{{item.label}}</Radio>
                                     </RadioGroup>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditGender"></Icon>

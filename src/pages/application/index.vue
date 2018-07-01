@@ -122,7 +122,7 @@
                 </FormItem>
                 <FormItem label="服务平台" prop="type">
                     <RadioGroup v-model="createKeyForm.type">
-                        <Radio :label="item.code" v-for="item in panelServiceType" :disabled="(editKeyModalStatus === 'edit') ? true : false" >{{item.name}}</Radio>
+                        <Radio :label="item.code" v-for="item in panelServiceType" :key="item.code" :disabled="(editKeyModalStatus === 'edit') ? true : false" >{{item.name}}</Radio>
                     </RadioGroup>
                 </FormItem>
                 <FormItem label="可使用服务">
