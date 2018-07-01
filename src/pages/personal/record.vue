@@ -5,7 +5,7 @@
         </div>
         <Row style="margin-bottom: 22px;">
             <Col span="16">
-                <Select size="large" v-model="search.currentType" style="width:200px">
+                <Select size="large" v-model="search.currentType" @on-change="changeType" style="width:200px">
                     <Option v-for="item in search.statusType" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
                 <Select size="large" v-model="search.currentDate" style="width:200px">
@@ -18,6 +18,9 @@
 </template>
 
 <script>
+    import { ajaxPostQuotaRecord } from 'src/service/personal';
+    import * as tools from 'src/util/tools'
+
     export default {
         name: 'personal-record',
         data () {
@@ -38,36 +41,12 @@
                     ]
                 },
                 recordColumns: [
-                    {
-                        title: 'Key信息',
-                        key: 'name',
-                        align: 'center'
-                    },
-                    {
-                        title: '接口信息',
-                        key: 'info',
-                        align: 'center'
-                    },
-                    {
-                        title: '提升类型',
-                        key: 'type',
-                        align: 'center'
-                    },
-                    {
-                        title: '当前配额',
-                        key: 'price',
-                        align: 'center'
-                    },
-                    {
-                        title: '申请提升至',
-                        key: 'upPrice',
-                        align: 'center'
-                    },
-                    {
-                        title: '状态',
-                        key: 'status',
-                        align: 'center',
-                        render: (h, params) => {
+                    { title: 'Key信息', key: 'name', align: 'center' },
+                    { title: '接口信息', key: 'info', align: 'center' },
+                    { title: '提升类型', key: 'type', align: 'center' },
+                    { title: '当前配额', key: 'price', align: 'center' },
+                    { title: '申请提升至', key: 'upPrice', align: 'center' },
+                    { title: '状态', key: 'status', align: 'center', render: (h, params) => {
                             let texts = '';
                             let classname = '';
                             if(params.row.status === 1){
@@ -84,55 +63,37 @@
                             ])
                         }
                     },
-                    {
-                        title: '反馈信息',
-                        key: 'desc',
-                        align: 'center'
-                    },
+                    { title: '反馈信息', key: 'desc', align: 'center' }
                 ],
                 recordData: [
-                    {
-                        "id": 1,
-                        "name": 'WWW',
-                        "info": "这是接口信息",
-                        "type": "IP定位",
-                        "price": 2000,
-                        "upPrice": 20000,
-                        "status": 1,
-                        "desc": "提升成功"
-                    },
-                    {
-                        "id": 2,
-                        "name": 'WWW',
-                        "info": "这是接口信息",
-                        "type": "IP定位",
-                        "price": 2000,
-                        "upPrice": 20000,
-                        "status": 1,
-                        "desc": "提升成功"
-                    },
-                    {
-                        "id": 3,
-                        "name": 'WWW',
-                        "info": "这是接口信息",
-                        "type": "IP定位",
-                        "price": 2000,
-                        "upPrice": 20000,
-                        "status": 0,
-                        "desc": "操作异常"
-                    },
-                    {
-                        "id": 4,
-                        "name": 'WWW',
-                        "info": "这是接口信息",
-                        "type": "IP定位",
-                        "price": 2000,
-                        "upPrice": 20000,
-                        "status": 1,
-                        "desc": "提升成功"
-                    }
+                    { "id": 1, "name": 'WWW', "info": "这是接口信息", "type": "IP定位", "price": 2000, "upPrice": 20000, "status": 1, "desc": "提升成功" },
+                    { "id": 3, "name": 'WWW', "info": "这是接口信息", "type": "IP定位", "price": 2000, "upPrice": 20000, "status": 0, "desc": "操作异常" }
                 ]
             }
+        },
+        methods: {
+            changeType(value){
+                this.search.currentType = value;
+                this.getList()
+            },
+            getList(){
+                const self = this;
+                let data = {
+                    statusCd: this.search.currentType,
+                    staffId: 421
+                }
+                ajaxPostQuotaRecord(data).then(res => {
+                    if(res.state === 0){
+                        self.recordData = tools.getQuotaRecord(res.data.data);
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    
+                })
+            }
+        },
+        created(){
+            this.getList()
         }
     }
 </script>
