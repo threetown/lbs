@@ -208,10 +208,14 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                                     class: 'items',
                                     on: {
                                         click: () => {
-                                            this.createItem(params)
+                                            let argu = { keyCode: params.row.keyCode };
+                                            this.$router.push({
+                                                name: 'quota',
+                                                query: argu
+                                            });
                                         }
                                     }
-                                }, '提升配额')
+                                }, '查看配额')
                             ]);
                         }
                     }
