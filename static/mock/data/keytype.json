@@ -1,0 +1,62 @@
+{
+    "data": {
+        "serviceInfo": [
+            {
+                "children": [
+                    {
+                        "serviceId": "2",
+                        "serviceName": "小区接口",
+                        "serviceTypeMajor": "1"
+                    },
+                    {
+                        "serviceId": "3",
+                        "serviceName": "楼栋接口",
+                        "serviceTypeMajor": "1"
+                    },
+                    {
+                        "serviceId": "5",
+                        "serviceName": "户接口",
+                        "serviceTypeMajor": "1"
+                    },
+                    {
+                        "serviceId": "1",
+                        "serviceName": "街道办接口",
+                        "serviceTypeMajor": "1"
+                    },
+                    {
+                        "serviceId": "4",
+                        "serviceName": "单元接口",
+                        "serviceTypeMajor": "1"
+                    }
+                ],
+                "code": "1",
+                "name": "Web服务"
+            },
+            {
+                "children": [
+                    {
+                        "serviceId": "6",
+                        "serviceName": "逆地理编码API",
+                        "serviceTypeMajor": "2"
+                    },
+                    {
+                        "serviceId": "7",
+                        "serviceName": "坐标转换API",
+                        "serviceTypeMajor": "2"
+                    },
+                    {
+                        "serviceId": "8",
+                        "serviceName": "搜索API",
+                        "serviceTypeMajor": "2"
+                    }
+                ],
+                "code": "2",
+                "name": "地图服务"
+            }
+        ]
+    },
+    "message": "success",
+    "page": 2,
+    "state": 0,
+    "success": true
+}
