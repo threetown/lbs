@@ -69,12 +69,22 @@
                 this.$router.push({
                     name: active
                 });
+            },
+            init(){
+                this.active_name = this.$route.name;
+                let relative_path_arr = this.$route.path.split('/');
+                this.open_names = relative_path_arr.length > 1 ?[relative_path_arr[1]] : ['application'];
             }
         },
         created() {
-            this.active_name = this.$route.name;
-            let relative_path_arr = this.$route.path.split('/');
-            this.open_names = relative_path_arr.length > 1 ?[relative_path_arr[1]] : ['application'];
+            this.init()
+        },
+        watch:{
+            '$route' (to, from){
+                if(to.name == 'quota'){
+                    this.open_names = [to.name];
+                }
+            }
         }
     }
 </script>
