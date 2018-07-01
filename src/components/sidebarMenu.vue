@@ -5,7 +5,7 @@
                 <Icon type="ios-paper"></Icon>
                 应用管理
             </template>
-            <MenuItem name="app" key="app">我的应用</MenuItem>
+            <MenuItem name="apps">我的应用</MenuItem>
             <MenuItem name="recyclebin" key="recyclebin">回收站</MenuItem>
         </Submenu>
         <Submenu name="data">

@@ -4,7 +4,7 @@ import Router from 'vue-router'
 const dashboard = r => require.ensure([], () => r(require('../pages/dashboard/index')), 'dashboard')
 
 const application = r => require.ensure([], () => r(require('../pages/application/layout')), 'application')
-const app = r => require.ensure([], () => r(require('../pages/application/')), 'app')
+const apps = r => require.ensure([], () => r(require('../pages/application/')), 'apps')
 const recyclebin = r => require.ensure([], () => r(require('../pages/application/recyclebin')), 'recyclebin')
 
 const data = r => require.ensure([], () => r(require('../pages/data/layout')), 'data')
@@ -51,7 +51,7 @@ const routes = [
           title: '应用管理'
         },
         children: [{
-            path: 'app', name: 'app', component: app,
+            path: 'app', name: 'apps', component: apps,
             meta: {
               title: '我的应用'
             }
