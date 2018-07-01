@@ -49,7 +49,7 @@
                 <p>{{deleteModelData.type === 'key' ? '该Key删除后将被移至回收站,请您谨慎操作!' : '删除应用会将该应用及其下所有Key移至回收站，请您谨慎操作!'}}</p>
             </div>
             <div slot="footer" >
-                <Button type="text" size="large">取消</Button>
+                <Button type="text" size="large" @click="isOpenDeleteModal = !isOpenDeleteModal">取消</Button>
                 <Button type="primary" size="large" :loading="deleteModelData.loading" @click.prevent="deleteApp">确认</Button>
             </div>
         </Modal> <!-- 删除 -->

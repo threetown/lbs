@@ -58,7 +58,7 @@
                 </p>
             </div>
             <div slot="footer" >
-                <Button type="text" size="large">取消</Button>
+                <Button type="text" size="large" @click="isOpenDeleteModal = !isOpenDeleteModal">取消</Button>
                 <Button type="primary" size="large" :loading="deleteModelData.loading" @click.prevent="deleteApp">确认</Button>
             </div>
         </Modal> <!-- 删除 -->
@@ -72,7 +72,7 @@
                 <p>{{Recover.type === 'key' ? 'Key将恢复到您地图选址应用下,并即时生效，您确定恢复Key么?' : '恢复应用的同时该应用内的Key也将恢复，您确定恢复么?'}}</p>
             </div>
             <div slot="footer" >
-                <Button type="text" size="large">取消</Button>
+                <Button type="text" size="large" @click="Recover.modal = !Recover.modal">取消</Button>
                 <Button type="primary" size="large" :loading="Recover.loading" @click.prevent="RecoverApp">确认</Button>
             </div>
         </Modal> <!-- 恢复 -->
