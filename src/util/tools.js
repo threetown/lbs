@@ -113,3 +113,23 @@ export const getQuotaKeyId = (resourceArr, keyCode) => {
     }
     return result;
 }
+
+export const getQuotaRecord = (resourceArr) => {
+    let result = [];
+    if(resourceArr && resourceArr instanceof Array){
+        for (let i = 0; i < resourceArr.length; i++) {
+            const item = resourceArr[i];
+            result.push({
+                "id": item.logId,
+                "name": 'WWW',
+                "info": "这是接口信息",
+                "type": "IP定位",
+                "price": 2000,
+                "upPrice": 20000,
+                "status": 0,
+                "desc": item.remark
+            })
+        }
+    }
+    return result;
+}
