@@ -28,7 +28,7 @@
                                 <Col span="2" class="tac arrow"><Icon type="ios-arrow-down" @click="toggleTab(index)"></Icon></Col>
                             </Row>
                         </div>
-                        <div class="bd">
+                        <div class="bd" v-if="index === curOpen ? true : false">
                             <Table border :columns="mapColumns" :data="item.keyInfos" class="custom-table"></Table>
                         </div>
                     </div>
@@ -590,7 +590,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 }
             }
             .bd{
-                display: none;
+                // display: none;
             }
             &.active{
                 .arrow{
