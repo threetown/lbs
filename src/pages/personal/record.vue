@@ -49,13 +49,12 @@
                     { title: '状态', key: 'status', align: 'center', render: (h, params) => {
                             let texts = '';
                             let classname = '';
-                            if(params.row.status === 1){
-                                texts = '成功'
-                                classname = 'status-success'
-                            }else if(params.row.status === 0){
-                                texts = '失败'
+                            if(params.row.status === '未通过'){
                                 classname = 'status-error'
+                            }else{
+                                classname = 'status-success'
                             }
+                            texts = params.row.status;
                             return h('div',{},[
                                 h('span', {
                                     class: classname,
@@ -65,10 +64,7 @@
                     },
                     { title: '反馈信息', key: 'desc', align: 'center' }
                 ],
-                recordData: [
-                    { "id": 1, "name": 'WWW', "info": "这是接口信息", "type": "IP定位", "price": 2000, "upPrice": 20000, "status": 1, "desc": "提升成功" },
-                    { "id": 3, "name": 'WWW', "info": "这是接口信息", "type": "IP定位", "price": 2000, "upPrice": 20000, "status": 0, "desc": "操作异常" }
-                ]
+                recordData: []
             }
         },
         methods: {

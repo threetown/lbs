@@ -112,13 +112,12 @@
                         render: (h, params) => {
                             let texts = '';
                             let classname = '';
-                            if(params.row.status === 1){
-                                texts = '正常'
+                            if(params.row.status === '正常'){
                                 classname = 'status-success'
-                            }else if(params.row.status === 0){
-                                texts = '异常'
+                            }else{
                                 classname = 'status-error'
                             }
+                            texts = params.row.status;
                             return h('div',{},[
                                 h('span', {
                                     class: classname,
@@ -147,38 +146,7 @@
                         }
                     },
                 ],
-                recordData: [
-                    {
-                        "id": 1,
-                        "type": "IP定位",
-                        "info": "这是接口信息",
-                        "price": 3000,
-                        "upPrice": 2000,
-                        "status": 1,
-                        "used": 500,
-                        "percent": 25
-                    },
-                    {
-                        "id": 2,
-                        "type": "IP定位",
-                        "info": "这是接口信息",
-                        "price": 3000,
-                        "upPrice": 2000,
-                        "status": 1,
-                        "used": 2000,
-                        "percent": 100
-                    },
-                    {
-                        "id": 2,
-                        "type": "IP定位",
-                        "info": "这是接口信息",
-                        "price": 3000,
-                        "upPrice": 2000,
-                        "status": 0,
-                        "used": 0,
-                        "percent": 0
-                    }
-                ],
+                recordData: [],
                 isOpenQuotaModal: false,
                 createQuotaForm: {
                     username: '',

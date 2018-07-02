@@ -81,7 +81,7 @@
 
 <script>
     import * as tools from 'src/util/tools'
-    import { ajaxPostApp, ajaxUpdateApp, ajaxUpdateKey } from 'src/service/application'
+    import { ajaxPostApp, ajaxUpdateApp, ajaxUpdateKey, ajaxDeleteApp, ajaxDeleteKey } from 'src/service/application'
 
     export default {
         data () {
@@ -101,7 +101,7 @@
                         title: '操作',
                         key: 'action',
                         align: 'center',
-                        width: 120,
+                        width: 150,
                         render: (h, params) => {
                             return h('div',
                             {class: 'action-group'},
@@ -170,7 +170,7 @@
                 self.deleteModelData.loading = true;
                 if(this.deleteModelData.type === 'key'){
                     let data = Object.assign(params, { "keyId": self.deleteModelData.keyId })
-                    ajaxUpdateKey(data).then(res => {
+                    ajaxDeleteKey(data).then(res => {
                         if(res.state === 0){
                             self.getAppServerList();
                             self.isOpenDeleteModal = false;
@@ -181,7 +181,7 @@
                         self.deleteModelData.loading = false;
                     })
                 }else if(this.deleteModelData.type === 'clearAll'){
-                    ajaxUpdateApp({
+                    ajaxDeleteApp({
                         "statusCd": self.statusCd,
                         "appIds": self.deleteModelData.appId
                     }).then(res => {
@@ -195,7 +195,7 @@
                         self.deleteModelData.loading = false;
                     })
                 }else{
-                    ajaxUpdateApp(params).then(res => {
+                    ajaxDeleteApp(params).then(res => {
                         if(res.state === 0){
                             self.getAppServerList();
                             self.isOpenDeleteModal = false;

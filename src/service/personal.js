@@ -20,3 +20,6 @@ export const ajaxPostQuotaList = (data) => fetch( {url: '/center/user/getRelStaf
 
 // 配额申请记录
 export const ajaxPostQuotaRecord = (data) => fetch( {url: '/center/user/applyRelStaffKey', method: 'post', data})
+
+// 提升配额
+export const ajaxPostUpQuota = (data) => fetch({ url: '/center/logOperStaffService/insert', method: 'post', data })

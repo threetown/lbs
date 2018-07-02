@@ -12,8 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/center': {
+        target: 'http://10.202.1.237:11002',
         // target: 'http://10.202.1.236:11002',
-        target: 'http://192.168.50.36:11002',
+        // target: 'http://192.168.50.36:11002',
+        // target: 'http://testconsole.cindata.cn',
         pathRewrite: {
           '^/center': '/center'
         }

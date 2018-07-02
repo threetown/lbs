@@ -84,6 +84,7 @@ export const getQuotaType = (resourceArr) => {
 }
 
 export const getQuotaList = (resourceArr) => {
+    console.log(resourceArr, 87)
     let result = [];
     if(resourceArr && resourceArr instanceof Array){
         for (let i = 0; i < resourceArr.length; i++) {
@@ -123,13 +124,13 @@ export const getQuotaRecord = (resourceArr) => {
             const item = resourceArr[i];
             result.push({
                 "id": item.logId,
-                "name": 'WWW',
+                "name": item.keyName,
                 "info": "这是接口信息",
-                "type": "IP定位",
-                "price": 2000,
-                "upPrice": 20000,
-                "status": 0,
-                "desc": item.remark
+                "type": item.limittype,
+                "price": item.currentLimit ? item.currentLimit: 0,
+                "upPrice": item.newLimit? item.newLimit : 0,
+                "status": item.aprovalStatusCd,
+                "desc": item.remark ? item.remark : '-'
             })
         }
     }
