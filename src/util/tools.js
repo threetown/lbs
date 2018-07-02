@@ -93,9 +93,11 @@ export const getQuotaList = (resourceArr) => {
                 "type": item.serviceName,
                 "price": item.dailyTotalCnt,
                 "upPrice": item.concurrencyMax,
-                "status": 1,
-                "used": 0,
-                "percent": 0
+                "status": item.statusCd,
+                "used": item.alreadyUse ? item.alreadyUse : 0,
+                "percent": item.ratio ? item.percent : 0,
+                "keyId": item.keyId,
+                "serviceId": item.serviceId
             })
         }
     }

@@ -16,7 +16,7 @@
             class-name="custom-modal vertical-center-modal"
             width="482">
             <Icon type="ios-close-empty" slot="close" @click="closeQuotaFormModal('createQuotaForm')"></Icon>
-            <h2 class="title" slot="header">提升配额</h2>
+            <h2 class="title" slot="header">提升配额d</h2>
             <Form :model="createQuotaForm" ref="createQuotaForm" :rules="ruleCreateQuota" :label-width="80" class="custom-form">
                 <FormItem label="您的姓名" prop="username">
                     <Input v-model="createQuotaForm.username" placeholder="请输入您的姓名"></Input>
@@ -31,7 +31,7 @@
             </Form>
             <div slot="footer" >
                 <Button type="text" size="large" @click="closeQuotaFormModal('createQuotaForm')">取消</Button>
-                <Button type="primary" size="large" @click.prevent="createQuota('createQuotaForm')">提交</Button>
+                <Button type="primary" size="large" :loading="createQuotaForm.loading" @click.prevent="createQuota('createQuotaForm')">提交</Button>
             </div>
         </Modal> <!-- 提升配额 -->
     </div>
@@ -39,14 +39,14 @@
 
 <script>
     import * as tools from 'src/util/tools'
-    import { ajaxPostQuotaType, ajaxPostQuotaList } from 'src/service/personal'
+    import { ajaxPostQuotaType, ajaxPostQuotaList, ajaxPostUpQuota } from 'src/service/personal'
 
     export default {
         name: 'personal-record',
         data () {
             return {
                 Analysis: {
-                    currentType: '3839dc8c17483f15990d9cc6e8cf7de6',
+                    currentType: '',
                     typeList: [],
                     dateType: [
                         { label: '全部申请', value: '0' },
@@ -183,14 +183,18 @@
                 createQuotaForm: {
                     username: '',
                     phone: '',
-                    desc: ''
+                    desc: '',
+                    keyId: '',
+                    serviceId: '',
+                    loading: false
                 },
                 ruleCreateQuota: {
                     username: [
                         { required: true,  message: "请填写您的姓名", trigger: 'blur' },
                     ],
                     phone: [
-                        { required: true, message: "请填写联系方式", trigger: 'blur' }
+                        { required: true, message: "请填写联系方式", trigger: 'blur' },
+                        { pattern: /^((1[3-8][0-9])+\d{8})$/, message: '请填写正确的手机号码' }
                     ]
                 }
             }
@@ -198,10 +202,36 @@
         methods: {
             triggerQuotaModal(params) {
                 this.isOpenQuotaModal = true;
+                this.createQuotaForm.keyId = params.row.keyId
+                this.createQuotaForm.serviceId = params.row.serviceId
             },
             closeQuotaFormModal(name){
                 this.$refs[name].resetFields();
                 this.isOpenQuotaModal = false;
+            },
+            createQuota(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        self.createQuotaForm.loading = true;
+                        let data = {
+                            contact: self.createQuotaForm.username,
+                            contactTel: self.createQuotaForm.phone,
+                            remark: self.createQuotaForm.desc,
+                            keyId: self.createQuotaForm.keyId,
+                            serviceId: self.createQuotaForm.serviceId
+                        }
+                        ajaxPostUpQuota(data).then(res => {
+                            if(res.state === 0){
+                                self.closeQuotaFormModal(name);
+                                self.$Message.success(res.message)
+                            }else{
+                                self.$Message.error(res.message)
+                            }
+                            self.createQuotaForm.loading = false
+                        })
+                    }
+                })
             },
             init(router){
                 this.getQuotaType(router)
