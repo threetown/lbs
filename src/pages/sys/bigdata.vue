@@ -1,9 +1,10 @@
 <template>
     <div class="fullscreen" ref="fullscree">
-        <Button type="primary" class="triggerFullscree" @click="fullScreen" v-show="!fullscree.status"><Icon type="arrow-expand"></Icon>进入全屏</Button>
-        <Button type="primary" class="triggerFullscree" @click="exitFull" v-show="fullscree.status"><Icon type="arrow-expand"></Icon>退出全屏</Button>
-        
-            <img src="~assets/img/bigdata.png" style="max-width: 100%;" />
+        <div class="button-group">
+            <Button type="primary" class="triggerFullscree" @click="fullScreen" v-show="!fullscree.status"><Icon type="arrow-expand"></Icon>进入全屏</Button>
+            <Button type="primary" class="triggerFullscree" @click="exitFull" v-show="fullscree.status"><Icon type="arrow-expand"></Icon>退出全屏</Button>
+        </div>
+        <img src="~assets/img/bigdata.png" style="max-width: 100%;" />
     </div>
 </template>
 
@@ -65,17 +66,29 @@ export default {
         position: relative;
         height: 100%;
         background: #111213;
-    }
-    .triggerFullscree{
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        z-index: 10;
-        font-size: 12px;
-        i{
-            font-size: 20px;
-            margin-right: 5px;
-            vertical-align: top;
+        .button-group{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 10;
+            font-size: 12px;
+            width: 100px;
+            height: 34px;
+            .triggerFullscree{
+                display: none;
+                i{
+                    font-size: 20px;
+                    margin-right: 5px;
+                    vertical-align: top;
+                }
+            }
+            
+            &:hover{
+                .triggerFullscree{
+                    display: block;
+                }
+            }
         }
     }
+    
 </style>

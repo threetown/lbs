@@ -13,6 +13,7 @@ const mydata = r => require.ensure([], () => r(require('../pages/data/mydata')),
 
 
 const sys = r => require.ensure([], () => r(require('../pages/sys/layout')), 'sys')
+const bigdata = r => require.ensure([], () => r(require('../pages/sys/bigdata')), 'bigdata')
 const scree = r => require.ensure([], () => r(require('../pages/sys/scree')), 'scree')
 const business = r => require.ensure([], () => r(require('../pages/sys/business')), 'business')
 const service = r => require.ensure([], () => r(require('../pages/sys/service')), 'service')
@@ -83,6 +84,11 @@ const routes = [
           title: '系统监控'
         },
         children: [{
+          path: 'bigdata', name: 'bigdata', component: bigdata,
+          meta: {
+            title: '大屏监控'
+          }
+        },{
           path: 'scree', name: 'scree', component: scree,
           meta: {
             title: '数据总览'
