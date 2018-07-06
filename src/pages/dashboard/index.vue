@@ -2,7 +2,7 @@
   <div class="dashboard">
     <div class="layoutHeader">
       <div class="xtJbHcb">
-        <div class="Logo"><a href=""></a></div>
+        <div class="Logo"><a href="/"></a></div>
         <div class="headerApps">
           <span>消息（5）</span>
           <span class="split"></span>
@@ -30,6 +30,8 @@
 
 <script>
   import sidebarMenu from "@/components/sidebarMenu";
+  import { ajaxPostLogout } from 'src/service/personal'
+
 
   export default {
     name: 'dashboard',
@@ -50,10 +52,24 @@
     },
     methods: {
       handleClickUserDropdown(name){
+        const self = this;
         if (name === "setting") {
-          console.log('setting')
+          this.$router.push({ name: 'info' });
         } else if (name === "logout") {
-          console.log('logout')
+          this.$Modal.confirm({
+            title: '操作提示',
+            content: '<p style="font-size: 14px;">确定要删除吗？</p>',
+            loading: true,
+            className: 'custom-modal vertical-center-modal',
+            onOk: () => {
+              ajaxPostLogout().then(res => {
+                console.log(res)
+              })
+              self.$Message.success('退出成功了呢！')
+              // TODO
+            }
+        });
+          
         }
       }
     }
@@ -158,10 +174,13 @@
         font-size: 14px;
         margin-left: 12px;
         .menu{
-          padding: 12px;
+          padding: 12px 0;
           li{
             font-size: 14px!important;
             text-align: left;
+            a{
+              color: #495060;
+            }
           }
           
         }

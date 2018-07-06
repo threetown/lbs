@@ -21,6 +21,7 @@
                 <Icon type="stats-bars"></Icon>
                 系统监控
             </template>
+            <MenuItem name="bigdata">大屏监控</MenuItem>
             <MenuItem name="scree">数据总览</MenuItem>
             <MenuItem name="business">业务管理</MenuItem>
             <MenuItem name="service">服务管理</MenuItem>

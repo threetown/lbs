@@ -1,8 +1,8 @@
 <template>
     <div class="fullscreen" ref="fullscree">
         <div class="button-group">
-            <Button type="primary" class="triggerFullscree" @click="fullScreen" v-show="!fullscree.status"><Icon type="arrow-expand"></Icon>进入全屏</Button>
-            <Button type="primary" class="triggerFullscree" @click="exitFull" v-show="fullscree.status"><Icon type="arrow-expand"></Icon>退出全屏</Button>
+            <Button type="primary" class="triggerFullscree" @click="fullScreen" v-show="!fullscree.status"><Icon type="arrow-expand"></Icon></Button>
+            <Button type="primary" class="triggerFullscree" @click="exitFull" v-show="fullscree.status"><Icon type="arrow-expand"></Icon></Button>
         </div>
         <img src="~assets/img/bigdata.png" style="max-width: 100%;" />
     </div>

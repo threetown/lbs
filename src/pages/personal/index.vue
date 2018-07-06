@@ -30,7 +30,7 @@
                         <dl class="basicInfo">
                             <dt>性别</dt>
                             <dd>
-                                <span v-show="!edit.gender">{{labelGender}}</span>
+                                <span v-show="!edit.gender">{{labelGender ? labelGender : '保密'}}</span>
                                 <span v-show="!edit.gender" class="editButton" title="修改性别" @click="edit.gender = !edit.gender"><Icon type="compose"></Icon></span>
                                 <div v-show="edit.gender" class="editCtrl">
                                     <RadioGroup v-model="userinfo.currentGender">
@@ -589,7 +589,7 @@
             },
             setUserInfo(){
                 const self = this;
-                ajaxPostUserinfo('421').then(res => {
+                ajaxPostUserinfo().then(res => {
                     if(res.state === 0){
                         let userResource = res.data.data;
                         self.userinfo = {

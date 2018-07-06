@@ -211,8 +211,7 @@
             getQuotaList(){
                 const self = this;
                 let data = {
-                    keyId: self.quotaKeyId,
-                    staffId: 421
+                    keyId: self.quotaKeyId
                 }
                 ajaxPostQuotaList(data).then(res => {
                     if(res.state === 0){

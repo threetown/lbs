@@ -75,8 +75,7 @@
             getList(){
                 const self = this;
                 let data = {
-                    statusCd: this.search.currentType,
-                    staffId: 421
+                    statusCd: this.search.currentType
                 }
                 ajaxPostQuotaRecord(data).then(res => {
                     if(res.state === 0){

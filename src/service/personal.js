@@ -3,6 +3,9 @@ import fetch from 'src/util/fetch';
 // 用户信息
 export const ajaxPostUserinfo = (params) => fetch({ url: '/center/user/getUserInfo/'+params, method: 'post' })
 
+// 用户登出
+export const ajaxPostLogout = () => fetch({ url: '/api/amp/client/logout', method: 'post' })
+
 // 修改手机号
 export const ajaxPostChangePhone = (data) => fetch({ url: '/center/user/changePhone', method: 'post', data})
 
