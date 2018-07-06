@@ -19,6 +19,7 @@ fetch.interceptors.request.use(config => {
     // config.headers['Authorization'] = 'token-XXXX-XXXX-XXX-XXXX';
     config.headers['Content-type'] = 'application/json'; // 指定资源的MIME类型，默认为：'application/json;charset=UTF-8'
     config.headers["X-Requested-With"] = "XMLHttpRequest";
+    config.withCredentials = true;
     return config;
 }, error => {
     return Promise.reject(error);
