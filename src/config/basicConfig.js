@@ -44,7 +44,12 @@ let gender = [
     { label: '保密', value: 0 }
 ]
 
+let url = {
+    home: 'http://testlbs.cindata.cn/gxdyun'
+}
+
 export {
     PanelService,
-    gender
+    gender,
+    url
 }
