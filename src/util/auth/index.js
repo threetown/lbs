@@ -12,9 +12,7 @@ auth.initRouter = function (vm) {
     const otherRouter = [{
         path: '/*',
         name: 'error-404',
-        meta: {
-            title: '404-页面不存在'
-        },
+        title: '404-页面不存在',
         component: 'error/404'
     }];
     // 模拟异步请求

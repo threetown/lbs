@@ -1,7 +1,7 @@
 import fetch from 'src/util/fetch';
 
 // 用户信息
-export const ajaxPostUserinfo = (params) => fetch({ url: '/center/user/getUserInfo/'+params, method: 'post' })
+export const ajaxPostUserinfo = () => fetch({ url: '/center/user/getUserInfo/', method: 'post' })
 
 // 用户登出
 export const ajaxPostLogout = () => fetch({ url: '/api/amp/client/logout', method: 'post' })

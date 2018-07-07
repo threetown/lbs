@@ -1,6 +1,6 @@
 <template>
     <div class="page-error">
-        <img src="~assets/img/error/404.jpg" alt="">
+        <img src="~assets/img/error/404.jpg" alt="400-页面不存在"><br>
         <Button type="primary" size="large" @click="goHome">返回首页</Button>
     </div>
 </template>
