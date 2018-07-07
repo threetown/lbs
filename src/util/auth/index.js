@@ -16,7 +16,8 @@ auth.initRouter = function (vm) {
         component: 'error/404'
     }];
     // 模拟异步请求
-    fetch({ url: '/static/mock/data/menu.json', method: 'get' }).then(res => {
+    // fetch({ url: '/static/mock/data/menu.json', method: 'get' }).then(res => {
+    fetch({ url: '/center/user/getAmpAuthByCondition', method: 'post' }).then(res => {
         let data = res.data;
         auth.initRouterNode(constRoutes, data.allAmpAuth);
         auth.initRouterNode(otherRoutes, otherRouter);

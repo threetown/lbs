@@ -2,11 +2,11 @@
     <Menu :active-name="activeName" :theme="theme" :open-names="openNames"  @on-select="changeMenu" width="200px">
         <template v-for="item in MenuList">
             <MenuItem v-if="item.children.length<=1" :name="item.children[0].name" :key="item.path">
-                <Icon :type="item.icon" :key="item.icon"></Icon> {{item.title}}
+                <i class="iconfont" :class="item.meta.icon"></i> {{item.title}}
             </MenuItem>
             <Submenu v-if="item.children.length > 1" :name="item.name" :key="item.path">
                 <template slot="title">
-                    <Icon :type="item.icon"></Icon> {{item.title}}
+                    <i class="iconfont" :class="item.meta.icon"></i>{{item.title}}
                 </template>
                 <template v-for="child in item.children">
                     <MenuItem :name="child.name" :key="child.name">{{ child.title }}</MenuItem>

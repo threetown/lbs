@@ -73,19 +73,14 @@
         const self = this;
         if (name === "logout") {
           this.$Modal.confirm({
-            title: '操作提示',
-            content: '<p style="font-size: 14px;">确定要删除吗？</p>',
-            loading: true,
-            className: 'custom-modal vertical-center-modal',
-            onOk: () => {
-              ajaxPostLogout().then(res => {
-                console.log(res)
-              })
-              self.$Message.success('退出成功了呢！')
-              // TODO
-            }
-        });
-          
+              title: '操作提示',
+              content: '<p style="font-size: 14px;">确定要退出吗？</p>',
+              loading: true,
+              className: 'custom-modal vertical-center-modal',
+              onOk: () => {
+                window.location = 'http://testlbs.cindata.cn/amp/client/logout';
+              }
+          });
         }
       },
       goHome(){
