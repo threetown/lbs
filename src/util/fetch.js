@@ -1,4 +1,5 @@
 import axios from 'axios';
+let qs = require('qs');
 
 if (process.env.NODE_ENV == 'development') {
     axios.defaults.baseURL = '';
@@ -17,7 +18,8 @@ const fetch = axios.create({
 fetch.interceptors.request.use(config => {
     // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
     // config.headers['Authorization'] = 'token-XXXX-XXXX-XXX-XXXX';
-    config.headers['Content-type'] = 'application/json'; // 指定资源的MIME类型，默认为：'application/json;charset=UTF-8'
+    config.headers['Content-type'] = config.headers['Content-type'] ? config.headers['Content-type'] : 'application/json'; // 指定资源的MIME类型，默认为：'application/json;charset=UTF-8'
+    config.data = config.headers['Content-type'] === 'application/x-www-form-urlencoded' ? qs.stringify(config.data) : config.data;
     config.headers["X-Requested-With"] = "XMLHttpRequest";
     config.withCredentials = true;
     return config;
