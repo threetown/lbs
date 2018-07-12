@@ -3,58 +3,21 @@
         <Row :gutter="16" class="mb-12">
             <Col span="12">
                 <Row type="flex" justify="space-between" class="countPanel">
-                    <Col>
-                        <div class="dataPanel type-wait">
-                            <Icon type="ios-speedometer-outline"></Icon>
+                    <Col v-for="items in overviewService" :key="items.type">
+                        <div :class="'dataPanel '+ items.type">
+                            <i :class="'iconfont '+ items.icon"></i>
                             <div class="data">
-                                <div class="num">88</div>
-                                <div class="tips">待处理业务</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col>
-                        <div class="dataPanel type-error">
-                            <Icon type="ios-information-outline"></Icon>
-                            <div class="data">
-                                <div class="num">88</div>
-                                <div class="tips">异常服务</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col>
-                        <div class="dataPanel type-warning">
-                            <Icon type="flash-off"></Icon>
-                            <div class="data">
-                                <div class="num">88</div>
-                                <div class="tips">预警业务</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col>
-                        <div class="dataPanel type-error">
-                            <Icon type="ios-person"></Icon>
-                            <div class="data">
-                                <div class="num">88</div>
-                                <div class="tips">异常用户</div>
+                                <div class="num">{{items.value}}</div>
+                                <div class="tips">{{items.name}}</div>
                             </div>
                         </div>
                     </Col>
                 </Row>
                 <ul class="todayData">
-                    <li>
-                        今日访问次数-PV
-                        <span class="num">26388</span>
-                        <span class="info">昨日同比 ↑ 1%</span>
-                    </li>
-                    <li>
-                        今日访问用户-UV
-                        <span class="num">13938</span>
-                        <span class="info">昨日同比 ↑ 1%</span>
-                    </li>
-                    <li>
-                        昨日新增用户
-                        <span class="num">26388</span>
-                        <span class="info">昨日同比 ↑ 1%</span>
+                    <li v-for="items in overviewAccess">
+                        <span class="name">{{items.name}}</span>
+                        <span class="num">{{items.value}}</span>
+                        <span class="info">昨日同比 <i class="iconfont" :class="(items.percent < 0) ? 'icon-fall' : 'icon-rise'"></i>{{Math.abs(items.percent)}}%</span>
                     </li>
                 </ul>
             </Col>
@@ -65,11 +28,7 @@
                     </div>
                     <div class="mormal-block-bd">
                         <ul class="dynamic-list">
-                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">刚刚</span></li>
-                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">15:30:26</span></li>
-                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">昨天 15:30:26</span></li>
-                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">06-08  15:30:26</span></li>
-                            <li><b class="t-blank">俊哥哥</b>申请了提升<b class="t-blank">IP定位</b>配额。<span class="date">06-28  15:30:26</span></li>
+                            <li v-for="items in callLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
                         </ul>
                     </div>
                 </div>
@@ -83,38 +42,33 @@
             <Row class="safeSetting">
                 <Col span="12">&nbsp;</Col>
                 <Col span="12">
-                    <Select v-model="defaultDate" size="large" style="width:120px;float: right;">
-                        <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    <Select v-model="echarts.business.select" @on-change="selectBusinessAnalysis" size="large" style="width:120px;float: right;">
+                        <Option v-for="item in selectTimeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </Col>
             </Row>
             <div class="content">
                 <div class="business-analysis" style="height: 100%">
-                    <div id="business-analysis-echarts" class="echarts" style="height: 100%"></div>
+                    <leon-area-line-echart :id="echarts.business.id" :option="echarts.business.option"></leon-area-line-echart>
                 </div>
             </div>
         </div>
 
         <div class="full-echart-panel mb-12">
             <div class="header">
-                <h2 class="title">流量分析 <strong>每日业务总量分析</strong></h2>
+                <h2 class="title">流量分析 <strong>每日流量总量分析</strong></h2>
             </div>
             <Row class="safeSetting">
+                <Col span="12">&nbsp;</Col>
                 <Col span="12">
-                    <RadioGroup v-model="defaultType" type="button" size="large">
-                        <Radio label="访问次数"></Radio>
-                        <Radio label="访问人数"></Radio>
-                    </RadioGroup>
-                </Col>
-                <Col span="12">
-                    <Select v-model="defaultDate" size="large" style="width:120px;float: right;">
-                        <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    <Select v-model="echarts.flow.select" @on-change="selectFlowAnalysis" size="large" style="width:120px;float: right;">
+                        <Option v-for="item in selectTimeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </Col>
             </Row>
             <div class="content">
                 <div class="flow-analysis" style="height: 100%">
-                    <div id="flow-analysis-echarts" class="echarts" style="height: 100%"></div>
+                    <leon-area-line-echart :id="echarts.flow.id" :option="echarts.flow.option"></leon-area-line-echart>
                 </div>
             </div>
         </div>
@@ -126,66 +80,153 @@
             <Row class="safeSetting">
                 <Col span="12">&nbsp;</Col>
                 <Col span="12">
-                    <Select v-model="defaultDate" size="large" style="width:120px;float: right;">
-                        <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    <Select v-model="echarts.userLog.select" @on-change="selectUserLogAnalysis" size="large" style="width:120px;float: right;">
+                        <Option v-for="item in selectTimeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </Col>
             </Row>
             <div class="content">
                 <div class="user-analysis" style="height: 100%">
-                    <div id="user-analysis-echarts" class="echarts" style="height: 100%"></div>
+                    <leon-line-echart :id="echarts.userLog.id" :option="echarts.userLog.option"></leon-line-echart>
                 </div>
             </div>
         </div>
+
+        <div class="triggerButton">大屏<br>展示</div>
     </div>
 </template>
 
 <script>
-    import echarts from "echarts";
-    import echartsConfig from "src/config/echartsConfig";
+    import { selectTimeDict } from "src/config/basicConfig"
+    import { ajaxGetServiceOverview, ajaxGetAccessOverview, ajaxGetServiceLogCount, ajaxGetAccessLogCount, ajaxGetUserLogCount, ajaxGetCallLog } from 'src/service/sys'
+    import * as method from 'src/util/sys/'
+
+    import leonAreaLineEchart from "components/echarts/leon-area-line-chart";
+    import leonLineEchart from "components/echarts/leon-line-chart";
+
 
     export default {
         name: 'sys-scree',
+        components: {
+            leonAreaLineEchart,
+            leonLineEchart
+        },
         data() {
             return {
-                defaultDate: '30',
-                defaultType: '访问次数',
-                dateList: [
-                    { label: '近30天', value: '30' },
-                    { label: '近一周', value: '7' },
-                    { label: '今天', value: '1'}
-                ]
+                selectTimeDict,
+                overviewService: [],
+                overviewAccess: [],
+                echarts:{
+                    business: {
+                        select: 'todayOfHours',
+                        id: 'business-analysis-echarts',
+                        option: {},
+                        style: ''
+                    },
+                    flow: {
+                        select: 'todayOfHours',
+                        id: 'flow-analysis-echarts',
+                        option: {},
+                        style: ''
+                    },
+                    userLog: {
+                        select: 'todayOfHours',
+                        id: 'userLog-analysis-echarts',
+                        option: {},
+                        style: ''
+                    }
+                },
+                callLog: []
             }
         },
         methods: {
-            setCharts(){
-                this.myChart = echarts.init(document.getElementById('business-analysis-echarts'));
-                let option = echartsConfig.lineAreaChartOptions()
-                if (option && typeof option === "object") {
-                    this.myChart.setOption(option);
-                }
-
-                this.myFlowChart = echarts.init(document.getElementById('flow-analysis-echarts'));
-                let flowOption = echartsConfig.lineAreaChartOptions()
-                if (flowOption && typeof flowOption === "object") {
-                    this.myFlowChart.setOption(flowOption);
-                }
-
-                this.myUserChart = echarts.init(document.getElementById('user-analysis-echarts'));
-                let userOption = echartsConfig.lineChartOptions()
-                if (userOption && typeof userOption === "object") {
-                    this.myUserChart.setOption(userOption);
-                }
+            getCallLog(){
+                const self = this;
+                ajaxGetCallLog().then(res => {
+                    if(res.state === 0){
+                        self.callLog = res.data.data;
+                    }
+                })
+            },
+            selectUserLogAnalysis(){
+                const self = this;
+                let params = this.echarts.userLog.select;
+                this.getUserLogCount(params, function(value){
+                    self.echarts.userLog.option = method.convertUserLineAreaEchartData(value);
+                })
+            },
+            getUserLogCount(params, callback){
+                ajaxGetUserLogCount(params).then(res => {
+                    if(res.state === 0){
+                        if(callback && typeof callback === "function"){
+                            callback(res.data.countList)
+                        }
+                    }
+                })
+            },
+            selectFlowAnalysis(){
+                const self = this;
+                let params = this.echarts.flow.select;
+                this.getFlowAnalysis(params, function(value){
+                    self.echarts.flow.option = method.convertFlowLineAreaEchartData(value);
+                })
+            },
+            getFlowAnalysis(params, callback){
+                ajaxGetAccessLogCount(params).then(res => {
+                    if(res.state === 0){
+                        if(callback && typeof callback === "function"){
+                            callback(res.data.countList)
+                        }
+                    }
+                })
+            },
+            selectBusinessAnalysis(){
+                const self = this;
+                let params = this.echarts.business.select;
+                let name = ['业务总量']
+                this.getBusinessAnalysis(params, function(value){
+                    self.echarts.business.option = method.convertLineAreaEchartData(value, name);
+                })
+            },
+            getBusinessAnalysis(params, callback){
+                ajaxGetServiceLogCount(params).then(res => {
+                    if(res.state === 0){
+                        if (callback && typeof callback === "function") {
+                            callback(res.data.countList);
+                        }
+                    }
+                })
+            },
+            getServiceOverview(){
+                const self = this;
+                ajaxGetServiceOverview().then(res => {
+                    if(res.state === 0){
+                        self.overviewService = method.convertServiceOverview(res.data.data);
+                    }
+                })
+            },
+            getAccessOverview(){
+                const self = this;
+                ajaxGetAccessOverview().then(res => {
+                    if(res.state === 0){
+                        self.overviewAccess = method.convertAccessOverview(res.data.data);
+                    }
+                })
+            },
+            init(){
+                this.getServiceOverview();
+                this.getAccessOverview();
+                this.selectBusinessAnalysis();
+                this.selectFlowAnalysis();
+                this.selectUserLogAnalysis();
+                this.getCallLog();
             }
         },
         created: function() {
-            
+            this.init()
         },
         mounted(){
-            const self = this
-            this.$nextTick(function(){
-                self.setCharts()
-            })
+
         }
     };
 </script>
@@ -194,6 +235,53 @@
 .mb-12 {
   margin-bottom: 12px;
 }
+.triggerButton{
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 2;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.2);
+    cursor: pointer;
+    height: 56px;
+    overflow: hidden;
+    text-align: center;
+    width: 56px;
+    background: #008aff;
+    color: #fff;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 9px 0;
+}
+.fullscreen{
+    position: relative;
+    height: 100%;
+    background: #111213;
+    .button-group{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 10;
+        font-size: 12px;
+        width: 100px;
+        height: 34px;
+        .triggerFullscree{
+            display: none;
+            i{
+                font-size: 20px;
+                margin-right: 5px;
+                vertical-align: top;
+            }
+        }
+        
+        &:hover{
+            .triggerFullscree{
+                display: block;
+            }
+        }
+    }
+}
+
 .countPanel {
   margin-bottom: 12px;
   .ivu-col {
@@ -204,15 +292,15 @@
 .dataPanel {
   position: relative;
   height: 92px;
-  padding: 22px 5px 22px 48px;
+  padding: 22px 5px 22px 62px;
   i {
     position: absolute;
     left: 10px;
-    top: 28px;
+    top: 25px;
     font-size: 24px;
-    line-height: 28px;
-    width: 28px;
-    height: 28px;
+    line-height: 42px;
+    width: 42px;
+    height: 42px;
     text-align: center;
     border-radius: 50%;
     background-color: #d6f2ff;
@@ -227,18 +315,21 @@
       color: #333;
     }
     .tips {
+        color: #999;
+        font-size: 14px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
   }
-  &.type-warning {
+  &.warning {
     i {
       color: #ff6c00;
       background-color: #ffe5cc;
     }
   }
-  &.type-error {
+  &.error-server,
+  &.error-user {
     i {
       color: #f71a1a;
       background-color: #ffdfdf;
@@ -269,6 +360,9 @@
     &:last-child::before {
       display: none;
     }
+    .name{
+        color: #666;
+    }
     .num {
       font-size: 26px;
       color: #008aff;
@@ -276,8 +370,18 @@
       line-height: 34px;
     }
     .info {
-      font-size: 14px;
-      color: #999;
+        font-size: 14px;
+        color: #999;
+        i{
+            font-size: 18px;
+            vertical-align: top;
+            &.icon-fall{
+                color: #00A317;
+            }
+            &.icon-rise{
+                color: #F71A1A;
+            }
+        }
     }
   }
 }
