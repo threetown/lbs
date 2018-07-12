@@ -1,12 +1,12 @@
     <template>
-        <div class="area-line-chart" :id="id" :option="option" :style="style"></div>
+        <div class="line-chart" :id="id" :option="option" :style="style"></div>
     </template>
 
     <script>
     import echartsConfig from "src/config/echartsConfig";
 
     export default {
-        name: "leon-area-line-chart",
+        name: "leon-line-chart",
         props: {
             id: {
                 type: String
@@ -37,7 +37,7 @@
                 const self = this;
                 echartsConfig.init({
                     id: self.id,
-                    option: echartsConfig.lineAreaChartOptions(self.option)
+                    option: echartsConfig.lineChartOptions(self.option)
                 })
             }
         },
