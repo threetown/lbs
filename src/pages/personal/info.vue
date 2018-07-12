@@ -256,7 +256,7 @@
     import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
-    import { ajaxPostUserinfo, ajaxPostChangePhone, ajaxPostChangeMail, ajaxPostChangePassword } from 'src/service/personal'
+    import { ajaxPostUserinfo, ajaxPostChangePhone, ajaxPhoneSendSMSCode, ajaxPostChangeMail, ajaxPostChangePassword } from 'src/service/personal'
 
     export default {
         name: 'personal',
@@ -444,7 +444,7 @@
             ModifyPhoneSendSMSCode(name){
                 let self = this;
                 this.$refs[name].validateField('phone', (valid) => {
-                    if(!!!valid) {
+                    if(!valid) {
                         self.ModifyPhoneForm.computedTime = 120;
                         self.ModifyPhoneForm.timer = setInterval(() => {
                             self.ModifyPhoneForm.computedTime--;
@@ -454,7 +454,17 @@
                         }, 1000);
 
                         // TODO，发送手机验证码
-                        self.$Message.success('短信发送成功');
+                        let data = {
+                            phoneNum: self.ModifyPhoneForm.phone
+                        }
+                        ajaxPhoneSendSMSCode(data).then(res => {
+                            if(res.state === 0){
+                                self.$Message.success(res.message)
+                            }else{
+                                self.$Message.error(res.message)
+                            }
+                        })
+                        
                     }
                 })
                 
