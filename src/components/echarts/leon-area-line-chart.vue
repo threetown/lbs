@@ -50,6 +50,14 @@
                     width: this.width
                 }
             }
+        },
+        watch: {
+            option: {
+                handler() {
+                    this.init();
+                },
+                deep: true
+            }
         }
     };
     </script>
