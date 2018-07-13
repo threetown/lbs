@@ -29,6 +29,30 @@ const echartsConfig = {
             obj.resize()
         }.bind(this))
     },
+    getMap(mapName, resourceArr){
+        let mapData = [];
+        let mapFeatures = echarts.getMap(mapName).geoJson.features;
+        mapFeatures.forEach(function(value) {
+            let name = value.properties.name;
+            let flag = false;
+            if(resourceArr && resourceArr instanceof Array && resourceArr.length){
+                for (let i = 0; i < resourceArr.length; i++) {
+                    const element = resourceArr[i];
+                    if(element.name === name){
+                        mapData.push({ name, value: element.value })
+                        flag = true;
+                        break;
+                    }
+                }
+                if(!flag){
+                    mapData.push({ name, value: 0 })
+                }
+            }else{
+                mapData.push({ name, value: 0 })
+            }    
+        });
+        return mapData;
+    },
     lineAreaChartOptions(params){
         let option = {
             tooltip: {
@@ -108,7 +132,6 @@ const echartsConfig = {
         if(params && params.seriesData){
             let optionSeries = params.seriesData;
             let seriesData = [];
-            console.log(optionSeries, 111)
             for (let i = 0; i < optionSeries.length; i++) {
                 seriesData.push({
                     name: optionSeries[i].name ? optionSeries[i].name : '数据总量',
@@ -206,6 +229,92 @@ const echartsConfig = {
             option.series = seriesData;
         }
         return option;
+    },
+    MapEChartsOptions(params){
+        let option = {
+            tooltip: {
+                show: false
+            },
+            geo: {
+                map: 'china',
+                show: true,
+                roam: false,
+                label: {
+                    emphasis: {
+                        show: false
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        areaColor: '#091632',
+                        borderColor: '#1773c3',
+                        shadowColor: '#1773c3',
+                        shadowBlur: 20
+                    }
+                }
+            },
+            series: [
+                {
+                    name: '用户数',
+                    type: 'map',
+                    map: 'china',
+                    geoIndex: 1,
+                    aspectScale: 0.75, //长宽比
+                    label: {
+                        normal: {
+                            show: false,  // 是否显示城市名称
+                        },
+                        emphasis: {
+                            show: false,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        show: true,
+                        formatter: '{b}<br/>{a}：{c}人',
+                        trigger: 'item',
+                        backgroundColor: 'rgba(20, 176, 233, .4)',
+                        textStyle: { color: '#ccc', fontSize: 14 },
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        padding: [15, 12]
+                    },
+                    roam: false,
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#111c24',
+                            borderColor: '#090e11',
+                            borderWidth: 1
+                        },
+                        emphasis: {
+                            areaColor: '#0c0e0d',
+                            borderColor: '#373837'
+                        }
+                    },
+                    data: params && params.mapSeriesData ? params.mapSeriesData : echartsConfig.getMap('china')
+                },
+                {
+                    type: 'scatter',
+                    coordinateSystem: 'geo',
+                    data: params && params.scatterSeriesData ? params.scatterSeriesData : [
+                        { name: '合肥', value: [117.27, 31.86, 0] }
+                    ],
+                    symbolSize: function (val) {
+                        return val[2] / 0.5; // 处理散点图大小
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#ddb926'
+                        }
+                    },
+                    hoverAnimation: false
+                }
+            ]
+         }
+         return option;
     }
     
 }
