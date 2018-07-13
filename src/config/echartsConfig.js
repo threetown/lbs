@@ -457,6 +457,76 @@ const echartsConfig = {
             }
         }
         return option;
+    },
+    darkLineAreaChartOptions(params){
+        console.log(params, 462)
+        let option = {
+            title: {
+                text: params && params.title ? params.title : '本月访问人数统计',
+                textStyle: echartsConfig.darkThemeColor.titleStyle
+            },
+            legend: {
+                orient: 'horizontal', // 'vertical'
+                x: 'right', // 'center' | 'left' | {number},
+                y: '30', // 'center' | 'bottom' | {number}
+                textStyle: {color: '#61686b'},
+                data: params && params.seriesData && params.seriesData instanceof Array ? params.seriesData.map(item => item.name) : [],
+            },
+            tooltip: echartsConfig.darkThemeColor.lineTooltip('axis'),
+            grid: echartsConfig.darkThemeColor.grid,
+            xAxis : [
+                {
+                    type: 'category',
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color: echartsConfig.darkThemeColor.lineStyle,
+                        }
+                    },
+                    axisLabel:{
+                        color: echartsConfig.darkThemeColor.axisLabel
+                    },
+                    data: params && params.xAxisData ? params.xAxisData : []
+                }
+            ],
+            yAxis : [
+                {
+                    type: 'value',
+                    nameTextStyle:{ color: echartsConfig.darkThemeColor.axisLabel, fontSize:16 },
+                    axisTick: { show: false },
+                    splitLine: { show: false },
+                    axisLine: { lineStyle: { color: echartsConfig.darkThemeColor.lineStyle } },
+                    axisLabel: { color: echartsConfig.darkThemeColor.axisLabel }
+                }
+            ],
+            series : [
+                {
+                    name: '访问人数',
+                    type:'line',
+                    areaStyle: {
+                        normal: {
+                            color: echartsConfig.darkThemeColor.AreaItemColor[0]
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: echartsConfig.darkThemeColor.AreaLineColor
+                        }
+                    },
+                    smooth:true, //是否平滑处理值0-1,true相当于0.5
+                    data: []
+                }
+            ]
+        };
+        // 新方法处理 series的值(处理指定个数用)
+        if(params && params.seriesData){
+            for (let i = 0, optionSeries = params.seriesData; i < optionSeries.length; i++) {
+                option.series[i] = Object.assign(option.series[i], optionSeries[i])
+            }
+        }
+        return option;
     }
 }
 

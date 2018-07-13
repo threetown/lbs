@@ -79,7 +79,7 @@
 
     
     import geoCoordMap from "src/util/sys/china-cities"
-    import { ajaxGetCityInfo, ajaxGetServerInfo, ajaxGetUserLogCount } from 'src/service/sys'
+    import { ajaxGetCityInfo, ajaxGetServerInfo, ajaxGetUserLogCount, ajaxGetAccessLogCount } from 'src/service/sys'
     import echartsConfig from "src/config/echartsConfig";
 
     import * as method from 'src/util/sys/'
@@ -186,11 +186,28 @@
                     }
                 })
             },
-            
+            selectFlowAnalysis(){
+                const self = this;
+                let params = 'monthOfDays';
+                this.getFlowAnalysis(params, function(value){
+                    self.echartsUserAreaLine.option = method.convertFlowLineAreaEchartData(value,['user_count'], ['访问人数']);
+                    self.echartsAccessAreaLine.option = Object.assign({ title: '本月访问次数统计'}, method.convertFlowLineAreaEchartData(value,['access_count'], ['访问次数']));
+                })
+            },
+            getFlowAnalysis(params, callback){
+                ajaxGetAccessLogCount(params).then(res => {
+                    if(res.state === 0){
+                        if(callback && typeof callback === "function"){
+                            callback(res.data.countList)
+                        }
+                    }
+                })
+            },
             init(){
                 this.getMapCityInfo() // 地图
                 this.getServerInfo() // 服务分析
                 this.getUserLogCount() // 新增用户统计
+                this.selectFlowAnalysis() // 访问统计
             }
         },
         created(){
