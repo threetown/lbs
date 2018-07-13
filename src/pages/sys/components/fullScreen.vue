@@ -16,7 +16,13 @@
 
         </div> <!-- 右侧面板 -->
         <div class="PanelBottom">
-
+            <ul class="list">
+                <li v-for="items in overviewAccess">
+                    <span class="name">{{items.name}}</span>
+                    <span class="num">{{items.value}}</span>
+                    <span class="info">昨日同比 <i class="iconfont" :class="(items.percent < 0) ? 'icon-fall' : 'icon-rise'"></i>{{Math.abs(items.percent)}}%</span>
+                </li>
+            </ul>
         </div> <!-- 底部面板 -->
     </div>
 </template>
@@ -26,6 +32,8 @@
     import geoCoordMap from "src/util/sys/china-cities"
     import { ajaxGetCityInfo } from 'src/service/sys'
     import echartsConfig from "src/config/echartsConfig";
+
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'sys-scree',
@@ -83,6 +91,9 @@
         },
         created(){
             this.getMapCityInfo()
+        },
+        computed: {
+            ...mapGetters([ 'overviewAccess' ])
         }
     }
 </script>

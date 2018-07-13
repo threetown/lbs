@@ -92,7 +92,8 @@
             </div>
         </div>
 
-        <div class="triggerButton">大屏<br>展示</div>
+        <div class="triggerButton" @click="showFullScree">大屏<br>展示</div>
+        <full-screen v-if="fullScreen.state" @closeFullScreen="closeFullScree"></full-screen>
     </div>
 </template>
 
@@ -104,18 +105,21 @@
     import leonAreaLineEchart from "components/echarts/leon-area-line-chart";
     import leonLineEchart from "components/echarts/leon-line-chart";
 
+    import fullScreen from "./components/fullScreen"
+
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'sys-scree',
         components: {
             leonAreaLineEchart,
-            leonLineEchart
+            leonLineEchart,
+            fullScreen
         },
         data() {
             return {
                 selectTimeDict,
                 overviewService: [],
-                overviewAccess: [],
                 echarts:{
                     business: {
                         select: 'todayOfHours',
@@ -136,10 +140,22 @@
                         style: ''
                     }
                 },
-                callLog: []
+                callLog: [],
+                fullScreen: {
+                    state: false
+                }
             }
         },
         methods: {
+            ...mapActions([ 'recordOverviewAccess' ]),
+            closeFullScree(){
+                this.fullScreen.state = false;
+                document.getElementById('singlePageBox').style.overflow = 'auto'
+            },
+            showFullScree(){ // 大屏展示
+                this.fullScreen.state = true;
+                document.getElementById('singlePageBox').style.overflow = 'hidden'
+            },
             getCallLog(){
                 const self = this;
                 ajaxGetCallLog().then(res => {
@@ -209,7 +225,7 @@
                 const self = this;
                 ajaxGetAccessOverview().then(res => {
                     if(res.state === 0){
-                        self.overviewAccess = method.convertAccessOverview(res.data.data);
+                        self.recordOverviewAccess(method.convertAccessOverview(res.data.data));
                     }
                 })
             },
@@ -227,6 +243,9 @@
         },
         mounted(){
 
+        },
+        computed: {
+            ...mapGetters([ 'overviewAccess' ])
         }
     };
 </script>
