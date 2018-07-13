@@ -450,7 +450,12 @@ const echartsConfig = {
                 }
             ]
         };
-        
+        // 新方法处理 series的值
+        if(params && params.seriesData){
+            for (let i = 0, optionSeries = params.seriesData; i < optionSeries.length; i++) {
+                option.series[i] = Object.assign(option.series[i], optionSeries[i])
+            }
+        }
         return option;
     }
 }
