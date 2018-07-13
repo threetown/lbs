@@ -79,7 +79,7 @@
 
     
     import geoCoordMap from "src/util/sys/china-cities"
-    import { ajaxGetCityInfo, ajaxGetServerInfo, ajaxGetUserLogCount, ajaxGetAccessLogCount } from 'src/service/sys'
+    import { ajaxGetCityInfo, ajaxGetServerInfo, ajaxGetUserLogCount, ajaxGetAccessLogCount, ajaxGetServiceLogCount } from 'src/service/sys'
     import echartsConfig from "src/config/echartsConfig";
 
     import * as method from 'src/util/sys/'
@@ -203,11 +203,28 @@
                     }
                 })
             },
+            selectBusinessAnalysis(){
+                const self = this;
+                let params = 'todayOfHours';
+                this.getBusinessAnalysis(params, function(value){
+                    self.echartsBusinessAreaLine.option = Object.assign({ title: '每日新增业务统计'}, method.convertLineAreaEchartData(value, ['业务总量']));
+                })
+            },
+            getBusinessAnalysis(params, callback){
+                ajaxGetServiceLogCount(params).then(res => {
+                    if(res.state === 0){
+                        if (callback && typeof callback === "function") {
+                            callback(res.data.countList);
+                        }
+                    }
+                })
+            },
             init(){
                 this.getMapCityInfo() // 地图
                 this.getServerInfo() // 服务分析
                 this.getUserLogCount() // 新增用户统计
                 this.selectFlowAnalysis() // 访问统计
+                this.selectBusinessAnalysis() // 每日新增业务
             }
         },
         created(){
