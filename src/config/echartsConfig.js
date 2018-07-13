@@ -16,6 +16,47 @@ const echartsConfig = {
             { offset: 1, color: 'rgba(0, 168, 91, .2)' }
         ], false)
     ],
+    darkThemeColor: {
+        axisLabel: '#ccc', // 文字颜色
+        lineStyle: '#3c3d3f', // 线颜色
+        barItemColor: [
+            new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#14b0e9' },
+                { offset: 0.5, color: '#027eff' },
+                { offset: 1, color: '#0286ff' }
+            ])
+        ],
+        AreaLineColor: '#14b0e9',
+        AreaItemColor: [
+            new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: 'rgba(18, 57, 71, .5)' },
+                { offset: 1, color: 'rgba(18, 57, 71, .2)' }
+            ])
+        ],
+        lienItemColor: '#e2ff1d',
+        titleStyle: {
+            color: '#14b0e9',
+            fontSize: '16'
+        },
+        grid: {
+            left: '3%',
+            top:'26%',
+            right: '2%',
+            bottom: '5%',
+            containLabel: true
+        },
+        lineTooltip(trigger) {
+            let tooltip = {
+                show: true,
+                trigger: trigger ? trigger : 'item', // axis
+                backgroundColor: 'rgba(18, 57, 71, .8)',
+                textStyle: { color: '#ccc', fontSize: 14 },
+                // axisPointer: { type: 'shadow' },
+                padding: [8]
+            }
+            return tooltip;
+        },
+    },
     init(params){
         let EChart = echarts.init(document.getElementById(params.id));
         let option = params.option;
@@ -315,8 +356,103 @@ const echartsConfig = {
             ]
          }
          return option;
+    },
+    lineBarChartOptions(params){
+        let option = {
+            title: {
+                text: '新增用户统计',
+                textStyle: echartsConfig.darkThemeColor.titleStyle
+            },
+            legend: {
+                orient: 'horizontal', // 'vertical'
+                x: 'right', // 'center' | 'left' | {number},
+                y: '30', // 'center' | 'bottom' | {number}
+                textStyle: {color: '#61686b'},
+                data: params && params.seriesData && params.seriesData instanceof Array ? params.seriesData.map(item => item.name) : []
+            },
+            grid: echartsConfig.darkThemeColor.grid,
+            tooltip: echartsConfig.darkThemeColor.lineTooltip(),
+            xAxis: [{
+                    type: 'category',
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color: echartsConfig.darkThemeColor.lineStyle,
+                        }
+                    },
+                    axisLabel:{
+                        color: echartsConfig.darkThemeColor.axisLabel
+                    },
+                    data: params && params.xAxisData ? params.xAxisData : []
+                }
+            ],
+            yAxis: [{
+                type: 'value',
+                // name: '增长率',
+                position: 'right',
+                axisTick: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: { color: echartsConfig.darkThemeColor.lineStyle }
+                },
+                axisLabel: {
+                    formatter: '{value}%',
+                    color: echartsConfig.darkThemeColor.axisLabel
+                }
+            },{
+                type: 'value',
+                // name:'人',
+                nameGap:35,
+                position: 'left',
+                nameTextStyle:{
+                    color: echartsConfig.darkThemeColor.axisLabel,
+                    fontSize:16,
+                },
+                axisTick: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: { color: echartsConfig.darkThemeColor.lineStyle }
+                },
+                axisLabel: { color: echartsConfig.darkThemeColor.axisLabel }
+            }],
+            series: [
+                {
+                    name: '增长率',
+                    type: 'line',
+                    itemStyle: {
+                        normal: {
+                            color: echartsConfig.darkThemeColor.lienItemColor
+                        },
+                    },
+                    data: []
+                },{
+                    type: 'bar',
+                    name: '用户数量',
+                    yAxisIndex: 1,
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: [30],
+                            color: echartsConfig.darkThemeColor.barItemColor[0]
+                        }
+                    },
+                    barWidth: '12',
+                    data: []
+                }
+            ]
+        };
+        
+        return option;
     }
-    
 }
 
 export default echartsConfig;
