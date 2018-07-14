@@ -17,31 +17,33 @@
         </div>
 
         <div class="PanelLeft">
-            <div class="box">
-                <leon-line-bar-chart :id="echartsLineBar.id" :option="echartsLineBar.option"></leon-line-bar-chart>
+            <div class="box" style="height: 277px;">
+                <div class="loading" v-if="echartsLineBar.loading">{{echartsLineBar.loadTips}}</div>
+                <leon-line-bar-chart v-if="!echartsLineBar.loading" :id="echartsLineBar.id" :option="echartsLineBar.option"></leon-line-bar-chart>
             </div>
-            <div class="box">
-                <leon-dark-scatter-chart :id="echartsScatter.id" :option="echartsScatter.option"></leon-dark-scatter-chart>
+            <div class="box" style="height: 181px">
+                <div class="loading" v-if="echartsMap.loading">{{echartsMap.loadTips}}</div>
+                <leon-dark-scatter-chart v-if="!echartsMap.loading" :id="echartsScatter.id" :option="echartsScatter.option"></leon-dark-scatter-chart>
             </div>
-            <div class="box">
-                <leon-dark-area-line-chart :id="echartsUserAreaLine.id" :option="echartsUserAreaLine.option"></leon-dark-area-line-chart>
+            <div class="box" style="height: 260px">
+                <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
+                <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsUserAreaLine.id" :option="echartsUserAreaLine.option"></leon-dark-area-line-chart>
             </div>
-            <div class="box">
-                <leon-dark-area-line-chart :id="echartsAccessAreaLine.id" :option="echartsAccessAreaLine.option"></leon-dark-area-line-chart>
-            </div>            
+            <div class="box" style="height: 260px">
+                <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
+                <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsAccessAreaLine.id" :option="echartsAccessAreaLine.option"></leon-dark-area-line-chart>
+            </div>
         </div> <!-- 左侧面板 -->
         <div class="PanelRight">
-            <div class="box">
-                <leon-dark-area-line-chart :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option"></leon-dark-area-line-chart>
+            <div class="box" style="height: 260px;">
+                <div class="loading" v-if="echartsBusinessAreaLine.loading">{{echartsBusinessAreaLine.loadTips}}</div>
+                <leon-dark-area-line-chart v-if="!echartsBusinessAreaLine.loading" :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option"></leon-dark-area-line-chart>
             </div>
             <div class="box">
                 <div class="commonTitle">服务使用情况排名</div>
                 <div style="text-align: right">
-                    <RadioGroup class="custom-dark-button-radio" type="button">
-                        <Radio label="全部"></Radio>
-                        <Radio label="基础地图"></Radio>
-                        <Radio label="楼盘"></Radio>
-                        <Radio label="专题"></Radio>
+                    <RadioGroup class="custom-dark-button-radio" type="button" v-model="serverType.value" @on-change="getServerRank">
+                        <Radio :label="items.label" v-for="items in serverType.list" :key="items.value"></Radio>
                     </RadioGroup>
                 </div>
                 <leon-dark-vertical-bar-chart :id="echartsServiceTopBar.id" :option="echartsServiceTopBar.option"></leon-dark-vertical-bar-chart>
@@ -59,6 +61,13 @@
                         <leon-dark-pie-chart :id="echartsServicePie.id" :option="echartsServicePie.option"></leon-dark-pie-chart>
                     </div>
                 </div>
+            </div>
+            <div class="box">
+                <div class="commonTitle">实时动态</div>
+                <ul class="logList">
+                    <div class="loading" v-if="!overviewUserLog.length">暂无数据</div>
+                    <li v-if="overviewUserLog.length" v-for="items in overviewUserLog"><Icon type="volume-medium"></Icon><b class="t-gray">{{items.username}}</b><b class="t-blue">{{items.server}}</b><span class="date">{{items.time}}</span></li>
+                </ul>
             </div>
         </div> <!-- 右侧面板 -->
         <div class="PanelBottom">
@@ -83,8 +92,11 @@
 
     
     import geoCoordMap from "src/util/sys/china-cities"
-    import { ajaxGetCityInfo, ajaxGetServerInfo, ajaxGetUserLogCount, ajaxGetAccessLogCount, ajaxGetServiceLogCount } from 'src/service/sys'
+    import { ajaxGetCityInfo, ajaxGetServerInfo, ajaxGetUserLogCount, ajaxGetAccessLogCount, ajaxGetServiceLogCount, ajaxGetServerRank } from 'src/service/sys'
     import echartsConfig from "src/config/echartsConfig";
+
+    import * as basicConfig from "src/config/basicConfig"
+    import * as tools from 'src/util/tools'
 
     import * as method from 'src/util/sys/'
 
@@ -106,7 +118,7 @@
                     id: 'map-echarts',
                     style: '',
                     loading: false,
-                    loadTips: '地图正在加载中...'
+                    loadTips: '努力正在加载中...'
                 },
                 echartsMapOption: {
                     mapSeriesData: '',
@@ -114,7 +126,9 @@
                 },
                 echartsLineBar: {
                     id: 'line-bar-echarts',
-                    option: {}
+                    option: {},
+                    loading: false,
+                    loadTips: '努力加载中...'
                 },
                 echartsAccessAreaLine: {
                     id: 'access-area-line-echarts',
@@ -126,11 +140,13 @@
                 },
                 echartsBusinessAreaLine: {
                     id: 'business-area-line-echarts',
-                    option: {}
+                    option: {},
+                    loading: false,
+                    loadTips: '努力加载中...'
                 },
                 echartsServiceTopBar: {
                     id: 'echartsServiceTopBar',
-                    option: {}
+                    option: []
                 },
                 echartsServicePie: {
                     id: 'echartsServicePie',
@@ -139,6 +155,14 @@
                 echartsScatter: {
                     id: 'echartsAccessScatter',
                     option: []
+                },
+                userCount: {
+                    loading: false,
+                    loadTips: '努力加载中...'
+                },
+                serverType: {
+                    list: [],
+                    value: ''
                 }
             }
         },
@@ -159,10 +183,9 @@
                         echartsMapOption.mapSeriesData = echartsConfig.getMap('china', self.accessIPProvince);
                         echartsMapOption.scatterSeriesData = self.convertData(self.accessIPCity);
                         self.echartsScatter.option = self.accessIPCity;
-                        console.log(self.accessIPCity, 162)
                         self.echartsMap.loading = false;
                     }else{
-                        self.echartsMap.loadTips = '糟糕，地图加载失败！'
+                        self.echartsMap.loadTips = '糟糕，加载失败！'
                     }
                 })
             },
@@ -191,12 +214,16 @@
             },
             getUserLogCount(){
                 const self = this;
+                self.echartsLineBar.loading = true;
                 ajaxGetUserLogCount('monthOfDays').then(res => {
                     if(res.state === 0){
                         let resourceArr = res.data.countList;
                         let nameArr = ["增长率", "新增用户"];
                         let fieldArr = ["incre_percent", "doc_count"];
                         self.echartsLineBar.option = method.convertUserLineAreaEchartData(resourceArr, fieldArr, nameArr)
+                        self.echartsLineBar.loading = false;
+                    }else{
+                        self.echartsLineBar.loadTips = '糟糕，数据加载失败！'
                     }
                 })
             },
@@ -209,11 +236,16 @@
                 })
             },
             getFlowAnalysis(params, callback){
+                const self = this;
+                this.userCount.loading = true;
                 ajaxGetAccessLogCount(params).then(res => {
                     if(res.state === 0){
                         if(callback && typeof callback === "function"){
                             callback(res.data.countList)
                         }
+                        self.userCount.loading = false;
+                    }else{
+                        self.userCount.loadTips = '糟糕，数据加载失败！'
                     }
                 })
             },
@@ -225,27 +257,51 @@
                 })
             },
             getBusinessAnalysis(params, callback){
+                const self = this;
+                this.echartsBusinessAreaLine.loading = true;
                 ajaxGetServiceLogCount(params).then(res => {
                     if(res.state === 0){
                         if (callback && typeof callback === "function") {
                             callback(res.data.countList);
                         }
+                        self.echartsBusinessAreaLine.loading = false;
+                    }else{
+                        self.echartsBusinessAreaLine.loadTips = '糟糕，数据加载失败！'
+                    }
+                })
+            },
+            getServerRank(){
+                const self = this;
+                let params = this.serverTypeId;
+                ajaxGetServerRank(params).then(res => {
+                    if(res.state === 0){
+                        let data = res.data.data;
+                        self.echartsServiceTopBar.option = data;
+                        console.log(self.echartsServiceTopBar.option, 280)
                     }
                 })
             },
             init(){
+                this.serverType.list = basicConfig.serverType;
+                this.serverType.value = basicConfig.serverType[0].label;
+
                 this.getMapCityInfo() // 地图
                 this.getServerInfo() // 服务分析
                 this.getUserLogCount() // 新增用户统计
                 this.selectFlowAnalysis() // 访问统计
                 this.selectBusinessAnalysis() // 每日新增业务
+                this.getServerRank()
             }
         },
         created(){
             this.init()
         },
         computed: {
-            ...mapGetters([ 'overviewAccess', 'overviewService', 'accessIPProvince', 'accessIPCity' ])
+            ...mapGetters([ 'overviewAccess', 'overviewService', 'accessIPProvince', 'accessIPCity', 'overviewUserLog' ]),
+            serverTypeId(){
+                const self = this;
+                return tools.getDictData(basicConfig.serverType, self.serverType.value, 'value')
+            }
         }
     }
 </script>

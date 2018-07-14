@@ -28,7 +28,8 @@
                     </div>
                     <div class="mormal-block-bd">
                         <ul class="dynamic-list">
-                            <li v-for="items in callLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
+                            <div style="text-align: center;line-height: 126px;" v-if="!overviewUserLog.length">暂无数据</div>
+                            <li v-if="overviewUserLog.length" v-for="items in overviewUserLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
                         </ul>
                     </div>
                 </div>
@@ -119,7 +120,6 @@
         data() {
             return {
                 selectTimeDict,
-                overviewService: [],
                 echarts:{
                     business: {
                         select: 'todayOfHours',
@@ -147,7 +147,7 @@
             }
         },
         methods: {
-            ...mapActions([ 'recordOverviewAccess' ]),
+            ...mapActions([ 'recordOverviewAccess', 'recordOverviewService', 'recordUserLog' ]),
             closeFullScree(){
                 this.fullScreen.state = false;
                 document.getElementById('singlePageBox').style.overflow = 'auto'
@@ -160,7 +160,7 @@
                 const self = this;
                 ajaxGetCallLog().then(res => {
                     if(res.state === 0){
-                        self.callLog = res.data.data;
+                        self.recordUserLog(res.data.data);
                     }
                 })
             },
@@ -217,7 +217,7 @@
                 const self = this;
                 ajaxGetServiceOverview().then(res => {
                     if(res.state === 0){
-                        self.overviewService = method.convertServiceOverview(res.data.data);
+                        self.recordOverviewService(method.convertServiceOverview(res.data.data));
                     }
                 })
             },
@@ -245,7 +245,7 @@
 
         },
         computed: {
-            ...mapGetters([ 'overviewAccess' ])
+            ...mapGetters([ 'overviewAccess', 'overviewService', 'overviewUserLog' ])
         }
     };
 </script>
@@ -302,6 +302,7 @@
 }
 
 .countPanel {
+    height: 92px;
   margin-bottom: 12px;
   .ivu-col {
     background: #fff;
@@ -433,6 +434,7 @@
 }
 
 .dynamic-list{
+    height: 126px;
     li{
         position: relative;
         height: 25px;
