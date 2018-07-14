@@ -1,29 +1,28 @@
     <template>
-        <div class="map-chart" :id="id" :option="option" :style="style"></div>
+        <div class="dark-vertical-bar-chart" :id="id" :option="option" :style="style"></div>
     </template>
 
     <script>
     import echartsConfig from "src/config/echartsConfig";
-    require('echarts/map/js/china.js')
 
     export default {
-        name: "leon-map-chart",
+        name: "leon-dark-vertical-bar-chart",
         props: {
             id: {
                 type: String
             },
             height: {
                 type: String,
-                default: '740px'
+                default: '150px'
             },
             width: {
                 type: String,
-                default: '1000px'
+                default: '100%'
             },
             option: {
-                type: Object,
+                type: [Array, Object],
                 default() {
-                    return {}
+                    return []
                 }
             }
         },
@@ -38,7 +37,7 @@
                 const self = this;
                 echartsConfig.init({
                     id: self.id,
-                    option: echartsConfig.MapEChartsOptions(self.option)
+                    option: echartsConfig.darkVerticalBarChartOptions(self.option)
                 })
             }
         },
