@@ -5,7 +5,8 @@ const state = {
   // 访问统计
   overviewAccess: [],
   overviewService: [],
-  AccessIP: {} // 用户所在城市分成情况
+  AccessIP: {}, // 用户所在城市分成情况
+  overviewUserLog: []
 }
 
 // actions
@@ -19,8 +20,11 @@ const actions = {
   recordOverviewService({ commit }, res) {
     commit(types.RECORD_OVERVIEW_SERVICE, res)
   },
-  recordAccessIP({ commit }, res) {
+  recordAccessIP({ commit }, res) { // 用户所在地区分布
     commit(types.RECORD_ACCESS_IP, res)
+  },
+  recordUserLog({ commit }, res) { // 用户动态
+    commit(types.RECORD_USER_LOG, res)
   }
 
 }
@@ -30,7 +34,8 @@ const getters = {
   overviewAccess: state => state.overviewAccess,
   overviewService: state => state.overviewService,
   accessIPProvince: state => state.AccessIP.provinceList,
-  accessIPCity: state => state.AccessIP.cityList
+  accessIPCity: state => state.AccessIP.cityList,
+  overviewUserLog: state => state.overviewUserLog
 }
 
 // mutations
@@ -42,6 +47,9 @@ const mutations = {
     state.overviewService = res
   },
   [types.RECORD_ACCESS_IP](state, res){
+    state.AccessIP = res;
+  },
+  [types.RECORD_USER_LOG](state, res){
     state.AccessIP = res;
   }
 }
