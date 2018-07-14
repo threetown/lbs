@@ -43,7 +43,9 @@
             },
             {
                 "path": "/msg", "name": "msg", "component": "dashboard", "title": "消息", "modelStyle": "icon-msg",
-                "children": []
+                "children": [
+                    { "path": "index", "name": "index", "component": "msg/index", "title": "消息" }
+                ]
             }
         ],
         "unReadNotice": 6,
