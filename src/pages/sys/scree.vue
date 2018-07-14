@@ -3,7 +3,8 @@
         <Row :gutter="16" class="mb-12">
             <Col span="12">
                 <Row type="flex" justify="space-between" class="countPanel">
-                    <Col v-for="items in overviewService" :key="items.type">
+                    <Col v-if="service.loading" v-for="i in 4" :key="i"></Col>
+                    <Col v-if="!service.loading" v-for="items in overviewService" :key="items.type">
                         <div :class="'dataPanel '+ items.type">
                             <i :class="'iconfont '+ items.icon"></i>
                             <div class="data">
@@ -14,7 +15,8 @@
                     </Col>
                 </Row>
                 <ul class="todayData">
-                    <li v-for="items in overviewAccess">
+                    <div class="loading" v-if="access.loading">数据正在加载中...</div>
+                    <li v-if="!access.loading" v-for="items in overviewAccess">
                         <span class="name">{{items.name}}</span>
                         <span class="num">{{items.value}}</span>
                         <span class="info">昨日同比 <i class="iconfont" :class="(items.percent < 0) ? 'icon-fall' : 'icon-rise'"></i>{{Math.abs(items.percent)}}%</span>
@@ -143,6 +145,12 @@
                 callLog: [],
                 fullScreen: {
                     state: false
+                },
+                service: {
+                    loading: false
+                },
+                access: {
+                    loading: false
                 }
             }
         },
@@ -215,17 +223,21 @@
             },
             getServiceOverview(){
                 const self = this;
+                self.service.loading = true
                 ajaxGetServiceOverview().then(res => {
                     if(res.state === 0){
                         self.recordOverviewService(method.convertServiceOverview(res.data.data));
+                        self.service.loading = false
                     }
                 })
             },
             getAccessOverview(){
                 const self = this;
+                self.access.loading = true;
                 ajaxGetAccessOverview().then(res => {
                     if(res.state === 0){
                         self.recordOverviewAccess(method.convertAccessOverview(res.data.data));
+                        self.access.loading = false;
                     }
                 })
             },
@@ -357,11 +369,18 @@
   }
 }
 .todayData {
+  position: relative;
   background-color: #fff;
   overflow: hidden;
   height: 120px;
   padding: 22px;
   text-align: center;
+  .loading{
+      position: absolute;
+      top: 47%;
+      width: 100%;
+      color: #999;
+  }
   li {
     position: relative;
     width: 33.33%;
