@@ -48,8 +48,28 @@ let url = {
     home: 'http://testlbs.cindata.cn/gxdyun'
 }
 
+let selectTimeDict = [
+    // { label: '今天', value: 'today'},     // 按天统计今天的总数
+    // { label: '昨天', value: 'yesterday'}, // 按天统计昨天的总数
+    // { label: '昨天', value: 'yesterdayOfHours'}, // 按小时统计昨天的访问数
+    // { label: '近三个月', value: 'threeMonthOfDays'},  // 按天统计最近三月
+    // { label: '近半年', value: 'halfYearOfMonths'},  // 按月统计最近半年
+    { label: '近30天', value: 'monthOfDays'},  // 按天统计最近一月
+    { label: '近一周', value: 'weekOfDays'}, // 按天统计最近一周
+    { label: '今天', value: 'todayOfHours'}, // 按小时统计今天的访问数
+]
+
+let serverType = [
+    { label: '全部', value: 0 },
+    { label: 'web服务', value: 1 },
+    { label: '地图服务', value: 2 },
+    { label: '楼盘字典', value: 3 }
+]
+
 export {
     PanelService,
     gender,
-    url
+    url,
+    selectTimeDict,
+    serverType
 }

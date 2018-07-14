@@ -27,7 +27,7 @@
         @on-change="handleChange"
       ></sidebar-menu>
     </div>
-    <div class="singlePageBox">
+    <div class="singlePageBox" id="singlePageBox">
         <div class="m-25 mt-65">
           <router-view></router-view>
         </div>
