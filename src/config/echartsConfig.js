@@ -462,7 +462,6 @@ const echartsConfig = {
         return option;
     },
     darkLineAreaChartOptions(params){
-        console.log(params, 462)
         let option = {
             title: {
                 text: params && params.title ? params.title : '本月访问人数统计',
@@ -566,7 +565,6 @@ const echartsConfig = {
     },
     darkScatterOptions(params){
         // 数据处理，从大到小
-        console.log(params, 657)
         let plantCap = params ? params : [
             { name: '北京', value: '222' },
             { name: '上海', value: '315' },
@@ -635,10 +633,94 @@ const echartsConfig = {
             }]
         }
         option.tooltip.formatter = function(obj){
-            console.log(obj.data, 729)
             let info = obj.data;
             return info.name + '：' + info.value[2] + '人'
         }
+        return option;
+    },
+    darkVerticalBarChartOptions(params){
+        let seriesData = {
+            data: [],
+            name: [],
+            backData: []
+        }
+        if(params && params instanceof Array){
+            seriesData.name = params.map(item => item.name)
+            seriesData.data = params.map(item => item.value).sort(function (a, b) { return b.value - a.value})
+            let maxArr = [];
+            let maxNum = seriesData.data[0] * 8;
+            for (let i = 0; i < params.length; i++) {
+                maxArr.push(maxNum)
+            }
+            seriesData.backData = maxArr
+        }
+
+        let option = {
+            grid: { left: '0', top:'6%', right: '5%', bottom: '0', containLabel: true },
+            xAxis: {
+                type: 'value',
+                show: true,
+                axisLine: { show: false },
+                axisTick: { show: false },
+                axisLabel: { show: false },
+                splitLine: { show: false }
+            },
+            yAxis: [{
+                type: 'category',
+                axisLine: { show: false },
+                splitLine: { show: false }
+            }, {
+                type: 'category',
+                position: "left",
+                data: seriesData.name,
+                axisLine: { show: false },
+                axisTick: { show: false },
+                axisLabel: { show: true, color: echartsConfig.darkThemeColor.axisLabel },
+                splitLine: { show: false }
+            }],
+            series: [{
+                name: '',
+                type: 'bar',
+                barWidth: 12,
+                silent: true,
+                yAxisIndex: 0,
+                label: {
+                    normal: {
+                        show: true,
+                        color: echartsConfig.darkThemeColor.axisLabel,
+                        formatter: function(data) {
+                            return seriesData.data[data.dataIndex];
+                        },
+                        position: 'right'
+                    }
+                },
+                itemStyle: { normal: { color: '#292B2D', barBorderRadius: 20 }},
+                data: seriesData.backData // max * .9
+            }, {
+                name: '',
+                type: 'bar',
+                barWidth: 12,
+                silent: false,
+                yAxisIndex: 1,
+                label: { normal: { show: false }},
+                itemStyle: {
+                    normal: {
+                        barBorderRadius: 10,
+                        color: {
+                            type: 'bar',
+                            colorStops: [
+                                { offset: 0, color: '#00ffa8' },
+                                { offset: 1, color: '#ffea00' }
+                            ],
+                            globalCoord: false, // 缺省为 false
+                        }
+                    }
+                },
+                data: seriesData.data.map(function(item, index) {
+                    return parseInt(item / seriesData.backData[index] * 100)
+                })
+            }]
+        };
         return option;
     }
 }
