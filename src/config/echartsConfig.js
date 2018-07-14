@@ -54,6 +54,9 @@ const echartsConfig = {
                 // axisPointer: { type: 'shadow' },
                 padding: [8]
             }
+            // if(formatter && typeof formatter === "function"){
+            //     tooltip.formatter = formatter()
+            // }
             return tooltip;
         },
     },
@@ -525,6 +528,116 @@ const echartsConfig = {
             for (let i = 0, optionSeries = params.seriesData; i < optionSeries.length; i++) {
                 option.series[i] = Object.assign(option.series[i], optionSeries[i])
             }
+        }
+        return option;
+    },
+    darkPieChartOptions(params){
+        let option = {
+            tooltip: echartsConfig.darkThemeColor.lineTooltip(),
+            color: ['#3ab4ff', '#1b88c2', '#ff8421'],
+            series: [{
+                type: 'pie',
+                name: '',
+                radius: ['0%', '100%'],
+                center: ['50%', '50%'],
+                avoidLabelOverlap: false,
+                silent: true,
+                data: [{
+                    value: 1,
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(20, 176, 233, .1)',
+                            shadowBlur: 50,
+                            shadowColor: '#26718C'
+                        }
+                    }
+                }]
+            }, {
+                name: '',
+                type:'pie',
+                radius :['35%', '75%'],
+                center: ['50%', '50%'],
+                data: params ? params  : [{value:30, name:'未上线'}, {value:80, name:'正常服务'}, {value:10, name:'异常服务'}].sort(function (a, b) { return b.value - a.value}),
+                roseType: 'angle',
+                hoverAnimation: false
+            }]
+        };
+        return option;
+    },
+    darkScatterOptions(params){
+        // 数据处理，从大到小
+        console.log(params, 657)
+        let plantCap = params ? params : [
+            { name: '北京', value: '222' },
+            { name: '上海', value: '315' },
+            { name: '广州', value: '113' },
+            { name: '深圳', value: '95' },
+            { name: '武汉', value: '92' },
+            { name: '仙桃', value: '87' },
+            { name: '大理', value: '60' },
+            { name: '成都', value: '55' },
+            { name: '青岛', value: '52' },
+            { name: '南京', value: '47' },
+            { name: '江苏', value: '40' }
+        ].sort(function (a, b) { return b.value - a.value})
+            
+        // 预设点位
+        let datalist = [
+            { offset: [61, 42], symbolSize: 70 },
+            { offset: [24, 45], symbolSize: 62 },
+            { offset: [87, 54], symbolSize: 54 },
+            { offset: [40, 14], symbolSize: 48 },
+            { offset: [42, 60], symbolSize: 42 },
+            { offset: [77, 20], symbolSize: 38 },
+            { offset: [100, 30], symbolSize: 36 },
+            { offset: [8, 26], symbolSize: 34 },
+            { offset: [1, 50], symbolSize: 30 },
+            { offset: [-6, 26], symbolSize: 26 },
+            { offset: [108, 60], symbolSize: 26 }
+        ]
+
+        // 合并
+        for (let i = 0; i < plantCap.length; i++) {
+            const e = plantCap[i];
+            datalist[i].offset.push(e.value)            
+        }
+
+        let datas = [];
+        let color = 'rgba(20, 176, 233, .4)';
+        for (let i = 0; i < plantCap.length; i++) {
+            let item = plantCap[i];
+            let itemToStyle = datalist[i];
+            
+            datas.push({
+                name: item.name,
+                value: itemToStyle.offset,
+                symbolSize: itemToStyle.offset[2] * 50, // TODO，大小
+                label: { normal: { textStyle: { fontSize: 12 } }},
+                itemStyle: { normal: { color: 'rgba(20, 176, 233, .4)' } }
+            })
+        }
+
+        let option = {
+            title: {
+                text: '用户所在地区分布情况',
+                textStyle: echartsConfig.darkThemeColor.titleStyle
+            },
+            tooltip: echartsConfig.darkThemeColor.lineTooltip(),
+            grid: { show: false, top: 10, bottom: 10 },
+            xAxis: [{ gridIndex: 0, type: 'value', show: false, min: 0, max: 100, nameLocation: 'middle', nameGap: 5 }],
+            yAxis: [{ gridIndex: 0, min: 0, show: false, max: 100, nameLocation: 'middle', nameGap: 30 }],
+            series: [{ type: 'scatter', symbol: 'circle', symbolSize: 120,
+                label: { 
+                    normal: { show: true, formatter: '{b}', color: '#A7E8FF', textStyle: { fontSize: '12' }},
+                },
+                itemStyle: { normal: { color: '#00acea' } },
+                data: datas
+            }]
+        }
+        option.tooltip.formatter = function(obj){
+            console.log(obj.data, 729)
+            let info = obj.data;
+            return info.name + '：' + info.value[2] + '人'
         }
         return option;
     }
