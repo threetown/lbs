@@ -65,7 +65,7 @@ auth.initRouterNode = function (routers, data) {
         let meta = {};
         meta.permission = menu.permission ? menu.permission : null;
         meta.title = menu.title ? menu.title : null;
-        meta.icon = menu.icon ? menu.icon : null;
+        meta.icon = menu.modelStyle ? menu.modelStyle : null;
 
         menu.meta = meta;
 
