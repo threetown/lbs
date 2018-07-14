@@ -2,23 +2,22 @@
     "data": {
         "allAmpAuth": [
             {
-                "path": "/application", "name": "application", "component": "dashboard", "title": "应用管理", "icon": "app",
+                "path": "/application", "name": "application", "component": "dashboard", "title": "应用管理", "modelStyle": "icon-app",
                 "children": [
                     { "path": "apps", "name": "apps", "component": "application/apps", "title": "我的应用" },
                     { "path": "recyclebin", "name": "recyclebin", "component": "application/recyclebin", "title": "回收站" }
                 ]
             },
             {
-                "path": "/data", "name": "data", "component": "dashboard", "title": "数据可视化", "icon": "bar",
+                "path": "/data", "name": "data", "component": "dashboard", "title": "数据可视化", "modelStyle": "icon-bar",
                 "children": [
                     { "path": "project", "name": "project", "component": "data/project", "title": "可视化项目" },
                     { "path": "mydata", "name": "mydata", "component": "data/mydata", "title": "我的数据" }
                 ]
             },
             {
-                "path": "/sys", "name": "sys", "component": "dashboard", "title": "系统监控", "icon": "monitor",
+                "path": "/sys", "name": "sys", "component": "dashboard", "title": "系统监控", "modelStyle": "icon-monitor",
                 "children": [
-                    { "path": "bigdata", "name": "bigdata", "component": "sys/bigdata", "title": "大屏监控" },
                     { "path": "scree", "name": "scree", "component": "sys/scree", "title": "数据总览" },
                     { "path": "business", "name": "business", "component": "sys/business", "title": "业务管理" },
                     { "path": "service", "name": "service", "component": "sys/service", "title": "服务管理" },
@@ -28,14 +27,14 @@
                 ]
             },
             {
-                "path": "/user", "name": "user", "component": "dashboard", "title": "用户管理", "icon": "user-manage",
+                "path": "/user", "name": "user", "component": "dashboard", "title": "用户管理", "modelStyle": "icon-user-manage",
                 "children": [
                     { "path": "list", "name": "list", "component": "user/list", "title": "用户列表" },
                     { "path": "log", "name": "log", "component": "user/log", "title": "登陆日志" }
                 ]
             },
             {
-                "path": "/personal", "name": "personal", "component": "dashboard", "title": "个人中心", "icon": "personal",
+                "path": "/personal", "name": "personal", "component": "dashboard", "title": "个人中心", "modelStyle": "icon-personal",
                 "children": [
                     { "path": "info", "name": "info", "component": "personal/info", "title": "帐号信息" },
                     { "path": "quota", "name": "quota", "component": "personal/quota", "title": "配额管理" },
@@ -43,13 +42,12 @@
                 ]
             },
             {
-                "path": "/msg", "name": "msg", "component": "dashboard", "title": "消息", "icon": "msg",
-                "children": [
-                    { "path": "index", "name": "index", "component": "msg/index", "title": "消息" }
-                ]
+                "path": "/msg", "name": "msg", "component": "dashboard", "title": "消息", "modelStyle": "icon-msg",
+                "children": []
             }
         ],
         "unReadNotice": 6,
         "staffName": "Leon"
-    }
+    },
+    "state": 0
 }
