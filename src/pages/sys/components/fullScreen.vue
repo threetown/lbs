@@ -21,6 +21,9 @@
                 <leon-line-bar-chart :id="echartsLineBar.id" :option="echartsLineBar.option"></leon-line-bar-chart>
             </div>
             <div class="box">
+                <leon-dark-scatter-chart :id="echartsScatter.id" :option="echartsScatter.option"></leon-dark-scatter-chart>
+            </div>
+            <div class="box">
                 <leon-dark-area-line-chart :id="echartsUserAreaLine.id" :option="echartsUserAreaLine.option"></leon-dark-area-line-chart>
             </div>
             <div class="box">
@@ -76,6 +79,7 @@
     import leonDarkAreaLineChart from "components/echarts/leon-dark-area-line-chart";
     import leonDarkVerticalBarChart from "components/echarts/leon-dark-vertical-bar-chart";
     import leonDarkPieChart from "components/echarts/leon-dark-pie-chart";
+    import leonDarkScatterChart from "components/echarts/leon-dark-scatter-chart";
 
     
     import geoCoordMap from "src/util/sys/china-cities"
@@ -93,7 +97,8 @@
             leonLineBarChart,
             leonDarkAreaLineChart,
             leonDarkVerticalBarChart,
-            leonDarkPieChart
+            leonDarkPieChart,
+            leonDarkScatterChart
         },
         data() {
             return {
@@ -130,10 +135,15 @@
                 echartsServicePie: {
                     id: 'echartsServicePie',
                     option: []
+                },
+                echartsScatter: {
+                    id: 'echartsAccessScatter',
+                    option: []
                 }
             }
         },
         methods: {
+            ...mapActions([ 'recordAccessIP' ]),
             close(){
                 this.$emit("closeFullScreen");
             },
@@ -143,9 +153,13 @@
                 ajaxGetCityInfo().then(res => {
                     if(res.state === 0){
                         let data = res.data.data;
+                        self.recordAccessIP(data);
+
                         let echartsMapOption = self.echartsMapOption
-                        echartsMapOption.mapSeriesData = echartsConfig.getMap('china', data.provinceList);
-                        echartsMapOption.scatterSeriesData = self.convertData(data.cityList);
+                        echartsMapOption.mapSeriesData = echartsConfig.getMap('china', self.accessIPProvince);
+                        echartsMapOption.scatterSeriesData = self.convertData(self.accessIPCity);
+                        self.echartsScatter.option = self.accessIPCity;
+                        console.log(self.accessIPCity, 162)
                         self.echartsMap.loading = false;
                     }else{
                         self.echartsMap.loadTips = '糟糕，地图加载失败！'
@@ -231,7 +245,7 @@
             this.init()
         },
         computed: {
-            ...mapGetters([ 'overviewAccess', 'overviewService' ])
+            ...mapGetters([ 'overviewAccess', 'overviewService', 'accessIPProvince', 'accessIPCity' ])
         }
     }
 </script>
