@@ -4,11 +4,14 @@
             <h2 class="title">高额配管分析管理<strong>您可以在这里查看Web服务Key的每日调用量，还可以申请更高的调用次数。</strong></h2>
         </div>
         <div style="margin-bottom: 22px;">
-            <Select size="large" v-model="Analysis.currentType" @on-change="queryQueryList" style="width:420px">
+            <div class="input-placeholder" v-if="Analysis.loading" style="width: 420px;">{{Analysis.loadTips}}</div>
+            <Select size="large" v-if="!Analysis.loading" v-model="Analysis.currentType" @on-change="queryQueryList" style="width:420px">
                 <Option v-for="item in Analysis.typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
         </div>
-        <Table border :columns="recordColumns" :data="recordData" class="custom-table"></Table>
+        
+        <div v-if="record.loading" class="input-placeholder" style="height: 300px;line-height: 300px;text-align: center;">{{record.loadTips}}</div>
+        <Table v-if="!record.loading" border :columns="recordColumns" :data="recordData" class="custom-table"></Table>
 
 
         <Modal
@@ -16,7 +19,7 @@
             class-name="custom-modal vertical-center-modal"
             width="482">
             <Icon type="ios-close-empty" slot="close" @click="closeQuotaFormModal('createQuotaForm')"></Icon>
-            <h2 class="title" slot="header">提升配额d</h2>
+            <h2 class="title" slot="header">提升配额</h2>
             <Form :model="createQuotaForm" ref="createQuotaForm" :rules="ruleCreateQuota" :label-width="80" class="custom-form">
                 <FormItem label="您的姓名" prop="username">
                     <Input v-model="createQuotaForm.username" placeholder="请输入您的姓名"></Input>
@@ -48,12 +51,8 @@
                 Analysis: {
                     currentType: '',
                     typeList: [],
-                    dateType: [
-                        { label: '全部申请', value: '0' },
-                        { label: '近三个月申请', value: '3' },
-                        { label: '近六个月申请', value: '6' },
-                        { label: '近一年申请', value: '12' },
-                    ]
+                    loading: false,
+                    loadTips: '努力加载中...'
                 },
                 recordColumns: [
                     {
@@ -147,6 +146,10 @@
                     },
                 ],
                 recordData: [],
+                record: {
+                    loading: false,
+                    loadTips: '努力加载中...'
+                },
                 isOpenQuotaModal: false,
                 createQuotaForm: {
                     username: '',
@@ -213,23 +216,38 @@
                 let data = {
                     keyId: self.quotaKeyId
                 }
+                this.record.loading = true;
                 ajaxPostQuotaList(data).then(res => {
                     if(res.state === 0){
-                        self.recordData = tools.getQuotaList(res.data.data.rows);
+                        let data = res.data.data.rows;
+                        if(data && data.length){
+                            self.recordData = tools.getQuotaList(res.data.data.rows);
+                            self.record.loading = false;
+                        }else{
+                            self.record.loadTips = '暂无数据'
+                        }                        
+                    }else{
+                        self.record.loadTips = res.message ? res.message : '糟糕，加载失败...'
                     }
                 })
             },
             getQuotaType(router){
                 const self = this;
+                this.Analysis.loading = true;
                 ajaxPostQuotaType().then(res => {
                     if(res.state === 0){
-                        self.Analysis.typeList = tools.getQuotaType(res.data.data)
-                        self.Analysis.currentType = router ? router: self.Analysis.typeList[0].value;
+                        let data = res.data.data;
+                        if(data && data.length){
+                            self.Analysis.typeList = tools.getQuotaType(res.data.data)
+                            self.Analysis.currentType = router ? router: self.Analysis.typeList[0].value;
+                            self.Analysis.loading = false;
+                            self.getQuotaList()
+                        }else{
+                            self.Analysis.loadTips = '暂无数据'
+                        }
                     }else{
-                        console.error(res.message)
+                        self.Analysis.loadTips = res.message ? res.message : "糟糕，加载失败...";
                     }
-                }).then(rs => {
-                    self.getQuotaList()
                 })
             }
         },
