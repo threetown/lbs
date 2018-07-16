@@ -54,18 +54,17 @@
         activeName: this.$route.name
       }
     },
-    watch: {
-      $route(to) {
-        
-      }
-    },
     computed: {
       MenuList(){
         return this.$store.state.auth.MenuList;
       },
-      openedMenuArr(){
-        let relative_path_arr = this.$route.path.split('/');
-        return relative_path_arr.length > 1 ?[relative_path_arr[1]] : ['application'];
+      openedMenuArr: {
+        get: function () {
+          let relative_path_arr = this.$route.path.split('/');
+          return relative_path_arr.length > 1 ? relative_path_arr[1].split() : ['application'];
+        },
+        set: function () {
+        }
       }
     },
     methods: {
@@ -102,5 +101,5 @@
 </script>
 
 <style lang="less">
-  @import "~assets/styles/dashboard.less";
+@import "~assets/styles/dashboard.less";
 </style>
