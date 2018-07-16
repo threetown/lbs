@@ -6,7 +6,7 @@ if (process.env.NODE_ENV == 'development') {
 } else if (process.env.NODE_ENV == 'debug') {
     axios.defaults.baseURL = '';
 } else if (process.env.NODE_ENV == 'production') {
-    axios.defaults.baseURL = 'http://testconsole.cindata.cn/';
+    axios.defaults.baseURL = 'http://consoleapi.cindata.cn/';
 }
 
 // 1. 创建axios实例

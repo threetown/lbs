@@ -35,16 +35,16 @@
             return {
                 mapColumns: [
                     {
-                        title: '服务内容',
+                        title: '服务名称',
                         key: 'name'
-                    },
-                    {
-                        title: '对象ID',
-                        key: 'objectID'
                     },
                     {
                         title: 'URL',
                         key: 'url'
+                    },
+                    {
+                        title: '服务类型',
+                        key: 'type'
                     },
                     {
                         title: '状态',
@@ -81,14 +81,14 @@
                 mapServerData: [
                     {
                         name: 'www',
-                        objectID: '20180611',
                         url: 'New York No. 1 Lake Park',
+                        type: '楼盘地图',
                         status: '正常'
                     },
                     {
                         name: 'www',
-                        objectID: '20180611',
                         url: 'New York No. 1 Lake Park',
+                        type: '专题地图',
                         status: '正常'
                     }
                 ],

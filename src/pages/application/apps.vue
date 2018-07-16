@@ -385,7 +385,6 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 this.isOpenQuotaModal = false;
             },
             triggerCreateQuotaModal(params, type){
-                console.log(params, 339)
                 const self = this;
                 if(type === 'edit'){
                     this.createKeyForm.appId = params.row.appId;

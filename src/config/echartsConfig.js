@@ -609,7 +609,7 @@ const echartsConfig = {
             datas.push({
                 name: item.name,
                 value: itemToStyle.offset,
-                symbolSize: itemToStyle.offset[2] * 50, // TODO，大小
+                symbolSize: itemToStyle.offset[2] * 30, // TODO，大小
                 label: { normal: { textStyle: { fontSize: 12 } }},
                 itemStyle: { normal: { color: 'rgba(20, 176, 233, .4)' } }
             })
