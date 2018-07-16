@@ -78,7 +78,7 @@
 
         <div class="full-echart-panel mb-12">
             <div class="header">
-                <h2 class="title">用户分析 <strong>每日新增用户数，当前用户总数：0</strong></h2>
+                <h2 class="title">用户分析 <strong>每日新增用户数，当前用户总数：{{currentUserCount}} 人</strong></h2>
             </div>
             <Row class="safeSetting">
                 <Col span="12">&nbsp;</Col>
@@ -102,7 +102,7 @@
 
 <script>
     import { selectTimeDict } from "src/config/basicConfig"
-    import { ajaxGetServiceOverview, ajaxGetAccessOverview, ajaxGetServiceLogCount, ajaxGetAccessLogCount, ajaxGetUserLogCount, ajaxGetCallLog } from 'src/service/sys'
+    import { ajaxGetServiceOverview, ajaxGetAccessOverview, ajaxGetServiceLogCount, ajaxGetAccessLogCount, ajaxGetUserLogCount, ajaxGetCallLog, ajaxCurrentUserCount } from 'src/service/sys'
     import * as method from 'src/util/sys/'
 
     import leonAreaLineEchart from "components/echarts/leon-area-line-chart";
@@ -151,7 +151,8 @@
                 },
                 access: {
                     loading: false
-                }
+                },
+                currentUserCount: 0
             }
         },
         methods: {
@@ -241,6 +242,14 @@
                     }
                 })
             },
+            getCurrentUserCount(){
+                const self = this;
+                ajaxCurrentUserCount().then(res => {
+                    if(res.state === 0){
+                        self.currentUserCount = res.data.count;
+                    }
+                })
+            },
             init(){
                 this.getServiceOverview();
                 this.getAccessOverview();
@@ -248,6 +257,7 @@
                 this.selectFlowAnalysis();
                 this.selectUserLogAnalysis();
                 this.getCallLog();
+                this.getCurrentUserCount()
             }
         },
         created: function() {

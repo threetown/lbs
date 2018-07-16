@@ -26,3 +26,6 @@ export const ajaxGetServerInfo = () => fetch({ url: '/center/getServerCountInfo'
 
 // 大屏展示 - 服务使用排名
 export const ajaxGetServerRank = (params) => fetch({ url: '/center/getServieRanking/' + params, method: 'get' })
+
+// 数据总览 - 当前用户总数
+export const ajaxCurrentUserCount = () => fetch({ url: '/center/getUserCountByStatus', method: 'get'})
