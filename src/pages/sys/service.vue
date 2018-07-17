@@ -39,6 +39,10 @@
                 :columns="mapServer.columns"
                 :data="mapServer.data"
                 stripe></Table>
+            <div class="page-placeholder" v-show="!mapServer.loading">
+                <Page :total="mapServer.total" :current="mapServer.current" @on-change="mapServerChangePage"></Page>
+            </div>
+
             <div slot="footer" v-show="!mapServer.loading">
                 <Button type="text" size="large" @click="closeMapServerModal('MapServerForm')">取消</Button>
                 <Button type="primary" size="large" @click.prevent="submitMapServer('MapServerForm')">提交</Button>
@@ -151,6 +155,8 @@
                     data: [
                         { "concurrencyMax": 0, "mapType": "addr_map", "mapName": "池州市地图资源", "mapCode": "1_ADDR_MAP_332f0f81194c66cbf6df88bfbd11962e", "dailyTotalCnt": 0 }
                     ],
+                    page: 1,
+                    total: 0,
                     loading: false,
                     state: 'loading',
                     loadTips: '努力加载中，请稍等...'
@@ -206,15 +212,23 @@
             submitMapServer(){
 
             },
+            mapServerChangePage(v){
+                this.mapServer.page = v;
+                this.getMapServerItems()
+            },
             getMapServerItems(){
                 const self = this;
                 this.mapServer.loading = true;
-                this.mapServer.state = 'loading'
-                ajaxMapServerItems().then(res => {
+                this.mapServer.state = 'loading';
+                let data = {
+                    rows: this.mapServer.page -1
+                }
+                ajaxMapServerItems(data).then(res => {
                     if (res.state === 0) {
-                        let data = res.data.data.rows;
-                        if(data && data.length){
-                            self.mapServer.data = data;
+                        let data = res.data.data;
+                        if(data && data.total){
+                            self.mapServer.data = data.rows;
+                            self.mapServer.total = data.total;
                             self.mapServer.loading = false;
                         }else{
                             self.mapServer.state = 'empty';
