@@ -90,7 +90,7 @@
                 curOpen: 0,
                 Loading: {
                     state: true,
-                    info: '完命加载中，请稍等...'
+                    info: '努力加载中，请稍等...'
                 },
                 mapColumns: [
                     { title: 'Key名称', key: 'keyName', align: 'center' },
