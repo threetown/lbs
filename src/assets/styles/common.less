@@ -88,3 +88,22 @@ body {
 ::-webkit-scrollbar-corner{background:transparent;}
 .m-25 {margin: 25px;}
 .mb-24 {margin-bottom: 24px;}
+
+.Placeholder{
+    min-width: 400px;
+    padding-top: 260px;
+    padding-bottom: 100px;
+    background: #fff url(../img/tips/loading.gif) center 60px no-repeat;
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+    &.loading{
+        background-image: url(../img/tips/loading.gif);
+    }
+    &.empty{
+        background-image: url(../img/tips/empty.gif);
+    }
+    &.error{
+        background-image: url(../img/tips/error.gif);
+    }
+}
