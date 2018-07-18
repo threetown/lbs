@@ -45,7 +45,7 @@ let gender = [
 ]
 
 let url = {
-    home: 'http://testlbs.cindata.cn/gxdyun'
+    home: 'http://lbs.cindata.cn/gxdyun'
 }
 
 let selectTimeDict = [

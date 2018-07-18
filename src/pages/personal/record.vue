@@ -28,9 +28,9 @@
                 search: {
                     currentType: '0',
                     statusType: [
-                        { label: '全部申请', value: '0' },
+                        { label: '全部申请', value: '' },
                         { label: '已通过', value: '1' },
-                        { label: '未通过', value: '2' }
+                        { label: '未通过', value: '-1' }
                     ],
                     currentDate: '0',
                     dateType: [

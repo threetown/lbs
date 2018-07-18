@@ -2,7 +2,7 @@
     <div id="fullScreen" class="fullScreen">
         <div class="close" @click="close"><i class="iconfont icon-close"></i></div>
 
-        <h1 class="title">国信达能力开放平台监控系统</h1>
+        <h1 class="title">国信达安全总控平台</h1>
 
         <div class="Map">
             <div class="loading" v-if="echartsMap.loading">{{echartsMap.loadTips}}</div>
