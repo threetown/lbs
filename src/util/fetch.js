@@ -6,7 +6,7 @@ if (process.env.NODE_ENV == 'development') {
 } else if (process.env.NODE_ENV == 'debug') {
     axios.defaults.baseURL = '';
 } else if (process.env.NODE_ENV == 'production') {
-    axios.defaults.baseURL = 'http://testconsoleapi.cindata.cn/';
+    axios.defaults.baseURL = 'http://consoleapi.cindata.cn/';
 }
 
 // 1. 创建axios实例
@@ -48,7 +48,7 @@ fetch.interceptors.response.use(
             }
             switch (error.response.data.state) {
                 case -1:
-                    window.location = 'http://testsso.cindata.cn/sso/login?callbackUrl=http://testlbs.cindata.cn&p=gxdyun';
+                    window.location = 'http://sso.cindata.cn/sso/login?callbackUrl=http://lbs.cindata.cn&p=gxdyun';
                     console.log(error.response.data.message)
                     break;
                 case -2:

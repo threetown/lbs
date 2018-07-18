@@ -47,7 +47,7 @@ auth.initRouter = function (vm) {
         vm.$Loading.error()
         setTimeout(gloabLoading, 10)
         setTimeout(function(){
-            window.location = 'http://testsso.cindata.cn/sso/login?callbackUrl=http://testlbs.cindata.cn&p=gxdyun'
+            window.location = 'http://sso.cindata.cn/sso/login?callbackUrl=http://lbs.cindata.cn&p=gxdyun'
         },100)
     });
 };
