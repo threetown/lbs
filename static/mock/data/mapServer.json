@@ -1,0 +1,83 @@
+{
+    "data": {
+        "data": {
+            "rows": [
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "base_map",
+                    "mapName": "chinaBD",
+                    "mapCode": "1_BASE_MAP_e9e92c171b2168095754632d2d663d37",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "addr_map",
+                    "mapName": "池州市地图资源",
+                    "mapCode": "1_ADDR_MAP_332f0f81194c66cbf6df88bfbd11962e",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "base_map",
+                    "mapName": "ChinaBeige",
+                    "mapCode": "1_BASE_MAP_b185c5b9b62fff827cdaebaf94ed444e",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "addr_map",
+                    "mapName": "宣城市地图资源",
+                    "mapCode": "1_ADDR_MAP_308332ba2196130f30c5ce830470c74f",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "base_map",
+                    "mapName": "ChinaBlack",
+                    "mapCode": "1_BASE_MAP_027ec15ccc633d253f1e0c099304562a",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "base_map",
+                    "mapName": "ChinaDark",
+                    "mapCode": "1_BASE_5b6c21e06e89c4c84ee604a3cf1e26af",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "base_map",
+                    "mapName": "ChinaGD",
+                    "mapCode": "1_BASE_MAP_2ffee9e3be0a8192d5019b2761125ca6",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "base_map",
+                    "mapName": "ChinaGray",
+                    "mapCode": "1_BASE_MAP_52f6d8728807dab30bf2e5c0c1535a14",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "addr_map",
+                    "mapName": "湘潭市地图资源",
+                    "mapCode": "1_ADDR_MAP_f2a2e133388f2b2e27de19a1e0868603",
+                    "dailyTotalCnt": 0
+                },
+                {
+                    "concurrencyMax": 0,
+                    "mapType": "addr_map",
+                    "mapName": "成都市地图资源",
+                    "mapCode": "1_ADDR_MAP_03e7391d99284ed4465758df190db3e6",
+                    "dailyTotalCnt": 0
+                }
+            ],
+            "total": 429
+        }
+    },
+    "message": "查找成功",
+    "page": 0,
+    "state": 0,
+    "success": true
+}
