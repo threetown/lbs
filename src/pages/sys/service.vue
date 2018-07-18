@@ -11,20 +11,20 @@
         <Tabs v-if="!serviceType.loading" :value="serviceType.value " :animated="false" @on-click="triggerTabs">
             <TabPane :label="items.name" :name="items.value" v-for="items in serviceType.data" :key="items.value">
                 <div class="mormal-tabs-bd">
-                    <Row style="margin-bottom: 22px;" v-if="!serviceResource.loading">
+                    <Row style="margin-bottom: 22px;">
                         <Col span="16">
-                            <Select size="large" v-if="serviceType.value === '2'" v-model="search.server" style="width:200px">
+                            <Select size="large" v-if="serviceType.value === '2'" v-model="search.server" style="width:200px" @on-change="changeQueryService">
                                 <Option v-for="item in search.serverList" :value="item.value" :key="item.value">{{ item.name }}</Option>
                             </Select>
-                            <Select size="large" v-model="search.state" style="width:200px">
+                            <Select size="large" v-model="search.state" style="width:200px" @on-change="changeQueryState">
                                 <Option v-for="item in search.stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
                         </Col>
                         <Col span="8">
                             <Input size="large"
                                 v-model="search.keyword"
-                                @on-enter="triggerSearch"
-                                @on-click="triggerSearch"
+                                @on-enter="changeQueryKeyword"
+                                @on-click="changeQueryKeyword"
                                 icon="ios-search-strong"
                                 placeholder="请输入关键字"
                                 style="width: 220px;float: right;"></Input>
@@ -33,6 +33,13 @@
 
                     <div v-if="serviceResource.loading" :class="'Placeholder ' + serviceResource.state">{{serviceResource.loadTips}}</div>
                     <Table v-if="!serviceResource.loading" class="custom-table" border :columns="mapColumns" :data="serviceResource.data"></Table>
+                    <div class="page-placeholder" v-show="!serviceResource.loading">
+                        <Page :total="serviceResource.total"
+                            :current="serviceResource.page"
+                            :page-size="serviceResource.rows"
+                            @on-change="changeQueryPage"
+                        ></Page>
+                    </div>
                 </div>
             </TabPane>
             <div slot="extra">
@@ -58,7 +65,7 @@
             ></can-edit-table>
 
             <div class="page-placeholder" v-show="!mapServer.loading">
-                <Page :total="mapServer.total" :current="mapServer.current" @on-change="mapServerChangePage"></Page>
+                <Page :total="mapServer.total" :current="mapServer.page" :page-size="mapServer.rows" @on-change="mapServerChangePage"></Page>
             </div>
 
             <div slot="footer" v-show="!mapServer.loading">
@@ -106,7 +113,25 @@
                     },
                     {
                         title: '状态',
-                        key: 'statusCd'
+                        key: 'statusCd',
+                        render: (h, params) => {
+                            let texts = '';
+                            let classname = '';
+                            if(params.row.statusCd === 1){
+                                classname = 'status-success'
+                                texts = '有效';
+                            }else if(params.row.statusCd === 2){
+                                classname = 'status-error'
+                                texts = '无效';
+                            }else{
+                                texts = '其它';
+                            }
+                            return h('div',{},[
+                                h('span', {
+                                    class: classname,
+                                }, texts)
+                            ])
+                        }
                     },
                     {
                         title: '操作',
@@ -136,7 +161,7 @@
                     }
                     
                 ],
-                serviceType: {
+                serviceType: { // 服务类型
                     data: [],
                     value: '',
                     loading: false,
@@ -145,6 +170,9 @@
                 },
                 serviceResource: {
                     data: [],
+                    page: 1,
+                    rows: 2,
+                    total: 10,
                     loading: false,
                     loadTips: '努力加载中，请稍等...',
                     state: 'loading'
@@ -179,6 +207,7 @@
                         { "concurrencyMax": 0, "mapType": "addr_map", "mapName": "池州市地图资源2", "mapCode": "1_ADDR_MAP_332f0f81194c66cbf6df88bfbd11962e", "dailyTotalCnt": 0, _checked: true }
                     ],
                     page: 1,
+                    rows: 10,
                     total: 0,
                     loading: false,
                     state: 'loading',
@@ -205,9 +234,6 @@
                 }
                 this.getServerList();
             },
-            triggerSearch(){
-                console.log('search')
-            },
             triggerAddServer(){ // 新增服务
                 const self = this;
                 let key = this.serviceType.value;
@@ -217,7 +243,7 @@
                         self.getMapServerItems()
                         break;
                     default:
-                        console.log('a')
+                        
                         break;
                 }
             },
@@ -253,6 +279,32 @@
                 this.mapServer.page = v;
                 this.getMapServerItems()
             },
+            changeQueryPage(v){
+                let data = {
+                    page: v - 1
+                }
+                this.getServerList(data)
+            },
+            changeQueryKeyword(){
+                let data = {
+                    searchName: this.search.keyword
+                }
+                this.getServerList(data)
+                // if(this.search.server){
+                //     params.serviceTypeMinor = this.search.server
+                // }
+            },
+            changeQueryState(v){
+                let data = {
+                    statusCd: v
+                }
+                this.getServerList(data)
+            },
+            changeQueryService(params){
+                console.log(params, 282)
+                // let data = Object.assign({  })
+                this.getServerList()
+            },
             getServerList(params){ // 获取服务
                 const self = this;
                 
@@ -261,15 +313,19 @@
                 this.serviceResource.loadTips = '努力加载中，请稍等...';
 
                 let data = {
-                    serviceTypeMajor: self.serviceType.value
+                    serviceTypeMajor: this.serviceType.value,
+                    page: this.serviceResource.page - 1,
+                    rows: this.serviceResource.rows
                 }
                 data = Object.assign(data, params);
 
                 ajaxServerList(data).then(res => {
                     if(res.state === 0){
-                        let datas = res.data.data.rows;
-                        if(datas && datas.length){
-                            self.serviceResource.data = datas;
+                        let datas = res.data.data;
+                        if(datas && datas.rows.length){
+                            self.serviceResource.data = datas.rows;
+                            self.serviceResource.total = datas.total;
+                            console.log(datas.total, self.serviceResource.total, 312)
                             self.serviceResource.loading = false;
                         }else{
                             self.serviceResource.state = 'empty';
@@ -286,7 +342,8 @@
                 this.mapServer.loading = true;
                 this.mapServer.state = 'loading';
                 let data = {
-                    rows: this.mapServer.page -1
+                    page: this.mapServer.page -1,
+                    rows: this.mapServer.rows
                 }
                 ajaxMapServerItems(data).then(res => {
                     if (res.state === 0) {
