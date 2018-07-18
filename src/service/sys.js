@@ -29,3 +29,15 @@ export const ajaxGetServerRank = (params) => fetch({ url: '/center/getServieRank
 
 // 数据总览 - 当前用户总数
 export const ajaxCurrentUserCount = () => fetch({ url: '/center/getUserCountByStatus', method: 'get'})
+
+/**
+ * 系统管理 - 服务管理
+ */
+// 地图服务 - 列表
+export const ajaxServerList = (data) => fetch({ url: '/center/map/getRegistMapList', method: 'post', data})
+
+// 地图服务 - 新增列表查询
+export const ajaxMapServerItems = (data) => fetch({ url: '/center/map/addMapRegistBefore', method: 'post', data})
+
+// 地图服务 - 提交
+export const ajaxMapServerRegist = (data) => fetch({ url: '/center/map/addMapRegist', method: 'post', data})
