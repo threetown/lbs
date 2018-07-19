@@ -44,10 +44,14 @@ let gender = [
     { label: '保密', value: 0 }
 ]
 
+let LbsUrl = 'http://lbs.cindata.cn';        // LBS
+let SSOUrl = 'http://sso.cindata.cn';        // SSO
+let APIUrl = 'http://consoleapi.cindata.cn'; // API请求地址
+
 let url = {
-    home: 'http://lbs.cindata.cn/gxdyun',
-    logout: 'http://lbs.cindata.cn/amp/client/logout',
-    jump: 'http://sso.cindata.cn/sso/login?callbackUrl=http://lbs.cindata.cn&p=gxdyun'
+    home: LbsUrl + '/gxdyun',
+    logout: LbsUrl + '/amp/client/logout',
+    jump: SSOUrl + '/sso/login?callbackUrl=' + LbsUrl + '&p=gxdyun'
 }
 
 let selectTimeDict = [
@@ -73,5 +77,7 @@ export {
     gender,
     url,
     selectTimeDict,
-    serverType
+    serverType,
+    APIUrl,
+    SSOUrl
 }

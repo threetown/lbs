@@ -1,4 +1,5 @@
 import fetch from 'src/util/fetch';
+import * as basicConfig from 'src/config/basicConfig'
 
 // 用户信息
 export const ajaxPostUserinfo = () => fetch({ url: '/center/user/getUserInfo/', method: 'post' })
@@ -32,7 +33,7 @@ export const ajaxPhoneSendSMSCode = (data) => fetch({
     headers: {
         'Content-type': 'application/x-www-form-urlencoded'
     },
-    url: 'http://testsso.cindata.cn/sso/user/sendCode', 
+    url: basicConfig.SSOUrl + '/sso/user/sendCode', 
     method: 'post',
     data
 })

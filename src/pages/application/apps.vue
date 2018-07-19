@@ -146,7 +146,6 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
 </template>
 
 <script>
-    import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
     import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey } from 'src/service/application'
