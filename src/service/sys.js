@@ -37,9 +37,12 @@ export const ajaxCurrentUserCount = () => fetch({ url: '/center/getUserCountBySt
 export const ajaxServerList = (data) => fetch({ url: '/center/map/getRegistMapList', method: 'post', data})
 // 删除服务
 export const ajaxDeleteServer = (params) => fetch({ url: '/center/map/deleteMapRegist/' + params, method: 'get'})
+// 编辑服务
+export const ajaxEditServer = (data) => fetch({ url: '/center/map/editMapRegist', method: 'post', data})
 
 // 地图服务 - 新增列表查询
 export const ajaxMapServerItems = (data) => fetch({ url: '/center/map/addMapRegistBefore', method: 'post', data})
 
 // 地图服务 - 提交
 export const ajaxMapServerRegist = (data) => fetch({ url: '/center/map/addMapRegist', method: 'post', data})
+

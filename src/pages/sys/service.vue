@@ -75,6 +75,34 @@
         </Modal> <!-- 新增服务 - 地图服务 -->
 
         <Modal
+            v-model="Modal.service.isOpen"
+            class-name="custom-modal vertical-center-modal"
+            width="500">
+            <Icon type="ios-close-empty" slot="close" @click="closeServiceModal('serviceForm')"></Icon>
+            <h2 class="title" slot="header">{{ Modal.service.type === 'edit' ? '编辑' : '创建新' }}服务</h2>
+            <Form :model="Modal.service.Form" ref="serviceForm" :rules="Modal.service.rule" :label-width="92" class="custom-form">
+                <FormItem label="服务名称" prop="serviceName">
+                    <Input v-model="Modal.service.Form.serviceName"></Input>
+                </FormItem>
+                <FormItem label="URL" prop="serviceUrl">
+                    <Input v-model="Modal.service.Form.serviceUrl"></Input>
+                </FormItem>
+                <FormItem label="调用量上限" prop="dailyTotalCnt" class="hasUnit">
+                    <InputNumber v-model="Modal.service.Form.dailyTotalCnt" :min="0" size="large" style="width: 130px"></InputNumber>
+                    <span class="unit">次/日</span>
+                </FormItem>
+                <FormItem label="并发量上限" prop="concurrencyMax" class="hasUnit">
+                    <InputNumber v-model.number="Modal.service.Form.concurrencyMax" :min="0" size="large" style="width: 130px"></InputNumber>
+                    <span class="unit">次/秒</span>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="text" size="large" @click="closeServiceModal('serviceForm')">取消</Button>
+                <Button type="primary" size="large" :loading="Modal.service.loading" @click.prevent="handlerService('serviceForm')">提交</Button>
+            </div>
+        </Modal> <!-- 编辑/新增服务 -->
+
+        <Modal
             v-model="Modal.delete.isOpen"
             class-name="custom-modal custom-warning-modal vertical-center-modal"
             width="378">
@@ -95,7 +123,7 @@
     import * as tools from 'src/util/tools'
 
     import { ajaxServiceType, ajaxAppType } from 'src/service/application'
-    import { ajaxServerList, ajaxMapServerItems, ajaxMapServerRegist, ajaxDeleteServer } from 'src/service/sys'
+    import { ajaxServerList, ajaxMapServerItems, ajaxMapServerRegist, ajaxDeleteServer, ajaxEditServer } from 'src/service/sys'
     
     import canEditTable from 'components/tables/canEditTable.vue'
 
@@ -110,15 +138,6 @@
                     { title: 'URL', key: 'serviceUrl' },
                     { title: '调用量上限(次/日)', key: 'dailyTotalCnt' },
                     { title: '并发量上限(次/秒)', key: 'concurrencyMax' },
-                    { title: '服务类型', key: 'serviceTypeMinor', render: (h, params) => {
-                            let texts = '';
-                            let classname = '';
-                            texts = this.serviceType.data.find(item => item.value == params.row.serviceTypeMinor).name
-                            return h('div',{},[
-                                h('span', { class: classname }, texts)
-                            ])
-                        }
-                    },
                     { title: '状态', key: 'statusCd', align: 'center', render: (h, params) => {
                             let texts = '';
                             let classname = '';
@@ -143,7 +162,7 @@
                                 h('span', {
                                     class: 'items', on: {
                                         click: () => {
-                                            this.triggerDeleteModal(params)
+                                            this.triggerServiceModal(params, 'edit')
                                         }
                                     }
                                 }, '编辑'),
@@ -176,8 +195,8 @@
                 serviceResource: {
                     data: [],
                     page: 1,
-                    rows: 2,
-                    total: 10,
+                    rows: 10,
+                    total: 0,
                     loading: false,
                     loadTips: '努力加载中，请稍等...',
                     state: 'loading'
@@ -225,6 +244,31 @@
                         serviceId: '',
                         isOpen: false,
                         loading: false
+                    },
+                    service: {
+                        Form: {
+                            serviceName: '',   // 服务名称
+                            serviceUrl: '',    // URL
+                            dailyTotalCnt: 0,  // 调用量上限(次/日)
+                            concurrencyMax: 0, // 并发量上限(次/秒)
+                            serviceId: '',
+                            serviceTypeMinor: '',
+                            serviceTypeMajor: ''
+                        },
+                        rule: {
+                            serviceName: [
+                                { required: true, message: "请输入服务名称", trigger: 'blur' },
+                                { max: 15, message:"服务名称不能超过15个字符", trigger: 'blur' },
+                                { pattern: /^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"请使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }  
+                            ],
+                            serviceUrl: [
+                                { required: true, message: "请输入URL", trigger: 'blur' },
+                                { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
+                            ]
+                        },
+                        type: '',
+                        isOpen: false,
+                        loading: false
                     }
                 }
             }
@@ -255,9 +299,74 @@
                         self.getMapServerItems()
                         break;
                     default:
-                        
+                        self.triggerServiceModal()
                         break;
                 }
+            },
+            triggerServiceModal(params, type){
+                if(type === 'edit'){
+                    let data = params.row;
+                    this.Modal.service.Form.serviceName = data.serviceName
+                    this.Modal.service.Form.serviceUrl = data.serviceUrl
+                    this.Modal.service.Form.dailyTotalCnt = data.dailyTotalCnt
+                    this.Modal.service.Form.concurrencyMax = data.concurrencyMax
+                    this.Modal.service.Form.serviceId = data.serviceId
+                    this.Modal.service.Form.serviceTypeMinor = data.serviceTypeMinor
+                }
+                this.Modal.service.type = type;
+                this.Modal.service.isOpen = true;
+            },
+            closeServiceModal(name){
+                this.$refs[name].resetFields();
+                this.Modal.service.isOpen = false;
+            },
+            handlerService(name){
+                const self = this;
+                let data ={
+                    serviceTypeMajor: this.serviceType.value,
+                    serviceName: this.Modal.service.Form.serviceName,
+                    dailyTotalCnt: this.Modal.service.Form.dailyTotalCnt,
+                    concurrencyMax: this.Modal.service.Form.concurrencyMax,
+                }
+                
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        this.Modal.service.loading = true;
+
+                        if(this.Modal.service.type === 'edit'){
+                            data = Object.assign(data, {
+                                serviceUrl: self.Modal.service.Form.serviceUrl,
+                                serviceId: self.Modal.service.Form.serviceId,
+                                serviceTypeMinor: self.Modal.service.Form.serviceTypeMinor
+                            })
+                            ajaxEditServer(data).then(res => {
+                                if(res.state === 0){
+                                    self.closeServiceModal(name);
+                                    self.getServerList();
+                                    self.$Message.success(res.message)
+                                }else{
+                                    self.$Message.error(res.message)
+                                }
+                                self.Modal.service.loading = false;
+                            })
+                        }else{
+                            data = Object.assign(data, {
+                                mapCode: self.Modal.service.Form.serviceUrl,
+                            })
+                            data = `[${JSON.stringify(data)}]`  // 后台要求传入必须为数组，所以这么转换
+                            ajaxMapServerRegist(data).then(res => {
+                                if(res.state === 0){
+                                    self.closeServiceModal(name);
+                                    self.getServerList();
+                                    self.$Message.success(res.message)
+                                }else{
+                                    self.$Message.error(res.message)
+                                }
+                                self.Modal.service.loading = false;
+                            })
+                        }                        
+                    }
+                })
             },
             triggerDeleteModal(params){ // 删除
                 this.Modal.delete.serviceId = params.row.serviceId          
@@ -279,7 +388,7 @@
                 })
             },
             closeMapServerModal(){
-                self.mapServer.isOpen = false;
+                this.mapServer.isOpen = false;
             },
             submitMapServer(){
                 const self = this;
@@ -321,9 +430,6 @@
                     searchName: this.search.keyword
                 }
                 this.getServerList(data)
-                // if(this.search.server){
-                //     params.serviceTypeMinor = this.search.server
-                // }
             },
             changeQueryState(v){
                 let data = {
@@ -332,8 +438,6 @@
                 this.getServerList(data)
             },
             changeQueryService(params){
-                console.log(params, 282)
-                // let data = Object.assign({  })
                 this.getServerList()
             },
             getServerList(params){ // 获取服务
