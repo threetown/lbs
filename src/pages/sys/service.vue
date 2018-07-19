@@ -232,7 +232,7 @@
                             ],
                             serviceUrl: [
                                 { required: true, message: "请输入URL", trigger: 'blur' },
-                                { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
+                                // { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
                             ]
                         },
                         type: '',
