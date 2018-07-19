@@ -3,14 +3,12 @@
         <div class="full-block-mod">
             <div class="Header clearfix">
                 <h2 class="title">回收站 <strong>被删除的应用可恢复</strong></h2>
-                <Button class="fr" type="primary" icon="trash-a" slot="extra" size="large" @click="triggerDeleteModel('clearAll')">清空回收站</Button>
+                <div slot="extra" v-if="!Loading.state">
+                    <Button class="fr" type="primary" icon="trash-a" size="large" @click="triggerDeleteModel('clearAll')">清空回收站</Button>
+                </div>
             </div>
             
-            <div class="LoadingBox" style="height: 300px;" v-show="Loading.state">
-                <Spin fix>
-                    {{Loading.info}}
-                </Spin>
-            </div>
+            <div v-if="Loading.state" :class="'Placeholder ' + Loading.class">{{Loading.info}}</div>
             <div v-if="!Loading.state">
                 <div class="collapse">
                     <div :class="index === curOpen ? 'panel active' : 'panel'" v-for="(item, index) in appServerData">
@@ -22,7 +20,7 @@
                                 <Col span="5">{{item.createdDt}} 创建</Col>
                                 <Col span="12" class="action">
                                     <Icon type="trash-a" @click="triggerDeleteModel('app', item, index)"></Icon>
-                                    <Button class="btn-blue" type="ghost" @click="triggerRecoverModal(item,'create')">恢复应用</Button>
+                                    <Button class="btn-blue" type="ghost" @click="triggerRecoverModal(item,'app')">恢复应用</Button>
                                 </Col>
                                 <Col span="2" class="tac arrow"><Icon type="ios-arrow-down" @click="toggleTab(index)"></Icon></Col>
                             </Row>
@@ -89,14 +87,15 @@
                 statusCd: 2,
                 curOpen: 0,
                 Loading: {
-                    state: true,
+                    state: false,
+                    class: 'loading',
                     info: '努力加载中，请稍等...'
                 },
                 mapColumns: [
                     { title: 'Key名称', key: 'keyName', align: 'center' },
                     { title: 'Key', key: 'keyCode', align: 'center' },
                     { title: '绑定服务', key: 'serviceTypeMajorName', align: 'center' },
-                    { title: '删除时间', key: 'time', align: 'center' },
+                    { title: '删除时间', key: 'version', align: 'center' },
                     {
                         title: '操作',
                         key: 'action',
@@ -140,7 +139,8 @@
                     modal: false,
                     type: '',
                     appId: '',
-                    keyId: ''
+                    keyId: '',
+                    loading: false
                 }
             }
         },
@@ -212,13 +212,22 @@
                 let data = {
                     "statusCd": this.statusCd
                 }
+                this.Loading.state = true;
+                this.Loading.class = 'loading';
+                this.Loading.info = '努力加载中，请稍等...';
                 ajaxPostApp(data).then(res => {
                     if(res.state === 0){
-                        let resource = res.data;
-                        self.appServerData = resource.appKeyInfo;
-                        self.Loading.state = false;
+                        let resource = res.data.appKeyInfo;
+                        if(resource && resource.length){
+                            self.appServerData = resource;
+                            self.Loading.state = false;
+                        }else{
+                             self.Loading.class = 'empty'
+                            self.Loading.info = '抱歉，暂无数据！'
+                        }
                     }else{
-                        self.Loading.info = res.message;
+                        self.Loading.class = 'error';
+                        self.Loading.info = '糟糕，加载失败！';
                     }
                 })
             },
@@ -235,8 +244,37 @@
             },
             RecoverApp(){
                 const self = this;
-                this.$Message.success(self.Recover.type + '已恢复！');
-                this.Recover.modal = false;
+                let data = {
+                    statusCd: 1,
+                    appId: this.Recover.appId
+                }
+                this.Recover.loading = true;
+                if(this.Recover.type === 'key'){
+                    data = Object.assign(data, {
+                        keyId: this.Recover.keyId
+                    })
+                    ajaxUpdateKey(data).then(res => {
+                        if(res.state === 0){
+                            self.$Message.success(res.message)
+                            self.getAppServerList()
+                            self.Recover.modal = false
+                        }else{
+                            self.$Message.error(res.message)
+                        }
+                        self.Recover.loading = false;
+                    })
+                }else if(this.Recover.type === 'app'){
+                    ajaxUpdateApp(data).then(res => {
+                        if(res.state === 0){
+                            self.$Message.success(res.message)
+                            self.getAppServerList()
+                            self.Recover.modal = false
+                        }else{
+                            self.$Message.error(res.message)
+                        }
+                        self.Recover.loading = false;
+                    })
+                }
             }
         },
         created(){
