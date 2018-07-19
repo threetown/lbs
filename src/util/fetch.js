@@ -1,5 +1,6 @@
 import axios from 'axios';
 let qs = require('qs');
+import * as basicConfig from 'src/config/basicConfig'
 
 if (process.env.NODE_ENV == 'development') {
     axios.defaults.baseURL = '';
@@ -48,7 +49,7 @@ fetch.interceptors.response.use(
             }
             switch (error.response.data.state) {
                 case -1:
-                    window.location = 'http://sso.cindata.cn/sso/login?callbackUrl=http://lbs.cindata.cn&p=gxdyun';
+                    window.location = basicConfig.url.jump;
                     console.log(error.response.data.message)
                     break;
                 case -2:

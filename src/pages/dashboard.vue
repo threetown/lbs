@@ -77,7 +77,7 @@
               loading: true,
               className: 'custom-modal vertical-center-modal',
               onOk: () => {
-                window.location = 'http://testlbs.cindata.cn/amp/client/logout';
+                window.location = basicConfig.url.logout;
               }
           });
         }

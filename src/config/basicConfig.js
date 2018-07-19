@@ -45,7 +45,9 @@ let gender = [
 ]
 
 let url = {
-    home: 'http://lbs.cindata.cn/gxdyun'
+    home: 'http://lbs.cindata.cn/gxdyun',
+    logout: 'http://lbs.cindata.cn/amp/client/logout',
+    jump: 'http://sso.cindata.cn/sso/login?callbackUrl=http://lbs.cindata.cn&p=gxdyun'
 }
 
 let selectTimeDict = [
