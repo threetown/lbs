@@ -116,6 +116,22 @@
                 <Button type="primary" size="large" :loading="Modal.delete.loading" @click.prevent="handlerDelete">确认</Button>
             </div>
         </Modal> <!-- 删除 -->
+
+        <Modal
+            v-model="Count.isOpen"
+            class-name="custom-modal vertical-center-modal"
+            width="912">
+            <Icon type="ios-close-empty" slot="close" @click="closeCountModal('CountForm')"></Icon>
+            <h2 class="title" slot="header">数据统计</h2>
+            
+            <Select v-model="Count.type" @on-change="selectCount" size="large" style="width:160px;">
+                <Option v-for="item in selectTimeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            <div v-if="Count.loading" :class="'Placeholder ' + Count.state">{{Count.loadTips}}</div>
+            <leon-line-echart v-if="!Count.loading" :id="Count.echarts.id" :option="Count.echarts.option" :style="Count.echarts.style"></leon-line-echart>
+
+            <div slot="footer"></div>
+        </Modal> <!-- 新增服务 - 地图服务 -->
     </div>
 </template>
 
@@ -123,13 +139,18 @@
     import * as tools from 'src/util/tools'
 
     import { ajaxServiceType, ajaxAppType } from 'src/service/application'
-    import { ajaxServerList, ajaxMapServerItems, ajaxMapServerRegist, ajaxDeleteServer, ajaxEditServer } from 'src/service/sys'
+    import { ajaxServerList, ajaxMapServerItems, ajaxMapServerRegist, ajaxDeleteServer, ajaxEditServer, ajaxRequestCount } from 'src/service/sys'
     
     import canEditTable from 'components/tables/canEditTable.vue'
+    import leonLineEchart from "components/echarts/leon-line-chart"
+
+    import { selectTimeDict } from "src/config/basicConfig"
+    import * as method from 'src/util/sys/'
 
     export default {
         components: {
-            canEditTable
+            canEditTable,
+            leonLineEchart
         },
         data () {
             return {
@@ -218,7 +239,24 @@
                         isOpen: false,
                         loading: false
                     }
-                }
+                },
+                Count: {
+                    type: 'todayOfHours',
+                    serviceId: '',
+                    isOpen: false,
+                    loading: false,
+                    loadTips: '努力加载中，请稍等...',
+                    state: 'loading',
+                    echarts: {
+                        id: 'count-echarts',
+                        style: {
+                            width: '852px',
+                            height: '381px'
+                        },
+                        option: {}
+                    }
+                },
+                selectTimeDict
             }
         },
         methods: {
@@ -479,6 +517,45 @@
                     }
                 })
             },
+            closeCountModal(name){
+                this.Count.isOpen = false;
+            },
+            triggerCountModal(params){
+                this.Count.isOpen = true;
+                this.Count.serviceId = params.row.serviceId;
+                this.showCount()
+            },
+            selectCount(v){
+                this.showCount({ countType: v })
+            },
+            showCount(params){
+                const self = this;
+                let data = {
+                    countType: this.Count.type,
+                    serviceID: this.Count.serviceId
+                }
+                if(params){
+                    data = Object.assign(data, params)
+                }
+                this.Count.loading = true;
+                this.Count.state = 'loading';
+                this.Count.loadTips = '努力加载中，请稍等...';
+                ajaxRequestCount(data).then(res => {
+                    if(res.state === 0){
+                        let result = res.data.data;
+                        if(result && result.length){
+                            self.Count.echarts.option = method.convertUserLineAreaEchartData(result);
+                            self.Count.loading = false;
+                        }else{
+                            self.Count.state = 'empty';
+                            self.Count.loadTips = '抱歉，暂无数据！';
+                        }
+                    }else{
+                        self.Count.state = 'error';
+                        self.Count.loadTips = '糟糕，加载失败！';
+                    }
+                })
+            },
             InitMapService(){ // 初始化地图服务
                 this.getMapServerType()
             },
@@ -543,7 +620,7 @@
                                 h('span', {
                                     class: 'items', on: {
                                         click: () => {
-                                            // 
+                                            this.triggerCountModal(params)
                                         }
                                     }
                                 }, '数据统计')

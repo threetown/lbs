@@ -46,3 +46,6 @@ export const ajaxMapServerItems = (data) => fetch({ url: '/center/map/addMapRegi
 // 地图服务 - 提交
 export const ajaxMapServerRegist = (data) => fetch({ url: '/center/map/addMapRegist', method: 'post', data})
 
+// 统计服务
+export const ajaxRequestCount = (data) => fetch({ url: '/center/getApiRequestCountInfo', method: 'post', data})
+
