@@ -5,12 +5,8 @@
                 <h2 class="title">我的应用 <strong>您可以在这里创建、设置并管理您的应用及Key</strong></h2>
                 <Button class="fr" type="primary" icon="ios-plus-outline" slot="extra" size="large" @click="triggerAppModel">创建新应用</Button>
             </div>
-            
-            <div class="LoadingBox" style="height: 300px;" v-show="Loading.state">
-                <Spin fix>
-                    {{Loading.info}}
-                </Spin>
-            </div>
+
+            <div v-if="Loading.state" :class="'Placeholder ' + Loading.class">{{Loading.info}}</div>
             <div v-if="!Loading.state">
                 <div class="collapse">
                     <div :class="index === curOpen ? 'panel active' : 'panel'" v-for="(item, index) in appServerData">
@@ -33,9 +29,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="custom-Page">
-                    <Page :total="Page.total" @on-change="PageChange" show-total></Page>
-                </div> -->
             </div>
         </div>
 
@@ -156,7 +149,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
     import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
-    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey, getPostApp } from 'src/service/application'
+    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey } from 'src/service/application'
 
     export default {
         data () {
@@ -169,7 +162,8 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 editKeyModalStatus: '',
                 curOpen: 0,
                 Loading: {
-                    state: true,
+                    state: false,
+                    class: 'loading',
                     info: '努力加载中，请稍等...'
                 },
                 mapColumns: [
@@ -274,11 +268,6 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 },
                 serviceTypeResource: [],
                 panelAppType: [],
-                Page: {
-                    total: 0,
-                    current: 1,
-                    size: 10
-                }
             }
         },
         methods: {
@@ -461,23 +450,49 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             getAppServerList(){
                 const self = this;
                 let data = {
-                    "page": this.Page.current, // 当前页码
-                    "rows": this.Page.size, // 每页记录数
                     "statusCd": 1
                 }
+                this.Loading.state = true;
+                this.Loading.class = 'loading';
+                this.Loading.info = '努力加载中，请稍等...';
                 ajaxPostApp(data).then(res => {
                     if(res.state === 0){
-                        let resource = res.data;
-                        self.appServerData = resource.appKeyInfo;
-                        self.Page.total = res.page;
-                        self.Loading.state = false;
+                        let resource = res.data.appKeyInfo;
+                        if(resource && resource.length){
+                            self.appServerData = resource;
+                            self.Loading.state = false;
+                        }else{
+                             self.Loading.class = 'empty'
+                            self.Loading.info = '抱歉，暂无数据！'
+                        }
                     }else{
-                        self.Loading.info = res.message;
+                        self.Loading.class = 'error';
+                        self.Loading.info = '糟糕，加载失败！';
                     }
                 })
             },
-            PageChange(page){
-                this.Page.current = page;
+            getServerTypeList(){
+                const self = this;
+                ajaxServiceType().then(res => {
+                    if(res.state === 0){
+                        let result = res.data.serviceInfo;
+                        if(result && result.length){
+                            self.serviceTypeResource = result;
+                            self.createKeyForm.type = result[0].code;
+                        }
+                    }
+                })
+            },
+            getAppTypeList(){
+                const self = this;
+                ajaxAppType('appType').then(res => {
+                    self.panelAppType = res.data.dict;
+                })
+            },
+            init(){
+                this.getAppServerList()
+                this.getServerTypeList()
+                this.getAppTypeList()
             }
         },
         computed: {
@@ -491,27 +506,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             }
         },
         created(){
-            const self = this;
-            const params = {
-                type: 'appType',
-                app: {
-                    "statusCd": 1
-                }
-            }
-            // 调用 应用列表接口、应用类型 和服务平台接口
-            Promise.all([self.getAppServerList(), ajaxAppType(params.type), ajaxServiceType()]).then(res => {
-
-                if(res[1].state === 0){
-                    self.panelAppType = res[1].data.dict;
-                }
-
-                if(res[2].state === 0){
-                    let result = res[2].data.serviceInfo;
-                    self.serviceTypeResource = result;
-                    // 初始化 createKeyForm.type
-                    self.createKeyForm.type = result[0].code;
-                }
-            })
+            this.init()
         }
     }
 </script>

@@ -13,7 +13,3 @@ export const ajaxAppType = (params) => fetch({ url: '/center/dict/list/'+params,
 export const ajaxUpdateKey = (data) => fetch({ url: '/center/keyInfo/update', method: 'post', data })
 export const ajaxCreateKey = (data) => fetch({ url: '/center/keyInfo/insert', method: 'post', data })
 export const ajaxDeleteKey = (data) => fetch({ url: '/center/keyInfo/delete', method: 'post', data })
-
-/* local data */
-export const getPostApp = (params) => fetch({ url: '/static/mock/data/app.json', method: 'get', params })
-export const getServiceType = (params) => fetch({ url: '/static/mock/data/keytype.json', method: 'get', params })    // 服务平台列表
