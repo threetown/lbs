@@ -133,58 +133,6 @@
         },
         data () {
             return {
-                mapColumns: [
-                    { title: '服务名称', key: 'serviceName' },
-                    { title: 'URL', key: 'serviceUrl' },
-                    { title: '调用量上限(次/日)', key: 'dailyTotalCnt' },
-                    { title: '并发量上限(次/秒)', key: 'concurrencyMax' },
-                    { title: '状态', key: 'statusCd', align: 'center', render: (h, params) => {
-                            let texts = '';
-                            let classname = '';
-                            if(params.row.statusCd === 1){
-                                classname = 'status-success'
-                                texts = '有效';
-                            }else if(params.row.statusCd === 2){
-                                classname = 'status-error'
-                                texts = '无效';
-                            }else{
-                                texts = '其它';
-                            }
-                            return h('div',{},[
-                                h('span', { class: classname }, texts)
-                            ])
-                        }
-                    },
-                    {
-                        title: '操作', key: 'action', align: 'center', render: (h, params) => {
-                            return h('div', {class: 'action-group'},
-                            [
-                                h('span', {
-                                    class: 'items', on: {
-                                        click: () => {
-                                            this.triggerServiceModal(params, 'edit')
-                                        }
-                                    }
-                                }, '编辑'),
-                                h('span', {
-                                    class: 'items', on: {
-                                        click: () => {
-                                            this.triggerDeleteModal(params)
-                                        }
-                                    }
-                                }, '删除'),
-                                h('span', {
-                                    class: 'items', on: {
-                                        click: () => {
-                                            // 
-                                        }
-                                    }
-                                }, '数据统计')
-                            ]);
-                        }
-                    }
-                    
-                ],
                 serviceType: { // 服务类型
                     data: [],
                     value: '',
@@ -534,6 +482,74 @@
             },
             init(){
                 this.getServiceTabs()
+            }
+        },
+        computed: {
+            mapColumns(){
+                const self = this;
+                let columns = [
+                    { title: '服务名称', key: 'serviceName' },
+                    { title: 'URL', key: 'serviceUrl' },
+                    { title: '调用量上限(次/日)', key: 'dailyTotalCnt' },
+                    { title: '并发量上限(次/秒)', key: 'concurrencyMax' }
+                ]
+                if(this.serviceType.value === '2'){
+                    columns.push({ title: '服务类型', key: 'serviceTypeMinor', render: (h, params) => {
+                            let classname = '';
+                            let texts = self.search.serverList.find(item => item.serviceTypeMajor == params.row.serviceTypeMinor).name
+                            return h('div',{},[
+                                h('span', { class: classname }, texts)
+                            ])
+                        }
+                    })
+                }
+                columns.push({ title: '状态', key: 'statusCd', align: 'center', render: (h, params) => {
+                            let texts = '';
+                            let classname = '';
+                            if(params.row.statusCd === 1){
+                                classname = 'status-success'
+                                texts = '有效';
+                            }else if(params.row.statusCd === 2){
+                                classname = 'status-error'
+                                texts = '无效';
+                            }else{
+                                texts = '其它';
+                            }
+                            return h('div',{},[
+                                h('span', { class: classname }, texts)
+                            ])
+                        }
+                    },
+                    {
+                        title: '操作', key: 'action', align: 'center', render: (h, params) => {
+                            return h('div', {class: 'action-group'},
+                            [
+                                h('span', {
+                                    class: 'items', on: {
+                                        click: () => {
+                                            this.triggerServiceModal(params, 'edit')
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('span', {
+                                    class: 'items', on: {
+                                        click: () => {
+                                            this.triggerDeleteModal(params)
+                                        }
+                                    }
+                                }, '删除'),
+                                h('span', {
+                                    class: 'items', on: {
+                                        click: () => {
+                                            // 
+                                        }
+                                    }
+                                }, '数据统计')
+                            ]);
+                        }
+                    })
+
+                return columns;
             }
         },
         created(){
