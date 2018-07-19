@@ -73,6 +73,21 @@
                 <Button type="primary" size="large" :loading="mapServer.submitLoading" :disabled="!mapServer.selectData.length ? true : false" @click.prevent="submitMapServer('MapServerForm')">提交</Button>
             </div>
         </Modal> <!-- 新增服务 - 地图服务 -->
+
+        <Modal
+            v-model="Modal.delete.isOpen"
+            class-name="custom-modal custom-warning-modal vertical-center-modal"
+            width="378">
+            <h2 class="title" slot="header">删除服务</h2>
+            <div class="content">
+                <h3>您确定要删除服务吗?</h3>
+                <p>删除服务后将不可恢复，请您谨慎操作!</p>
+            </div>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="Modal.delete.isOpen = !Modal.delete.isOpen">取消</Button>
+                <Button type="primary" size="large" :loading="Modal.delete.loading" @click.prevent="handlerDelete">确认</Button>
+            </div>
+        </Modal> <!-- 删除 -->
     </div>
 </template>
 
@@ -80,7 +95,7 @@
     import * as tools from 'src/util/tools'
 
     import { ajaxServiceType, ajaxAppType } from 'src/service/application'
-    import { ajaxServerList, ajaxMapServerItems, ajaxMapServerRegist } from 'src/service/sys'
+    import { ajaxServerList, ajaxMapServerItems, ajaxMapServerRegist, ajaxDeleteServer } from 'src/service/sys'
     
     import canEditTable from 'components/tables/canEditTable.vue'
 
@@ -91,30 +106,20 @@
         data () {
             return {
                 mapColumns: [
-                    {
-                        title: '服务名称',
-                        key: 'serviceName'
+                    { title: '服务名称', key: 'serviceName' },
+                    { title: 'URL', key: 'serviceUrl' },
+                    { title: '调用量上限(次/日)', key: 'dailyTotalCnt' },
+                    { title: '并发量上限(次/秒)', key: 'concurrencyMax' },
+                    { title: '服务类型', key: 'serviceTypeMinor', render: (h, params) => {
+                            let texts = '';
+                            let classname = '';
+                            texts = this.serviceType.data.find(item => item.value == params.row.serviceTypeMinor).name
+                            return h('div',{},[
+                                h('span', { class: classname }, texts)
+                            ])
+                        }
                     },
-                    {
-                        title: 'URL',
-                        key: 'serviceUrl'
-                    },
-                    {
-                        title: '调用量上限(次/日)',
-                        key: 'dailyTotalCnt'
-                    },
-                    {
-                        title: '并发量上限(次/秒)',
-                        key: 'concurrencyMax'
-                    },
-                    {
-                        title: '服务类型',
-                        key: 'serviceTypeMinor'
-                    },
-                    {
-                        title: '状态',
-                        key: 'statusCd',
-                        render: (h, params) => {
+                    { title: '状态', key: 'statusCd', align: 'center', render: (h, params) => {
                             let texts = '';
                             let classname = '';
                             if(params.row.statusCd === 1){
@@ -127,33 +132,33 @@
                                 texts = '其它';
                             }
                             return h('div',{},[
-                                h('span', {
-                                    class: classname,
-                                }, texts)
+                                h('span', { class: classname }, texts)
                             ])
                         }
                     },
                     {
-                        title: '操作',
-                        key: 'action',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
+                        title: '操作', key: 'action', align: 'center', render: (h, params) => {
+                            return h('div', {class: 'action-group'},
+                            [
+                                h('span', {
+                                    class: 'items', on: {
+                                        click: () => {
+                                            this.triggerDeleteModal(params)
+                                        }
                                     }
                                 }, '编辑'),
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
+                                h('span', {
+                                    class: 'items', on: {
+                                        click: () => {
+                                            this.triggerDeleteModal(params)
+                                        }
                                     }
                                 }, '删除'),
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
+                                h('span', {
+                                    class: 'items', on: {
+                                        click: () => {
+                                            // 
+                                        }
                                     }
                                 }, '数据统计')
                             ]);
@@ -214,6 +219,13 @@
                     loadTips: '努力加载中，请稍等...',
                     selectData: [],
                     submitLoading: false
+                },
+                Modal: {
+                    delete: {
+                        serviceId: '',
+                        isOpen: false,
+                        loading: false
+                    }
                 }
             }
         },
@@ -246,6 +258,25 @@
                         
                         break;
                 }
+            },
+            triggerDeleteModal(params){ // 删除
+                this.Modal.delete.serviceId = params.row.serviceId          
+                this.Modal.delete.isOpen = true;
+            },
+            handlerDelete(){
+                const self = this;
+                this.Modal.delete.loading = true;
+                let serviceId = this.Modal.delete.serviceId;
+                ajaxDeleteServer(serviceId).then(res => {
+                    if(res.state === 0){
+                        self.getServerList()
+                        self.$Message.success(res.message);
+                        self.Modal.delete.isOpen = false;
+                    }else{
+                        self.$Message.error(res.message);
+                    }
+                    self.Modal.delete.loading = false;
+                })
             },
             closeMapServerModal(){
                 self.mapServer.isOpen = false;
