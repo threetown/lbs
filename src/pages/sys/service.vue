@@ -385,8 +385,11 @@
                 }
                 this.getServerList(data)
             },
-            changeQueryService(params){
-                this.getServerList()
+            changeQueryService(){
+                let data = {
+                    serviceTypeMinor: this.search.server
+                }
+                this.getServerList(data)
             },
             getServerList(params){ // 获取服务
                 const self = this;
@@ -408,7 +411,6 @@
                         if(datas && datas.rows.length){
                             self.serviceResource.data = datas.rows;
                             self.serviceResource.total = datas.total;
-                            console.log(datas.total, self.serviceResource.total, 312)
                             self.serviceResource.loading = false;
                         }else{
                             self.serviceResource.state = 'empty';
@@ -496,7 +498,7 @@
                 if(this.serviceType.value === '2'){
                     columns.push({ title: '服务类型', key: 'serviceTypeMinor', render: (h, params) => {
                             let classname = '';
-                            let texts = self.search.serverList.find(item => item.serviceTypeMajor == params.row.serviceTypeMinor).name
+                            let texts = self.search.serverList.find(item => item.value === params.row.serviceTypeMinor).name
                             return h('div',{},[
                                 h('span', { class: classname }, texts)
                             ])
