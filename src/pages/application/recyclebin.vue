@@ -222,7 +222,7 @@
                     }
                 })
             },
-            triggerRecoverModal(type, params){
+            triggerRecoverModal(params, type){
                 const self = this;
                 if(type === 'app'){
                     this.Recover.appId = params.appId;
@@ -235,7 +235,7 @@
             },
             RecoverApp(){
                 const self = this;
-                this.$Message.message(self.Recover.type + '已恢复！');
+                this.$Message.success(self.Recover.type + '已恢复！');
                 this.Recover.modal = false;
             }
         },
