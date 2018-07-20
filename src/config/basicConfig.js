@@ -44,9 +44,15 @@ let gender = [
     { label: '保密', value: 0 }
 ]
 
+/* 测试地址 */
 let LbsUrl = 'http://lbs.cindata.cn';        // LBS
 let SSOUrl = 'http://sso.cindata.cn';        // SSO
 let APIUrl = 'http://consoleapi.cindata.cn'; // API请求地址
+
+/* 开发地址 */
+// let LbsUrl = 'http://testlbs.cindata.cn';        // LBS
+// let SSOUrl = 'http://testsso.cindata.cn';        // SSO
+// let APIUrl = 'http://testconsoleapi.cindata.cn'; // API请求地址
 
 let url = {
     home: LbsUrl + '/gxdyun',
