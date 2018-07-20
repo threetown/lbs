@@ -61,6 +61,8 @@ fetch.interceptors.response.use(
                 default:
                     console.error(error.response.data.message)
             }
+        }else{
+            window.location = basicConfig.url.jump;
         }
         return Promise.reject(error.response.data);
     }
