@@ -1,10 +1,24 @@
 <template>
     <div>
-        <div class="full-block-mod">
-            <div class="Header clearfix">
-                <h2 class="title">可视化项目</h2>
-            </div>
-            <div style="height: 720px;padding: 300px 0;text-align: center;">正在开发中...</div>
+        <div class="full-block-mod" style="padding: 0;">
+            <iframe src="http://mapview.cindata.cn" frameborder="0" width="100%" :height="height"></iframe>
         </div>
     </div>
 </template>
+
+<script>
+    export default {
+        data () {
+            return {
+                height: '600px'
+            }
+        },
+        created(){
+            const self = this;
+            this.height = window.innerHeight - 114;
+             window.onresize = ()=> {
+                 self.height = window.innerHeight - 114;
+             }
+        }
+    }
+</script>

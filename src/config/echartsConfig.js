@@ -260,6 +260,7 @@ const echartsConfig = {
         };
         
         // 处理 series值
+        console.log(params.seriesData, 263)
         if(params && params.seriesData){
             let optionSeries = params.seriesData;
             let seriesData = [];

@@ -1,6 +1,7 @@
 import fetch from 'src/util/fetch'
 import lazyLoading from './lazyLoading.js'
 import * as types from 'src/store/mutation-types'
+import * as basicConfig from 'src/config/basicConfig'
 
 let auth = {}
 
@@ -47,7 +48,7 @@ auth.initRouter = function (vm) {
         vm.$Loading.error()
         setTimeout(gloabLoading, 10)
         setTimeout(function(){
-            window.location = 'http://sso.cindata.cn/sso/login?callbackUrl=http://lbs.cindata.cn&p=gxdyun'
+            window.location = basicConfig.url.jump
         },100)
     });
 };
