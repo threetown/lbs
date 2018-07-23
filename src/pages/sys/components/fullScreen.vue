@@ -21,7 +21,7 @@
                 <div class="loading" v-if="echartsLineBar.loading">{{echartsLineBar.loadTips}}</div>
                 <leon-line-bar-chart v-if="!echartsLineBar.loading" :id="echartsLineBar.id" :option="echartsLineBar.option" :style="echartsLineBar.style"></leon-line-bar-chart>
             </div>
-            <div class="box" style="height: 1.81re">
+            <div class="box" style="height: 1.81rem">
                 <div class="loading" v-if="echartsMap.loading">{{echartsMap.loadTips}}</div>
                 <leon-dark-scatter-chart v-if="!echartsMap.loading" :id="echartsScatter.id" :option="echartsScatter.option" :style="echartsScatter.style"></leon-dark-scatter-chart>
             </div>
@@ -39,14 +39,18 @@
                 <div class="loading" v-if="echartsBusinessAreaLine.loading">{{echartsBusinessAreaLine.loadTips}}</div>
                 <leon-dark-area-line-chart v-if="!echartsBusinessAreaLine.loading" :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option" :style="echartsBusinessAreaLine.style"></leon-dark-area-line-chart>
             </div>
-            <div class="box">
+            <div class="box" style="height: 2.48rem;">
                 <div class="commonTitle">服务使用情况排名</div>
                 <div style="text-align: right">
                     <RadioGroup class="custom-dark-button-radio" type="button" v-model="serverType.value" @on-change="getServerRank">
                         <Radio :label="items.label" v-for="items in serverType.list" :key="items.value"></Radio>
                     </RadioGroup>
                 </div>
-                <leon-dark-vertical-bar-chart :id="echartsServiceTopBar.id" :option="echartsServiceTopBar.option" :style="echartsServiceTopBar.style"></leon-dark-vertical-bar-chart>
+                <div style="position: relative; height: 1.5rem">
+                    <div class="loading" v-if="echartsServiceTopBar.loading">{{echartsServiceTopBar.loadTips}}</div>
+                    <leon-dark-vertical-bar-chart v-if="!echartsServiceTopBar.loading" :id="echartsServiceTopBar.id" :option="echartsServiceTopBar.option" :style="echartsServiceTopBar.style"></leon-dark-vertical-bar-chart>
+                </div>
+                
             </div>
             <div class="box">
                 <div class="commonTitle">服务分析</div>
@@ -164,7 +168,9 @@
                     style: {
                         height: '1.5rem'
                     },
-                    option: []
+                    option: [],
+                    loading: false,
+                    loadTips: '努力加载中，请稍等...'
                 },
                 echartsServicePie: {
                     id: 'echartsServicePie',
@@ -290,17 +296,26 @@
                         }
                         self.echartsBusinessAreaLine.loading = false;
                     }else{
-                        self.echartsBusinessAreaLine.loadTips = '糟糕，数据加载失败！'
+                        self.echartsBusinessAreaLine.loadTips = '糟糕，加载失败！'
                     }
                 })
             },
             getServerRank(){
                 const self = this;
                 let params = this.serverTypeId;
+                this.echartsServiceTopBar.loading = true;
+                this.echartsServiceTopBar.loadTips = '努力加载中，请稍等...'
                 ajaxGetServerRank(params).then(res => {
                     if(res.state === 0){
                         let data = res.data.data;
-                        self.echartsServiceTopBar.option = data;
+                        if(data && data.length){
+                            self.echartsServiceTopBar.option = data;
+                            self.echartsServiceTopBar.loading = false;
+                        }else{
+                            self.echartsServiceTopBar.loadTips = '抱歉，暂无数据！'
+                        }
+                    }else{
+                        self.echartsServiceTopBar.loadTips = '糟糕，加载失败！'
                     }
                 })
             },
@@ -323,7 +338,10 @@
             ...mapGetters([ 'overviewAccess', 'overviewService', 'accessIPProvince', 'accessIPCity', 'overviewUserLog' ]),
             serverTypeId(){
                 const self = this;
-                return tools.getDictData(basicConfig.serverType, self.serverType.value, 'value')
+                // return tools.getDictData(self.serverType.list, self.serverType.value, 'value')
+                return self.serverType.list.find((v, i) => {
+                    return v.label === self.serverType.value
+                }).value
             }
         }
     }

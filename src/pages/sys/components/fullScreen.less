@@ -141,6 +141,7 @@
                     position: relative;
                     width: 33.33%;
                     height: .92rem;
+                    font-size: .14rem;
                     float: left;
                     text-align: center;
                     &::before {
@@ -249,7 +250,10 @@
             .label{
                 font-size: .14rem;
                 line-height: .20rem;
+                white-space: nowrap;
                 color: #61686B;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .value{
                 color: #ccc;
@@ -296,6 +300,7 @@
         position: relative;
         text-align: center;
         top: 46%;
+        font-size: .14rem;
         color: #15a0d3
     }
 }

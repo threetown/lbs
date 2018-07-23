@@ -20,10 +20,7 @@
                 default: '100%'
             },
             option: {
-                type: [Array, Object],
-                default() {
-                    return []
-                }
+                type: Array
             }
         },
         data: function() {

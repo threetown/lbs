@@ -260,7 +260,6 @@ const echartsConfig = {
         };
         
         // 处理 series值
-        console.log(params.seriesData, 263)
         if(params && params.seriesData){
             let optionSeries = params.seriesData;
             let seriesData = [];
@@ -640,20 +639,27 @@ const echartsConfig = {
         return option;
     },
     darkVerticalBarChartOptions(params){
-        let seriesData = {
-            data: [],
-            name: [],
-            backData: []
-        }
-        if(params && params instanceof Array){
-            seriesData.name = params.map(item => item.name)
-            seriesData.data = params.map(item => item.value).sort(function (a, b) { return b.value - a.value})
-            let maxArr = [];
-            let maxNum = seriesData.data[0] * 8;
-            for (let i = 0; i < params.length; i++) {
-                maxArr.push(maxNum)
+        let  seriesName = [],
+             seriesData = [],
+             length = 5;
+        // 处理数据
+        // params = [
+        //     {name: 'a', value: 1},
+        //     {name: 'a', value: 1},
+        //     {name: 'a', value: 1}
+        // ]
+        // TODO: You may have an infinite update loop in watcher with expression "option"
+        if(params && params instanceof Array && params.length){
+            seriesData = params.sort((a, b) => a.value - b.value) // 从小到大
+            console.log(seriesData.length , 648)
+            let seriesDataLength = seriesData.length;
+            if(seriesDataLength < length){
+                let l = length - seriesDataLength;
+                for (let i = 0; i < l; i++) {
+                    seriesData.unshift({name:'', value: ''})                    
+                }
             }
-            seriesData.backData = maxArr
+            seriesName = seriesData.map(item => item.name)
         }
 
         let option = {
@@ -668,12 +674,7 @@ const echartsConfig = {
             },
             yAxis: [{
                 type: 'category',
-                axisLine: { show: false },
-                splitLine: { show: false }
-            }, {
-                type: 'category',
-                position: "left",
-                data: seriesData.name,
+                data: seriesName,
                 axisLine: { show: false },
                 axisTick: { show: false },
                 axisLabel: { show: true, color: echartsConfig.darkThemeColor.axisLabel },
@@ -683,27 +684,16 @@ const echartsConfig = {
                 name: '',
                 type: 'bar',
                 barWidth: 12,
-                silent: true,
-                yAxisIndex: 0,
+                silent: false,
                 label: {
                     normal: {
                         show: true,
-                        color: echartsConfig.darkThemeColor.axisLabel,
-                        formatter: function(data) {
-                            return seriesData.data[data.dataIndex];
-                        },
-                        position: 'right'
+                        position: 'right',
+                        textStyle: {
+                            color: echartsConfig.darkThemeColor.axisLabel
+                        }
                     }
                 },
-                itemStyle: { normal: { color: '#292B2D', barBorderRadius: 20 }},
-                data: seriesData.backData // max * .9
-            }, {
-                name: '',
-                type: 'bar',
-                barWidth: 12,
-                silent: false,
-                yAxisIndex: 1,
-                label: { normal: { show: false }},
                 itemStyle: {
                     normal: {
                         barBorderRadius: 10,
@@ -717,9 +707,7 @@ const echartsConfig = {
                         }
                     }
                 },
-                data: seriesData.data.map(function(item, index) {
-                    return parseInt(item / seriesData.backData[index] * 100)
-                })
+                data: seriesData
             }]
         };
         return option;
