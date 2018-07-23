@@ -273,7 +273,6 @@
             triggerTabs(v){
                 const self = this;
                 this.serviceType.value = v; // 更新服务类型
-
                 switch (v) {
                     case '2':    // 地图服务
                         if(!(self.search.serverList && self.search.serverList.length)){
@@ -521,9 +520,9 @@
                         let result = res.data.serviceInfo;
                         if(result && result.length){
                             self.serviceType.data = result.map(item => ({ name: item.name, value: item.code}))
-                            self.serviceType.value = self.serviceType.data[0].value;
+                            // 判断是否为 2 地图服务，如果是则调用一次 map_type请求
+                            self.triggerTabs(self.serviceType.data[0].value);
                             self.serviceType.loading = false;
-                            self.getServerList();
                         }else{
                             self.serviceType.state = 'empty'
                             self.serviceType.loadTips = '抱歉，暂无数据！'
