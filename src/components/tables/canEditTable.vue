@@ -1,6 +1,7 @@
 <template>
     <div>
         <Table 
+            class="can-edit-table"
             :ref="refs"
             :columns="columnsList"
             :data="thisTableData"
@@ -239,7 +240,7 @@ export default {
 </script>
 <style lang="less">
 .show-edit-btn{
-    padding: 6px 10px;
+    padding: 3px 10px;
     display: none;
     margin-left: -10px;
 }
@@ -248,5 +249,10 @@ export default {
 }
 .ivu-icon-checkmark{
     color: #19be6b;
+}
+.can-edit-table{
+    .ivu-table td, .ivu-table th{
+        height: 40px;
+    }
 }
 </style>

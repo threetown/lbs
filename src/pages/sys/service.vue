@@ -50,10 +50,10 @@
         <Modal
             v-model="mapServer.isOpen"
             class-name="custom-modal vertical-center-modal"
-            width="682">
+            width="782">
             <Icon type="ios-close-empty" slot="close" @click="closeMapServerModal('MapServerForm')"></Icon>
             <h2 class="title" slot="header">新增服务</h2>
-            <div style="height: 38px;margin-bottom: 12px;">
+            <div style="height: 36px;margin-bottom: 10px;margin-top: -18px;">
                 <Input size="large"
                 v-model="mapServer.keyword"
                 @on-enter="mapServerQueryKeyword"
@@ -73,11 +73,11 @@
                 @on-select-change="mapServerAddData"
             ></can-edit-table>
 
-            <div class="page-placeholder" v-show="!mapServer.loading">
+            <div class="page-placeholder" style="padding: 10px 0 0" v-show="!mapServer.loading">
                 <Page :total="mapServer.total" :current="mapServer.page" :page-size="mapServer.rows" @on-change="mapServerChangePage"></Page>
             </div>
 
-            <div slot="footer" v-show="!mapServer.loading">
+            <div slot="footer" style="margin-top: -8px;margin-bottom: -16px;" v-show="!mapServer.loading">
                 <Button type="text" size="large" @click="closeMapServerModal('MapServerForm')">取消</Button>
                 <Button type="primary" size="large" :loading="mapServer.submitLoading" :disabled="!mapServer.selectData.length ? true : false" @click.prevent="submitMapServer('MapServerForm')">提交</Button>
             </div>
@@ -86,15 +86,15 @@
         <Modal
             v-model="Modal.service.isOpen"
             class-name="custom-modal vertical-center-modal"
-            width="500">
+            width="510">
             <Icon type="ios-close-empty" slot="close" @click="closeServiceModal('serviceForm')"></Icon>
             <h2 class="title" slot="header">{{ Modal.service.type === 'edit' ? '编辑' : '创建新' }}服务</h2>
             <Form :model="Modal.service.Form" ref="serviceForm" :rules="Modal.service.rule" :label-width="92" class="custom-form">
                 <FormItem label="服务名称" prop="serviceName">
-                    <Input v-model="Modal.service.Form.serviceName"></Input>
+                    <Input v-model="Modal.service.Form.serviceName" :disabled="(Modal.service.type === 'edit') ? true : false"></Input>
                 </FormItem>
                 <FormItem label="URL" prop="serviceUrl">
-                    <Input v-model="Modal.service.Form.serviceUrl"></Input>
+                    <Input v-model="Modal.service.Form.serviceUrl" :disabled="(Modal.service.type === 'edit') ? true : false"></Input>
                 </FormItem>
                 <FormItem label="调用量上限" prop="dailyTotalCnt" class="hasUnit">
                     <InputNumber v-model="Modal.service.Form.dailyTotalCnt" :min="0" size="large" style="width: 130px"></InputNumber>
@@ -473,7 +473,7 @@
             mapServerQueryKeyword(v){
                 const self = this;
                 this.getMapServerItems({
-                    keyWord: self.mapServer.keyword
+                    mapName: self.mapServer.keyword
                 })
             },
             getMapServerItems(params){
@@ -586,11 +586,11 @@
                 let columns = [
                     { title: '服务名称', key: 'serviceName' },
                     { title: 'URL', key: 'serviceUrl' },
-                    { title: '调用量上限(次/日)', key: 'dailyTotalCnt' },
-                    { title: '并发量上限(次/秒)', key: 'concurrencyMax' }
+                    { title: '调用量上限(次/日)', width: 156, key: 'dailyTotalCnt' },
+                    { title: '并发量上限(次/秒)', width: 156, key: 'concurrencyMax' }
                 ]
                 if(this.serviceType.value === '2'){
-                    columns.push({ title: '服务类型', key: 'serviceTypeMinor', render: (h, params) => {
+                    columns.push({ title: '服务类型', width: 100, key: 'serviceTypeMinor', render: (h, params) => {
                             let classname = '';
                             let texts = self.search.serverList.find(item => item.value === params.row.serviceTypeMinor).name
                             return h('div',{},[
@@ -599,7 +599,7 @@
                         }
                     })
                 }
-                columns.push({ title: '状态', key: 'statusCd', align: 'center', render: (h, params) => {
+                columns.push({ title: '状态', key: 'statusCd', align: 'center', width: 80, render: (h, params) => {
                             let texts = '';
                             let classname = '';
                             if(params.row.statusCd === 1){
