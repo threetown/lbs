@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div style="margin: -25px -25px 0;">
         <div class="full-block-mod" style="padding: 0;">
-            <iframe src="http://mapview.cindata.cn" frameborder="0" width="100%" :height="height"></iframe>
+            <iframe src="http://mapview.cindata.cn" frameborder="0" width="100%" :height="height" style="vertical-align: top;"></iframe>
         </div>
     </div>
 </template>
@@ -15,9 +15,9 @@
         },
         created(){
             const self = this;
-            this.height = window.innerHeight - 114;
+            this.height = window.innerHeight - 65 + 'px';
              window.onresize = ()=> {
-                 self.height = window.innerHeight - 114;
+                 self.height = window.innerHeight - 65 + 'px';
              }
         }
     }
