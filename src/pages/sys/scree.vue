@@ -78,7 +78,7 @@
 
         <div class="full-echart-panel mb-12">
             <div class="header">
-                <h2 class="title">用户分析 <strong>每日新增用户数，当前用户总数：{{currentUserCount}} 人</strong></h2>
+                <h2 class="title">用户分析 <strong>今日新增用户数：{{todayUserCount}} 人，当前用户总数：{{currentUserCount}} 人</strong></h2>
             </div>
             <Row class="safeSetting">
                 <Col span="12">&nbsp;</Col>
@@ -155,7 +155,8 @@
                 access: {
                     loading: false
                 },
-                currentUserCount: 0
+                currentUserCount: 0,
+                todayUserCount: 0
             }
         },
         methods: {
@@ -264,6 +265,15 @@
                     }
                 })
             },
+            getTodayUserCount(){
+                const self = this;
+                let data = 'today';
+                ajaxGetUserLogCount(data).then(res => {
+                    if(res.state === 0){
+                        self.todayUserCount = res.data.countList[0].total_count;
+                    }
+                })
+            },
             init(){
                 this.getServiceOverview();
                 this.getAccessOverview();
@@ -271,7 +281,8 @@
                 this.selectFlowAnalysis();
                 this.selectUserLogAnalysis();
                 this.getCallLog();
-                this.getCurrentUserCount()
+                this.getCurrentUserCount();
+                this.getTodayUserCount()
             }
         },
         created: function() {
