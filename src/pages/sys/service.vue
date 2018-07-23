@@ -592,7 +592,8 @@
                 if(this.serviceType.value === '2'){
                     columns.push({ title: '服务类型', width: 100, key: 'serviceTypeMinor', render: (h, params) => {
                             let classname = '';
-                            let texts = self.search.serverList.find(item => item.value === params.row.serviceTypeMinor).name
+                            let serverList = self.search.serverList
+                            let texts = serverList && params.row.serviceTypeMinor ? (serverList.find(item => item.value === params.row.serviceTypeMinor) ? serverList.find(item => item.value === params.row.serviceTypeMinor).name : '') : ''
                             return h('div',{},[
                                 h('span', { class: classname }, texts)
                             ])

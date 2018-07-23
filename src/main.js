@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import auth from 'src/util/auth'
+import 'src/util/pxtorem'
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
