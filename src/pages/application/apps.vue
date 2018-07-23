@@ -133,7 +133,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                 </FormItem>
                 <FormItem prop="isRead">
                     <Checkbox v-model="createKeyForm.isRead" style="font-size: 14px;">
-                        阅读并同意 <a href="" target="_blank">国信达服务条款及隐私权政策</a>、<a href="" target="_blank">Web服务API使用条款</a> 和 <a href="" target="_blank">国信达地图API服务条款</a>
+                        阅读并同意 <a href="javascript:;" target="_blank">国信达服务条款及隐私权政策</a>、<a href="javascript:;" target="_blank">Web服务API使用条款</a> 和 <a href="javascript:;" target="_blank">国信达地图API服务条款</a>
                     </Checkbox>
                 </FormItem>
             </Form>
