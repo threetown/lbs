@@ -53,8 +53,17 @@
             width="682">
             <Icon type="ios-close-empty" slot="close" @click="closeMapServerModal('MapServerForm')"></Icon>
             <h2 class="title" slot="header">新增服务</h2>
-            <div v-if="mapServer.loading" :class="'Placeholder ' + mapServer.state">{{mapServer.loadTips}}</div>
+            <div style="height: 38px;margin-bottom: 12px;">
+                <Input size="large"
+                v-model="mapServer.keyword"
+                @on-enter="mapServerQueryKeyword"
+                @on-click="mapServerQueryKeyword"
+                icon="ios-search-strong"
+                placeholder="请输入资源名称"
+                style="width: 220px;float: right;"></Input>
+            </div>
 
+            <div v-if="mapServer.loading" :class="'Placeholder ' + mapServer.state">{{mapServer.loadTips}}</div>
             <can-edit-table
                 v-if="!mapServer.loading"
                 refs="mapServerPopupTable" 
@@ -205,6 +214,7 @@
                     loading: false,
                     state: 'loading',
                     loadTips: '努力加载中，请稍等...',
+                    keyword: '',
                     selectData: [],
                     submitLoading: false
                 },
@@ -460,7 +470,13 @@
                     }
                 })
             },
-            getMapServerItems(){
+            mapServerQueryKeyword(v){
+                const self = this;
+                this.getMapServerItems({
+                    keyWord: self.mapServer.keyword
+                })
+            },
+            getMapServerItems(params){
                 const self = this;
                 this.mapServer.loading = true;
                 this.mapServer.state = 'loading';
@@ -468,6 +484,7 @@
                     page: this.mapServer.page -1,
                     rows: this.mapServer.rows
                 }
+                data = Object.assign(data, params)
                 ajaxMapServerItems(data).then(res => {
                     if (res.state === 0) {
                         let data = res.data.data;
