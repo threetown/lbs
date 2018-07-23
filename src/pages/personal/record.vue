@@ -13,7 +13,15 @@
                 </Select>
             </Col>
         </Row>
-        <Table border :columns="recordColumns" :data="recordData" class="custom-table"></Table>
+        <div v-if="record.loading" :class="'Placeholder ' + record.state">{{record.loadTips}}</div>
+        <Table v-if="!record.loading" border :columns="recordColumns" :data="record.data" class="custom-table"></Table>
+        <div class="page-placeholder" v-show="!record.loading">
+            <Page :total="record.total"
+                :current="record.page"
+                :page-size="record.rows"
+                @on-change="changeQueryPage"
+            ></Page>
+        </div>
     </div>
 </template>
 
@@ -64,7 +72,15 @@
                     },
                     { title: '反馈信息', key: 'desc', align: 'center' }
                 ],
-                recordData: []
+                record:{
+                    data: [],
+                    state: 'loading',
+                    loading: false,
+                    loadTips: '努力加载中，请稍等...',
+                    page: 1,
+                    rows: 10,
+                    total: 0
+                }
             }
         },
         methods: {
@@ -72,18 +88,35 @@
                 this.search.currentType = value;
                 this.getList()
             },
+            changeQueryPage(v){
+                this.record.page = v;
+                this.getList()
+            },
             getList(){
                 const self = this;
                 let data = {
-                    statusCd: this.search.currentType
+                    statusCd: this.search.currentType,
+                    page: this.record.page,
+                    rows: this.record.rows
                 }
+                this.record.loading = true;
+                this.record.loadTips = '努力加载中，请稍等...'
+                this.record.state = 'loading';
                 ajaxPostQuotaRecord(data).then(res => {
                     if(res.state === 0){
-                        self.recordData = tools.getQuotaRecord(res.data.data);
+                        let result = res.data;
+                        if(result && result.data && result.data.length){
+                            self.record.data = tools.getQuotaRecord(result.data);
+                            self.record.total = result.total;
+                            self.record.loading = false;
+                        }else{
+                            self.record.state = 'empty';
+                            self.record.loadTips = '抱歉，暂无数据！';
+                        }
                     }else{
-                        self.$Message.error(res.message)
+                        self.record.state = 'error';
+                        self.record.loadTips = '糟糕，加载失败！';
                     }
-                    
                 })
             }
         },
