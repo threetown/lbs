@@ -30,8 +30,8 @@
                     </div>
                     <div class="mormal-block-bd">
                         <ul class="dynamic-list">
-                            <div style="text-align: center;line-height: 126px;" v-if="!overviewUserLog.length">暂无数据</div>
-                            <li v-if="overviewUserLog.length" v-for="items in overviewUserLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
+                            <div style="text-align: center;line-height: 126px;" v-if="callLog.loading">{{callLog.loadTips}}</div>
+                            <li v-if="!callLog.loading" v-for="items in overviewUserLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
                         </ul>
                     </div>
                 </div>
@@ -142,7 +142,10 @@
                         style: ''
                     }
                 },
-                callLog: [],
+                callLog: {
+                    loading: false,
+                    loadTips: '努力加载中，请稍等...'
+                },
                 fullScreen: {
                     state: false
                 },
@@ -167,9 +170,20 @@
             },
             getCallLog(){
                 const self = this;
+                this.callLog.loading = true;
+                this.callLog.loadTips = '努力加载中，请稍等...'
                 ajaxGetCallLog().then(res => {
                     if(res.state === 0){
-                        self.recordUserLog(res.data.data);
+                        let result = res.data.data;
+                        if(result && result.length){
+                            self.recordUserLog(result);
+                            self.callLog.loading = false;
+                        }else{
+                            self.callLog.loadTips = '抱歉，暂无数据！'
+                        }
+                        
+                    }else{
+                        this.callLog.loadTips = '糟糕，加载失败！'
                     }
                 })
             },

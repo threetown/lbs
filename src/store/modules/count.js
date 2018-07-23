@@ -50,7 +50,7 @@ const mutations = {
     state.AccessIP = res;
   },
   [types.RECORD_USER_LOG](state, res){
-    state.AccessIP = res;
+    state.overviewUserLog = res;
   }
 }
 
