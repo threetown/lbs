@@ -6,7 +6,7 @@
 
         <div class="Map">
             <div class="loading" v-if="echartsMap.loading">{{echartsMap.loadTips}}</div>
-            <leon-map-chart v-if="!echartsMap.loading" :id="echartsMap.id" :option="echartsMapOption"></leon-map-chart>
+            <leon-map-chart v-if="!echartsMap.loading" :id="echartsMap.id" :option="echartsMapOption" :style="echartsMap.style"></leon-map-chart>
         </div>
 
         <div class="PanelTop">
@@ -17,27 +17,27 @@
         </div>
 
         <div class="PanelLeft">
-            <div class="box" style="height: 277px;">
+            <div class="box" style="height: 2.77rem;">
                 <div class="loading" v-if="echartsLineBar.loading">{{echartsLineBar.loadTips}}</div>
-                <leon-line-bar-chart v-if="!echartsLineBar.loading" :id="echartsLineBar.id" :option="echartsLineBar.option"></leon-line-bar-chart>
+                <leon-line-bar-chart v-if="!echartsLineBar.loading" :id="echartsLineBar.id" :option="echartsLineBar.option" :style="echartsLineBar.style"></leon-line-bar-chart>
             </div>
-            <div class="box" style="height: 181px">
+            <div class="box" style="height: 1.81re">
                 <div class="loading" v-if="echartsMap.loading">{{echartsMap.loadTips}}</div>
-                <leon-dark-scatter-chart v-if="!echartsMap.loading" :id="echartsScatter.id" :option="echartsScatter.option"></leon-dark-scatter-chart>
+                <leon-dark-scatter-chart v-if="!echartsMap.loading" :id="echartsScatter.id" :option="echartsScatter.option" :style="echartsScatter.style"></leon-dark-scatter-chart>
             </div>
-            <div class="box" style="height: 260px">
+            <div class="box" style="height: 2.60rem">
                 <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
-                <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsUserAreaLine.id" :option="echartsUserAreaLine.option"></leon-dark-area-line-chart>
+                <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsUserAreaLine.id" :option="echartsUserAreaLine.option" :style="echartsUserAreaLine.style"></leon-dark-area-line-chart>
             </div>
-            <div class="box" style="height: 260px">
+            <div class="box" style="height: 2.60rem">
                 <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
-                <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsAccessAreaLine.id" :option="echartsAccessAreaLine.option"></leon-dark-area-line-chart>
+                <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsAccessAreaLine.id" :option="echartsAccessAreaLine.option" :style="echartsAccessAreaLine.style"></leon-dark-area-line-chart>
             </div>
         </div> <!-- 左侧面板 -->
         <div class="PanelRight">
-            <div class="box" style="height: 260px;">
+            <div class="box" style="height: 2.6rem">
                 <div class="loading" v-if="echartsBusinessAreaLine.loading">{{echartsBusinessAreaLine.loadTips}}</div>
-                <leon-dark-area-line-chart v-if="!echartsBusinessAreaLine.loading" :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option"></leon-dark-area-line-chart>
+                <leon-dark-area-line-chart v-if="!echartsBusinessAreaLine.loading" :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option" :style="echartsBusinessAreaLine.style"></leon-dark-area-line-chart>
             </div>
             <div class="box">
                 <div class="commonTitle">服务使用情况排名</div>
@@ -46,7 +46,7 @@
                         <Radio :label="items.label" v-for="items in serverType.list" :key="items.value"></Radio>
                     </RadioGroup>
                 </div>
-                <leon-dark-vertical-bar-chart :id="echartsServiceTopBar.id" :option="echartsServiceTopBar.option"></leon-dark-vertical-bar-chart>
+                <leon-dark-vertical-bar-chart :id="echartsServiceTopBar.id" :option="echartsServiceTopBar.option" :style="echartsServiceTopBar.style"></leon-dark-vertical-bar-chart>
             </div>
             <div class="box">
                 <div class="commonTitle">服务分析</div>
@@ -57,8 +57,8 @@
                             <div class="value">{{items.value}}</div>
                         </li>
                     </ul>
-                    <div style="height: 200px;width: 300px;float: right;">
-                        <leon-dark-pie-chart :id="echartsServicePie.id" :option="echartsServicePie.option"></leon-dark-pie-chart>
+                    <div style="height: 2rem;width: 3rem;float: right;">
+                        <leon-dark-pie-chart :id="echartsServicePie.id" :option="echartsServicePie.option" :style="echartsServicePie.style"></leon-dark-pie-chart>
                     </div>
                 </div>
             </div>
@@ -116,7 +116,10 @@
             return {
                 echartsMap: {
                     id: 'map-echarts',
-                    style: '',
+                    style: {
+                        height: "7.4rem",
+                        width: "10rem"
+                    },
                     loading: false,
                     loadTips: '努力正在加载中...'
                 },
@@ -126,34 +129,55 @@
                 },
                 echartsLineBar: {
                     id: 'line-bar-echarts',
+                    style: {
+                        height: '2.46rem'
+                    },
                     option: {},
                     loading: false,
                     loadTips: '努力加载中...'
                 },
                 echartsAccessAreaLine: {
                     id: 'access-area-line-echarts',
+                    style: {
+                        height: '2.3rem'
+                    },
                     option: {}
                 },
                 echartsUserAreaLine: {
                     id: 'user-area-line-echarts',
+                    style: {
+                        height: '2.3rem'
+                    },
                     option: {}
                 },
                 echartsBusinessAreaLine: {
                     id: 'business-area-line-echarts',
+                    style: {
+                        height: '2.3rem'
+                    },
                     option: {},
                     loading: false,
                     loadTips: '努力加载中...'
                 },
                 echartsServiceTopBar: {
                     id: 'echartsServiceTopBar',
+                    style: {
+                        height: '1.5rem'
+                    },
                     option: []
                 },
                 echartsServicePie: {
                     id: 'echartsServicePie',
+                    style: {
+                        height: '2rem'
+                    },
                     option: []
                 },
                 echartsScatter: {
                     id: 'echartsAccessScatter',
+                    style: {
+                        height: "1.61rem"
+                    },
                     option: []
                 },
                 userCount: {
@@ -277,7 +301,6 @@
                     if(res.state === 0){
                         let data = res.data.data;
                         self.echartsServiceTopBar.option = data;
-                        console.log(self.echartsServiceTopBar.option, 280)
                     }
                 })
             },

@@ -1,6 +1,7 @@
 @import "./fonts/FZZZHUNHJW/FZZZHUNHJW.css";
 
 @line-color: #333;
+@px: 16px;
 
 .fullScreen{
     position: fixed;
@@ -9,6 +10,7 @@
     top: 0;
     bottom: 0;
     z-index: 999;
+    font-size: @px;
     background: #000 url(images/fullScreenBg.png) center top no-repeat;
     background-size: cover;
     overflow: hidden;
@@ -35,24 +37,25 @@
     .title{
         position: absolute;
         left: 50%;
-        top: 26px;
+        top: .26rem;
         transform: translateX(-50%);
-        height: 40px;
-        font-size: 40px;
-        line-height: 46px;
+        height: .40rem;
+        font-size: .40rem;
+        line-height: .46rem;
         color: #14A0D3;
         font-family: "FZZZHUNHJW";
         text-align: center;
-        padding: 0 180px;
+        padding: 0 1.80rem;
         white-space: nowrap;
         &::before,
         &::after{
             position: absolute;
             top: 0;
             content: '';
-            width: 168px;
-            height: 40px;
+            width: 1.68rem;
+            height: .40rem;
             background-repeat: no-repeat;
+            background-size: auto .4rem;
         }
         &::before{
             left: 0;
@@ -67,44 +70,45 @@
     }
     .box{
         position: relative;
-        padding: 15px 16px;
+        padding: .15rem .16rem;
         border-bottom: 1px solid #333;
         .commonTitle{
             color: #14B0E9;
-            font-size: 16px;
-            margin-bottom: 10px;
+            font-size: .16rem;
+            margin-bottom: .10rem;
         }
     }
     .Map{
         position: absolute;
-        top: 110px;
+        top: 1.10rem;
         left: 50%;
         transform: translateX(-50%);
-        height: 740px;
-        width: 1000px;
+        height: 7.40rem;
+        width: 10.00rem;
     }
     .Panel{
         &Top{
             position: absolute;
-            top: 126px;
-            left: 540px;
-            width: 686px;
+            top: 1.26rem;
+            left: 5.40rem;
+            width: 6.86rem;
             li{
-                width: 106px;
-                height: 90px;
-                padding-top: 26px;
-                margin-right: 16px;
+                width: 1.06rem;
+                height: .90rem;
+                padding-top: .26rem;
+                margin-right: .16rem;
                 float: left;
                 text-align: center;
                 background: url(images/overviewService.png) center top no-repeat;
+                background-size: 1.06rem .9rem;
                 .tips{
-                    font-size: 12px;
-                    line-height: 20px;
+                    font-size: .12rem;
+                    line-height: .20rem;
                     color: #ccc;
                 }
                 .num{
-                    font-size: 32px;
-                    line-height: 42px;
+                    font-size: .32rem;
+                    line-height: .42rem;
                 }
                 &.wait .num{
                     color: #FF7200;
@@ -123,20 +127,20 @@
 
         &Bottom{
             position: absolute;
-            bottom: 20px;
+            bottom: .20rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 686px;
-            height: 160px;
+            width: 6.86rem;
+            height: 1.60rem;
             border: 1px solid @line-color;
-            padding: 28px 0;
+            padding: .28rem 0;
             background: #131415;
             border-radius: 3px;
             .list{
                 li{
                     position: relative;
                     width: 33.33%;
-                    height: 92px;
+                    height: .92rem;
                     float: left;
                     text-align: center;
                     &::before {
@@ -156,20 +160,20 @@
                         color: #999;
                     }
                     .num {
-                        font-size: 32px;
+                        font-size: .32rem;
                         color: #14B0E9;
                         display: block;
-                        line-height: 48px;
-                        height: 48px;
+                        line-height: .48rem;
+                        height: .48rem;
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
                     }
                     .info {
-                        font-size: 14px;
+                        font-size: .14rem;
                         color: #61686B;
                         i{
-                            font-size: 20px;
+                            font-size: .20rem;
                             vertical-align: top;
                             &.icon-fall{
                                 color: #00A317;
@@ -188,7 +192,7 @@
             top: 0;
             bottom: 0;
             z-index: 1;
-            width: 450px;
+            width: 4.50rem;
             height: 100%;
             background: url(images/grid.png) left top repeat;
             .box:last-child{
@@ -212,11 +216,12 @@
                 color: #666;
                 border: 1px solid #333;
                 background-color: #1c1f1f;
-                margin-left: 8px;
-                border-radius: 5px;
-                font-size: 14px;
-                height: 32px;
-                padding: 0 10px;
+                margin-left:.08rem;
+                border-radius:.05rem;
+                font-size: .14rem;
+                line-height: .32rem;
+                height: .32rem;
+                padding: 0 .10rem;
                 &::before{
                     display: none;
                 }
@@ -231,37 +236,37 @@
     }
 
     .serverAnalysisList{
-        width: 100px;
+        width: 1.00rem;
         float: left;
         li{
-            width:100px;
-            height:60px;
-            padding: 4px 6px;
+            width:1.00rem;
+            height:.60rem;
+            padding:.04rem .06rem;
             border: 1px solid rgb(51,51,51);
             text-align: center;
-            border-radius:10px;
-            margin-bottom: 10px;
+            border-radius:.1rem;
+            margin-bottom: .1rem;
             .label{
-                font-size: 14px;
-                line-height: 20px;
+                font-size: .14rem;
+                line-height: .20rem;
                 color: #61686B;
             }
             .value{
                 color: #ccc;
-                font-size: 24px;
-                line-height: 32px;
+                font-size: .24rem;
+                line-height: .32rem;
             }
         }
     }
 
     .logList{
-        height: 126px;
+        height: 1.26rem;
         li{
             position: relative;
-            height: 25px;
-            line-height: 25px;
-            padding-right: 110px;
-            padding-left: 24px;
+            height: .25rem;
+            line-height: .25rem;
+            padding-right: 1.10rem;
+            padding-left: .24rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -269,9 +274,9 @@
             i{
                 position: absolute;
                 left: 0;
-                font-size: 20px;
-                height: 25px;
-                line-height: 25px;
+                font-size: .20rem;
+                height: .25rem;
+                line-height: .25rem;
             }
             .t-gray{
                 color: #999;
