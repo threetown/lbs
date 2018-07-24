@@ -364,10 +364,10 @@
     position: absolute;
     left: 10px;
     top: 25px;
-    font-size: 24px;
-    line-height: 42px;
-    width: 42px;
-    height: 42px;
+    font-size: 18px;
+    line-height: 38px;
+    width: 38px;
+    height: 38px;
     text-align: center;
     border-radius: 50%;
     background-color: #d6f2ff;

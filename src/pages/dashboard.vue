@@ -28,7 +28,7 @@
       ></sidebar-menu>
     </div>
     <div class="singlePageBox" id="singlePageBox">
-        <div class="m-25 mt-65">
+        <div class="m-25 mt-65" style="margin-bottom: 0;">
           <router-view></router-view>
         </div>
     </div>
