@@ -605,20 +605,21 @@
                         self.userinfo = {
                             username: userResource.loginName,
                             nickname: userResource.staffName,
-                            currentNickname : userResource.staffName,
                             gender: userResource.sex ? userResource.sex : 0, // 0，保密；1，男；2，女
-                            currentGender: userResource.sex ? userResource.sex : 0,
                             birthday: userResource.birthday,
-                            currentBirthday: userResource.birthday,
                             website: userResource.website,
-                            currentWebsite: userResource.website,
                             companyName: userResource.companyName,
-                            currentCompanyName:  userResource.companyName,
                             companyProfile: userResource.introduction,
-                            currentCompanyProfile: userResource.introduction,
-                            industry: '',
                             email: userResource.email,
-                            phone: userResource.telephone
+                            phone: userResource.telephone,
+                            
+                            currentNickname : userResource.staffName,
+                            currentGender: userResource.sex ? userResource.sex : 0,
+                            currentBirthday: userResource.birthday,
+                            currentWebsite: userResource.website,
+                            currentCompanyName:  userResource.companyName,
+                            currentCompanyProfile: userResource.introduction,
+                            industry: ''                            
                         }
                     }
                 }).catch(error =>{
