@@ -649,8 +649,9 @@ const echartsConfig = {
         //     {name: 'a', value: 1}
         // ]
         // TODO: You may have an infinite update loop in watcher with expression "option"
+        // https://github.com/vuejs/vue/issues/1153
         if(params && params instanceof Array && params.length){
-            seriesData = params.sort((a, b) => a.value - b.value) // 从小到大
+            seriesData = params.slice().sort((a, b) => a.value - b.value) // 从小到大
             console.log(seriesData.length , 648)
             let seriesDataLength = seriesData.length;
             if(seriesDataLength < length){
