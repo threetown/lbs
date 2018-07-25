@@ -40,7 +40,7 @@
                 <leon-dark-area-line-chart v-if="!echartsBusinessAreaLine.loading" :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option" :style="echartsBusinessAreaLine.style"></leon-dark-area-line-chart>
             </div>
             <div class="box" style="height: 2.48rem;">
-                <div class="commonTitle">服务使用情况排名</div>
+                <div class="commonTitle">每日实时服务使用情况排名</div>
                 <div style="text-align: right">
                     <RadioGroup class="custom-dark-button-radio" type="button" v-model="serverType.value" @on-change="getServerRank">
                         <Radio :label="items.label" v-for="items in serverType.list" :key="items.value"></Radio>
@@ -319,16 +319,29 @@
                     }
                 })
             },
+            getServiceTabs(){
+                const self = this;
+                ajaxServiceType().then(res => {
+                    if(res.state === 0){
+                        let result = res.data.serviceInfo;
+                        // if(result && result.length){
+                        let Arr = result.map(item => ({ label: item.name, value: item.code}));
+                        let allArr = Arr.unshift({ label: '全部', value: 0 });
+                        self.serverType.list = allArr
+                        self.serverType.value = allArr[0].label;
+                        self.getServerRank()
+                        // }
+                    }
+                })
+            },
             init(){
-                this.serverType.list = basicConfig.serverType;
-                this.serverType.value = basicConfig.serverType[0].label;
-
+                this.getServiceTabs()
                 this.getMapCityInfo() // 地图
                 this.getServerInfo() // 服务分析
                 this.getUserLogCount() // 新增用户统计
                 this.selectFlowAnalysis() // 访问统计
                 this.selectBusinessAnalysis() // 每日新增业务
-                this.getServerRank()
+                // this.getServerRank()
             }
         },
         created(){
