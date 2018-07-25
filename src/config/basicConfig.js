@@ -44,15 +44,17 @@ let gender = [
     { label: '保密', value: 0 }
 ]
 
-/* 测试地址 */
+/* 生产地址 */
 let LbsUrl = 'http://lbs.cindata.cn';        // LBS
 let SSOUrl = 'http://sso.cindata.cn';        // SSO
 let APIUrl = 'http://consoleapi.cindata.cn'; // API请求地址
+let mapviewUrl = 'http://mapview.cindata.cn'  // 数据可视化
 
-/* 开发地址 */
+/* 测试地址 */
 // let LbsUrl = 'http://testlbs.cindata.cn';        // LBS
 // let SSOUrl = 'http://testsso.cindata.cn';        // SSO
 // let APIUrl = 'http://testconsoleapi.cindata.cn'; // API请求地址
+// let mapviewUrl = 'http://testmapview.cindata.cn'  // 数据可视化
 
 let url = {
     home: LbsUrl + '/gxdyun',
@@ -85,5 +87,6 @@ export {
     selectTimeDict,
     serverType,
     APIUrl,
-    SSOUrl
+    SSOUrl,
+    mapviewUrl
 }
