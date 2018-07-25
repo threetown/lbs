@@ -38,7 +38,8 @@
                 "children": [
                     { "path": "info", "name": "info", "component": "personal/info", "title": "帐号信息" },
                     { "path": "quota", "name": "quota", "component": "personal/quota", "title": "配额管理" },
-                    { "path": "record", "name": "record", "component": "personal/record", "title": "配额申请记录" }
+                    { "path": "record", "name": "record", "component": "personal/record", "title": "配额申请记录" },
+                    { "path": "checkout", "name": "checkout", "component": "personal/checkout", "title": "配额申请审核" }
                 ]
             },
             {
