@@ -28,6 +28,10 @@ export const ajaxPostQuotaRecord = (data) => fetch( {url: '/center/user/applyRel
 // 提升配额
 export const ajaxPostUpQuota = (data) => fetch({ url: '/center/logOperStaffService/insert', method: 'post', data })
 
+// 配额申请审核
+export const ajaxPostDealApply = (data) => fetch({ url: '/center/logOperStaffService/dealApply', method: 'post', data })
+
+
 // 发送短信验证码
 export const ajaxPhoneSendSMSCode = (data) => fetch({
     headers: {
