@@ -173,7 +173,7 @@
                 serviceResource: {
                     data: [],
                     page: 1,
-                    rows: 10,
+                    rows: 2,
                     total: 0,
                     loading: false,
                     loadTips: '努力加载中，请稍等...',
@@ -416,7 +416,7 @@
             },
             changeQueryPage(v){
                 let data = {
-                    page: v - 1
+                    page: v
                 }
                 this.getServerList(data)
             },
@@ -447,7 +447,7 @@
 
                 let data = {
                     serviceTypeMajor: this.serviceType.value,
-                    page: this.serviceResource.page - 1,
+                    page: this.serviceResource.page,
                     rows: this.serviceResource.rows
                 }
                 data = Object.assign(data, params);
@@ -480,7 +480,7 @@
                 this.mapServer.loading = true;
                 this.mapServer.state = 'loading';
                 let data = {
-                    page: this.mapServer.page -1,
+                    page: this.mapServer.page,
                     rows: this.mapServer.rows
                 }
                 data = Object.assign(data, params)
