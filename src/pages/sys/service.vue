@@ -395,7 +395,7 @@
                     mapCode: item.mapCode ,
                     serviceName: item.mapName ,
                     serviceTypeMajor: self.serviceType.value ,
-                    serviceTypeMinor: item.mapCode
+                    serviceTypeMinor: item.mapType
                 }))
                 ajaxMapServerRegist(data).then(res => {
                     if(res.state === 0){
