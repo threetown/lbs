@@ -4,7 +4,7 @@
       <div class="xtJbHcb">
         <div class="Logo" @click="goHome" title="回到首页"></div>
         <div class="headerApps">
-          <router-link to="/msg/index" class="msg">消息（{{user.message}}）</router-link>
+          <span class="msg" @click="jumpUrl('index')">消息（{{user.message}}）</span>
           <span class="split"></span>
           <Dropdown class="appUserInfo" trigger="click" @on-click="handleClickUserDropdown">
             <a href="javascript:void(0)" style="height: 40px;display: block;">
@@ -89,6 +89,14 @@
         this.$router.push({
           name: name
         })
+      },
+      jumpUrl(url){
+        this.$Notice.open({
+            desc: '正在开发中,请稍后再试！'
+        });
+        // this.$router.push({
+        //   name: url
+        // })
       }
     },
     watch:{
