@@ -115,10 +115,10 @@
             v-model="Modal.delete.isOpen"
             class-name="custom-modal custom-warning-modal vertical-center-modal"
             width="378">
-            <h2 class="title" slot="header">删除服务</h2>
+            <h2 class="title" slot="header">{{Modal.delete.type}}服务</h2>
             <div class="content">
-                <h3>您确定要删除服务吗?</h3>
-                <p>删除服务后将不可恢复，请您谨慎操作!</p>
+                <h3>您确定要{{Modal.delete.type}}服务吗?</h3>
+                <p>您将{{Modal.delete.type}}服务，请您谨慎操作!</p>
             </div>
             <div slot="footer" >
                 <Button type="text" size="large" @click="Modal.delete.isOpen = !Modal.delete.isOpen">取消</Button>
@@ -173,7 +173,7 @@
                 serviceResource: {
                     data: [],
                     page: 1,
-                    rows: 2,
+                    rows: 10,
                     total: 0,
                     loading: false,
                     loadTips: '努力加载中，请稍等...',
@@ -182,7 +182,7 @@
                 search: { // 搜索条件
                     server: '',
                     serverList: '',
-                    state: '',
+                    state: '1',
                     stateList: [{
                         value: '',
                         label: '全部状态'
@@ -221,6 +221,7 @@
                 Modal: {
                     delete: {
                         serviceId: '',
+                        type: '',
                         isOpen: false,
                         loading: false
                     },
@@ -280,7 +281,7 @@
                         }
                         break;
                     default:
-                        console.log('a')
+                        // console.log('a')
                         break;
                 }
                 this.getServerList();
@@ -364,7 +365,13 @@
                 })
             },
             triggerDeleteModal(params){ // 删除
-                this.Modal.delete.serviceId = params.row.serviceId          
+                let data = params.row;
+                if(data.statusCd === 1){
+                    this.Modal.delete.type = '停用'
+                }else{
+                    this.Modal.delete.type = '启用'
+                }
+                this.Modal.delete.serviceId = params.row.serviceId;
                 this.Modal.delete.isOpen = true;
             },
             handlerDelete(){
@@ -447,6 +454,7 @@
 
                 let data = {
                     serviceTypeMajor: this.serviceType.value,
+                    statusCd: this.search.state,
                     page: this.serviceResource.page,
                     rows: this.serviceResource.rows
                 }
@@ -616,8 +624,22 @@
                             ])
                         }
                     },
+                    { title: '是否启用', key: 'statusCd', align: 'center', width: 94, render: (h, params) => {
+                        return h('i-switch', {
+                            props: {
+                                type: 'primary', value: params.row.statusCd === 1,
+                                size: 'default'
+                            },
+                            on: {
+                                'on-change': () => {
+                                    this.triggerDeleteModal(params)
+                                }
+                            }
+                        },'')
+                        }
+                    },
                     {
-                        title: '操作', key: 'action', align: 'center', render: (h, params) => {
+                        title: '操作', key: 'action', align: 'center', width: 150, render: (h, params) => {
                             return h('div', {class: 'action-group'},
                             [
                                 h('span', {
@@ -627,13 +649,6 @@
                                         }
                                     }
                                 }, '编辑'),
-                                h('span', {
-                                    class: 'items', on: {
-                                        click: () => {
-                                            this.triggerDeleteModal(params)
-                                        }
-                                    }
-                                }, '删除'),
                                 h('span', {
                                     class: 'items', on: {
                                         click: () => {
