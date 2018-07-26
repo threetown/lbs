@@ -25,7 +25,7 @@
                             </Row>
                         </div>
                         <div class="bd" v-if="index === curOpen ? true : false">
-                            <Table border :columns="mapColumns" :data="item.keyInfos" class="custom-table"></Table>
+                            <Table border :columns="mapColumns" :data="item.keyInfos ? item.keyInfos : []" class="custom-table"></Table>
                         </div>
                     </div>
                 </div>
