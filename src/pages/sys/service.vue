@@ -181,7 +181,7 @@
                 },
                 search: { // 搜索条件
                     server: '',
-                    serverList: '',
+                    serverList: [],
                     state: '1',
                     stateList: [{
                         value: '',
@@ -511,10 +511,15 @@
             },
             getMapServerType(){
                 const self = this;
+                let allArr = []
                 ajaxAppType('map_type').then(res => {
                     if(res.state === 0){
                         let data = res.data.dict;
-                        self.search.serverList = data && data.length ? data.map(item => ({ name: item.name, value: item.code })) : []
+                        if(data && data.length){
+                            allArr = data.map(item => ({ name: item.name, value: item.code }))
+                            allArr.unshift({ name: '全部', value: '' })
+                            self.search.serverList = allArr
+                        }
                     }
                 })
             },
@@ -599,8 +604,7 @@
                 if(this.serviceType.value === '2'){
                     columns.push({ title: '服务类型', width: 100, key: 'serviceTypeMinor', render: (h, params) => {
                             let classname = '';
-                            let serverList = self.search.serverList
-                            let texts = serverList && params.row.serviceTypeMinor ? (serverList.find(item => item.value === params.row.serviceTypeMinor) ? serverList.find(item => item.value === params.row.serviceTypeMinor).name : '') : ''
+                            let texts = self.search.serverList && params.row.serviceTypeMinor ? (self.search.serverList.find(item => item.value === params.row.serviceTypeMinor) ? self.search.serverList.find(item => item.value === params.row.serviceTypeMinor).name : '') : ''
                             return h('div',{},[
                                 h('span', { class: classname }, texts)
                             ])
