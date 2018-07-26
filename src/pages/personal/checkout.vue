@@ -107,8 +107,8 @@
                     { title: '提升类型', key: 'limittype', align: 'center', width: 95 },
                     { title: '当前配额', key: 'currentLimit', align: 'center' },
                     { title: '申请提升至', key: 'newLimit', align: 'center' },
-                    { title: '联系人', key: 'contactName', align: 'center' },
-                    { title: '联系电话', key: 'contactTel', align: 'center', width: 124 },
+                    // { title: '联系人', key: 'contactName', align: 'center' },
+                    // { title: '联系电话', key: 'contactTel', align: 'center', width: 124 },
                     { title: '申请时间', key: 'createdDt', align: 'center' },
                     { title: '状态', key: 'aprovalStatusCd', align: 'center', width: 96, render: (h, params) => {
                             let texts = '';
@@ -128,8 +128,8 @@
                             ])
                         }
                     },
-                    { title: '用户备注', key: 'remark', align: 'center' },
-                    { title: '审核意见', key: 'aprovalRemark', align: 'center' },
+                    // { title: '用户备注', key: 'remark', align: 'center' },
+                    // { title: '审核意见', key: 'aprovalRemark', align: 'center' },
                     {
                         title: '操作', key: 'action', align: 'center', width: 88,
                         render: (h, params) => {
