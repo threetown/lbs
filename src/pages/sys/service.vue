@@ -410,6 +410,7 @@
                 }))
                 ajaxMapServerRegist(data).then(res => {
                     if(res.state === 0){
+                        self.getServerList()
                         self.$Message.success(res.message);
                         self.mapServer.isOpen = false;
                     }else{
