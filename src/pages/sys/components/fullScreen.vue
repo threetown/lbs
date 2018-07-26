@@ -40,17 +40,19 @@
                 <leon-dark-area-line-chart v-if="!echartsBusinessAreaLine.loading" :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option" :style="echartsBusinessAreaLine.style"></leon-dark-area-line-chart>
             </div>
             <div class="box" style="height: 2.48rem;">
-                <div class="commonTitle">每日实时服务使用情况排名</div>
-                <div style="text-align: right">
-                    <RadioGroup class="custom-dark-button-radio" type="button" v-model="serverType.value" @on-change="getServerRank">
-                        <Radio :label="items.label" v-for="items in serverType.list" :key="items.value"></Radio>
-                    </RadioGroup>
+                <div class="loading" v-if="serverType.loading">{{serverType.loadTips}}</div>
+                <div v-if="!serverType.loading">
+                    <div class="commonTitle">每日实时服务使用情况排名</div>
+                    <div style="text-align: right">
+                        <RadioGroup class="custom-dark-button-radio" type="button" v-model="serverType.value" @on-change="getServerRank">
+                            <Radio :label="items.label" v-for="items in serverType.list" :key="items.value"></Radio>
+                        </RadioGroup>
+                    </div>
+                    <div style="position: relative; height: 1.5rem">
+                        <div class="loading" v-if="echartsServiceTopBar.loading">{{echartsServiceTopBar.loadTips}}</div>
+                        <leon-dark-vertical-bar-chart v-if="!echartsServiceTopBar.loading" :id="echartsServiceTopBar.id" :option="echartsServiceTopBar.option" :style="echartsServiceTopBar.style"></leon-dark-vertical-bar-chart>
+                    </div>
                 </div>
-                <div style="position: relative; height: 1.5rem">
-                    <div class="loading" v-if="echartsServiceTopBar.loading">{{echartsServiceTopBar.loadTips}}</div>
-                    <leon-dark-vertical-bar-chart v-if="!echartsServiceTopBar.loading" :id="echartsServiceTopBar.id" :option="echartsServiceTopBar.option" :style="echartsServiceTopBar.style"></leon-dark-vertical-bar-chart>
-                </div>
-                
             </div>
             <div class="box">
                 <div class="commonTitle">服务分析</div>
@@ -97,6 +99,8 @@
     
     import geoCoordMap from "src/util/sys/china-cities"
     import { ajaxGetCityInfo, ajaxGetServerInfo, ajaxGetUserLogCount, ajaxGetAccessLogCount, ajaxGetServiceLogCount, ajaxGetServerRank } from 'src/service/sys'
+    import { ajaxServiceType }  from 'src/service/application'
+
     import echartsConfig from "src/config/echartsConfig";
 
     import * as basicConfig from "src/config/basicConfig"
@@ -188,11 +192,13 @@
                 },
                 userCount: {
                     loading: false,
-                    loadTips: '努力加载中...'
+                    loadTips: '努力加载中，请稍等...'
                 },
                 serverType: {
                     list: [],
-                    value: ''
+                    value: '',
+                    loading: false,
+                    loadTips: '努力加载中，请稍等...'
                 }
             }
         },
@@ -321,16 +327,23 @@
             },
             getServiceTabs(){
                 const self = this;
+                this.serverType.loading = true;
+                this.serverType.loadTips = '努力加载中，请稍等...'
                 ajaxServiceType().then(res => {
                     if(res.state === 0){
                         let result = res.data.serviceInfo;
-                        // if(result && result.length){
-                        let Arr = result.map(item => ({ label: item.name, value: item.code}));
-                        let allArr = Arr.unshift({ label: '全部', value: 0 });
-                        self.serverType.list = allArr
-                        self.serverType.value = allArr[0].label;
-                        self.getServerRank()
-                        // }
+                        if(result && result.length){
+                            let allArr = result.map(item => ({ label: item.name, value: item.code}));
+                                allArr.unshift({ label: '全部', value: 0 });
+                                self.serverType.list = allArr
+                                self.serverType.value = allArr[0].label;
+                            self.getServerRank()
+                            self.serverType.loading = false
+                        }else{
+                            self.serverType.loadTips = '抱歉，暂无数据！'
+                        }
+                    }else{
+                        self.serverType.loadTips = '糟糕，加载失败！'
                     }
                 })
             },
