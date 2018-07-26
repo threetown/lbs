@@ -22,7 +22,7 @@
                         </Col>
                         <Col span="8">
                             <Input size="large"
-                                v-model="search.keyword"
+                                v-model.trim="search.keyword"
                                 @on-enter="changeQueryKeyword"
                                 @on-click="changeQueryKeyword"
                                 icon="ios-search-strong"
@@ -180,12 +180,12 @@
                     state: 'loading'
                 },
                 search: { // 搜索条件
-                    server: '',
+                    server: 'all',
                     serverList: [],
                     state: '1',
                     stateList: [{
-                        value: '',
-                        label: '全部状态'
+                        value: 'all',
+                        label: '全部'
                     },{
                         value: '1',
                         label: '有效'
@@ -235,17 +235,7 @@
                             serviceTypeMinor: '',
                             serviceTypeMajor: ''
                         },
-                        rule: {
-                            serviceName: [
-                                { required: true, message: "请输入服务名称", trigger: 'blur' },
-                                { max: 15, message:"服务名称不能超过15个字符", trigger: 'blur' },
-                                { pattern: /^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"请使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }  
-                            ],
-                            serviceUrl: [
-                                { required: true, message: "请输入URL", trigger: 'blur' },
-                                // { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
-                            ]
-                        },
+                        rule: {},
                         type: '',
                         isOpen: false,
                         loading: false
@@ -308,6 +298,20 @@
                     this.Modal.service.Form.concurrencyMax = data.concurrencyMax
                     this.Modal.service.Form.serviceId = data.serviceId
                     this.Modal.service.Form.serviceTypeMinor = data.serviceTypeMinor
+
+                    this.Modal.service.rule = {}
+                }else{
+                    this.Modal.service.rule = {
+                        serviceName: [
+                            { required: true, message: "请输入服务名称", trigger: 'blur' },
+                            { max: 15, message:"服务名称不能超过15个字符", trigger: 'blur' },
+                            { pattern: /^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"请使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }  
+                        ],
+                        serviceUrl: [
+                            { required: true, message: "请输入URL", trigger: 'blur' },
+                            // { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
+                        ]
+                    }
                 }
                 this.Modal.service.type = type;
                 this.Modal.service.isOpen = true;
@@ -434,16 +438,21 @@
                 this.getServerList(data)
             },
             changeQueryState(v){
-                let data = {
-                    statusCd: v
+                if(this.search.state === 'all'){
+                    this.getServerList()
+                }else{
+                    this.getServerList({ statusCd: v })
                 }
-                this.getServerList(data)
             },
             changeQueryService(){
-                let data = {
-                    serviceTypeMinor: this.search.server
-                }
-                this.getServerList(data)
+                const self = this;
+                // if(this.search.server === 'all'){
+                //     this.getServerList()
+                // }else{
+                    this.getServerList({
+                        serviceTypeMinor: self.search.server
+                    })
+                // }
             },
             getServerList(params){ // 获取服务
                 const self = this;
@@ -454,11 +463,18 @@
 
                 let data = {
                     serviceTypeMajor: this.serviceType.value,
-                    statusCd: this.search.state,
                     page: this.serviceResource.page,
                     rows: this.serviceResource.rows
                 }
-                data = Object.assign(data, params);
+                if(this.search.state !== 'all'){
+                    data = Object.assign(data, {statusCd: self.search.state})
+                }
+                if(this.search.server !== 'all' && this.serviceType.value === '2'){
+                    data = Object.assign(data, {serviceTypeMinor: self.search.server})
+                }
+                if(this.search.keyword){
+                    data = Object.assign(data, {searchName: self.search.keyword})
+                }
 
                 ajaxServerList(data).then(res => {
                     if(res.state === 0){
@@ -517,7 +533,7 @@
                         let data = res.data.dict;
                         if(data && data.length){
                             allArr = data.map(item => ({ name: item.name, value: item.code }))
-                            allArr.unshift({ name: '全部', value: '' })
+                            allArr.unshift({ name: '全部', value: 'all' })
                             self.search.serverList = allArr
                         }
                     }
