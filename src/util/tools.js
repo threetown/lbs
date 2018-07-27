@@ -84,7 +84,6 @@ export const getQuotaType = (resourceArr) => {
 }
 
 export const getQuotaList = (resourceArr) => {
-    console.log(resourceArr, 87)
     let result = [];
     if(resourceArr && resourceArr instanceof Array){
         for (let i = 0; i < resourceArr.length; i++) {
@@ -96,7 +95,7 @@ export const getQuotaList = (resourceArr) => {
                 "upPrice": item.concurrencyMax,
                 "status": item.statusCd,
                 "used": item.alreadyUse ? item.alreadyUse : 0,
-                "percent": item.ratio ? item.percent : 0,
+                "percent": item.ratio ? item.ratio : 0,
                 "keyId": item.keyId,
                 "serviceId": item.serviceId
             })
