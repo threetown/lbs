@@ -39,7 +39,8 @@
                                     </RadioGroup>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditGender"></Icon>
-                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveGender"></Icon>
+                                        <Icon v-if="!Loading.gender" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveGender"></Icon>
+                                        <Icon v-if="Loading.gender" class="loading" type="load-c" title="正在提交，请稍等..."></Icon>
                                     </span>
                                 </div>
                             </dd>
@@ -53,7 +54,8 @@
                                     <DatePicker @on-change="setBirthday" type="date" placeholder="选择日期" style="width: 150px;vertical-align: top;"></DatePicker>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditBirthday"></Icon>
-                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveBirthday"></Icon>
+                                        <Icon v-if="!Loading.birthday" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveBirthday"></Icon>
+                                        <Icon v-if="Loading.birthday" class="loading" type="load-c" title="正在提交，请稍等..."></Icon>
                                     </span>
                                 </div>
                             </dd>
@@ -78,7 +80,8 @@
                                     </Select>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditIndustry"></Icon>
-                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveIndustry"></Icon>
+                                        <Icon v-if="!Loading.industry" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveIndustry"></Icon>
+                                        <Icon v-if="Loading.industry" class="loading" type="load-c" title="正在提交，请稍等..."></Icon>
                                     </span>
                                 </div>
                             </dd>
@@ -92,7 +95,8 @@
                                     <Input v-model="userinfo.currentCompanyName" style="width: 220px"></Input>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditCompanyName"></Icon>
-                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveCompanyName"></Icon>
+                                        <Icon v-if="!Loading.companyName" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveCompanyName"></Icon>
+                                        <Icon v-if="Loading.companyName" class="loading" type="load-c" title="正在提交，请稍等..."></Icon>
                                     </span>
                                 </div>
                             </dd>
@@ -106,7 +110,8 @@
                                     <Input v-model="userinfo.currentWebsite" style="width: 220px"></Input>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditWebsite"></Icon>
-                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveWebsite"></Icon>
+                                        <Icon v-if="!Loading.website" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveWebsite"></Icon>
+                                        <Icon v-if="Loading.website" class="loading" type="load-c" title="正在提交，请稍等..."></Icon>
                                     </span>
                                 </div>
                             </dd>
@@ -121,6 +126,7 @@
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditCompanyProfile"></Icon>
                                         <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveCompanyProfile"></Icon>
+                                        <Icon v-if="Loading.companyProfile" class="loading" type="load-c" title="正在提交，请稍等..."></Icon>
                                     </span>
                                 </div>
                             </dd>
@@ -391,7 +397,7 @@
             handleSaveNickname () {
                 const self = this;
                 this.Loading.nickname = true;
-                this.changeUserInfo({ staffName: self.userinfo.currentNickname},(res) =>{
+                this.changeUserInfo({ staffName: self.userinfo.currentNickname, staffInfoId: -1},(res) =>{
                     if(res.state === 0){
                         self.userinfo.nickname = self.userinfo.currentNickname;
                         self.edit.nickname = false;
@@ -407,8 +413,18 @@
                 this.edit.gender = false;
             },
             handleSaveGender() {
-                this.userinfo.gender = this.userinfo.currentGender;
-                this.edit.gender = false;
+                const self = this;
+                this.Loading.gender = true;
+                this.changeUserInfo({ sex: self.userinfo.currentGender},(res) =>{
+                    if(res.state === 0){
+                        self.userinfo.gender = self.userinfo.currentGender;
+                        self.edit.gender = false;
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    self.Loading.gender = false;
+                })
             },
             setBirthday(datatime){
                 this.userinfo.currentBirthday = datatime;
@@ -418,41 +434,90 @@
                 this.edit.birthday = false;
             },
             handleSaveBirthday(){
-                // TODO
-                this.userinfo.birthday = this.userinfo.currentBirthday;
-                this.edit.birthday = false;
+                const self = this;
+                this.Loading.birthday = true;
+                this.changeUserInfo({ birthday: self.userinfo.currentBirthday},(res) =>{
+                    if(res.state === 0){
+                        self.userinfo.birthday = self.userinfo.currentBirthday;
+                        self.edit.birthday = false;
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    self.Loading.birthday = false;
+                })
             },
             cancelEditWebsite() {
                 this.userinfo.currentWebsite = this.userinfo.website;
                 this.edit.website = false;
             },
             handleSaveWebsite() {
-                this.userinfo.website = this.userinfo.currentWebsite;
-                this.edit.website = false;
+                const self = this;
+                this.Loading.website = true;
+                this.changeUserInfo({ website: self.userinfo.currentWebsite },(res) =>{
+                    if(res.state === 0){
+                        self.userinfo.website = self.userinfo.currentWebsite;
+                        self.edit.website = false;
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    self.Loading.website = false;
+                })
             },
             cancelEditIndustry(){
                 this.userinfo.currentIndustry = this.userinfo.industry;
                 this.edit.industry = false;
             },
             handleSaveIndustry(){
-                this.userinfo.currentIndustry = this.userinfo.industry;
-                this.edit.industry = false;
+                const self = this;
+                this.Loading.industry = true;
+                this.changeUserInfo({ industry: self.userinfo.currentIndustry},(res) =>{
+                    if(res.state === 0){
+                        self.userinfo.industry = self.userinfo.currentIndustry;
+                        self.edit.industry = false;
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    self.Loading.industry = false;
+                })
             },
             cancelEditCompanyName() {
                 this.userinfo.currentCompanyName = this.userinfo.companyName;
                 this.edit.companyName = false;
             },
             handleSaveCompanyName() {
-                this.userinfo.companyName = this.userinfo.currentCompanyName;
-                this.edit.companyName = false;
+                const self = this;
+                this.Loading.companyName = true;
+                this.changeUserInfo({ companyName: self.userinfo.currentCompanyName},(res) =>{
+                    if(res.state === 0){
+                        self.userinfo.companyName = self.userinfo.currentCompanyName;
+                        self.edit.companyName = false;
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    self.Loading.companyName = false;
+                })
             },
             cancelEditCompanyProfile() {
                 this.userinfo.currentCompanyProfile = this.userinfo.companyProfile;
                 this.edit.companyProfile = false;
             },
             handleSaveCompanyProfile() {
-                this.userinfo.companyProfile = this.userinfo.currentCompanyProfile;
-                this.edit.companyProfile = false;
+                const self = this;
+                this.Loading.companyProfile = true;
+                this.changeUserInfo({ introduction: self.userinfo.currentCompanyProfile},(res) =>{
+                    if(res.state === 0){
+                        self.userinfo.companyProfile = self.userinfo.currentCompanyProfile;
+                        self.edit.companyProfile = false;
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    self.Loading.companyProfile = false;
+                })
             },
             triggerModifyPhone(){
                 // this.triggerAuthenticateModal();
