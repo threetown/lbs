@@ -182,8 +182,8 @@
                             remark: self.createQuotaForm.desc,
                             keyId: self.createQuotaForm.keyId,
                             serviceId: self.createQuotaForm.serviceId,
-                            currentLimitBing: self.createQuotaForm.concurrencyMax,
-                            currentLimitDiao: self.createQuotaForm.dailyTotalCnt,
+                            currentLimitBing: self.createQuotaForm.dailyTotalCnt,
+                            currentLimitDiao: self.createQuotaForm.concurrencyMax,
                             newLimitBing: self.createQuotaForm.newLimitBing,
                             newLimitDiao: self.createQuotaForm.newLimitDiao
                         }
@@ -225,9 +225,9 @@
                 this.record.state = 'loading'
                 ajaxPostQuotaList(data).then(res => {
                     if(res.state === 0){
-                        let data = res.data.data.rows;
-                        if(data && data.length){
-                            self.recordData = tools.getQuotaList(res.data.data.rows);
+                        let result = res.data.data.rows;
+                        if(result && result.length){
+                            self.recordData = tools.getQuotaList(result);
                             self.record.loading = false;
                         }else{
                             self.record.loadTips = '抱歉，暂无数据！';
