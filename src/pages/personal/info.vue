@@ -70,7 +70,16 @@
                             <dt>所属行业</dt>
                             <dd>
                                 <span v-show="!edit.industry">{{userinfo.industry ? userinfo.industry : '未设置'}}</span>
-                                <span v-show="!edit.industry" class="editButton" title="修改昵称"><Icon type="compose"></Icon></span>
+                                <span v-show="!edit.industry" class="editButton" title="修改所属行业" @click="edit.industry = !edit.industry"><Icon type="compose"></Icon></span>
+                                <div v-show="edit.industry" class="editCtrl">
+                                    <Select v-model="userinfo.currentIndustry" style="width:100px">
+                                        <Option v-for="item in industryList" :value="item.name" :key="item.code">{{ item.name }}</Option>
+                                    </Select>
+                                    <span class="editGroup">
+                                        <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditIndustry"></Icon>
+                                        <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveIndustry"></Icon>
+                                    </span>
+                                </div>
                             </dd>
                         </dl>
                         <dl class="basicInfo">
@@ -257,6 +266,8 @@
     import * as tools from 'src/util/tools'
 
     import { ajaxPostUserinfo, ajaxPostChangePhone, ajaxPhoneSendSMSCode, ajaxPostChangeMail, ajaxPostChangePassword } from 'src/service/personal'
+    import { ajaxAppType } from 'src/service/application'
+
 
     export default {
         name: 'personal',
@@ -289,6 +300,7 @@
             };
             return {
                 userinfo: {},
+                industryList: [],
                 edit: {
                     nickname: false,
                     gender: false,
@@ -398,6 +410,14 @@
             handleSaveWebsite() {
                 this.userinfo.website = this.userinfo.currentWebsite;
                 this.edit.website = false;
+            },
+            cancelEditIndustry(){
+                this.userinfo.currentIndustry = this.userinfo.industry;
+                this.edit.industry = false;
+            },
+            handleSaveIndustry(){
+                this.userinfo.currentIndustry = this.userinfo.industry;
+                this.edit.industry = false;
             },
             cancelEditCompanyName() {
                 this.userinfo.currentCompanyName = this.userinfo.companyName;
@@ -603,6 +623,12 @@
                 // TODO,setSMS
                 self.$Message.success('短信发送成功');
             },
+            getIndustryList(){
+                const self = this;
+                ajaxAppType('appType').then(res => {
+                    self.industryList = res.data.dict;
+                })
+            },
             setUserInfo(){
                 const self = this;
                 ajaxPostUserinfo().then(res => {
@@ -618,6 +644,7 @@
                             companyProfile: userResource.introduction,
                             email: userResource.email,
                             phone: userResource.telephone,
+                            industry: userResource.industry,
                             
                             currentNickname : userResource.staffName,
                             currentGender: userResource.sex ? userResource.sex : 0,
@@ -625,7 +652,9 @@
                             currentWebsite: userResource.website,
                             currentCompanyName:  userResource.companyName,
                             currentCompanyProfile: userResource.introduction,
-                            industry: ''                            
+                            currentIndustry: userResource.industry,
+
+                            staffInfoId: userResource.staffInfoId
                         }
                     }
                 }).catch(error =>{
@@ -644,6 +673,7 @@
         },
         created(){
             this.setUserInfo()
+            this.getIndustryList()
         }
     }
 </script>
