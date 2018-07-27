@@ -17,7 +17,7 @@
                                 </Col>
                                 <Col span="5">{{item.createdDt}} 创建</Col>
                                 <Col span="12" class="action">
-                                    <Icon type="compose" @click="triggerAppModel(item, index, 'edit')"></Icon>
+                                    <Icon type="compose" @click="triggerAppModel(item, 'edit')"></Icon>
                                     <Icon type="trash-a" @click="triggerDeleteModel(item, index, 'app')"></Icon>
                                     <Button class="btn-blue" type="ghost" @click="triggerCreateQuotaModal(item,'create')">添加新key</Button>
                                 </Col>
@@ -339,10 +339,10 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     }
                 })
             },
-            triggerAppModel(params, index, type){ // 新建/编辑应用
+            triggerAppModel(params, type){ // 新建/编辑应用
                 if(type === 'edit'){
                     this.createAppForm.name = params.appName;
-                    this.createAppForm.type = params.appType;
+                    this.createAppForm.type = params.appType.toString(); // number转string
                     this.createAppForm.id = params.appId;
                 }else{
                     this.createAppForm.id = '';
