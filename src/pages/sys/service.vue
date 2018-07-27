@@ -23,8 +23,8 @@
                         <Col span="8">
                             <Input size="large"
                                 v-model.trim="search.keyword"
-                                @on-enter="changeQueryKeyword"
-                                @on-click="changeQueryKeyword"
+                                @on-enter="getServerList"
+                                @on-click="getServerList"
                                 icon="ios-search-strong"
                                 placeholder="请输入关键字"
                                 style="width: 220px;float: right;"></Input>
@@ -427,16 +427,8 @@
                 this.getMapServerItems()
             },
             changeQueryPage(v){
-                let data = {
-                    page: v
-                }
-                this.getServerList(data)
-            },
-            changeQueryKeyword(){
-                let data = {
-                    searchName: this.search.keyword
-                }
-                this.getServerList(data)
+                this.serviceResource.page = v;
+                this.getServerList()
             },
             changeQueryState(v){
                 if(this.search.state === 'all'){
