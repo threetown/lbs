@@ -21,7 +21,8 @@
                                         <Input v-model="userinfo.currentNickname" style="width: 150px"></Input>
                                         <span class="editGroup">
                                             <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditNickname"></Icon>
-                                            <Icon class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveNickname"></Icon>
+                                            <Icon v-if="!Loading.nickname" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveNickname"></Icon>
+                                            <Icon v-if="Loading.nickname" class="loading" type="load-c" title="正在提交，请稍等..."></Icon>
                                         </span>
                                     </div>
                                 <!-- </transition> -->
@@ -265,7 +266,7 @@
     import * as basicConfig from 'src/config/basicConfig'
     import * as tools from 'src/util/tools'
 
-    import { ajaxPostUserinfo, ajaxPostChangePhone, ajaxPhoneSendSMSCode, ajaxPostChangeMail, ajaxPostChangePassword } from 'src/service/personal'
+    import { ajaxPostUserinfo, ajaxPostChangePhone, ajaxPhoneSendSMSCode, ajaxPostChangeMail, ajaxPostChangePassword, ajaxPostChangeUserinfo } from 'src/service/personal'
     import { ajaxAppType } from 'src/service/application'
 
 
@@ -370,6 +371,15 @@
                             { required: true, validator: customValidatePassCheck, trigger: 'blur' }
                         ]
                     }
+                },
+                Loading: {
+                    nickname: false,
+                    gender: false,
+                    birthday: false,
+                    website: false,
+                    companyName: false,
+                    companyProfile: false,
+                    industry: false
                 }
             }
         },
@@ -379,9 +389,18 @@
                 this.edit.nickname = false;
             },
             handleSaveNickname () {
-                // TODO
-                this.userinfo.nickname = this.userinfo.currentNickname;
-                this.edit.nickname = false;
+                const self = this;
+                this.Loading.nickname = true;
+                this.changeUserInfo({ staffName: self.userinfo.currentNickname},(res) =>{
+                    if(res.state === 0){
+                        self.userinfo.nickname = self.userinfo.currentNickname;
+                        self.edit.nickname = false;
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    self.Loading.nickname = false;
+                })
             },
             cancelEditGender(){
                 this.userinfo.currentGender = this.userinfo.gender;
@@ -562,7 +581,6 @@
                             "newPassword": self.ModifyPasswordForm.password
                         }
                         ajaxPostChangePassword(data).then(res => {
-                            console.log(res)
                             if(res.state === 0){
                                 self.closeModifyPasswordModal(name);
                                 self.$Message.success(res.message);
@@ -627,6 +645,17 @@
                 const self = this;
                 ajaxAppType('appType').then(res => {
                     self.industryList = res.data.dict;
+                })
+            },
+            changeUserInfo(params, callback){
+                let data = {
+                    staffInfoId: this.userinfo.staffInfoId
+                }
+                data = Object.assign(data, params)
+                ajaxPostChangeUserinfo(data).then(res => {
+                    if (callback && typeof callback === "function") {
+                        callback(res);
+                    }
                 })
             },
             setUserInfo(){
@@ -721,11 +750,17 @@
                 line-height: 30px;
                 vertical-align: middle;
                 margin: 0 5px;
+                color: #999;
                 &.cancel{
                     color: #FF5151;
                 }
                 &.submit{
                     color: #00A85B;
+                }
+                &.loading{
+                    font-size: 20px;
+                    cursor: not-allowed;
+                    animation: rotate 1.5s infinite linear;
                 }
             }
         }

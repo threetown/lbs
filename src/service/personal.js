@@ -4,6 +4,9 @@ import * as basicConfig from 'src/config/basicConfig'
 // 用户信息
 export const ajaxPostUserinfo = () => fetch({ url: '/center/user/getUserInfo/', method: 'post' })
 
+// 编辑用户信息
+export const ajaxPostChangeUserinfo = (data) => fetch({ url: '/center/user/changeStaffInfo', method: 'post', data })
+
 // 用户登出
 export const ajaxPostLogout = () => fetch({ url: '/api/amp/client/logout', method: 'post' })
 
