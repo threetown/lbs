@@ -144,7 +144,7 @@
                         </Row>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">帐号密码</Col>
-                            <Col span="16">安全性高的密码可以使帐号更安全。建议您定期更换密码，设置一个包含字母，符号或数字中至少两项且长度超过6位的密码。</Col>
+                            <Col span="16">安全性高的密码可以使帐号更安全。建议您定期更换密码，设置一个包含1个字母、1个数字、1个特殊字符，且长度超过8~18位的密码。</Col>
                             <Col class="tar" span="4">已设置 | <a @click="triggerModifyPassword">修改</a></Col>
                         </Row>
                     </div>
@@ -261,9 +261,15 @@
     export default {
         name: 'personal',
         data () {
+            const reg1 = /[!@#$%^&*()_?<>{}]{1}/;
+            const reg2 = /([a-zA-Z0-9!@#$%^&*()_?<>{}]){8,18}/;
+            const reg3 = /[a-zA-Z]+/;
+            const reg4 = /[0-9]+/;
             const customValidatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入新密码'));
+                } else if(!(reg1.test(value) && reg2.test(value) && reg3.test(value) && reg4.test(value))) {
+                    callback(new Error('包含1个字母、1个数字、1个特殊字符，且长度为8~18位'));
                 } else {
                     if (this.ModifyPasswordForm.cpassword !== '') {
                         // 对第二个密码框单独验证
