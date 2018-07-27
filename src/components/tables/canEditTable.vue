@@ -77,7 +77,7 @@ const saveIncellEditBtn = (vm, h, param) => {
     });
 };
 const cellInput = (vm, h, param, item) => {
-    return h('Input', {
+    return h('InputNumber', {
         props: {
             type: 'text',
             value: vm.edittingStore[param.index][item.key]
@@ -85,7 +85,7 @@ const cellInput = (vm, h, param, item) => {
         on: {
             'on-change' (event) {
                 let key = item.key;
-                vm.edittingStore[param.index][key] = event.target.value;
+                vm.edittingStore[param.index][key] = event;
             }
         }
     });
