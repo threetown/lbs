@@ -264,6 +264,10 @@
             triggerTabs(v){
                 const self = this;
                 this.serviceType.value = v; // 更新服务类型
+                // 初始化搜索条件
+                this.search.keyword = ''
+                this.serviceResource.page = 1;
+                this.search.state = '1';
                 switch (v) {
                     case '2':    // 地图服务
                         if(!(self.search.serverList && self.search.serverList.length)){
