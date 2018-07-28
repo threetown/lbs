@@ -1,222 +1,104 @@
 {
-    "data": {
-        "appKeyInfo": [
-            {
-                "appId": "2",
-                "appName": "采集系统",
-                "appType": 5,
-                "createdDt": "2018-06-21 11:44:00",
-                "keyInfos": [],
-                "statusCd": 1
-            },
-            {
-                "appId": "3",
-                "appName": "招行抵押",
-                "appType": 4,
-                "createdDt": "2018-06-21 11:44:42",
-                "keyInfos": [
-                    {
-                        "keyCode": "377716c941154ca6b89e0d54f08569e4",
-                        "keyId": "52",
-                        "keyName": "测试key3",
-                        "serviceInfos": [
-                            {
-                                "serviceId": "2",
-                                "serviceName": "小区接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "3",
-                                "serviceName": "楼栋接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "5",
-                                "serviceName": "户接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "1",
-                                "serviceName": "街道办接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "4",
-                                "serviceName": "单元接口",
-                                "serviceTypeMajor": "1"
-                            }
-                        ],
-                        "serviceTypeMajor": "1",
-                        "serviceTypeMajorName": "Web服务",
-                        "whitelist": "192.168.40.201,127.0.0.2"
-                    }
-                ],
-                "statusCd": 1
-            },
-            {
-                "appId": "28",
-                "appName": "测试应用",
-                "appType": 3,
-                "createdDt": "2018-06-24 01:31:03",
-                "keyInfos": [],
-                "statusCd": 1
-            },
-            {
-                "appId": "30",
-                "appName": "测试应用1",
-                "appType": 3,
-                "createdDt": "2018-06-24 22:56:18",
-                "keyInfos": [
-                    {
-                        "keyCode": "e4bdd2035a3e4b7e8ff14089ce0f794e",
-                        "keyId": "54",
-                        "keyName": "测试key5",
-                        "serviceInfos": [
-                            {
-                                "serviceId": "2",
-                                "serviceName": "小区接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "3",
-                                "serviceName": "楼栋接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "5",
-                                "serviceName": "户接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "1",
-                                "serviceName": "街道办接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "4",
-                                "serviceName": "单元接口",
-                                "serviceTypeMajor": "1"
-                            }
-                        ],
-                        "serviceTypeMajor": "1",
-                        "serviceTypeMajorName": "Web服务",
-                        "whitelist": "192.168.40.201,127.0.0.1,10.255.0.122"
-                    },
-                    {
-                        "keyCode": "f49e7588edbf471988264ac6564dc5b3",
-                        "keyId": "55",
-                        "keyName": "测试key6",
-                        "serviceInfos": [
-                            {
-                                "serviceId": "2",
-                                "serviceName": "小区接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "3",
-                                "serviceName": "楼栋接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "5",
-                                "serviceName": "户接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "1",
-                                "serviceName": "街道办接口",
-                                "serviceTypeMajor": "1"
-                            },
-                            {
-                                "serviceId": "4",
-                                "serviceName": "单元接口",
-                                "serviceTypeMajor": "1"
-                            }
-                        ],
-                        "serviceTypeMajor": "1",
-                        "serviceTypeMajorName": "Web服务",
-                        "whitelist": "192.168.40.201,127.0.0.6"
-                    },
-                    {
-                        "keyCode": "1e702cf774874f1cbff175d2dad99ccf",
-                        "keyId": "53",
-                        "keyName": "测试key4",
-                        "serviceInfos": [
-                            {
-                                "serviceId": "6",
-                                "serviceName": "逆地理编码API",
-                                "serviceTypeMajor": "2"
-                            },
-                            {
-                                "serviceId": "7",
-                                "serviceName": "坐标转换API",
-                                "serviceTypeMajor": "2"
-                            },
-                            {
-                                "serviceId": "8",
-                                "serviceName": "搜索API",
-                                "serviceTypeMajor": "2"
-                            }
-                        ],
-                        "serviceTypeMajor": "2",
-                        "serviceTypeMajorName": "地图服务",
-                        "whitelist": "192.168.40.201,127.0.0.7"
-                    }
-                ],
-                "statusCd": 1
-            },
-            {
-                "appId": "32",
-                "appName": "测试应用2",
-                "appType": 3,
-                "createdDt": "2018-06-24 22:56:25",
-                "keyInfos": [],
-                "statusCd": 1
-            },
-            {
-                "appId": "34",
-                "appName": "测试应用3",
-                "appType": 1,
-                "createdDt": "2018-06-24 22:56:32",
-                "keyInfos": [],
-                "statusCd": 1
-            },
-            {
-                "appId": "36",
-                "appName": "测试应用4",
-                "appType": 2,
-                "createdDt": "2018-06-24 22:56:37",
-                "keyInfos": [],
-                "statusCd": 1
-            },
-            {
-                "appId": "38",
-                "appName": "测试应用5",
-                "appType": 3,
-                "createdDt": "2018-06-24 22:56:42",
-                "keyInfos": [],
-                "statusCd": 1
-            },
-            {
-                "appId": "40",
-                "appName": "测试应用6",
-                "appType": 4,
-                "createdDt": "2018-06-24 22:56:48",
-                "keyInfos": [],
-                "statusCd": 1
-            },
-            {
-                "appId": "42",
-                "appName": "测试应用7",
-                "appType": 5,
-                "createdDt": "2018-06-24 22:57:09",
-                "keyInfos": [],
-                "statusCd": 1
-            }
-        ]
-    },
-    "message": "success",
-    "page": 13,
-    "state": 0,
-    "success": true
+	"data":{
+		"servicePlatform":[
+			{
+				"code":"2",
+				"name":"地图服务"
+			},
+			{
+				"code":"1",
+				"name":"地址解析服务"
+			},
+			{
+				"code":"3",
+				"name":"楼盘字典"
+			}
+		],
+		"appKeyInfo":[
+			{
+				"appId":168,
+				"appName":"vvvvvvvvv",
+				"appType":3,
+				"createdDt":"2018-07-26 14:51:01",
+				"keyInfos":[
+					{
+						"appId":168,
+						"keyCode":"bedfce3ba985440d9efabe46c2a69983",
+						"keyId":176,
+						"keyName":"bbbbbbb",
+						"serviceInfos":[
+							{
+								"serviceId":5,
+								"serviceName":"户接口",
+                                "serviceTypeMajor":"1",
+                                "state": "1"
+							}
+						],
+						"serviceTypeMajor":"1",
+						"serviceTypeMajorName":"地址解析服务",
+						"version":"2018-07-27 18:02:04",
+						"whitelist":"aaaa"
+					},
+					{
+						"appId":168,
+						"keyCode":"61aa48e0f30a4e00847b858726616217",
+						"keyId":177,
+						"keyName":"盘字典",
+						"serviceInfos":[
+							{
+								"serviceId":30,
+								"serviceName":"小区信息查询-v1",
+                                "serviceTypeMajor":"3",
+                                "state": "1"
+							},
+							{
+								"serviceId":31,
+								"serviceName":"楼盘信息查询-v01",
+                                "serviceTypeMajor":"3",
+                                "state": "1"
+							},
+							{
+								"serviceId":32,
+								"serviceName":"单元信息查询-v1",
+								"serviceTypeMajor":"3"
+							},
+							{
+								"serviceId":33,
+								"serviceName":"户信息查询-v1",
+								"serviceTypeMajor":"3"
+							}
+						],
+						"serviceTypeMajor":"3",
+						"serviceTypeMajorName":"楼盘字典",
+						"version":"2018-07-27 18:02:16",
+						"whitelist":""
+					},
+					{
+						"appId":168,
+						"keyCode":"8251282fa5834aa1bd89dbb42308bb0e",
+						"keyId":178,
+						"keyName":"aaabbb",
+						"serviceInfos":[
+							{
+								"serviceId":5,
+								"serviceName":"户接口",
+                                "serviceTypeMajor":"1",
+                                "state": "1"
+							}
+						],
+						"serviceTypeMajor":"1",
+						"serviceTypeMajorName":"地址解析服务",
+						"version":"2018-07-27 18:09:10",
+						"whitelist":""
+					}
+				],
+				"statusCd":1,
+				"version":"2018-07-26 14:51:01"
+			}
+		]
+	},
+	"message":"success",
+	"page":1,
+	"state":0,
+	"success":true
 }

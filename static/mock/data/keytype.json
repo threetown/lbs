@@ -1,62 +1,98 @@
 {
-    "data": {
-        "serviceInfo": [
-            {
-                "children": [
-                    {
-                        "serviceId": "2",
-                        "serviceName": "小区接口",
-                        "serviceTypeMajor": "1"
-                    },
-                    {
-                        "serviceId": "3",
-                        "serviceName": "楼栋接口",
-                        "serviceTypeMajor": "1"
-                    },
-                    {
-                        "serviceId": "5",
-                        "serviceName": "户接口",
-                        "serviceTypeMajor": "1"
-                    },
-                    {
-                        "serviceId": "1",
-                        "serviceName": "街道办接口",
-                        "serviceTypeMajor": "1"
-                    },
-                    {
-                        "serviceId": "4",
-                        "serviceName": "单元接口",
-                        "serviceTypeMajor": "1"
-                    }
-                ],
-                "code": "1",
-                "name": "Web服务"
-            },
-            {
-                "children": [
-                    {
-                        "serviceId": "6",
-                        "serviceName": "逆地理编码API",
-                        "serviceTypeMajor": "2"
-                    },
-                    {
-                        "serviceId": "7",
-                        "serviceName": "坐标转换API",
-                        "serviceTypeMajor": "2"
-                    },
-                    {
-                        "serviceId": "8",
-                        "serviceName": "搜索API",
-                        "serviceTypeMajor": "2"
-                    }
-                ],
-                "code": "2",
-                "name": "地图服务"
-            }
-        ]
-    },
-    "message": "success",
-    "page": 2,
-    "state": 0,
-    "success": true
+	"data":{
+		"serviceInfo":[
+			{
+				"children":[
+					{
+						"serviceId":36,
+						"serviceName":"铜陵市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":37,
+						"serviceName":"安庆市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":38,
+						"serviceName":"黄山市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":39,
+						"serviceName":"六安市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":40,
+						"serviceName":"亳州市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":41,
+						"serviceName":"池州市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":42,
+						"serviceName":"宣城市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":43,
+						"serviceName":"大庆市地图资源",
+						"serviceTypeMajor":"2"
+					},
+					{
+						"serviceId":44,
+						"serviceName":"伊春市地图资源",
+						"serviceTypeMajor":"2"
+					}
+				],
+				"code":"2",
+				"name":"地图服务"
+			},
+			{
+				"children":[
+					{
+						"serviceId":5,
+						"serviceName":"户接口",
+						"serviceTypeMajor":"1"
+					}
+				],
+				"code":"1",
+				"name":"地址解析服务"
+			},
+			{
+				"children":[
+					{
+						"serviceId":30,
+						"serviceName":"小区信息查询-v1",
+						"serviceTypeMajor":"3"
+					},
+					{
+						"serviceId":31,
+						"serviceName":"楼盘信息查询-v01",
+						"serviceTypeMajor":"3"
+					},
+					{
+						"serviceId":32,
+						"serviceName":"单元信息查询-v1",
+						"serviceTypeMajor":"3"
+					},
+					{
+						"serviceId":33,
+						"serviceName":"户信息查询-v1",
+						"serviceTypeMajor":"3"
+					}
+				],
+				"code":"3",
+				"name":"楼盘字典"
+			}
+		]
+	},
+	"message":"success",
+	"page":3,
+	"state":0,
+	"success":true
 }
