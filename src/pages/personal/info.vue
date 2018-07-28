@@ -611,8 +611,7 @@
             BindMailSendSMSCode(name){
                 let self = this;
                 this.$refs[name].validateField('mail', (valid) => {
-                    console.log(name,valid)
-                    if(!!!valid) {                     
+                    if(!valid) {                     
                         self.BindMailForm.computedTime = 120;
                         self.BindMailForm.timer = setInterval(() => {
                             self.BindMailForm.computedTime--;
