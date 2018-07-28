@@ -118,12 +118,12 @@
                         <Radio :label="item.code" v-for="item in panelServiceType" :key="item.code" :disabled="(editKeyModalStatus === 'edit') ? true : false" >{{item.name}}</Radio>
                     </RadioGroup>
                 </FormItem>
-                <FormItem label="可使用服务">
-                    <ul class="panelServiceList">
-                        <li v-for="item in panelServiceItems"><a :href="item.url" target="_blank">{{item.serviceName}}</a></li>
-                    </ul>
+                <FormItem label="可使用服务" prop="serviceNames">
+                    <CheckboxGroup v-model="createKeyForm.serviceNames">
+                        <Checkbox v-for="item in panelServiceItems" :label="item.serviceName" :key="item.serviceId"></Checkbox>
+                    </CheckboxGroup>
                 </FormItem>
-                <FormItem label="ID白名单" prop="desc" class="hasTooltip">
+                <FormItem label="IP白名单" prop="desc" class="hasTooltip">
                     <Input v-model="createKeyForm.desc" type="textarea" placeholder="非必填，留空表示无IP限制
 添加IP白名单后，只有白名单中的IP可访问服务
 IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多个IP请每行填写一条"></Input>
@@ -246,6 +246,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     type: '',
                     desc: '',
                     keyId: '',
+                    serviceNames: [],
                     isRead: false,
                     loading: false
                 },
@@ -257,6 +258,9 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     ],
                     type: [
                         { required: true, message: "请选择服务平台", trigger: 'change' }
+                    ],
+                    serviceNames: [
+                        { required: true, type: 'array', min: 1, message: '请至少选择一项服务', trigger: 'change' }
                     ]
                 },
                 deleteModelData: {
@@ -266,7 +270,7 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     loading: false
                 },
                 serviceTypeResource: [],
-                panelAppType: [],
+                panelAppType: []
             }
         },
         methods: {
@@ -375,15 +379,19 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             triggerCreateQuotaModal(params, type){
                 const self = this;
                 if(type === 'edit'){
-                    this.createKeyForm.appId = params.row.appId;
-                    this.createKeyForm.name = params.row.keyName;
-                    this.createKeyForm.desc = params.row.whitelist;
-                    this.createKeyForm.keyId = params.row.keyId;
+                    let data = params.row;
+                    this.createKeyForm.appId = data.appId;
+                    this.createKeyForm.name = data.keyName;
+                    this.createKeyForm.desc = data.whitelist;
+                    this.createKeyForm.keyId = data.keyId;
 
-                    this.createKeyForm.type = params.row.serviceTypeMajor; // 只用来高亮显示 服务平台
+                    this.createKeyForm.type = data.serviceTypeMajor; // 只用来高亮显示 服务平台
+                    // 处理serviceName
+                    let stateArr = data.serviceInfos.filter(item => item.state === '1')
+                    this.createKeyForm.serviceNames = stateArr.map(item => item.serviceName)
                 }else if(type === 'create'){
                     this.createKeyForm.appId = params.appId;
-                    this.createKeyForm.type = self.serviceTypeResource[0].code; // 初始化高亮显示 默认取第一个
+                    this.createKeyForm.type = self.serviceTypeResource[0] ? self.serviceTypeResource[0].code : ''; // 初始化高亮显示 默认取第一个
                 }
                 
                 this.editKeyModalStatus = type;
@@ -411,7 +419,8 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                         let params = {
                             "appId": self.createKeyForm.appId,
                             "keyName": self.createKeyForm.name,
-                            "whitelist": self.createKeyForm.desc
+                            "whitelist": self.createKeyForm.desc,
+                            "serviceIds": self.serviceIds
                         }
                         if(self.editKeyModalStatus === 'edit'){
                             let data = Object.assign(params, { "keyId": self.createKeyForm.keyId })
@@ -501,7 +510,15 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
             },
             panelServiceItems() {
                 const self = this;
-                return tools.getChildrenData(self.serviceTypeResource, self.createKeyForm.type)
+                let data = tools.getChildrenData(self.serviceTypeResource, self.createKeyForm.type)
+                if(this.editKeyModalStatus === 'create'){
+                    this.createKeyForm.serviceNames = data.map(item => item.serviceName);
+                }
+                return data
+            },
+            serviceIds(){
+                const self = this;
+                return this.panelServiceItems.filter(v => self.createKeyForm.serviceNames.includes(v.serviceName)).map(item => item.serviceId)
             }
         },
         created(){
