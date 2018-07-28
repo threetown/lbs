@@ -126,7 +126,7 @@
                 <FormItem label="IP白名单" prop="desc" class="hasTooltip">
                     <Input v-model="createKeyForm.desc" type="textarea" placeholder="非必填，留空表示无IP限制
 添加IP白名单后，只有白名单中的IP可访问服务
-IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多个IP请每行填写一条"></Input>
+IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文半角逗号分隔"></Input>
                     <Tooltip content="为什么要设置IP白名单，应该设置哪个IP？" placement="bottom-end" class="whiteTooltip">
                         <Icon type="ios-help-outline"></Icon>
                     </Tooltip>
@@ -152,6 +152,15 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
 
     export default {
         data () {
+            const validateIps = (rule, value, callback) => {
+                if (value !== '') {
+                    const ipsRe =  /^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(\,)?)+$/
+                    if(!ipsRe.test(value)){
+                        callback(new Error('IP地址格式不正确！'));
+                    }
+                }
+                callback();
+            }
             return {
                 isOpenCreateAppModal: false,
                 isOpenDeleteModal: false,
@@ -261,6 +270,9 @@ IP应该设定为服务器出口IP，支持设定IP段，如:202.202.2.*，多�
                     ],
                     serviceNames: [
                         { required: true, type: 'array', min: 1, message: '请至少选择一项服务', trigger: 'change' }
+                    ],
+                    desc: [
+                        { validator: validateIps, trigger: 'blur' }
                     ]
                 },
                 deleteModelData: {
