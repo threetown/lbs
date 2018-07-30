@@ -270,7 +270,7 @@
                 let data = 'today';
                 ajaxGetUserLogCount(data).then(res => {
                     if(res.state === 0){
-                        self.todayUserCount = res.data.countList[0].total_count;
+                        self.todayUserCount = res.data.countList[0].doc_count;
                     }
                 })
             },
