@@ -152,6 +152,7 @@
     
     import canEditTable from 'components/tables/canEditTable.vue'
     import leonLineEchart from "components/echarts/leon-line-chart"
+    import leonSwitch from "components/switch"
 
     import { selectTimeDict } from "src/config/basicConfig"
     import * as method from 'src/util/sys/'
@@ -159,7 +160,8 @@
     export default {
         components: {
             canEditTable,
-            leonLineEchart
+            leonLineEchart,
+            leonSwitch
         },
         data () {
             return {
@@ -334,7 +336,6 @@
                 this.$refs[name].validate((valid) => {
                     if(valid) {
                         this.Modal.service.loading = true;
-
                         if(this.Modal.service.type === 'edit'){
                             data = Object.assign(data, {
                                 serviceUrl: self.Modal.service.Form.serviceUrl,
@@ -377,7 +378,7 @@
                 }else{
                     this.Modal.delete.type = '启用'
                 }
-                this.Modal.delete.serviceId = params.row.serviceId;
+                this.Modal.delete.serviceId = data.serviceId;
                 this.Modal.delete.isOpen = true;
             },
             handlerDelete(){
@@ -641,14 +642,20 @@
                         }
                     },
                     { title: '是否启用', key: 'statusCd', align: 'center', width: 94, render: (h, params) => {
-                        return h('i-switch', {
+                        return h(leonSwitch, {
                             props: {
-                                type: 'primary', value: params.row.statusCd === 1,
-                                size: 'default'
+                                type: 'primary',
+                                value: params.row.statusCd === 1,
+                                size: 'default',
+                                loading: true,
+                                beforeChange: () => {
+                                    this.triggerDeleteModal(params)
+                                    return false;
+                                }
                             },
                             on: {
-                                'on-change': () => {
-                                    this.triggerDeleteModal(params)
+                                'on-change': (e) => {
+                                    console.log(e)
                                 }
                             }
                         },'')
