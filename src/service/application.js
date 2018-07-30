@@ -10,6 +10,8 @@ export const ajaxServiceType = () => fetch({ url: '/center/serviceInfo/list', me
 
 export const ajaxAppType = (params) => fetch({ url: '/center/dict/list/'+params, method: 'get' })    // 应用类型列表
 
+export const ajaxUrl = (params) => fetch({ url: '/center/serviceInfo/getUrlList/'+params, method: 'get' })    // 获取ur
+
 export const ajaxUpdateKey = (data) => fetch({ url: '/center/keyInfo/update', method: 'post', data })
 export const ajaxCreateKey = (data) => fetch({ url: '/center/keyInfo/insert', method: 'post', data })
 export const ajaxDeleteKey = (data) => fetch({ url: '/center/keyInfo/delete', method: 'post', data })

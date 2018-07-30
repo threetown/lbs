@@ -70,6 +70,19 @@
         </Modal> <!-- 创建应用 -->
 
         <Modal
+            v-model="url.isOpen"
+            class-name="custom-modal vertical-center-modal"
+            width="782">
+            <Icon type="ios-close-empty" slot="close"></Icon>
+            <h2 class="title" slot="header">服务地址</h2>
+
+            <div v-if="url.loading" :class="'Placeholder ' + url.state">{{url.loadTips}}</div>
+            <Table v-if="!url.loading" :columns="url.columns" :data="url.data"></Table>
+
+            <div slot="footer"></div>
+        </Modal> <!-- 新增服务 - 地图服务 -->
+
+        <Modal
             v-model="isCreateKeyModal"
             class-name="custom-modal vertical-center-modal"
             width="772">
@@ -121,7 +134,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
 <script>
     import * as tools from 'src/util/tools'
 
-    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey } from 'src/service/application'
+    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey, ajaxUrl } from 'src/service/application'
 
     export default {
         data () {
@@ -141,6 +154,17 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 AppModalStatus: '',
                 editKeyModalStatus: '',
                 curOpen: 0,
+                url: {
+                    isOpen: false,
+                    loading: false,
+                    loadTips: '',
+                    state: 'loading',
+                    columns: [
+                        { title: '服务名称', key: 'serviceName', width: 180 },
+                        { title: '服务地址', key: 'serviceUrl' }
+                    ],
+                    data: []
+                },
                 Loading: {
                     state: false,
                     class: 'loading',
@@ -157,11 +181,19 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         title: '绑定服务', key: 'serviceTypeMajorName', align: 'center'
                     },
                     {
-                        title: '操作', key: 'action', align: 'center', width: 200,
+                        title: '操作', key: 'action', align: 'center', width: 240,
                         render: (h, params) => {
                             return h('div',
                             {class: 'action-group'},
                             [
+                                h('span', {
+                                    class: 'items',
+                                    on: {
+                                        click: () => {
+                                            this.triggerViewUrlModal(params)
+                                        }
+                                    }
+                                }, 'URL'),
                                 h('span', {
                                     class: 'items',
                                     on: {
@@ -440,6 +472,28 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                             self.serviceTypeResource = result;
                             self.createKeyForm.type = result[0].code;
                         }
+                    }
+                })
+            },
+            triggerViewUrlModal(params){
+                const self = this;
+                this.url.isOpen = true;
+                this.url.loading = true;
+                this.url.loadTips = '努力加载中，请稍等...'
+                this.url.state = 'loading'
+                ajaxUrl(params.row.keyId).then(res => {
+                    if(res.state === 0){
+                        let result = res.data.data;
+                        if(result && result.length){
+                            self.url.data = result;
+                            self.url.loading = false;
+                        }else{
+                            self.url.loadTips = '暂无数据'
+                            self.url.state = 'empty'
+                        }
+                    }else{
+                        self.url.loadTips = '糟糕，加载失败！';
+                        self.url.state = 'error'
                     }
                 })
             },
