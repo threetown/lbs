@@ -740,7 +740,7 @@
                             industry: userResource.industry,
                             
                             currentNickname : userResource.staffName,
-                            currentGender: userResource.sex ? userResource.sex : 0,
+                            currentGender: userResource.sex ? userResource.sex : '0',
                             currentBirthday: userResource.birthday,
                             currentWebsite: userResource.website,
                             currentCompanyName:  userResource.companyName,
