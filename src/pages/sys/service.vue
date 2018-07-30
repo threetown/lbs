@@ -131,7 +131,7 @@
             class-name="custom-modal vertical-center-modal"
             width="912">
             <Icon type="ios-close-empty" slot="close" @click="closeCountModal('CountForm')"></Icon>
-            <h2 class="title" slot="header">数据统计</h2>
+            <h2 class="title" slot="header">{{Count.title}} ● 数据统计</h2>
             
             <Select v-model="Count.type" @on-change="selectCount" size="large" style="width:160px;">
                 <Option v-for="item in selectTimeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -198,16 +198,13 @@
                 mapServer: { // 新增地图服务
                     isOpen: false,
                     columns: [
-                        { type: 'selection', width: 60, align: 'center' },
-                        { title: '资源类型', key: 'mapType' },
+                        { type: 'selection', width: 50, align: 'center' },
+                        { title: '资源类型', key: 'typeName' },
                         { title: '资源名称', key: 'mapName' },
                         { title: '日调用量', key: 'dailyTotalCnt', editable: true },
                         { title: '并发量', key: 'concurrencyMax', editable: true }
                     ],
-                    data: [
-                        { "concurrencyMax": 0, "mapType": "addr_map", "mapName": "池州市地图资源", "mapCode": "1_ADDR_MAP_332f0f81194c66cbf6df88bfbd11962e", "dailyTotalCnt": 0 },
-                        { "concurrencyMax": 0, "mapType": "addr_map", "mapName": "池州市地图资源2", "mapCode": "1_ADDR_MAP_332f0f81194c66cbf6df88bfbd11962e", "dailyTotalCnt": 0, _checked: true }
-                    ],
+                    data: [],
                     page: 1,
                     rows: 10,
                     total: 0,
@@ -243,6 +240,7 @@
                 },
                 Count: {
                     type: 'todayOfHours',
+                    title: '',
                     serviceId: '',
                     isOpen: false,
                     loading: false,
@@ -565,6 +563,7 @@
             triggerCountModal(params){
                 this.Count.isOpen = true;
                 this.Count.serviceId = params.row.serviceId;
+                this.Count.title = params.row.serviceName
                 this.showCount()
             },
             selectCount(v){
@@ -586,7 +585,7 @@
                     if(res.state === 0){
                         let result = res.data.data;
                         if(result && result.length){
-                            self.Count.echarts.option = method.convertUserLineAreaEchartData(result);
+                            self.Count.echarts.option = method.convertUserLineAreaEchartData(result, ['doc_count'], ['数据统计']);
                             self.Count.loading = false;
                         }else{
                             self.Count.state = 'empty';

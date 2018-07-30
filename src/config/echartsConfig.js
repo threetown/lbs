@@ -245,18 +245,7 @@ const echartsConfig = {
                 }
             ],
             color: echartsConfig.itemColor,
-            series: [
-                {
-                    name:'用户总数',
-                    type:'line',
-                    data:[220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name:'新增用户',
-                    type:'line',
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                }
-            ]
+            series: []
         };
         
         // 处理 series值
@@ -371,6 +360,9 @@ const echartsConfig = {
                 x: 'right', // 'center' | 'left' | {number},
                 y: '30', // 'center' | 'bottom' | {number}
                 textStyle: {color: '#61686b'},
+                itemGap: 16,
+                itemWidth: 15,
+                itemHeight: 10,
                 data: params && params.seriesData && params.seriesData instanceof Array ? params.seriesData.map(item => item.name) : []
             },
             grid: echartsConfig.darkThemeColor.grid,
@@ -437,6 +429,8 @@ const echartsConfig = {
                             color: echartsConfig.darkThemeColor.lienItemColor
                         },
                     },
+                    symbol: 'circle',
+                    symbolSize: 5,
                     data: []
                 },{
                     type: 'bar',
@@ -471,7 +465,10 @@ const echartsConfig = {
                 orient: 'horizontal', // 'vertical'
                 x: 'right', // 'center' | 'left' | {number},
                 y: '30', // 'center' | 'bottom' | {number}
-                textStyle: {color: '#61686b'},
+                itemGap: 16,
+                itemWidth: 15,
+                itemHeight: 10,
+                textStyle: {color: '#61686b', fontSize: 12 },
                 data: params && params.seriesData && params.seriesData instanceof Array ? params.seriesData.map(item => item.name) : [],
             },
             tooltip: echartsConfig.darkThemeColor.lineTooltip('axis'),
@@ -517,6 +514,8 @@ const echartsConfig = {
                             color: echartsConfig.darkThemeColor.AreaLineColor
                         }
                     },
+                    symbol: 'circle',
+                    symbolSize: 5,
                     smooth:true, //是否平滑处理值0-1,true相当于0.5
                     data: []
                 }
