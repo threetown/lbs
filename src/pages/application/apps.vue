@@ -70,33 +70,6 @@
         </Modal> <!-- 创建应用 -->
 
         <Modal
-            v-model="isOpenQuotaModal"
-            class-name="custom-modal vertical-center-modal"
-            width="482">
-            <Icon type="ios-close-empty" slot="close" @click="closeQuotaFormModal('createQuotaForm')"></Icon>
-            <h2 class="title" slot="header">查看配额</h2>
-            <Form :model="createQuotaForm" ref="createQuotaForm" :rules="ruleCreateQuota" :label-width="80" class="custom-form">
-                <FormItem label="key信息" prop="key">
-                    <Input v-model="createQuotaForm.key" disabled></Input>
-                </FormItem>
-                <FormItem label="您的姓名" prop="username">
-                    <Input v-model="createQuotaForm.username" placeholder="请输入您的姓名"></Input>
-                </FormItem>
-                <FormItem label="联系方式" prop="phone">
-                    <Input v-model="createQuotaForm.phone" placeholder="请输入联系方式"></Input>
-                </FormItem>
-                <FormItem label="备注" prop="desc">
-                    <Input v-model="createQuotaForm.desc" type="textarea"></Input>
-                    <span class="tips">提交后我们的工作人员会在2小时内与您联系。</span>
-                </FormItem>
-            </Form>
-            <div slot="footer" >
-                <Button type="text" size="large" @click="closeQuotaFormModal('createQuotaForm')">取消</Button>
-                <Button type="primary" size="large" @click.prevent="createQuota('createQuotaForm')">提交</Button>
-            </div>
-        </Modal> <!-- 提升配额 -->
-
-        <Modal
             v-model="isCreateKeyModal"
             class-name="custom-modal vertical-center-modal"
             width="772">
@@ -164,7 +137,6 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
             return {
                 isOpenCreateAppModal: false,
                 isOpenDeleteModal: false,
-                isOpenQuotaModal: false,
                 isCreateKeyModal: false,
                 AppModalStatus: '',
                 editKeyModalStatus: '',
@@ -234,20 +206,6 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     ],
                     type: [
                         { required: true, message: "请选择应用类型", trigger: 'blur' }
-                    ]
-                },
-                createQuotaForm: {
-                    key: '',
-                    username: '',
-                    phone: '',
-                    desc: ''
-                },
-                ruleCreateQuota: {
-                    username: [
-                        { required: true,  message: "请填写您的姓名", trigger: 'blur' },
-                    ],
-                    phone: [
-                        { required: true, message: "请填写联系方式", trigger: 'blur' }
                     ]
                 },
                 createKeyForm: {
@@ -380,14 +338,6 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 this.deleteModelData.type = type;
                 this.isOpenDeleteModal = true;
             },
-            createItem(params){ // 提升配额
-                this.createQuotaForm.key = params.row.name;
-                this.isOpenQuotaModal = true;
-            },
-            closeQuotaFormModal(name){
-                this.$refs[name].resetFields();
-                this.isOpenQuotaModal = false;
-            },
             triggerCreateQuotaModal(params, type){
                 const self = this;
                 if(type === 'edit'){
@@ -408,16 +358,6 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 
                 this.editKeyModalStatus = type;
                 this.isCreateKeyModal = true;
-            },
-            createQuota(name){
-                const self = this;
-                this.$refs[name].validate((valid) => {
-                    if(valid) {
-                        // TODO，提升配额
-                        self.$Message.success('操作成功！');
-                        self.closeQuotaFormModal(name);
-                    }
-                })
             },
             closeKeyFormModal(name){
                 this.$refs[name].resetFields();
