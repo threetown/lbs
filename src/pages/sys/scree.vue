@@ -42,7 +42,7 @@
             <div class="header">
                 <h2 class="title">业务分析 <strong>每日业务总量分析</strong></h2>
             </div>
-            <Row class="safeSetting">
+            <Row>
                 <Col span="12">&nbsp;</Col>
                 <Col span="12">
                     <Select v-model="echarts.business.select" @on-change="selectBusinessAnalysis" size="large" style="width:120px;float: right;">
@@ -61,7 +61,7 @@
             <div class="header">
                 <h2 class="title">流量分析 <strong>每日流量总量分析</strong></h2>
             </div>
-            <Row class="safeSetting">
+            <Row>
                 <Col span="12">&nbsp;</Col>
                 <Col span="12">
                     <Select v-model="echarts.flow.select" @on-change="selectFlowAnalysis" size="large" style="width:120px;float: right;">
@@ -80,7 +80,7 @@
             <div class="header">
                 <h2 class="title">用户分析 <strong>今日新增用户数：{{todayUserCount}} 人，当前用户总数：{{currentUserCount}} 人</strong></h2>
             </div>
-            <Row class="safeSetting">
+            <Row>
                 <Col span="12">&nbsp;</Col>
                 <Col span="12">
                     <Select v-model="echarts.userLog.select" @on-change="selectUserLogAnalysis" size="large" style="width:120px;float: right;">
