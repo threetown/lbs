@@ -586,7 +586,7 @@
                     if(res.state === 0){
                         let result = res.data.data;
                         if(result && result.length){
-                            self.Count.echarts.option = method.convertUserLineAreaEchartData(result, ['doc_count'], ['数据统计']);
+                            self.Count.echarts.option = method.convertUserLineAreaEchartData(result, ['doc_count'], ['调用量']);
                             self.Count.loading = false;
                         }else{
                             self.Count.state = 'empty';
@@ -655,7 +655,7 @@
                             },
                             on: {
                                 'on-change': (e) => {
-                                    console.log(e)
+                                    // console.log(e)
                                 }
                             }
                         },'')
