@@ -77,7 +77,7 @@
             <h2 class="title" slot="header">服务地址</h2>
 
             <div v-if="url.loading" :class="'Placeholder ' + url.state">{{url.loadTips}}</div>
-            <Table v-if="!url.loading" :columns="url.columns" :data="url.data"></Table>
+            <Table v-if="!url.loading" border :columns="url.columns" :data="url.data"></Table>
 
             <div slot="footer"></div>
         </Modal> <!-- 新增服务 - 地图服务 -->
@@ -160,7 +160,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     loadTips: '',
                     state: 'loading',
                     columns: [
-                        { title: '服务名称', key: 'serviceName', width: 180 },
+                        { title: '服务名称', key: 'serviceName', width: 160 },
                         { title: '服务地址', key: 'serviceUrl' }
                     ],
                     data: []
