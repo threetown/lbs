@@ -91,10 +91,10 @@
             <h2 class="title" slot="header">{{ Modal.service.type === 'edit' ? '编辑' : '创建新' }}服务</h2>
             <Form :model="Modal.service.Form" ref="serviceForm" :rules="Modal.service.rule" :label-width="92" class="custom-form">
                 <FormItem label="服务名称" prop="serviceName">
-                    <Input v-model="Modal.service.Form.serviceName" :disabled="(Modal.service.type === 'edit') ? true : false"></Input>
+                    <Input v-model="Modal.service.Form.serviceName" :disabled="(Modal.service.type === 'edit' && serviceType.value === '2') ? true : false"></Input>
                 </FormItem>
                 <FormItem label="URL" prop="serviceUrl">
-                    <Input v-model="Modal.service.Form.serviceUrl" :disabled="(Modal.service.type === 'edit') ? true : false"></Input>
+                    <Input v-model="Modal.service.Form.serviceUrl" :disabled="(Modal.service.type === 'edit' && serviceType.value === '2') ? true : false"></Input>
                 </FormItem>
                 <FormItem label="调用量上限" prop="dailyTotalCnt" class="hasUnit">
                     <InputNumber v-model="Modal.service.Form.dailyTotalCnt" :min="0" size="large" style="width: 130px"></InputNumber>
@@ -302,8 +302,22 @@
                     this.Modal.service.Form.concurrencyMax = data.concurrencyMax
                     this.Modal.service.Form.serviceId = data.serviceId
                     this.Modal.service.Form.serviceTypeMinor = data.serviceTypeMinor
-
-                    this.Modal.service.rule = {}
+                    if(this.serviceType.value === '2'){
+                        this.Modal.service.rule = {}
+                    }else{
+                        this.Modal.service.rule = {
+                            serviceName: [
+                                { required: true, message: "请输入服务名称", trigger: 'blur' },
+                                { max: 15, message:"服务名称不能超过15个字符", trigger: 'blur' },
+                                { pattern: /^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"请使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }  
+                            ],
+                            serviceUrl: [
+                                { required: true, message: "请输入URL", trigger: 'blur' },
+                                // { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
+                            ]
+                        }
+                    }
+                    
                 }else{
                     this.Modal.service.rule = {
                         serviceName: [
