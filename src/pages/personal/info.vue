@@ -51,7 +51,7 @@
                                 <span v-show="!edit.birthday">{{userinfo.birthday ? userinfo.birthday : '未设置'}}</span>
                                 <span v-show="!edit.birthday" class="editButton" title="修改性别" @click="edit.birthday = !edit.birthday"><Icon type="compose"></Icon></span>
                                 <div v-show="edit.birthday" class="editCtrl">
-                                    <DatePicker @on-change="setBirthday" type="date" placeholder="选择日期" style="width: 150px;vertical-align: top;"></DatePicker>
+                                    <DatePicker @on-change="setBirthday" v-model="userinfo.currentBirthday" type="date" placeholder="选择日期" style="width: 150px;vertical-align: top;"></DatePicker>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditBirthday"></Icon>
                                         <Icon v-if="!Loading.birthday" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveBirthday"></Icon>
