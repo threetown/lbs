@@ -354,7 +354,6 @@
                 this.getUserLogCount() // 新增用户统计
                 this.selectFlowAnalysis() // 访问统计
                 this.selectBusinessAnalysis() // 每日新增业务
-                // this.getServerRank()
             }
         },
         created(){

@@ -16,6 +16,15 @@
                     @on-change="selectDate"
                     ></DatePicker>
             </Col>
+            <Col span="8">
+                <Input size="large"
+                    v-model.trim="search.keyword"
+                    @on-enter="getList"
+                    @on-click="getList"
+                    icon="ios-search-strong"
+                    placeholder="请输入Key信息"
+                    style="width: 260px;float: right;"></Input>
+            </Col>
         </Row>
         <div v-if="record.loading" :class="'Placeholder ' + record.state">{{record.loadTips}}</div>
         <Table v-if="!record.loading" border :columns="recordColumns" :data="record.data" class="custom-table"></Table>
@@ -99,6 +108,7 @@
                         { label: '审批通过', value: '1' },
                         { label: '未通过', value: '2' }
                     ],
+                    keyword: '',
                     dataRange: []
                 },
                 recordColumns: [
@@ -253,9 +263,13 @@
                 let data = {
                     statusCd: this.search.currentType,
                     page: this.record.page,
-                    rows: this.record.rows
+                    rows: this.record.rows,
+                    type: 1
                 }
                 data = Object.assign(data, params)
+                if(this.search.keyword){
+                    data = Object.assign(data, {searchName: self.search.keyword})
+                }
                 this.record.loading = true;
                 this.record.loadTips = '努力加载中，请稍等...'
                 this.record.state = 'loading';
