@@ -536,7 +536,8 @@
                     if(valid) {
                         self.ModifyPhoneForm.loading = true;
                         let changeData = {
-                            phone: self.ModifyPhoneForm.phone
+                            phone: self.ModifyPhoneForm.phone,
+                            code: self.ModifyPhoneForm.code
                         }
                         ajaxPostChangePhone(changeData).then(res => {
                             if(res.state === 0){
