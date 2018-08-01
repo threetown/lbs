@@ -22,7 +22,7 @@
                     @on-enter="getList"
                     @on-click="getList"
                     icon="ios-search-strong"
-                    placeholder="请输入Key信息"
+                    placeholder="请输入Key信息或用户名"
                     style="width: 260px;float: right;"></Input>
             </Col>
         </Row>
@@ -120,6 +120,7 @@
                     // { title: '联系人', key: 'contactName', align: 'center' },
                     // { title: '联系电话', key: 'contactTel', align: 'center', width: 124 },
                     { title: '申请时间', key: 'createdDt', align: 'center' },
+                    { title: '姓名', key: 'staffName', align: 'center' },
                     { title: '状态', key: 'aprovalStatusCd', align: 'center', width: 96, render: (h, params) => {
                             let texts = '';
                             let classname = '';
