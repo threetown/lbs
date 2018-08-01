@@ -17,29 +17,40 @@
         </div>
 
         <div class="PanelLeft">
-            <div class="box" style="height: 2.77rem;">
+            <div class="box hasBorderStyle" style="height: 2.77rem;">
+                <span></span><span></span><span></span><span></span>
+                <div class="commonTitle">新增用户统计</div>
                 <div class="loading" v-if="echartsLineBar.loading">{{echartsLineBar.loadTips}}</div>
                 <leon-line-bar-chart v-if="!echartsLineBar.loading" :id="echartsLineBar.id" :option="echartsLineBar.option" :style="echartsLineBar.style"></leon-line-bar-chart>
             </div>
-            <div class="box" style="height: 1.81rem">
+            <div class="box hasBorderStyle" style="height: 1.61rem">
+                <span></span><span></span><span></span><span></span>
+                <div class="commonTitle">用户所在地区分布情况</div>
                 <div class="loading" v-if="echartsMap.loading">{{echartsMap.loadTips}}</div>
                 <leon-dark-scatter-chart v-if="!echartsMap.loading" :id="echartsScatter.id" :option="echartsScatter.option" :style="echartsScatter.style"></leon-dark-scatter-chart>
             </div>
-            <div class="box" style="height: 2.60rem">
+            <div class="box hasBorderStyle" style="height: 2.4rem">
+                <span></span><span></span><span></span><span></span>
+                <div class="commonTitle">本月访问人数统计</div>
                 <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
                 <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsUserAreaLine.id" :option="echartsUserAreaLine.option" :style="echartsUserAreaLine.style"></leon-dark-area-line-chart>
             </div>
-            <div class="box" style="height: 2.60rem">
+            <div class="box hasBorderStyle" style="height: 2.4rem">
+                <span></span><span></span><span></span><span></span>
+                <div class="commonTitle">本月访问次数统计</div>
                 <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
                 <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsAccessAreaLine.id" :option="echartsAccessAreaLine.option" :style="echartsAccessAreaLine.style"></leon-dark-area-line-chart>
             </div>
         </div> <!-- 左侧面板 -->
         <div class="PanelRight">
-            <div class="box" style="height: 2.6rem">
+            <div class="box hasBorderStyle" style="height: 2.4rem">
+                <span></span><span></span><span></span><span></span>
+                <div class="commonTitle">每日新增业务统计</div>
                 <div class="loading" v-if="echartsBusinessAreaLine.loading">{{echartsBusinessAreaLine.loadTips}}</div>
                 <leon-dark-area-line-chart v-if="!echartsBusinessAreaLine.loading" :id="echartsBusinessAreaLine.id" :option="echartsBusinessAreaLine.option" :style="echartsBusinessAreaLine.style"></leon-dark-area-line-chart>
             </div>
-            <div class="box" style="height: 2.48rem;">
+            <div class="box hasBorderStyle" style="height: 2.48rem;">
+                <span></span><span></span><span></span><span></span>
                 <div class="loading" v-if="serverType.loading">{{serverType.loadTips}}</div>
                 <div v-if="!serverType.loading">
                     <div class="commonTitle">每日实时服务使用情况排名</div>
@@ -54,7 +65,8 @@
                     </div>
                 </div>
             </div>
-            <div class="box">
+            <div class="box hasBorderStyle">
+                <span></span><span></span><span></span><span></span>
                 <div class="commonTitle">服务分析</div>
                 <div class="clearfix">
                     <ul class="serverAnalysisList">
@@ -63,12 +75,13 @@
                             <div class="value">{{items.value}}</div>
                         </li>
                     </ul>
-                    <div style="height: 2rem;width: 3rem;float: right;">
+                    <div style="height: 1.8rem;width: 3rem;float: right;">
                         <leon-dark-pie-chart :id="echartsServicePie.id" :option="echartsServicePie.option" :style="echartsServicePie.style"></leon-dark-pie-chart>
                     </div>
                 </div>
             </div>
-            <div class="box">
+            <div class="box hasBorderStyle">
+                <span></span><span></span><span></span><span></span>
                 <div class="commonTitle">实时动态</div>
                 <ul class="logList">
                     <div class="loading" v-if="!overviewUserLog.length">暂无数据</div>
@@ -76,7 +89,8 @@
                 </ul>
             </div>
         </div> <!-- 右侧面板 -->
-        <div class="PanelBottom">
+        <div class="PanelBottom hasBorderStyle">
+            <span></span><span></span><span></span><span></span>
             <ul class="list">
                 <li v-for="items in overviewAccess">
                     <span class="name">{{items.name}}</span>
@@ -138,7 +152,7 @@
                 echartsLineBar: {
                     id: 'line-bar-echarts',
                     style: {
-                        height: '2.46rem'
+                        height: '2.2rem'
                     },
                     option: {},
                     loading: false,
@@ -147,21 +161,21 @@
                 echartsAccessAreaLine: {
                     id: 'access-area-line-echarts',
                     style: {
-                        height: '2.3rem'
+                        height: '1.8rem'
                     },
                     option: {}
                 },
                 echartsUserAreaLine: {
                     id: 'user-area-line-echarts',
                     style: {
-                        height: '2.3rem'
+                        height: '1.8rem'
                     },
                     option: {}
                 },
                 echartsBusinessAreaLine: {
                     id: 'business-area-line-echarts',
                     style: {
-                        height: '2.3rem'
+                        height: '1.8rem'
                     },
                     option: {},
                     loading: false,
@@ -179,14 +193,14 @@
                 echartsServicePie: {
                     id: 'echartsServicePie',
                     style: {
-                        height: '2rem'
+                        height: '1.8rem'
                     },
                     option: []
                 },
                 echartsScatter: {
                     id: 'echartsAccessScatter',
                     style: {
-                        height: "1.61rem"
+                        height: "1rem"
                     },
                     option: []
                 },
@@ -259,7 +273,7 @@
                         self.echartsLineBar.option = method.convertUserLineAreaEchartData(resourceArr, fieldArr, nameArr)
                         self.echartsLineBar.loading = false;
                     }else{
-                        self.echartsLineBar.loadTips = '糟糕，数据加载失败！'
+                        self.echartsLineBar.loadTips = '糟糕，加载失败！'
                     }
                 })
             },
@@ -281,7 +295,7 @@
                         }
                         self.userCount.loading = false;
                     }else{
-                        self.userCount.loadTips = '糟糕，数据加载失败！'
+                        self.userCount.loadTips = '糟糕，加载失败！'
                     }
                 })
             },

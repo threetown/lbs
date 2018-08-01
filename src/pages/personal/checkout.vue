@@ -112,6 +112,7 @@
                     dataRange: []
                 },
                 recordColumns: [
+                    { title: '审请人', key: 'staffName', align: 'center' },
                     { title: 'Key信息', key: 'keyName', align: 'center' },
                     { title: '接口信息', key: 'serviceName', align: 'center' },
                     { title: '提升类型', key: 'limittype', align: 'center', width: 95 },
@@ -120,7 +121,6 @@
                     // { title: '联系人', key: 'contactName', align: 'center' },
                     // { title: '联系电话', key: 'contactTel', align: 'center', width: 124 },
                     { title: '申请时间', key: 'createdDt', align: 'center' },
-                    { title: '姓名', key: 'staffName', align: 'center' },
                     { title: '状态', key: 'aprovalStatusCd', align: 'center', width: 96, render: (h, params) => {
                             let texts = '';
                             let classname = '';

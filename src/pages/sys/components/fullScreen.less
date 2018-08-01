@@ -136,7 +136,7 @@
             height: 1.60rem;
             border: 1px solid @line-color;
             padding: .28rem 0;
-            background: #131415;
+            background: rgba(19, 20, 21, .85);
             border-radius: 3px;
             .list{
                 li{
@@ -198,9 +198,9 @@
             width: 4.50rem;
             height: 100%;
             background: url(images/grid.png) left top repeat;
-            .box:last-child{
-                border-bottom: none;
-            }
+            // .box:last-child{
+            //     border-bottom: none;
+            // }
         }
         &Left{
             left: 0;
@@ -243,7 +243,7 @@
         float: left;
         li{
             width:1.00rem;
-            height:.60rem;
+            height:.56rem;
             padding:.04rem .06rem;
             border: 1px solid rgb(51,51,51);
             text-align: center;
@@ -260,18 +260,21 @@
             .value{
                 color: #ccc;
                 font-size: .24rem;
-                line-height: .32rem;
+                line-height: .3rem;
+            }
+            &:last-child{
+                margin-bottom: 0;
             }
         }
     }
 
     .logList{
-        height: 1.26rem;
+        height: 1.16rem;
         li{
             position: relative;
-            height: .25rem;
+            height: .22rem;
             font-size: .14rem;
-            line-height: .25rem;
+            line-height: .22rem;
             padding-right: 1.10rem;
             padding-left: .24rem;
             overflow: hidden;
@@ -282,8 +285,8 @@
                 position: absolute;
                 left: 0;
                 font-size: .20rem;
-                height: .25rem;
-                line-height: .25rem;
+                height: .22rem;
+                line-height: .22rem;
             }
             .t-gray{
                 color: #999;
@@ -305,4 +308,37 @@
         font-size: .14rem;
         color: #15a0d3
     }
+    .hasBorderStyle{
+        &>span{
+            position: absolute; 
+            padding: .05rem; 
+            z-index: 2; 
+            border-style: solid; 
+            border-color: #104062;
+            &:nth-child(1), &:nth-child(2){ 
+                top: -1px; 
+            }
+            &:nth-child(1), &:nth-child(4){ 
+                left: -1px; 
+            } 
+            &:nth-child(2), &:nth-child(3){ 
+                right: -1px; 
+            } 
+            &:nth-child(3), &:nth-child(4){ 
+                bottom: -1px; 
+            } 
+            &:nth-child(1){ 
+                border-width: .02rem 0 0 .02rem; 
+            } 
+            &:nth-child(2){ 
+                border-width: .02rem .02rem 0 0; 
+            } 
+            &:nth-child(3){ 
+                border-width: 0 .02rem .02rem 0; 
+            } 
+            &:nth-child(4){ 
+                border-width: 0 0 .02rem .02rem; 
+            }
+        }
+    } 
 }
