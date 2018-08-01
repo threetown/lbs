@@ -40,9 +40,9 @@ const echartsConfig = {
         },
         grid: {
             left: '3%',
-            top:'26%',
+            top:'14%',
             right: '2%',
-            bottom: '5%',
+            bottom: '2%',
             containLabel: true
         },
         lineTooltip(trigger) {
@@ -231,7 +231,7 @@ const echartsConfig = {
                     }
                 },
                 axisLabel: { textStyle: { color: this.labelColor } },
-                data: params && params.xAxisData ? params.xAxisData : ['周一','周二','周三','周四','周五','周六','周日']
+                data: params && params.xAxisData ? params.xAxisData : []
             },
             yAxis : [
                 {
@@ -351,15 +351,15 @@ const echartsConfig = {
     },
     lineBarChartOptions(params){
         let option = {
-            title: {
-                text: '新增用户统计',
-                textStyle: echartsConfig.darkThemeColor.titleStyle
-            },
+            // title: {
+            //     text: '新增用户统计',
+            //     textStyle: echartsConfig.darkThemeColor.titleStyle
+            // },
             legend: {
                 orient: 'horizontal', // 'vertical'
                 x: 'right', // 'center' | 'left' | {number},
-                y: '30', // 'center' | 'bottom' | {number}
-                textStyle: {color: '#61686b'},
+                y: '-5', // 'center' | 'bottom' | {number}
+                textStyle: {color: '#14A0D3'},
                 itemGap: 16,
                 itemWidth: 15,
                 itemHeight: 10,
@@ -457,18 +457,18 @@ const echartsConfig = {
     },
     darkLineAreaChartOptions(params){
         let option = {
-            title: {
-                text: params && params.title ? params.title : '本月访问人数统计',
-                textStyle: echartsConfig.darkThemeColor.titleStyle
-            },
+            // title: {
+            //     text: params && params.title ? params.title : '本月访问人数统计',
+            //     textStyle: echartsConfig.darkThemeColor.titleStyle
+            // },
             legend: {
                 orient: 'horizontal', // 'vertical'
                 x: 'right', // 'center' | 'left' | {number},
-                y: '30', // 'center' | 'bottom' | {number}
+                y: '-5', // 'center' | 'bottom' | {number}
                 itemGap: 16,
                 itemWidth: 15,
                 itemHeight: 10,
-                textStyle: {color: '#61686b', fontSize: 12 },
+                textStyle: {color: '#14A0D3', fontSize: 12 },
                 data: params && params.seriesData && params.seriesData instanceof Array ? params.seriesData.map(item => item.name) : [],
             },
             tooltip: echartsConfig.darkThemeColor.lineTooltip('axis'),
@@ -565,32 +565,32 @@ const echartsConfig = {
     darkScatterOptions(params){
         // 数据处理，从大到小
         let plantCap = params ? params : [
-            { name: '北京', value: '222' },
-            { name: '上海', value: '315' },
-            { name: '广州', value: '113' },
-            { name: '深圳', value: '95' },
-            { name: '武汉', value: '92' },
-            { name: '仙桃', value: '87' },
-            { name: '大理', value: '60' },
-            { name: '成都', value: '55' },
-            { name: '青岛', value: '52' },
-            { name: '南京', value: '47' },
-            { name: '江苏', value: '40' }
+            { name: '北京', value: 315 },
+            { name: '上海', value: 222 },
+            { name: '广州', value: 113 },
+            { name: '深圳', value: 95 },
+            { name: '武汉', value: 92 },
+            { name: '仙桃', value: 87 },
+            { name: '大理', value: 60 },
+            { name: '成都', value: 55 },
+            { name: '青岛', value: 52 },
+            { name: '南京', value: 47 },
+            { name: '江苏', value: 40 }
         ].sort(function (a, b) { return b.value - a.value})
             
         // 预设点位
         let datalist = [
-            { offset: [61, 42], symbolSize: 70 },
-            { offset: [24, 45], symbolSize: 62 },
-            { offset: [87, 54], symbolSize: 54 },
-            { offset: [40, 14], symbolSize: 48 },
-            { offset: [42, 60], symbolSize: 42 },
+            { offset: [62, 46], symbolSize: 70 },
+            { offset: [34, 45], symbolSize: 62 },
+            { offset: [82, 82], symbolSize: 54 },
+            { offset: [46, 20], symbolSize: 48 },
+            { offset: [52, 80], symbolSize: 42 },
             { offset: [77, 20], symbolSize: 38 },
-            { offset: [100, 30], symbolSize: 36 },
-            { offset: [8, 26], symbolSize: 34 },
-            { offset: [1, 50], symbolSize: 30 },
+            { offset: [90, 30], symbolSize: 36 },
+            { offset: [18, 26], symbolSize: 34 },
+            { offset: [5, 56], symbolSize: 30 },
             { offset: [-6, 26], symbolSize: 26 },
-            { offset: [108, 60], symbolSize: 26 }
+            { offset: [105, 60], symbolSize: 26 }
         ]
 
         // 合并
@@ -600,7 +600,6 @@ const echartsConfig = {
         }
 
         let datas = [];
-        let color = 'rgba(20, 176, 233, .4)';
         for (let i = 0; i < plantCap.length; i++) {
             let item = plantCap[i];
             let itemToStyle = datalist[i];
@@ -608,17 +607,17 @@ const echartsConfig = {
             datas.push({
                 name: item.name,
                 value: itemToStyle.offset,
-                symbolSize: itemToStyle.offset[2] * 30, // TODO，大小
+                symbolSize: 38, // TODO，大小
                 label: { normal: { textStyle: { fontSize: 12 } }},
                 itemStyle: { normal: { color: 'rgba(20, 176, 233, .4)' } }
             })
         }
 
         let option = {
-            title: {
-                text: '用户所在地区分布情况',
-                textStyle: echartsConfig.darkThemeColor.titleStyle
-            },
+            // title: {
+            //     text: '用户所在地区分布情况',
+            //     textStyle: echartsConfig.darkThemeColor.titleStyle
+            // },
             tooltip: echartsConfig.darkThemeColor.lineTooltip(),
             grid: { show: false, top: 10, bottom: 10 },
             xAxis: [{ gridIndex: 0, type: 'value', show: false, min: 0, max: 100, nameLocation: 'middle', nameGap: 5 }],
