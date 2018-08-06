@@ -750,9 +750,9 @@
 
                             staffInfoId: userResource.staffInfoId
                         }
+                    }else{
+                        self.$Message.error(res.message)
                     }
-                }).catch(error =>{
-                    self.$Message.error(error)
                 })
             }
         },
