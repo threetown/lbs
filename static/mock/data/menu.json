@@ -34,6 +34,13 @@
                 ]
             },
             {
+                "path": "/solution", "name": "solution", "component": "dashboard", "title": "解决方案", "modelStyle": "icon-solution",
+                "children": [
+                    { "path": "create", "name": "create", "component": "solution/create", "title": "创建应用" },
+                    { "path": "tpl", "name": "tpl", "component": "solution/tpl", "title": "配置模板" }
+                ]
+            },
+            {
                 "path": "/personal", "name": "personal", "component": "dashboard", "title": "个人中心", "modelStyle": "icon-personal",
                 "children": [
                     { "path": "info", "name": "info", "component": "personal/info", "title": "帐号信息" },
