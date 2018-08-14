@@ -12,6 +12,13 @@
         
         <div v-if="record.loading" :class="'Placeholder ' + record.state">{{record.loadTips}}</div>
         <Table v-if="!record.loading" border :columns="recordColumns" :data="recordData" class="custom-table"></Table>
+        <div class="page-placeholder" v-show="!record.loading">
+            <Page :total="record.total"
+                :current="record.page"
+                :page-size="record.rows"
+                @on-change="queryQueryList"
+            ></Page>
+        </div>
 
 
         <Modal
@@ -123,6 +130,9 @@
                 ],
                 recordData: [],
                 record: {
+                    page: 1,
+                    rows: 10,
+                    total: 0,
                     loading: false,
                     state: 'loading',
                     loadTips: '努力加载中，请稍等...'
@@ -218,25 +228,31 @@
             getQuotaList(){
                 const self = this;
                 let data = {
-                    keyId: self.quotaKeyId
+                    keyId: self.quotaKeyId,
+                    page: this.record.page,
+                    rows: this.record.rows,
                 }
                 this.record.loading = true;
                 this.record.loadTips = '努力加载中，请稍等...'
                 this.record.state = 'loading'
                 ajaxPostQuotaList(data).then(res => {
                     if(res.state === 0){
-                        let result = res.data.data.rows;
-                        if(result && result.length){
-                            self.recordData = tools.getQuotaList(result);
+                        let result = res.data;
+                        if(result && result.data && result.data.length){
+                            self.recordData = tools.getQuotaList(result.data.rwos);
+                            self.record.total = result.total;
                             self.record.loading = false;
                         }else{
+                            self.record.state = 'empty';
                             self.record.loadTips = '抱歉，暂无数据！';
-                            self.record.state = 'empty'
-                        }                        
+                        }
                     }else{
-                        self.record.loadTips = '糟糕，加载失败！'
                         self.record.state = 'error';
+                        self.record.loadTips = '糟糕，加载失败！';
                     }
+                }).catch( reason => {
+                    self.record.state = 'error';
+                    self.record.loadTips = '错误提示：' + reason.statusText;
                 })
             },
             getQuotaType(router){

@@ -22,7 +22,7 @@
                     @on-enter="getList"
                     @on-click="getList"
                     icon="ios-search-strong"
-                    placeholder="请输入Key信息或用户名"
+                    placeholder="请输入Key信息或审请人"
                     style="width: 260px;float: right;"></Input>
             </Col>
         </Row>
