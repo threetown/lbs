@@ -462,8 +462,8 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         self.Loading.info = '糟糕，加载失败！';
                     }
                 }).catch( reason => {
-                    self.record.state = 'error';
-                    self.record.loadTips = '错误提示：' + reason.statusText;
+                    self.Loading.class = 'error';
+                    self.Loading.info = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             getServerTypeList(){
@@ -500,7 +500,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     }
                 }).catch( reason => {
                     self.record.state = 'error';
-                    self.record.loadTips = '错误提示：' + reason.statusText;
+                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             getAppTypeList(){

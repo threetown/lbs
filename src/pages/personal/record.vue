@@ -145,6 +145,9 @@
                         self.record.state = 'error';
                         self.record.loadTips = '糟糕，加载失败！';
                     }
+                }).catch( reason => {
+                    self.record.state = 'error';
+                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             }
         },

@@ -252,7 +252,7 @@
                     }
                 }).catch( reason => {
                     self.record.state = 'error';
-                    self.record.loadTips = '错误提示：' + reason.statusText;
+                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             getQuotaType(router){
@@ -277,6 +277,10 @@
                         self.record.loadTips = '糟糕，加载失败！'
                         self.record.state = 'error'
                     }
+                }).catch( reason => {
+                    self.record.state = 'error';
+                    self.Analysis.loadTips = reason.statusText;
+                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             }
         },

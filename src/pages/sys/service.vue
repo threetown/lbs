@@ -570,6 +570,9 @@
                         self.serviceType.state = 'error';
                         self.serviceType.loadTips = "糟糕，加载失败！"
                     }
+                }).catch( reason => {
+                    self.serviceType.state = 'error';
+                    self.serviceType.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             closeCountModal(name){

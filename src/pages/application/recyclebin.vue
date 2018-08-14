@@ -229,6 +229,9 @@
                         self.Loading.class = 'error';
                         self.Loading.info = '糟糕，加载失败！';
                     }
+                }).catch( reason => {
+                    self.Loading.class = 'error';
+                    self.Loading.info = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             triggerRecoverModal(params, type){
