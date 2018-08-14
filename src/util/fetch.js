@@ -64,7 +64,7 @@ fetch.interceptors.response.use(
         }else{
             window.location = basicConfig.url.jump;
         }
-        return Promise.reject(error.response.data);
+        return Promise.reject(error.response);
     }
 );
 

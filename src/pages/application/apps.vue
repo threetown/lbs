@@ -178,7 +178,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         title: 'Key', key: 'keyCode', align: 'center'
                     },
                     {
-                        title: '绑定服务', key: 'serviceTypeMajorName', align: 'center'
+                        title: '绑定服务', key: 'serviceTypeMajorName', align: 'center', width: 180
                     },
                     {
                         title: '操作', key: 'action', align: 'center', width: 240,
@@ -461,6 +461,9 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         self.Loading.class = 'error';
                         self.Loading.info = '糟糕，加载失败！';
                     }
+                }).catch( reason => {
+                    self.record.state = 'error';
+                    self.record.loadTips = '错误提示：' + reason.statusText;
                 })
             },
             getServerTypeList(){
@@ -495,6 +498,9 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         self.url.loadTips = '糟糕，加载失败！';
                         self.url.state = 'error'
                     }
+                }).catch( reason => {
+                    self.record.state = 'error';
+                    self.record.loadTips = '错误提示：' + reason.statusText;
                 })
             },
             getAppTypeList(){
