@@ -51,10 +51,10 @@ let APIUrl = 'http://consoleapi.cindata.cn'; // API请求地址
 let mapviewUrl = 'http://mapview.cindata.cn'  // 数据可视化
 
 /* 测试地址 */
-// let LbsUrl = 'http://testlbs.cindata.cn';        // LBS
-// let SSOUrl = 'http://testsso.cindata.cn';        // SSO
-// let APIUrl = 'http://testconsoleapi.cindata.cn'; // API请求地址
-// let mapviewUrl = 'http://testmapview.cindata.cn'  // 数据可视化
+// let LbsUrl = 'http://testlbs.cindata.com';        // LBS
+// let SSOUrl = 'http://testsso.cindata.com';        // SSO
+// let APIUrl = 'http://testconsoleapi.cindata.com'; // API请求地址
+// let mapviewUrl = 'http://testmapview.cindata.com'  // 数据可视化
 
 let url = {
     home: LbsUrl + '/gxdyun',
