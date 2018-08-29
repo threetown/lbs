@@ -38,6 +38,7 @@
                             :current="serviceResource.page"
                             :page-size="serviceResource.rows"
                             @on-change="changeQueryPage"
+                            show-total
                         ></Page>
                     </div>
                 </div>

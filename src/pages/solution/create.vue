@@ -37,7 +37,7 @@
                     <Select v-model="createAppForm.code" placeholder="请选择应用类型">
                         <Option v-for="item in solutionCode" :value="item.code" :key="item.code">{{ item.name }}</Option>
                     </Select>
-                </FormItem>-{{currentAppName}}
+                </FormItem>
                 <FormItem label="应用类型" prop="type">
                     <Select v-model="createAppForm.type" placeholder="请选择应用类型">
                         <Option v-for="item in panelAppType" :value="item.code" :key="item.code">{{ item.name }}</Option>

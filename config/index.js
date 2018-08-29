@@ -15,7 +15,7 @@ module.exports = {
         // target: 'http://10.202.1.237:11002',
         // target: 'http://10.202.1.236:11002',
         target: 'http://192.168.50.36:11002',
-        // target: 'http://consoleapi.cindata.cn',
+        // target: 'http://172.21.121.97:11002',
         pathRewrite: {
           '^/center': '/center'
         }

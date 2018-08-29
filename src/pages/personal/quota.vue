@@ -17,6 +17,7 @@
                 :current="record.page"
                 :page-size="record.rows"
                 @on-change="queryQueryList"
+                show-total
             ></Page>
         </div>
 
@@ -238,9 +239,9 @@
                 ajaxPostQuotaList(data).then(res => {
                     if(res.state === 0){
                         let result = res.data;
-                        if(result && result.data && result.data.length){
-                            self.recordData = tools.getQuotaList(result.data.rwos);
-                            self.record.total = result.total;
+                        if(result && result.data && result.data.rows.length){
+                            self.recordData = tools.getQuotaList(result.data.rows);
+                            self.record.total = result.data.total;
                             self.record.loading = false;
                         }else{
                             self.record.state = 'empty';

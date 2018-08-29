@@ -33,6 +33,7 @@
                 :current="record.page"
                 :page-size="record.rows"
                 @on-change="changeQueryPage"
+                show-total
             ></Page>
         </div>
 
