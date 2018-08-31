@@ -41,15 +41,17 @@
   .layoutHeader {
     height: 64px;
     padding: 12px;
-    background: #fff;
+    background: #008aff;
     box-shadow: 0 2px 1px 1px rgba(100, 100, 100, 0.1);
-    // position: relative;
-    // width: 100%;
-    // z-index: 11;
     .sider-trigger{
       float: left;
-      padding: 6px;
+      padding: 6px 12px;
       cursor: pointer;
+      color: #fff;
+      transition: all .3s,padding 0s;
+      &:hover{
+        color: #e6f7ff;
+      }
       i{
         font-size: 26px;
       }
@@ -62,23 +64,18 @@
       height: 40px;
       min-width: 1050px;
       font-size: 12px;
-      // margin-top: -20px;
-      // position: absolute;
-      // z-index: 999;
-      // top: 50%;
-      // left: 0;
       font-family: microsoft yahei,tahoma,arial;
     }
     .headerApps {
-      color: #333;
+      color: #fff;
       height: 100%;
       margin-right: 20px;
       float: right;
       a{
-        color: #333;
+        color: #fff;
       }
       span,.msg{
-        color: #333;
+        color: #fff;
         font-size: 14px;
         line-height: 40px;
         margin-left: 10px;
@@ -91,7 +88,7 @@
         width: 0;
         height: 12px;
         margin-bottom: -1px;
-        border-left: 2px solid #999;
+        border-left: 2px solid #fff;
       }
       .appUserInfo{
         height: 40px;

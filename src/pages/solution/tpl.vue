@@ -133,7 +133,7 @@
                 data = Object.assign(data, params)
                 ajaxFindSolution(data).then(res => {
                     let result = res.data.data;
-                    if(result.length){
+                    if(result && result.length){
                         self.solutionAppForm.serviceNames = result.map(item => item.serviceName);
                     }
                     self.solutionAppForm.spinShow = false;
