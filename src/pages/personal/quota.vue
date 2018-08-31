@@ -16,7 +16,7 @@
             <Page :total="record.total"
                 :current="record.page"
                 :page-size="record.rows"
-                @on-change="queryQueryList"
+                @on-change="changeQueryPage"
                 show-total
             ></Page>
         </div>
@@ -226,13 +226,17 @@
                 this.Analysis.currentType = value;
                 this.getQuotaList()
             },
-            getQuotaList(){
+            changeQueryPage(value){
+                this.getQuotaList({ page: value })
+            },
+            getQuotaList(params){
                 const self = this;
                 let data = {
-                    keyId: self.quotaKeyId,
+                    keyId: this.quotaKeyId,
                     page: this.record.page,
                     rows: this.record.rows,
                 }
+                data = Object.assign(data, params)
                 this.record.loading = true;
                 this.record.loadTips = '努力加载中，请稍等...'
                 this.record.state = 'loading'
