@@ -40,6 +40,7 @@
                     </CheckboxGroup>
                 </FormItem>
             </Form>
+            <Spin size="large" fix v-if="solutionAppForm.spinShow"></Spin>
             <div slot="footer" >
                 <Button type="text" size="large" @click="closeSolutionModal('solutionAppForm')">取消</Button>
                 <Button type="primary" size="large" :loading="solutionAppForm.loading" @click.prevent="handleSolutionModal('solutionAppForm')">提交</Button>
@@ -92,7 +93,8 @@
                     loadTips: '努力加载中，请稍等...',
                     page: 1,
                     rows: 10,
-                    total: 0
+                    total: 0,
+                    spinShow: false
                 }
             }
         },
@@ -103,6 +105,24 @@
             },
             triggerSolutionModal(){
                 this.isOpenSolutionModal = true;
+                // 选中
+                this.getAllSolution()
+            },
+            getAllSolution(params){
+                const self = this;
+                let data = {
+                    solutionCode: this.solution.curType,
+                    rows: 1000
+                }
+                this.solutionAppForm.spinShow = true;
+                data = Object.assign(data, params)
+                ajaxFindSolution(data).then(res => {
+                    let result = res.data.data;
+                    if(result.length){
+                        self.solutionAppForm.serviceNames = result.map(item => item.serviceName);
+                    }
+                    self.solutionAppForm.spinShow = false;
+                })
             },
             closeSolutionModal(name){
                 this.$refs[name].resetFields();
@@ -119,6 +139,7 @@
                     if(res.state === 0){
                         self.$Message.success(res.message)
                         self.closeSolutionModal(name);
+                        self.getList()
                     }else{
                         self.$Message.error(res.message)
                     }
@@ -142,13 +163,14 @@
                     }
                 })
             },
-            getList(){
+            getList(params){
                 const self = this;
                 let data = {
                     solutionCode: this.solution.curType,
                     page: this.record.page,
                     rows: this.record.rows
                 }
+                data = Object.assign(data, params)
 
                 this.record.loading = true;
                 this.record.loadTips = '努力加载中，请稍等...'
