@@ -80,11 +80,26 @@
                 },
                 recordColumns: [
                     { title: '应用名称', key: 'serviceName', align: 'center' },
-                    { title: '服务ID', key: 'serviceId', align: 'center' },
                     { title: '服务名称', key: 'serviceName', align: 'center'},
                     { title: '日调用量', key: 'dailyTotalCnt', align: 'center' },
                     { title: '并发量', key: 'concurrencyMax', align: 'center' },
-                    { title: '状态', key: 'statusCd', align: 'center', width: 95 },
+                    { title: '状态', key: 'statusCd', align: 'center', width: 95 , render: (h, params) => {
+                            let texts = '';
+                            let classname = '';
+                            if(params.row.statusCd === 1){
+                                classname = 'status-success'
+                                texts = '正常'
+                            }else{
+                                classname = 'status-error'
+                                texts = '异常'
+                            }
+                            return h('div',{},[
+                                h('span', {
+                                    class: classname,
+                                }, texts)
+                            ])
+                        }
+                    },
                 ],
                 record:{
                     data: [],
