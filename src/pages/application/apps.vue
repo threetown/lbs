@@ -13,7 +13,7 @@
                         <div class="hd">
                             <Row>
                                 <Col span="5" class="title">
-                                    <Icon type="ios-list"></Icon>{{item.appName}}
+                                    <i class="iconfont icon-app"></i>{{item.appName}}
                                 </Col>
                                 <Col span="5">{{item.createdDt}} 创建</Col>
                                 <Col span="12" class="action">
