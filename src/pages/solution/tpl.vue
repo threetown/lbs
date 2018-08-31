@@ -67,6 +67,7 @@
                 isOpenSolutionModal: false,
                 solutionAppForm: {
                     loading: false,
+                    spinShow: false,
                     serviceNames: []
                 },
                 serviceTypeResource: [],
@@ -108,8 +109,7 @@
                     loadTips: '努力加载中，请稍等...',
                     page: 1,
                     rows: 10,
-                    total: 0,
-                    spinShow: false
+                    total: 0
                 }
             }
         },
