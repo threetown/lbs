@@ -135,6 +135,8 @@
                     let result = res.data.data;
                     if(result && result.length){
                         self.solutionAppForm.serviceNames = result.map(item => item.serviceName);
+                    }else{
+                        self.solutionAppForm.serviceNames = [];
                     }
                     self.solutionAppForm.spinShow = false;
                 })
@@ -195,7 +197,7 @@
                         let result = res.data;
                         if(result && result.data && result.data.length){
                             self.record.data = result.data;
-                            self.record.total = result.total;
+                            self.record.total = res.page;
                             self.record.loading = false;
                         }else{
                             self.record.state = 'empty';
