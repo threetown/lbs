@@ -44,7 +44,7 @@
                 </div>
             </TabPane>
             <div slot="extra">
-                <Button v-if="!serviceResource.loading" type="primary" icon="ios-plus-outline" size="large" @click="triggerAddServer">新增服务</Button>
+                <Button type="primary" icon="ios-plus-outline" size="large" @click="triggerAddServer">新增服务</Button>
             </div>
         </Tabs>
 
@@ -489,8 +489,9 @@
 
                 ajaxServerList(data).then(res => {
                     if(res.state === 0){
-                        let datas = res.data.data;
-                        if(datas && datas.rows.length){
+                        // let datas = res.data.data;
+                        let datas = [];
+                        if(datas && datas.rows && datas.rows.length){
                             self.serviceResource.data = datas.rows;
                             self.serviceResource.total = datas.total;
                             self.serviceResource.loading = false;
