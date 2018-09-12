@@ -489,8 +489,7 @@
 
                 ajaxServerList(data).then(res => {
                     if(res.state === 0){
-                        // let datas = res.data.data;
-                        let datas = [];
+                        let datas = res.data.data;
                         if(datas && datas.rows && datas.rows.length){
                             self.serviceResource.data = datas.rows;
                             self.serviceResource.total = datas.total;
