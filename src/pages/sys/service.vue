@@ -44,7 +44,7 @@
                 </div>
             </TabPane>
             <div slot="extra">
-                <Button type="primary" icon="ios-plus-outline" size="large" @click="triggerAddServer">新增服务</Button>
+                <Button type="primary" icon="ios-plus-outline" size="large" @click.prevent="triggerAddServer">新增服务</Button>
             </div>
         </Tabs>
 
