@@ -22,7 +22,7 @@
                     @on-enter="getList"
                     @on-click="getList"
                     icon="ios-search-strong"
-                    placeholder="请输入Key信息或审请人"
+                    placeholder="请输入Key信息或申请人"
                     style="width: 260px;float: right;"></Input>
             </Col>
         </Row>
@@ -113,7 +113,7 @@
                     dataRange: []
                 },
                 recordColumns: [
-                    { title: '审请人', key: 'staffName', align: 'center' },
+                    { title: '申请人', key: 'staffName', align: 'center' },
                     { title: 'Key信息', key: 'keyName', align: 'center' },
                     { title: '接口信息', key: 'serviceName', align: 'center' },
                     { title: '提升类型', key: 'limittype', align: 'center', width: 95 },

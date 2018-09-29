@@ -14,7 +14,8 @@ module.exports = {
       '/center': {
         // target: 'http://10.202.1.237:11002',
         // target: 'http://10.202.1.236:11002',
-        target: 'http://192.168.50.36:11002',
+        target: 'http://192.168.50.36:11002', // 测试服务器
+        // target: 'http://10.202.1.228:11222', // 何
         // target: 'http://172.21.121.97:11002',
         pathRewrite: {
           '^/center': '/center'
