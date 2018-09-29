@@ -34,6 +34,11 @@ export const ajaxPostUpQuota = (data) => fetch({ url: '/center/logOperStaffServi
 // 配额申请审核
 export const ajaxPostDealApply = (data) => fetch({ url: '/center/logOperStaffService/dealApply', method: 'post', data })
 
+// 接口调用统计
+export const ajaxPostMatchingResult = (data) => fetch({ url: '/center/matchingResult', method: 'post', data})
+
+// 接口调用统计
+export const ajaxPostEsYearsData = (data) => fetch({ url: '/center/getEsYearsData', method: 'post', data})
 
 // 发送短信验证码
 export const ajaxPhoneSendSMSCode = (data) => fetch({
