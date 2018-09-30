@@ -181,7 +181,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         title: '绑定服务', key: 'serviceTypeMajorName', align: 'center', width: 180
                     },
                     {
-                        title: '操作', key: 'action', align: 'center', width: 240,
+                        title: '操作', key: 'action', align: 'center', width: 290,
                         render: (h, params) => {
                             return h('div',
                             {class: 'action-group'},
@@ -221,7 +221,19 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                                             });
                                         }
                                     }
-                                }, '查看配额')
+                                }, '查看配额'),
+                                h('span', {
+                                    class: 'items',
+                                    on: {
+                                        click: () => {
+                                            let argu = { keyCode: params.row.keyCode };
+                                            this.$router.push({
+                                                name: 'count',
+                                                query: argu
+                                            });
+                                        }
+                                    }
+                                }, '接口统计')
                             ]);
                         }
                     }
