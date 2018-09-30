@@ -55,6 +55,7 @@ let LbsUrl = 'http://testlbs.cindata.net';        // LBS
 let SSOUrl = 'http://testsso.cindata.net';        // SSO
 let APIUrl = 'http://testconsoleapi.cindata.net'; // API请求地址
 let mapviewUrl = 'http://testmapview.cindata.net/mapv/commondata'  // 数据可视化-我的数据
+let mapviewProUrl = 'http://testmapview.cindata.net/mapv/visual'   // 数据可视化-我的项目
 
 let url = {
     home: LbsUrl + '/gxdyun',
@@ -88,5 +89,6 @@ export {
     serverType,
     APIUrl,
     SSOUrl,
-    mapviewUrl
+    mapviewUrl,
+    mapviewProUrl
 }
