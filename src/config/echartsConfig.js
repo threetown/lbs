@@ -39,9 +39,9 @@ const echartsConfig = {
             fontSize: '16'
         },
         grid: {
-            left: '3%',
+            left: '5%',
             top: '14%',
-            right: '2%',
+            right: '5%',
             bottom: '2%',
             containLabel: true
         },
@@ -108,7 +108,7 @@ const echartsConfig = {
             },
             grid: {
                 left: '0',
-                right: '0',
+                right: '2%',
                 bottom: '0',
                 top: '6%',
                 containLabel: true
@@ -207,7 +207,7 @@ const echartsConfig = {
             },
             grid: {
                 left: '0',
-                right: '0',
+                right: '2%',
                 bottom: '0',
                 top: '6%',
                 containLabel: true
@@ -633,7 +633,7 @@ const echartsConfig = {
             series: [{
                 type: 'pie',
                 name: '',
-                radius: ['0%', '100%'],
+                radius: ['0%', '96%'],
                 center: ['50%', '50%'],
                 avoidLabelOverlap: false,
                 silent: true,
@@ -650,7 +650,7 @@ const echartsConfig = {
             }, {
                 name: '',
                 type: 'pie',
-                radius: ['35%', '75%'],
+                radius: ['35%', '70%'],
                 center: ['50%', '50%'],
                 data: params ? params : [{ value: 30, name: '未上线' }, { value: 80, name: '正常服务' }, { value: 10, name: '异常服务' }].sort(function (a, b) { return b.value - a.value }),
                 roseType: 'angle',
