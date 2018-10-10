@@ -163,11 +163,11 @@
             ...mapActions([ 'recordOverviewAccess', 'recordOverviewService', 'recordUserLog' ]),
             closeFullScree(){
                 this.fullScreen.state = false;
-                document.getElementById('singlePageBox').style.overflow = 'auto'
+                // document.getElementById('singlePageBox').style.overflow = 'auto'
             },
             showFullScree(){ // 大屏展示
                 this.fullScreen.state = true;
-                document.getElementById('singlePageBox').style.overflow = 'hidden'
+                // document.getElementById('singlePageBox').style.overflow = 'hidden'
             },
             getCallLog(){
                 const self = this;

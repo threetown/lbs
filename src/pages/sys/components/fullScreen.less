@@ -212,30 +212,40 @@
         }
     }
 
-    .custom-dark-button-radio{
-            
-        &.ivu-radio-group-button{
-            .ivu-radio-wrapper{
+    .custom-dark-tabs{
+        .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar{
+            border: none;
+            margin-bottom: 0;
+            .ivu-tabs-nav-scrollable {
+                padding: 0 .26rem;
+                font-size: .14rem;
+                .ivu-tabs-nav-prev,
+                .ivu-tabs-nav-next{
+                    width: .22rem;
+                    height: 0.32rem;
+                    line-height: 0.32rem;
+                    border-radius: .03rem;
+                    border: 1px solid #333;
+                    text-align: center;
+                }
+            }
+            .ivu-tabs-tab{
                 color: #666;
                 border: 1px solid #333;
                 background-color: #1c1f1f;
-                margin-left:.08rem;
                 border-radius:.05rem;
                 font-size: .14rem;
                 line-height: .32rem;
                 height: .32rem;
-                padding: 0 .10rem;
-                &::before{
-                    display: none;
-                }
-                &-checked{
+                padding: 0 .1rem;
+                &-active{
                     border-color: #286479;
                     color: #14B0E9;
                     box-shadow: none;
                     background-color: #0f2229;
                 }
             }
-        }
+        } 
     }
 
     .serverAnalysisList{

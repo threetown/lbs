@@ -54,10 +54,10 @@
                 <div class="loading" v-if="serverType.loading">{{serverType.loadTips}}</div>
                 <div v-if="!serverType.loading">
                     <div class="commonTitle">每日实时服务使用情况排名</div>
-                    <div style="text-align: right">
-                        <RadioGroup class="custom-dark-button-radio" type="button" v-model="serverType.value" @on-change="getServerRank">
-                            <Radio :label="items.label" v-for="items in serverType.list" :key="items.value"></Radio>
-                        </RadioGroup>
+                    <div class="custom-dark-tabs">
+                        <Tabs type="card" @on-click="getServerRank">
+                            <TabPane v-for="tab in serverType.list" :key="tab.value" :label="tab.label"></TabPane>
+                        </Tabs>
                     </div>
                     <div style="position: relative; height: 1.5rem">
                         <div class="loading" v-if="echartsServiceTopBar.loading">{{echartsServiceTopBar.loadTips}}</div>
@@ -320,9 +320,9 @@
                     }
                 })
             },
-            getServerRank(){
+            getServerRank(v){
                 const self = this;
-                let params = this.serverTypeId;
+                let params = v ? v : 0;
                 this.echartsServiceTopBar.loading = true;
                 this.echartsServiceTopBar.loadTips = '努力加载中，请稍等...'
                 ajaxGetServerRank(params).then(res => {
@@ -375,13 +375,13 @@
         },
         computed: {
             ...mapGetters([ 'overviewAccess', 'overviewService', 'accessIPProvince', 'accessIPCity', 'overviewUserLog' ]),
-            serverTypeId(){
-                const self = this;
-                // return tools.getDictData(self.serverType.list, self.serverType.value, 'value')
-                return self.serverType.list.find((v, i) => {
-                    return v.label === self.serverType.value
-                }).value
-            }
+            // serverTypeId(){
+            //     const self = this;
+            //     // return tools.getDictData(self.serverType.list, self.serverType.value, 'value')
+            //     return self.serverType.list.find((v, i) => {
+            //         return v.label === self.serverType.value
+            //     }).value
+            // }
         }
     }
 </script>
