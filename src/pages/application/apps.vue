@@ -340,6 +340,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                                 }else{
                                     self.$Message.error(res.message)
                                 }
+                                self.createAppForm.loading = false;
                             })
                         }else{
                             // 创建新应用
