@@ -195,7 +195,12 @@
                 })
             },
             openCount(params){
-                
+                let argu = { keyCode: params.row.keyCode };
+                let routeData = this.$router.resolve({
+                    name: 'count',
+                    query: argu
+                });
+                window.open(routeData.href, '_blank')
             },
             init(){
                 this.getBalance()
