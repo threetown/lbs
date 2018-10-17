@@ -37,7 +37,7 @@
             <div class="commonTitle" >近一年接口调用统计</div>
         </div>
         <div v-if="lastYear.loading" :class="'Placeholder ' + lastYear.state">{{lastYear.loadTips}}</div>
-        <leon-line-bar-light-chart :id="lastYear.id" :option="lastYear.option"></leon-line-bar-light-chart>
+        <leon-line-bar-light-chart v-if="!lastYear.loading" :id="lastYear.id" :option="lastYear.option"></leon-line-bar-light-chart>
     </div>
 </template>
 
