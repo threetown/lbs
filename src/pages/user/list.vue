@@ -29,14 +29,21 @@
                 show-total
             ></Page>
         </div>
+
+        <user-details v-if="userModal" :currentUser="currentUser" @closeUserDetails="closeUserDetails"></user-details>
     </div>
 </template>
 
 <script>
     import { ajaxPostUserList } from 'src/service/user';
+
+    import userDetails from "./components/userDetails"
     
     export default {
         name: 'personal-record',
+        components: {
+            userDetails
+        },
         data () {
             return {
                 statusList: [
@@ -88,10 +95,10 @@
                                 class: 'items',
                                 on: {
                                     click: () => {
-                                        // this.triggerViewUrlModal(params)
+                                        this.triggerUserModal(params.row)
                                     }
                                 }
-                            }, '帐户详情'),
+                            }, '用户详情'),
                             // h('span', {
                             //     class: 'items',
                             //     on: {
@@ -119,10 +126,15 @@
                         ]);
                         }
                     }
-                ]
+                ],
+                userModal: false,
+                currentUser: {}
             }
         },
         methods: {
+            closeUserDetails(){
+                this.userModal = false;
+            },
             getList(params){
                 const self = this;
                 let data = {
@@ -163,6 +175,10 @@
             },
             changeQueryPage(v){
                 this.getList({ page: v })
+            },
+            triggerUserModal(params){
+                this.userModal = true;
+                this.currentUser = params;
             },
             init(){
                 this.getList()
