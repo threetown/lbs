@@ -17,7 +17,7 @@
                     </div>
                     <div style="padding-top: 10px;float: left;margin-left: 26px;">
                         <Button type="primary" @click="handlerPayModel">充值</Button>
-                        <Button>扣款</Button>
+                        <Button @click="handlerUserPay">扣款</Button>
                     </div>
                 </div>
             </div>
@@ -62,14 +62,21 @@
                 </div>
             </Modal> <!-- 充值 -->
         </div>
+
+        <user-pay v-if="userPayState" :currentUser="currentUser" @closeUserPay="closeUserPay"></user-pay>
     </div>
 </template>
 
 <script>
     import { ajaxPostBalance, ajaxPostDealRecord, ajaxPostAccountTopUp } from 'src/service/user';
 
+    import userPay from "./userPay"
+
     export default {
         name: 'userDetails',
+        components: {
+            userPay
+        },
         props: {
             currentUser: {
                 type: Object,
@@ -106,12 +113,19 @@
                     Form: {
                         price: ''
                     }
-                }
+                },
+                userPayState: false
             }
         },
         methods: {
             close(){
                 this.$emit("closeUserDetails");
+            },
+            closeUserPay(){
+                this.userPayState = false;
+            },
+            handlerUserPay(){
+                this.userPayState = true;
             },
             handlerSelectDate(v){
                 this.search.dateRange = v;
@@ -222,24 +236,27 @@
                         { title: '总调用量', key: 'totalCallCnt' },
                         { title: '有效调用量', key: 'goodCallCnt' },
                         { title: '备注', key: 'remark' },
-                        {
-                            title: '操作', key: 'action', align: 'center', width: 100, render: (h, params) => {
-                                return h('div', {class: 'action-group'},
-                                [
-                                    h('span', {
-                                        class: 'items', on: {
-                                            click: () => {
-                                                this.openCount(params)
-                                            }
-                                        }
-                                    }, '详情')
-                                ]);
-                            }
-                        },
                         { title: '合计费用', key: 'totalCost' }
                     )
                 }
                 columns.push({ title: '变动金额', key: 'dealAmount' })
+
+                if(this.search.statusCd === 2){
+                    columns.push({
+                        title: '操作', key: 'action', align: 'center', width: 100, render: (h, params) => {
+                            return h('div', {class: 'action-group'},
+                            [
+                                h('span', {
+                                    class: 'items', on: {
+                                        click: () => {
+                                            this.openCount(params)
+                                        }
+                                    }
+                                }, '详情')
+                            ]);
+                        }
+                    })
+                }
                 return columns;
             }
         },

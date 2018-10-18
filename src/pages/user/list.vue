@@ -98,7 +98,7 @@
                                         this.triggerUserModal(params.row)
                                     }
                                 }
-                            }, '用户详情'),
+                            }, '帐户详情'),
                             // h('span', {
                             //     class: 'items',
                             //     on: {
@@ -189,3 +189,13 @@
         }
     }
 </script>
+
+<style lang="less">
+    .custom-tables{
+        width: 100%;
+        border: 1px solid #ccc;
+        td{
+            border: 1px solid #ccc;
+        }
+    }
+</style>
