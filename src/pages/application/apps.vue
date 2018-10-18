@@ -128,6 +128,32 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 <Button type="primary" size="large" :loading="createKeyForm.loading" :disabled="!createKeyForm.isRead ? true : false" @click.prevent="createKey('createKeyForm')">提交</Button>
             </div>
         </Modal> <!-- 创建新Key -->
+
+        <Modal
+            v-model="Count.isOpen"
+            class-name="custom-modal vertical-center-modal"
+            width="912">
+            <Icon type="ios-close-empty" slot="close" @click="closeCountModal('CountForm')"></Icon>
+            <h2 class="title" slot="header">{{Count.title}} ● 调用量统计</h2>
+
+            <Row>
+                <Col span="12">
+                    <Select v-model="Count.type" @on-change="selectCount" size="large" style="width:160px;">
+                        <Option v-for="item in selectTimeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </Col>
+                <Col span="12">
+                    <Select v-model="Count.serviceId" @on-change="selectCountServiceId" size="large" style="width:160px;float: right;">
+                        <Option v-for="item in Count.ServiceInfos" :value="item.serviceId" :key="item.serviceId">{{ item.serviceName }}</Option>
+                    </Select>
+                </Col>
+            </Row>
+
+            <div v-if="Count.loading" :class="'Placeholder ' + Count.state">{{Count.loadTips}}</div>
+            <leon-line-echart v-if="!Count.loading" :id="Count.echarts.id" :option="Count.echarts.option" :style="Count.echarts.style"></leon-line-echart>
+
+            <div slot="footer"></div>
+        </Modal> <!-- 调用量统计 -->
     </div>
 </template>
 
@@ -135,8 +161,17 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
     import * as tools from 'src/util/tools'
 
     import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey, ajaxUrl } from 'src/service/application'
+    import { ajaxRequestCount } from 'src/service/sys'
+
+    import * as method from 'src/util/sys/'
+    
+    import { selectTimeDict } from "src/config/basicConfig"
+    import leonLineEchart from "components/echarts/leon-line-chart"
 
     export default {
+        components: {
+            leonLineEchart
+        },
         data () {
             const validateIps = (rule, value, callback) => {
                 if (value !== '') {
@@ -183,6 +218,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     {
                         title: '操作', key: 'action', align: 'center', width: 290,
                         render: (h, params) => {
+                            let texts = params.row.serviceTypeMajor == 1 ? '接口统计' : '调用量统计';
                             return h('div',
                             {class: 'action-group'},
                             [
@@ -226,14 +262,10 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                                     class: 'items',
                                     on: {
                                         click: () => {
-                                            let argu = { keyCode: params.row.keyCode };
-                                            this.$router.push({
-                                                name: 'count',
-                                                query: argu
-                                            });
+                                            this.handlerCount(params)
                                         }
                                     }
-                                }, '接口统计')
+                                }, texts)
                             ]);
                         }
                     }
@@ -284,7 +316,27 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     loading: false
                 },
                 serviceTypeResource: [],
-                panelAppType: []
+                panelAppType: [],
+                Count: {
+                    type: 'todayOfHours',
+                    title: '',
+                    keyCode: '',
+                    serviceId: '',
+                    ServiceInfos: [],
+                    isOpen: false,
+                    loading: false,
+                    loadTips: '努力加载中，请稍等...',
+                    state: 'loading',
+                    echarts: {
+                        id: 'count-echarts',
+                        style: {
+                            width: '852px',
+                            height: '381px'
+                        },
+                        option: {}
+                    }
+                },
+                selectTimeDict
             }
         },
         methods: {
@@ -451,6 +503,66 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
             },
             toggleTab(index){
                 this.curOpen = this.curOpen === index ? '' : index;
+            },
+            handlerCount(params){
+                if(params.row.serviceTypeMajor == 1){
+                    this.handlerApiCount(params)
+                }else{
+                    this.handlerVisitCount(params)
+                }
+            },
+            closeCountModal(name){
+                this.Count.isOpen = false;
+            },
+            handlerVisitCount(params){
+                this.Count.isOpen = true;
+                this.Count.ServiceInfos = params.row.serviceInfos;
+                this.Count.serviceId = this.Count.ServiceInfos[0].serviceId;
+                this.Count.title = params.row.keyName;
+                this.Count.keyCode = params.row.keyCode;
+                this.showCount()
+            },
+            selectCount(v){
+                this.Count.type = v;
+                this.showCount()
+            },
+            selectCountServiceId(v){
+                this.Count.serviceId = v;
+                this.showCount();
+            },
+            showCount(params){
+                const self = this;
+                let data = {
+                    keyCode:   this.Count.keyCode,
+                    countType: this.Count.type,
+                    serviceID: this.Count.serviceId
+                }
+
+                this.Count.loading = true;
+                this.Count.state = 'loading';
+                this.Count.loadTips = '努力加载中，请稍等...';
+                ajaxRequestCount(data).then(res => {
+                    if(res.state === 0){
+                        let result = res.data.data;
+                        if(result && result.length){
+                            self.Count.echarts.option = method.convertUserLineAreaEchartData(result, ['doc_count'], ['调用量']);
+                            self.Count.loading = false;
+                        }else{
+                            self.Count.state = 'empty';
+                            self.Count.loadTips = '抱歉，暂无数据！';
+                        }
+                    }else{
+                        self.Count.state = 'error';
+                        self.Count.loadTips = '糟糕，加载失败！';
+                    }
+                })
+            },
+            handlerApiCount(params){
+                let argu = { keyCode: params.row.keyCode };
+                this.$router.push({
+                    name: 'count',
+                    query: argu
+                });
             },
             getAppServerList(){
                 const self = this;
