@@ -6,9 +6,10 @@
             <div class="content">
                 <h2 style="padding: 24px 0;font-weight: normal; color: #333; font-size: 16px; line-height: 24px;" >扣款明细</h2>
                 <div style="margin-bottom: 22px;">
-                    <DatePicker size="large" type="daterange" placeholder="请选择查询时间" style="width: 220px;"
+                    <!-- <DatePicker size="large" type="daterange" placeholder="请选择查询时间" style="width: 220px;"
                         @on-change="handlerSelectDate"
-                        ></DatePicker>
+                        ></DatePicker> -->
+                    <DatePicker size="large" type="month" @on-change="handlerSelectDate" v-model="countMonth" placeholder="月份" style="width: 120px;float: right;"></DatePicker>
                 </div>
                 
                 <div v-if="order.loading" :class="'Placeholder ' + order.state">{{order.loadTips}}</div>
@@ -43,7 +44,7 @@
         },
         data () {
             return {
-                dateRange: [],
+                countMonth: '',
                 order: {
                     loading: false,
                     state: 'loading',
@@ -99,14 +100,11 @@
                 this.order.state = 'loading'
 
                 let data = {
-                    staffId: this.currentUser.staffId
+                    staffId: this.currentUser.staffId,
+                    startTime: this.countTimeRate[0],
+                    endTime: this.countTimeRate[1]
                 }
-                if(self.dateRange && self.dateRange[0]){
-                    data = Object.assign(data, {startTime: self.dateRange[0]})
-                }
-                if(self.dateRange && self.dateRange[1]){
-                    data = Object.assign(data, {endTime: self.dateRange[1]})
-                }
+                
                 ajaxPostDeductMoney(data).then(res => {
                     if(res.state === 0){
                         let resource = res.data.data;
@@ -136,12 +134,26 @@
             handlerPay(){
                 this.$Message.success('正在支付');
             },
+            initDate(){
+                let date = new Date();
+                let y = date.getFullYear(),
+                    m = date.getMonth()+1 < 10 ? `0${date.getMonth()+1}` : date.getMonth()+1
+                this.countMonth = `${y}-${m}`;
+            },
             init(){
-                // this.getList()
-                this.order.data = [
-                    { id: 21, appName: '智慧轨迹', keyName: 'key名称1', keyCode: '123456', serviceName: '地址服务', zongjifeishu: 6, zongdiaoyongshu: 1, shijifangwen: 6, money: 4.2 },
-                    { id: 22, appName: '智慧轨迹', keyName: 'key名称2', keyCode: '123456', serviceName: '地址服务', zongjifeishu: 6, zongdiaoyongshu: 2, shijifangwen: 6, money: 4.2 }
-                ]
+                this.initDate()
+                this.getList()
+            }
+        },
+        computed: {
+            countTimeRate(){
+                let date = new Date(this.countMonth),
+                    y = date.getFullYear(),
+                    m = date.getMonth();
+                let firstDay = new Date(y, m, 1).getDate(),
+                     lastDay = new Date(y, m+1, 0).getDate();
+                let formatMonth = m+1 < 10 ? `0${m+1}` : `${m+1}`;
+                return [`${y}-${formatMonth}-01`,`${y}-${formatMonth}-${lastDay}`];
             }
         },
         mounted() {
