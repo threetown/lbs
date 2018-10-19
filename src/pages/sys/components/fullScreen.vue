@@ -31,13 +31,13 @@
             </div>
             <div class="box hasBorderStyle" style="height: 2.4rem">
                 <span></span><span></span><span></span><span></span>
-                <div class="commonTitle">本月访问人数统计</div>
+                <div class="commonTitle">近一周访问人数统计</div>
                 <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
                 <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsUserAreaLine.id" :option="echartsUserAreaLine.option" :style="echartsUserAreaLine.style"></leon-dark-area-line-chart>
             </div>
             <div class="box hasBorderStyle" style="height: 2.4rem">
                 <span></span><span></span><span></span><span></span>
-                <div class="commonTitle">本月访问次数统计</div>
+                <div class="commonTitle">近一周访问次数统计</div>
                 <div class="loading" v-if="userCount.loading">{{userCount.loadTips}}</div>
                 <leon-dark-area-line-chart v-if="!userCount.loading" :id="echartsAccessAreaLine.id" :option="echartsAccessAreaLine.option" :style="echartsAccessAreaLine.style"></leon-dark-area-line-chart>
             </div>
@@ -279,10 +279,10 @@
             },
             selectFlowAnalysis(){
                 const self = this;
-                let params = 'monthOfDays';
+                let params = 'weekOfDays';
                 this.getFlowAnalysis(params, function(value){
                     self.echartsUserAreaLine.option = method.convertFlowLineAreaEchartData(value,['user_count'], ['访问人数']);
-                    self.echartsAccessAreaLine.option = Object.assign({ title: '本月访问次数统计'}, method.convertFlowLineAreaEchartData(value,['access_count'], ['访问次数']));
+                    self.echartsAccessAreaLine.option = Object.assign({ title: '近一周访问次数统计'}, method.convertFlowLineAreaEchartData(value,['access_count'], ['访问次数']));
                 })
             },
             getFlowAnalysis(params, callback){
