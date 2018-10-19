@@ -9,7 +9,7 @@
                     <!-- <DatePicker size="large" type="daterange" placeholder="请选择查询时间" style="width: 220px;"
                         @on-change="handlerSelectDate"
                         ></DatePicker> -->
-                    <DatePicker size="large" type="month" @on-change="handlerSelectDate" v-model="countMonth" placeholder="月份" style="width: 120px;float: right;"></DatePicker>
+                    <DatePicker size="large" type="month" @on-change="handlerSelectDate" v-model="countMonth" placeholder="月份" style="width: 120px;"></DatePicker>
                 </div>
                 
                 <div v-if="order.loading" :class="'Placeholder ' + order.state">{{order.loadTips}}</div>
@@ -59,7 +59,7 @@
                     { title: '接口名称', align: 'center', key: 'serviceName' },
                     { title: '总访问量', align: 'center', key: 'zongdiaoyongshu' },
                     { title: '有效访问量', align: 'center', key: 'zongjifeishu' },
-                    { title: '实际访问量', align: 'center', key: 'zongjifeishu' },
+                    { title: '实际访问量', align: 'center', key: 'shijifangwen' },
                     { title: '费用(元)', align: 'center', key: 'money' },
                     { title: '操作', align: 'center', key: 'action', render: (h, params) => {
                             return h('div', {class: 'action-group'},
