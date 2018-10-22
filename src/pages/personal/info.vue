@@ -7,6 +7,13 @@
                         <h2 class="mbm-title">基本信息</h2>
                     </div>
                     <div class="mormal-block-bd">
+                        <Spin fix v-if="userInfoLoading">
+                            <div class="loader-spin">
+                                <svg class="circular" viewBox="25 25 50 50">
+                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                                </svg>
+                            </div>
+                        </Spin>
                         <dl class="basicInfo">
                             <dt>用户名</dt>
                             <dd>{{userinfo.username}}</dd>
@@ -51,7 +58,7 @@
                                 <span v-show="!edit.birthday">{{userinfo.birthday ? userinfo.birthday : '未设置'}}</span>
                                 <span v-show="!edit.birthday" class="editButton" title="修改性别" @click="edit.birthday = !edit.birthday"><Icon type="compose"></Icon></span>
                                 <div v-show="edit.birthday" class="editCtrl">
-                                    <DatePicker @on-change="setBirthday" v-model="userinfo.currentBirthday" type="date" placeholder="选择日期" style="width: 150px;vertical-align: top;"></DatePicker>
+                                    <DatePicker :options="birthdayRange" @on-change="setBirthday" v-model="userinfo.currentBirthday" type="date" placeholder="选择日期" style="width: 150px;vertical-align: top;"></DatePicker>
                                     <span class="editGroup">
                                         <Icon class="cancel" type="ios-close-outline" title="取消" @click="cancelEditBirthday"></Icon>
                                         <Icon v-if="!Loading.birthday" class="submit" type="ios-checkmark-outline" title="保存" @click="handleSaveBirthday"></Icon>
@@ -69,6 +76,13 @@
                         <h2 class="mbm-title">企业信息</h2>
                     </div>
                     <div class="mormal-block-bd">
+                        <Spin fix v-if="userInfoLoading">
+                            <div class="loader-spin">
+                                <svg class="circular" viewBox="25 25 50 50">
+                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                                </svg>
+                            </div>
+                        </Spin>
                         <dl class="basicInfo">
                             <dt>所属行业</dt>
                             <dd>
@@ -142,6 +156,13 @@
                         <h2 class="mbm-title">安全设置</h2>
                     </div>
                     <div class="mormal-block-bd">
+                        <Spin fix v-if="userInfoLoading">
+                            <div class="loader-spin">
+                                <svg class="circular" viewBox="25 25 50 50">
+                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                                </svg>
+                            </div>
+                        </Spin>
                         <Row class="safeSetting">
                             <Col class="text-blank" span="4">绑定手机</Col>
                             <Col span="16">您已绑定了手机 {{userinfo.phone | FormatPhone}} [您的手机为安全手机，可以找回密码，但不能用于登录]</Col>
@@ -308,6 +329,7 @@
             return {
                 userinfo: {},
                 industryList: [],
+                userInfoLoading: false,
                 edit: {
                     nickname: false,
                     gender: false,
@@ -386,6 +408,11 @@
                     companyName: false,
                     companyProfile: false,
                     industry: false
+                },
+                birthdayRange: {
+                    disabledDate (date) {
+                        return date && date.valueOf() > Date.now();
+                    }
                 }
             }
         },
@@ -725,6 +752,7 @@
             },
             setUserInfo(){
                 const self = this;
+                this.userInfoLoading = true;
                 ajaxPostUserinfo().then(res => {
                     if(res.state === 0){
                         let userResource = res.data.data;
@@ -750,6 +778,7 @@
 
                             staffInfoId: userResource.staffInfoId
                         }
+                        self.userInfoLoading = false;
                     }else{
                         self.$Message.error(res.message)
                     }
@@ -853,5 +882,4 @@
             text-align: right;
         }
     }
-
 </style>
