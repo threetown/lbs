@@ -6,9 +6,6 @@
             <div class="content">
                 <h2 style="padding: 24px 0;font-weight: normal; color: #333; font-size: 16px; line-height: 24px;" >扣款明细</h2>
                 <div style="margin-bottom: 22px;">
-                    <!-- <DatePicker size="large" type="daterange" placeholder="请选择查询时间" style="width: 220px;"
-                        @on-change="handlerSelectDate"
-                        ></DatePicker> -->
                     <DatePicker size="large" type="month" @on-change="handlerSelectDate" v-model="countMonth" placeholder="月份" style="width: 120px;"></DatePicker>
                 </div>
                 
@@ -16,21 +13,23 @@
                 <div v-else>
                     <Table border :columns="orderColumns" :data="order.data" class="custom-table" ref="userPayTable"></Table>
                     <div style="margin-top: 22px;text-align: right;">
-                        <div style="font-size: 14px;margin-bottom: 12px;">
-                            <div style="margin-bottom: 12px;">合计金额： {{order.money}} 元 </div>
-                            应付金额：<Input v-model="order.payMoney" size="large" placeholder="请输入应付金额" style="width: 120px"/>
-                        </div>
-                        <div>
+                        <Form :model="pay.Form" ref="payModel" :rules="pay.rules" :label-width="92" class="custom-form" style="float: right;">
+                            <FormItem label="合计金额：" style="margin-bottom: 12px;">
+                                <div style="font-size: 14px;"><b style="font-size: 16px;">{{order.money}}</b> 元</div>
+                            </FormItem>
+                            <FormItem label="应付金额：" prop="price">
+                                <Input :disabled="pay.loading ? true : false" v-model="pay.Form.price" size="large" placeholder="请输入应付金额" style="width: 120px"/>
+                            </FormItem>
                             <Button @click="exportData" size="large">导出账单</Button>
-                            <Button @click="handlerPay" type="primary" size="large">账单结算</Button>
-                        </div>
+                            <Button @click.prevent="handlerPay('payModel')" type="primary" size="large" :loading="pay.loading">账单结算</Button>
+                        </Form>
                     </div>
                 </div>
             </div>
         </div>
 </template>
 <script>
-    import { ajaxPostDeductMoney } from 'src/service/user'
+    import { ajaxPostDeductMoney, ajaxPostCutPayment } from 'src/service/user'
 
     export default {
         name: 'userPay',
@@ -51,7 +50,17 @@
                     loadTips: '努力加载中，请稍等。。。',
                     data: [],
                     money: 0,
-                    payMoney: ''
+                },
+                pay: {
+                    loading: false,
+                    Form: {
+                        price: ''
+                    },
+                    rules: {
+                        price: [
+                            { required: true, message: "请输入充值金额", trigger: 'blur' }
+                        ]
+                    }
                 },
                 orderColumns: [
                     { title: '应用名称', align: 'center', key: 'appName' },
@@ -131,8 +140,30 @@
                     original: false
                 });
             },
-            handlerPay(){
-                this.$Message.success('正在支付');
+            handlerPay(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        self.pay.loading = true
+                        let arrData = self.order.data.slice().map(v => {
+                            return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": v.money }
+                        })
+                        let data = {
+                            staffId: self.currentUser.staffId,
+                            money: Number(self.pay.Form.price),
+                            yyyyMM: self.countCurrentMonth,
+                            mapIdsMoney: arrData
+                        }
+                        ajaxPostCutPayment(data).then(res => {
+                            if(res.state === 0){
+                                self.$Message.success(res.message);
+                            }else{
+                                self.$Message.error(res.message);
+                            }
+                            self.pay.loading = false;
+                        })
+                    }
+                })
             },
             initDate(){
                 let date = new Date();
@@ -154,6 +185,13 @@
                      lastDay = new Date(y, m+1, 0).getDate();
                 let formatMonth = m+1 < 10 ? `0${m+1}` : `${m+1}`;
                 return [`${y}-${formatMonth}-01`,`${y}-${formatMonth}-${lastDay}`];
+            },
+            countCurrentMonth(){
+                let date = new Date(this.countMonth),
+                    y = date.getFullYear(),
+                    m = date.getMonth();
+                let formatMonth = m+1 < 10 ? `0${m+1}` : `${m+1}`;
+                return `${y}${formatMonth}`;
             }
         },
         mounted() {
