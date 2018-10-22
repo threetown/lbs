@@ -40,7 +40,7 @@
 
         <div class="full-echart-panel mb-12">
             <div class="header">
-                <h2 class="title">业务分析 <strong>每日业务总量分析</strong></h2>
+                <h2 class="title">业务分析 <strong>{{businessSelectType}}业务总量分析</strong></h2>
             </div>
             <Row>
                 <Col span="12">&nbsp;</Col>
@@ -51,15 +51,22 @@
                 </Col>
             </Row>
             <div class="content">
-                <div class="business-analysis" style="height: 100%">
-                    <leon-area-line-echart :id="echarts.business.id" :option="echarts.business.option"></leon-area-line-echart>
+                <div class="business-analysis rel" style="height: 100%">
+                    <Spin fix v-if="echarts.business.loading">
+                        <div class="loader-spin">
+                            <svg class="circular" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                            </svg>
+                        </div>
+                    </Spin>
+                    <leon-area-line-echart v-else :id="echarts.business.id" :option="echarts.business.option"></leon-area-line-echart>
                 </div>
             </div>
         </div>
 
         <div class="full-echart-panel mb-12">
             <div class="header">
-                <h2 class="title">流量分析 <strong>每日流量总量分析</strong></h2>
+                <h2 class="title">流量分析 <strong>{{flowSelectType}}流量总量分析</strong></h2>
             </div>
             <Row>
                 <Col span="12">&nbsp;</Col>
@@ -70,7 +77,14 @@
                 </Col>
             </Row>
             <div class="content">
-                <div class="flow-analysis" style="height: 100%">
+                <div class="flow-analysis rel" style="height: 100%">
+                    <Spin fix v-if="echarts.flow.loading">
+                        <div class="loader-spin">
+                            <svg class="circular" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                            </svg>
+                        </div>
+                    </Spin>
                     <leon-area-line-echart :id="echarts.flow.id" :option="echarts.flow.option"></leon-area-line-echart>
                 </div>
             </div>
@@ -89,7 +103,14 @@
                 </Col>
             </Row>
             <div class="content">
-                <div class="user-analysis" style="height: 100%">
+                <div class="user-analysis rel" style="height: 100%">
+                    <Spin fix v-if="echarts.userLog.loading">
+                        <div class="loader-spin">
+                            <svg class="circular" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                            </svg>
+                        </div>
+                    </Spin>
                     <leon-line-echart :id="echarts.userLog.id" :option="echarts.userLog.option"></leon-line-echart>
                 </div>
             </div>
@@ -124,6 +145,7 @@
                 selectTimeDict,
                 echarts:{
                     business: {
+                        loading: false,
                         select: 'todayOfHours',
                         id: 'business-analysis-echarts',
                         option: {},
@@ -133,13 +155,15 @@
                         select: 'todayOfHours',
                         id: 'flow-analysis-echarts',
                         option: {},
-                        style: ''
+                        style: '',
+                        loading: false
                     },
                     userLog: {
                         select: 'todayOfHours',
                         id: 'userLog-analysis-echarts',
                         option: {},
-                        style: ''
+                        style: '',
+                        loading: false
                     }
                 },
                 callLog: {
@@ -196,11 +220,14 @@
                 })
             },
             getUserLogCount(params, callback){
+                const self = this;
+                this.echarts.userLog.loading = true;
                 ajaxGetUserLogCount(params).then(res => {
                     if(res.state === 0){
                         if(callback && typeof callback === "function"){
                             callback(res.data.countList)
                         }
+                        self.echarts.userLog.loading = false;
                     }
                 })
             },
@@ -212,11 +239,14 @@
                 })
             },
             getFlowAnalysis(params, callback){
+                const self = this;
+                this.echarts.flow.loading = true;
                 ajaxGetAccessLogCount(params).then(res => {
                     if(res.state === 0){
                         if(callback && typeof callback === "function"){
                             callback(res.data.countList)
                         }
+                        self.echarts.flow.loading = false;
                     }
                 })
             },
@@ -229,11 +259,14 @@
                 })
             },
             getBusinessAnalysis(params, callback){
+                const self = this;
+                this.echarts.business.loading = true;
                 ajaxGetServiceLogCount(params).then(res => {
                     if(res.state === 0){
                         if (callback && typeof callback === "function") {
                             callback(res.data.countList);
                         }
+                        self.echarts.business.loading = false;
                     }
                 })
             },
@@ -288,11 +321,16 @@
         created: function() {
             this.init()
         },
-        mounted(){
-
-        },
         computed: {
-            ...mapGetters([ 'overviewAccess', 'overviewService', 'overviewUserLog' ])
+            ...mapGetters([ 'overviewAccess', 'overviewService', 'overviewUserLog' ]),
+            businessSelectType(){
+                const self = this;
+                return this.selectTimeDict.find(v => v.value === self.echarts.business.select).label
+            },
+            flowSelectType(){
+                const self = this;
+                return this.selectTimeDict.find(v => v.value === self.echarts.flow.select).label
+            }
         }
     };
 </script>
