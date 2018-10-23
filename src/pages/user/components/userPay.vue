@@ -9,13 +9,22 @@
                     <DatePicker size="large" type="month" @on-change="handlerSelectDate" v-model="countMonth" placeholder="月份" style="width: 120px;"></DatePicker>
                 </div>
                 
+                
                 <div v-if="order.loading" :class="'Placeholder ' + order.state">{{order.loadTips}}</div>
                 <div v-else>
-                    <Table border :columns="orderColumns" :data="order.data" class="custom-table" ref="userPayTable"></Table>
+                    <can-edit-table
+                        class="custom-table"
+                        v-model="order.data"
+                        :editIncell="true"
+                        :columns-list="orderColumns"
+                        @on-cell-change="handleCellChange" 
+                        @on-change="handleChange"
+                        ></can-edit-table>
+                    <!-- <Table border :columns="orderColumns" :data="order.data" class="custom-table" ref="userPayTable"></Table> -->
                     <div style="margin-top: 22px;text-align: right;">
                         <Form :model="pay.Form" ref="payModel" :rules="pay.rules" :label-width="92" class="custom-form" style="float: right;">
                             <FormItem label="合计金额：" style="margin-bottom: 12px;">
-                                <div style="font-size: 14px;"><b style="font-size: 16px;">{{order.money}}</b> 元</div>
+                                <div style="font-size: 14px;"><b style="font-size: 16px;">{{orderMoney}}</b> 元</div>
                             </FormItem>
                             <FormItem label="应付金额：" prop="price">
                                 <Input :disabled="pay.loading ? true : false" v-model="pay.Form.price" size="large" placeholder="请输入应付金额" style="width: 120px"/>
@@ -30,9 +39,15 @@
 </template>
 <script>
     import { ajaxPostDeductMoney, ajaxPostCutPayment } from 'src/service/user'
+    import canEditTable from 'components/tables/canOnlyEditTable.vue'
+
+    import * as tools from 'src/util/tools'
 
     export default {
         name: 'userPay',
+        components: {
+            canEditTable
+        },
         props: {
             currentUser: {
                 type: Object,
@@ -62,14 +77,21 @@
                         ]
                     }
                 },
+                orderMoney: 0,
                 orderColumns: [
                     { title: '应用名称', align: 'center', key: 'appName' },
                     { title: 'Key名称', align: 'center', key: 'keyName' },
                     { title: '接口名称', align: 'center', key: 'serviceName' },
                     { title: '总访问量', align: 'center', key: 'zongdiaoyongshu' },
                     { title: '有效访问量', align: 'center', key: 'zongjifeishu' },
-                    { title: '实际访问量', align: 'center', key: 'shijifangwen' },
-                    { title: '费用(元)', align: 'center', key: 'money' },
+                    { title: '实际访问量', align: 'center', key: 'shijifangwen', editable: true },
+                    { title: '费用(元)', align: 'center', key: 'money', render: (h, params) => {
+                            let texts = tools.countPrice(params.row.shijifangwen);
+                            return h('div',{},[
+                                h('span', {}, texts)
+                            ])
+                        }
+                    },
                     { title: '操作', align: 'center', key: 'action', render: (h, params) => {
                             return h('div', {class: 'action-group'},
                             [
@@ -119,7 +141,7 @@
                         let resource = res.data.data;
                         if(resource && resource.length){
                             self.order.data = resource;
-                            self.order.money = res.data.money;
+                            self.initCountMoney(resource)
                             self.order.loading = false;
                         }else{
                             self.order.state = 'empty'
@@ -146,7 +168,7 @@
                     if(valid) {
                         self.pay.loading = true
                         let arrData = self.order.data.slice().map(v => {
-                            return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": v.money }
+                            return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": Number(tools.countPrice(v.shijifangwen)) }
                         })
                         let data = {
                             staffId: self.currentUser.staffId,
@@ -164,6 +186,20 @@
                         })
                     }
                 })
+            },
+            handleCellChange(v){
+                this.initCountMoney(v)
+            },
+            handleChange(v){
+                console.log(v, 197)
+            },
+            initCountMoney(arr){
+                let sum = 0;
+                let countArr = arr.map(v => {
+                    return Number(tools.countPrice(v.shijifangwen))
+                })
+                countArr.map(v => { sum += v })
+                this.orderMoney = parseFloat(sum).toFixed(2)
             },
             initDate(){
                 let date = new Date();

@@ -14,3 +14,6 @@ export const ajaxPostAccountTopUp = (data) => fetch({ url: '/center/userAccount/
 
 // 用户管理 - 扣款明细
 export const ajaxPostDeductMoney = (data) => fetch({ url: '/center/userAccount/deductMoney', method: 'post', data })
+
+// 用户管理 - 扣款
+export const ajaxPostCutPayment = (data) => fetch({ url: '/center/userAccount/cutPayment', method: 'post', data })

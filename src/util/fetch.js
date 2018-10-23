@@ -12,7 +12,7 @@ if (process.env.NODE_ENV == 'development') {
 
 // 1. 创建axios实例
 const fetch = axios.create({
-    timeout: 500000 // 请求超时时间
+    timeout: 600000 // 请求超时时间
 });
 
 // 2. http request 拦截器
