@@ -145,3 +145,15 @@ export const getAppId = (resourceArr) => {
     }
     return result;
 }
+
+// 扣款明细 - 应付金额计算
+export const countPrice = (num,limitNumber) => {
+    limitNumber = limitNumber ? limitNumber : 500000;
+    let result = 0;
+    if(num <= limitNumber){
+        result = num * 0.7
+    }else{
+        result = limitNumber * 0.7 + (num - limitNumber) * 0.5
+    }
+    return parseFloat(result).toFixed(2);
+}

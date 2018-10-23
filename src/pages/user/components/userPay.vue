@@ -20,7 +20,6 @@
                         @on-cell-change="handleCellChange" 
                         @on-change="handleChange"
                         ></can-edit-table>
-                    <!-- <Table border :columns="orderColumns" :data="order.data" class="custom-table" ref="userPayTable"></Table> -->
                     <div style="margin-top: 22px;text-align: right;">
                         <Form :model="pay.Form" ref="payModel" :rules="pay.rules" :label-width="92" class="custom-form" style="float: right;">
                             <FormItem label="合计金额：" style="margin-bottom: 12px;">
