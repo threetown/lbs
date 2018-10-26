@@ -48,7 +48,9 @@ let gender = [
 // let LbsUrl = 'http://lbs.cindata.cn';        // LBS
 // let SSOUrl = 'http://sso.cindata.cn';        // SSO
 // let APIUrl = 'http://consoleapi.cindata.cn'; // API请求地址
-// let mapviewUrl = 'http://mapview.cindata.cn'  // 数据可视化
+// let mapviewUrl = 'http://mapview.cindata.cn/mapv/commondata'  // 数据可视化
+// let mapviewProUrl = 'http://mapview.cindata.cn/mapv/visual'   // 数据可视化-我的项目
+
 
 /* 测试地址 */
 let LbsUrl = 'http://testlbs.cindata.net';        // LBS
