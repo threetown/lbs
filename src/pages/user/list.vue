@@ -30,12 +30,27 @@
             ></Page>
         </div>
 
+        <Modal
+            v-model="isOpenDeleteUserModal"
+            class-name="custom-modal custom-warning-modal vertical-center-modal"
+            width="378">
+            <h2 class="title" slot="header">删除用户</h2>
+            <div class="content">
+                <h3>您确定要删除该用户吗?</h3>
+                <p>您将删除用户 {{deleteUser.username}} ，该操作不可逆,请您谨慎操作!</p>
+            </div>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="isOpenDeleteUserModal = !isOpenDeleteUserModal">取消</Button>
+                <Button type="primary" size="large" :loading="deleteUser.loading" @click.prevent="handlerDeleteUser">确认</Button>
+            </div>
+        </Modal> <!-- 删除 -->
+
         <user-details v-if="userModal" :currentUser="currentUser" @closeUserDetails="closeUserDetails"></user-details>
     </div>
 </template>
 
 <script>
-    import { ajaxPostUserList } from 'src/service/user';
+    import { ajaxPostUserList, ajaxPostDeleteUser } from 'src/service/user';
 
     import userDetails from "./components/userDetails"
     
@@ -119,7 +134,7 @@
                                 class: 'items',
                                 on: {
                                     click: () => {
-                                        // this.triggerDeleteModel(params, params.index, 'key')
+                                        this.triggerDeleteUser(params)
                                     }
                                 }
                             }, '删除')
@@ -128,12 +143,37 @@
                     }
                 ],
                 userModal: false,
-                currentUser: {}
+                currentUser: {},
+                isOpenDeleteUserModal: false,
+                deleteUser: {
+                    loading: false,
+                    username: '',
+                    staffId: ''
+                }
             }
         },
         methods: {
             closeUserDetails(){
                 this.userModal = false;
+            },
+            triggerDeleteUser(params){
+                this.deleteUser.username = params.row.staffName;
+                this.deleteUser.staffId = params.row.staffId
+                this.isOpenDeleteUserModal = true;
+            },
+            handlerDeleteUser(){
+                const self = this;
+                this.deleteUser.loading = true;
+                ajaxPostDeleteUser(self.deleteUser.staffId).then(res => {
+                    if(res.state === 0){
+                        self.isOpenDeleteUserModal = false;
+                        self.getList()
+                        self.$Message.success(res.message)
+                    }else{
+                        self.$Message.error(res.message)
+                    }
+                    this.deleteUser.loading = false;
+                })
             },
             getList(params){
                 const self = this;
