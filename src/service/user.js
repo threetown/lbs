@@ -17,3 +17,6 @@ export const ajaxPostDeductMoney = (data) => fetch({ url: '/center/userAccount/d
 
 // 用户管理 - 扣款
 export const ajaxPostCutPayment = (data) => fetch({ url: '/center/userAccount/cutPayment', method: 'post', data })
+
+// 扣款 - 账单结算
+export const ajaxPostEsData = (data) => fetch({ url: '/center/getEsDataToPg', method: 'post', data })

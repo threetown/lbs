@@ -9,7 +9,6 @@
                     <DatePicker size="large" type="month" @on-change="handlerSelectDate" v-model="countMonth" placeholder="月份" style="width: 120px;"></DatePicker>
                 </div>
                 
-                
                 <div v-if="order.loading" :class="'Placeholder ' + order.state">{{order.loadTips}}</div>
                 <div v-else>
                     <can-edit-table
@@ -37,7 +36,7 @@
         </div>
 </template>
 <script>
-    import { ajaxPostDeductMoney, ajaxPostCutPayment } from 'src/service/user'
+    import { ajaxPostDeductMoney, ajaxPostCutPayment, ajaxPostEsData } from 'src/service/user'
     import canEditTable from 'components/tables/canOnlyEditTable.vue'
 
     import * as tools from 'src/util/tools'
@@ -116,7 +115,7 @@
                 this.getList()
             },
             openCount(params){
-                let argu = { keyCode: params.row.keyCode };
+                let argu = { keyCode: params.row.keyCode, dateMonth: this.countCurrentMonth };
                 let routeData = this.$router.resolve({
                     name: 'count',
                     query: argu
@@ -166,24 +165,48 @@
                 this.$refs[name].validate((valid) => {
                     if(valid) {
                         self.pay.loading = true
-                        let arrData = self.order.data.slice().map(v => {
-                            return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": Number(tools.countPrice(v.shijifangwen)) }
-                        })
-                        let data = {
-                            staffId: self.currentUser.staffId,
-                            money: Number(self.pay.Form.price),
-                            yyyyMM: self.countCurrentMonth,
-                            mapIdsMoney: arrData
-                        }
-                        ajaxPostCutPayment(data).then(res => {
-                            if(res.state === 0){
-                                self.$Message.success(res.message);
-                            }else{
-                                self.$Message.error(res.message);
-                            }
-                            self.pay.loading = false;
-                        })
+                        self.triggerES()
                     }
+                })
+            },
+            triggerES(){
+                const self = this;
+                let arrData = this.order.data.slice().map(v => {
+                    return v.keyCode
+                })
+                let data = {
+                    staffId: this.currentUser.staffId,
+                    gte: this.countTimeRate[0],
+                    lte: this.countTimeRate[1],
+                    key: arrData
+                }
+                ajaxPostEsData(data).then(res => {
+                    if(res.state === 0){
+                        self.triggerPayment()
+                    }else{
+                        self.$Message.error(res.message);
+                        self.pay.loading = false;
+                    }
+                })
+            },
+            triggerPayment(){
+                const self = this;
+                let arrData = this.order.data.slice().map(v => {
+                    return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": Number(tools.countPrice(v.shijifangwen)) }
+                })
+                let data = {
+                    staffId: this.currentUser.staffId,
+                    money: Number(this.pay.Form.price),
+                    yyyyMM: this.countCurrentMonth,
+                    mapIdsMoney: arrData
+                }
+                ajaxPostCutPayment(data).then(res => {
+                    if(res.state === 0){
+                        self.$Message.success(res.message);
+                    }else{
+                        self.$Message.error(res.message);
+                    }
+                    self.pay.loading = false;
                 })
             },
             handleCellChange(v){

@@ -206,6 +206,11 @@
                 let date = new Date();
                 let y = date.getFullYear(),
                     m = date.getMonth()+1 < 10 ? `0${date.getMonth()+1}` : date.getMonth()+1
+                if(this.$route.query && this.$route.query.dateMonth){
+                    let queryDate = this.$route.query.dateMonth;
+                    y = queryDate.substring(0,4)
+                    m = queryDate.substring(4,6)
+                }
                 this.countMonth = `${y}-${m}`;
             }
         },
