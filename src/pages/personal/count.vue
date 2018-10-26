@@ -205,7 +205,7 @@
             initDate(){
                 let date = new Date();
                 let y = date.getFullYear(),
-                    m = date.getMonth() < 10 ? `0${date.getMonth()+1}` : date.getMonth()+1
+                    m = date.getMonth()+1 < 10 ? `0${date.getMonth()+1}` : date.getMonth()+1
                 this.countMonth = `${y}-${m}`;
             }
         },
