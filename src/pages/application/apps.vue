@@ -210,7 +210,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         title: 'Key名称', key: 'keyName', align: 'center'
                     },
                     {
-                        title: 'Key', key: 'keyCode', align: 'center'
+                        title: 'Key', key: 'keyCode', align: 'center', width: 290
                     },
                     {
                         title: '绑定服务', key: 'serviceTypeMajorName', align: 'center', width: 180
