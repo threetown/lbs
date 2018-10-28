@@ -107,7 +107,8 @@
                     loading: false,
                     rules: {
                         price: [
-                            { required: true, message: "请输入充值金额", trigger: 'blur' }
+                            { required: true, message: "请输入充值金额", trigger: 'blur' },
+                            { pattern: /^[1-9]\d*$|^[1-9]\d*\.\d\d?$|^0\.\d\d?$/, message:"充值金额大于零", trigger: 'blur' }
                         ]
                     },
                     Form: {

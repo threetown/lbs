@@ -133,7 +133,6 @@
                     startTime: this.countTimeRate[0],
                     endTime: this.countTimeRate[1]
                 }
-                
                 ajaxPostDeductMoney(data).then(res => {
                     if(res.state === 0){
                         let resource = res.data.data;
