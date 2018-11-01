@@ -190,22 +190,38 @@
             },
             triggerPayment(){
                 const self = this;
-                let arrData = this.order.data.slice().map(v => {
-                    return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": Number(tools.countPrice(v.shijifangwen)) }
-                })
-                let data = {
+
+                
+                let qData = {
                     staffId: this.currentUser.staffId,
-                    money: Number(this.pay.Form.price),
-                    yyyyMM: this.countCurrentMonth,
-                    mapIdsMoney: arrData
+                    startTime: this.countTimeRate[0],
+                    endTime: this.countTimeRate[1]
                 }
-                ajaxPostCutPayment(data).then(res => {
+                let reData = [];
+                ajaxPostDeductMoney(qData).then(res => {
                     if(res.state === 0){
-                        self.$Message.success(res.message);
+                        reData = res.data.data;
+                        let arrData = reData.slice().map(v => {
+                            return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": Number(tools.countPrice(v.shijifangwen)) }
+                        })
+                        let data = {
+                            staffId: self.currentUser.staffId,
+                            money: Number(self.pay.Form.price),
+                            yyyyMM: self.countCurrentMonth,
+                            mapIdsMoney: arrData
+                        }
+                        ajaxPostCutPayment(data).then(res => {
+                            if(res.state === 0){
+                                self.$Message.success(res.message);
+                            }else{
+                                self.$Message.error(res.message);
+                            }
+                            self.pay.loading = false;
+                        })
                     }else{
                         self.$Message.error(res.message);
+                        self.pay.loading = false;
                     }
-                    self.pay.loading = false;
                 })
             },
             handleCellChange(v){
