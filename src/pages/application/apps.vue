@@ -4,7 +4,7 @@
             <div class="Header clearfix">
                 <h2 class="title">我的应用 <strong>您可以在这里创建、设置并管理您的应用及Key</strong></h2>
                 <Button class="fr" type="primary" icon="ios-plus-outline" slot="extra" size="large" @click="triggerAppModel">创建新应用</Button>
-            </div>
+            </div>--{{RenewalForm.endDate}}
 
             <div v-if="Loading.state" :class="'Placeholder ' + Loading.class">{{Loading.info}}</div>
             <div v-if="!Loading.state">
@@ -154,13 +154,37 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
 
             <div slot="footer"></div>
         </Modal> <!-- 调用量统计 -->
+
+        <Modal
+            v-model="isOpenRenewal"
+            class-name="custom-modal vertical-center-modal"
+            width="482">
+            <Icon type="ios-close-empty" slot="close" @click="closeRenewalModal('RenewalForm')"></Icon>
+            <h2 class="title" slot="header">续期</h2>
+
+            <Form :model="RenewalForm" ref="RenewalForm" :rules="RenewalForm.rules" :label-width="100" class="custom-form">
+                <FormItem label="您的姓名" prop="username">
+                    <Input v-model="RenewalForm.username" placeholder="请输入您的姓名"></Input>
+                </FormItem>
+                <FormItem label="联系方式" prop="phone">
+                    <Input v-model="RenewalForm.phone" placeholder="请输入联系方式"></Input>
+                </FormItem>
+                <FormItem label="到期时间" prop="mouth" class="hasUnit">
+                    <DatePicker v-model="RenewalForm.mouth" type="datetime" :options="RenewalRange" @on-change="RenewalRangeChange" placeholder="到期时间"></DatePicker>
+                </FormItem>
+            </Form>
+            <div slot="footer" >
+                <Button type="text" size="large" @click="closeRenewalModal('RenewalForm')">取消</Button>
+                <Button type="primary" size="large" :loading="RenewalForm.loading" @click.prevent="handlerRenewal('RenewalForm')">提交</Button>
+            </div>
+        </Modal> <!-- 续期 -->
     </div>
 </template>
 
 <script>
     import * as tools from 'src/util/tools'
 
-    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey, ajaxUrl } from 'src/service/application'
+    import { ajaxPostApp, ajaxCreateApp, ajaxAppType, ajaxUpdateApp, ajaxServiceType, ajaxCreateKey, ajaxUpdateKey, ajaxUrl, ajaxRenewal } from 'src/service/application'
     import { ajaxRequestCount } from 'src/service/sys'
 
     import * as method from 'src/util/sys/'
@@ -216,7 +240,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         title: '绑定服务', key: 'serviceTypeMajorName', align: 'center', width: 180
                     },
                     {
-                        title: '过期', key: 'expireDate', align: 'center'
+                        title: '到期时间', key: 'endDt', align: 'center', width: 116
                     },
                     {
                         title: '操作', key: 'action', align: 'center', width: 290,
@@ -241,6 +265,14 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                                         }
                                     }
                                 }, '编辑'),
+                                // h('span', {
+                                //     class: 'items',
+                                //     on: {
+                                //         click: () => {
+                                //             this.triggerRenewalModel(params.row)
+                                //         }
+                                //     }
+                                // }, '续期'),
                                 h('span', {
                                     class: 'items',
                                     on: {
@@ -339,7 +371,29 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         option: {}
                     }
                 },
-                selectTimeDict
+                selectTimeDict,
+                isOpenRenewal: false,
+                RenewalForm: {
+                    rules: {
+                        username: [
+                            { required: true,  message: "请填写您的姓名", trigger: 'blur' },
+                        ],
+                        phone: [
+                            { required: true, message: "请填写联系方式", trigger: 'blur' },
+                            { pattern: /^((1[3-8][0-9])+\d{8})$/, message: '请填写正确的手机号码' }
+                        ],
+                        mouth: [
+                            { required: true, message: "请填写到期时间", trigger: 'change' }
+                        ]
+                    },
+                    keyId: '',
+                    username: '',
+                    phone: '',
+                    mouth: '',
+                    endDate: '',
+                    loading: false
+                },
+                RenewalRange: {}
             }
         },
         methods: {
@@ -636,6 +690,37 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 ajaxAppType('appType').then(res => {
                     self.panelAppType = res.data.dict;
                 })
+            },
+            triggerRenewalModel(params){
+                this.isOpenRenewal = true;
+                this.RenewalForm.keyId = params.keyId;
+                this.RenewalForm.endDate = params.endDt;
+            },
+            closeRenewalModal(name){
+                this.$refs[name].resetFields();
+                this.isOpenRenewal = false;
+            },
+            handlerRenewal(name){
+                const self = this;
+                this.$refs[name].validate((valid) => {
+                    if(valid) {
+                        console.log(name)
+                    }
+                })
+            },
+            RenewalRangeChange(e){
+                const self = this;
+                console.log(e, 713)
+                var endTime = e;
+                var ft = this.RenewalForm.endDate;
+                console.log(endTime, ft, 716)
+                // endTime = e ? new Date()
+                this.RenewalRange = {
+                    disabledDate(date){
+                        let startTime = new Date(ft).valueOf(); //this.RenewalForm.endDate ? new Date(this.RenewalForm.endDate).valueOf() : '';
+                        return date && date.valueOf() < startTime
+                    }
+                }
             },
             init(){
                 this.getAppServerList()
