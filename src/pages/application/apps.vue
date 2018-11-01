@@ -4,7 +4,7 @@
             <div class="Header clearfix">
                 <h2 class="title">我的应用 <strong>您可以在这里创建、设置并管理您的应用及Key</strong></h2>
                 <Button class="fr" type="primary" icon="ios-plus-outline" slot="extra" size="large" @click="triggerAppModel">创建新应用</Button>
-            </div>--{{RenewalForm.endDate}}
+            </div>
 
             <div v-if="Loading.state" :class="'Placeholder ' + Loading.class">{{Loading.info}}</div>
             <div v-if="!Loading.state">
@@ -645,7 +645,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     }
                 }).catch( reason => {
                     self.Loading.class = 'error';
-                    self.Loading.info = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.Loading.info = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             getServerTypeList(){
@@ -682,7 +682,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     }
                 }).catch( reason => {
                     self.record.state = 'error';
-                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.record.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             getAppTypeList(){

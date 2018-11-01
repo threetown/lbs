@@ -573,7 +573,7 @@
                     }
                 }).catch( reason => {
                     self.serviceType.state = 'error';
-                    self.serviceType.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.serviceType.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             closeCountModal(name){

@@ -138,7 +138,7 @@
                     }
                 }).catch( reason => {
                     self.record.state = 'error';
-                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.record.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             getQuotaTypeCallback(){
@@ -171,7 +171,7 @@
                 }).catch( reason => {
                     self.record.state = 'error';
                     self.Analysis.loadTips = reason.statusText;
-                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.record.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             drawChart(params){

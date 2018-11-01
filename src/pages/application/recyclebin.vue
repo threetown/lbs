@@ -231,7 +231,7 @@
                     }
                 }).catch( reason => {
                     self.Loading.class = 'error';
-                    self.Loading.info = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.Loading.info = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             triggerRecoverModal(params, type){

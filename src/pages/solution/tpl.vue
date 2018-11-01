@@ -162,7 +162,8 @@
                     }
                     self.solutionAppForm.loading = false;
                 }).catch( reason => {
-                    self.$Message.error('错误提示：' + reason.statusText + '（'+ reason.status +'）')
+                    //self.$Message.error('错误提示：' + reason.statusText + '（'+ reason.status +'）')
+                    self.$Message.error('糟糕，服务器内部错误')
                 })
             },
             handleSolution(v){
@@ -209,7 +210,7 @@
                     }
                 }).catch( reason => {
                     self.record.state = 'error';
-                    self.record.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.record.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             getAppTypeList(){

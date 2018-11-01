@@ -174,7 +174,7 @@
                     }
                 }).catch( reason => {
                     self.order.state = 'error';
-                    self.order.loadTips = '错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.order.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             handlerPayModel(){
