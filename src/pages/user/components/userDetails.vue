@@ -162,7 +162,6 @@
                     if(res.state === 0){
                         let resource = res.data.data;
                         if(resource && resource.length){
-                            console.log(resource, 165)
                             self.order.data = resource;
                             self.order.loading = false;
                         }else{

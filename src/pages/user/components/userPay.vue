@@ -112,7 +112,7 @@
             },
             handlerSelectDate(v){
                 this.dateRange = v;
-                this.getList()
+                this.initList()
             },
             openCount(params){
                 let argu = { keyCode: params.row.keyCode, dateMonth: this.countCurrentMonth };
@@ -122,7 +122,7 @@
                 });
                 window.open(routeData.href, '_blank')
             },
-            getList(){
+            getList(callback){
                 const self = this;
                 this.order.loading = true;
                 this.order.loadTips = '努力加载中，请稍等。。。'
@@ -137,9 +137,10 @@
                     if(res.state === 0){
                         let resource = res.data.data;
                         if(resource && resource.length){
-                            self.order.data = resource;
-                            self.initCountMoney(resource)
-                            self.order.loading = false;
+                            if(callback && typeof callback === "function"){
+                                console.log('go callback')
+                                callback(resource); // 回调
+                            }
                         }else{
                             self.order.state = 'empty'
                             self.order.loadTips = '抱歉，暂无数据！'
@@ -164,64 +165,56 @@
                 this.$refs[name].validate((valid) => {
                     if(valid) {
                         self.pay.loading = true
-                        self.triggerES()
+                        self.triggerPayment()
                     }
                 })
             },
-            triggerES(){
+            triggerES(resource){
                 const self = this;
-                let arrData = this.order.data.slice().map(v => {
-                    return v.keyCode
-                })
-                let data = {
-                    staffId: this.currentUser.staffId,
-                    gte: this.countTimeRate[0],
-                    lte: this.countTimeRate[1],
-                    key: arrData
-                }
-                ajaxPostEsData(data).then(res => {
-                    if(res.state === 0){
-                        self.triggerPayment()
-                    }else{
-                        self.$Message.error(res.message);
-                        self.pay.loading = false;
+                if(resource && resource.length>0){
+                    let arrData = resource.map(v => {
+                        return v.keyCode
+                    })
+                    let data = {
+                        staffId: this.currentUser.staffId,
+                        gte: this.countTimeRate[0],
+                        lte: this.countTimeRate[1],
+                        key: arrData
                     }
-                })
+                    ajaxPostEsData(data).then(res => {
+                        console.log(res, 185)
+                        if(res.state === 0){
+                            self.getDataList()
+                        }else{
+                            self.order.state = 'error';
+                            self.order.loadTips = res.message ? res.message : '糟糕，加载失败！';
+                        }
+                    })
+                }
             },
             triggerPayment(){
                 const self = this;
-
-                
                 let qData = {
                     staffId: this.currentUser.staffId,
                     startTime: this.countTimeRate[0],
                     endTime: this.countTimeRate[1]
                 }
-                let reData = [];
-                ajaxPostDeductMoney(qData).then(res => {
+                let arrData = this.order.data.slice().map(v => {
+                    return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": Number(tools.countPrice(v.shijifangwen)) }
+                })
+                let data = {
+                    staffId: self.currentUser.staffId,
+                    money: Number(self.pay.Form.price),
+                    yyyyMM: self.countCurrentMonth,
+                    mapIdsMoney: arrData
+                }
+                ajaxPostCutPayment(data).then(res => {
                     if(res.state === 0){
-                        reData = res.data.data;
-                        let arrData = reData.slice().map(v => {
-                            return { "id": v.id, "feesCallCnt": v.shijifangwen, "money": Number(tools.countPrice(v.shijifangwen)) }
-                        })
-                        let data = {
-                            staffId: self.currentUser.staffId,
-                            money: Number(self.pay.Form.price),
-                            yyyyMM: self.countCurrentMonth,
-                            mapIdsMoney: arrData
-                        }
-                        ajaxPostCutPayment(data).then(res => {
-                            if(res.state === 0){
-                                self.$Message.success(res.message);
-                            }else{
-                                self.$Message.error(res.message);
-                            }
-                            self.pay.loading = false;
-                        })
+                        self.$Message.success(res.message);
                     }else{
                         self.$Message.error(res.message);
-                        self.pay.loading = false;
                     }
+                    self.pay.loading = false;
                 })
             },
             handleCellChange(v){
@@ -238,6 +231,38 @@
                 countArr.map(v => { sum += v })
                 this.orderMoney = parseFloat(sum).toFixed(2)
             },
+            initList(){
+                const self = this;
+                let selectTimestamp = new Date(this.countMonth).valueOf();
+                let currentTimestamp = new Date(this.curentMonth).valueOf()
+                if(selectTimestamp < currentTimestamp){
+                    // 当前月大于查看月，先拉一遍列表，再执行toES,再拉一遍列表展示
+                    this.getList(function(v){
+                        let a = v.map(value => {
+                            return v.id
+                        })
+                        if(a && a.length>0){
+                            if(a[0] === 0){
+                                self.order.data = v;
+                                self.initCountMoney(v)
+                                self.order.loading = false;
+                            }else{
+                                self.triggerES(v)
+                            }
+                        }
+                    })
+                }else{
+                    this.getDataList()
+                }
+            },
+            getDataList(){
+                const self = this;
+                this.getList(function(v){
+                    self.order.data = v;
+                    self.initCountMoney(v)
+                    self.order.loading = false;
+                })
+            },
             initDate(){
                 let date = new Date();
                 let y = date.getFullYear(),
@@ -246,7 +271,7 @@
             },
             init(){
                 this.initDate()
-                this.getList()
+                this.initList()
             }
         },
         computed: {
@@ -265,6 +290,12 @@
                     m = date.getMonth();
                 let formatMonth = m+1 < 10 ? `0${m+1}` : `${m+1}`;
                 return `${y}${formatMonth}`;
+            },
+            curentMonth(){
+                let date = new Date();
+                let y = date.getFullYear(),
+                    m = date.getMonth()+1 < 10 ? `0${date.getMonth()+1}` : date.getMonth()+1
+                return `${y}-${m}`;
             }
         },
         mounted() {
