@@ -169,8 +169,13 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 <FormItem label="联系方式" prop="phone">
                     <Input v-model="RenewalForm.phone" placeholder="请输入联系方式"></Input>
                 </FormItem>
-                <FormItem label="到期时间" prop="mouth" class="hasUnit">
-                    <DatePicker v-model="RenewalForm.mouth" type="datetime" :options="RenewalRange" @on-change="RenewalRangeChange" placeholder="到期时间"></DatePicker>
+                <FormItem label="到期时间" prop="mouth">
+                    <DatePicker v-model="RenewalForm.mouth" 
+                        :value="RenewalForm.mouth"
+                        type="datetime"
+                        :options="RenewalRange"
+                        format="yyyy-MM-dd HH:mm:ss"
+                        placeholder="到期时间"></DatePicker>
                 </FormItem>
             </Form>
             <div slot="footer" >
@@ -206,6 +211,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 }
                 callback();
             }
+            const currentEndDate = this.RenewalFormEndDate
             return {
                 isOpenCreateAppModal: false,
                 isOpenDeleteModal: false,
@@ -243,7 +249,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                         title: '到期时间', key: 'endDt', align: 'center', width: 116
                     },
                     {
-                        title: '操作', key: 'action', align: 'center', width: 290,
+                        title: '操作', key: 'action', align: 'center', width: 300,
                         render: (h, params) => {
                             let texts = params.row.serviceTypeMajor == 1 ? '接口统计' : '调用量统计';
                             return h('div',
@@ -383,7 +389,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                             { pattern: /^((1[3-8][0-9])+\d{8})$/, message: '请填写正确的手机号码' }
                         ],
                         mouth: [
-                            { required: true, message: "请填写到期时间", trigger: 'change' }
+                            { required: true, type:'date', message: "请填写到期时间", trigger: 'change' }
                         ]
                     },
                     keyId: '',
@@ -393,7 +399,11 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     endDate: '',
                     loading: false
                 },
-                RenewalRange: {}
+                RenewalRange: {
+                    disabledDate: (date) => {
+                        return date && date.valueOf() < new Date(this.RenewalForm.endDate).valueOf()
+                    }
+                }
             }
         },
         methods: {
@@ -695,6 +705,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 this.isOpenRenewal = true;
                 this.RenewalForm.keyId = params.keyId;
                 this.RenewalForm.endDate = params.endDt;
+                // this.RenewalForm.mouth = params.endDt;
             },
             closeRenewalModal(name){
                 this.$refs[name].resetFields();
@@ -704,23 +715,24 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
-                        console.log(name)
+                        let data = {
+                            keyId: self.RenewalForm.keyId,
+                            month: self.RenewalForm.mouth,
+                            contact: self.RenewalForm.username,
+                            contactTel: self.RenewalForm.phone
+                        }
+                        self.RenewalForm.loading = true;
+                        ajaxRenewal(data).then(res => {
+                            if(res.state === 0){
+                                self.$Message.success(res.message)
+                                self.closeRenewalModal(name)
+                            }else{
+                                self.$Message.error(res.message)
+                            }
+                            self.RenewalForm.loading = false;
+                        })
                     }
                 })
-            },
-            RenewalRangeChange(e){
-                const self = this;
-                console.log(e, 713)
-                var endTime = e;
-                var ft = this.RenewalForm.endDate;
-                console.log(endTime, ft, 716)
-                // endTime = e ? new Date()
-                this.RenewalRange = {
-                    disabledDate(date){
-                        let startTime = new Date(ft).valueOf(); //this.RenewalForm.endDate ? new Date(this.RenewalForm.endDate).valueOf() : '';
-                        return date && date.valueOf() < startTime
-                    }
-                }
             },
             init(){
                 this.getAppServerList()

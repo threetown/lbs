@@ -162,6 +162,7 @@
                     if(res.state === 0){
                         let resource = res.data.data;
                         if(resource && resource.length){
+                            console.log(resource, 165)
                             self.order.data = resource;
                             self.order.loading = false;
                         }else{
@@ -233,7 +234,7 @@
                 ];
                 if(this.search.statusCd === 2){
                     columns.push(
-                        { title: '扣款月份', key: 'mouth' },
+                        { title: '扣款月份', key: 'month' },
                         { title: '服务名称', key: 'serviceName' },
                         { title: '总调用量', key: 'totalCallCnt' },
                         { title: '有效调用量', key: 'goodCallCnt' },
@@ -241,7 +242,7 @@
                         { title: '合计费用', key: 'totalCost' }
                     )
                 }else{
-                    columns.push({ title: '充值月份', key: 'mouth' })
+                    columns.push({ title: '充值月份', key: 'month' })
                 }
                 columns.push({ title: '变动金额', key: 'dealAmount' })
 

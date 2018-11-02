@@ -71,7 +71,7 @@
                     },
                     rules: {
                         price: [
-                            { required: true, message: "请输入充值金额", trigger: 'blur' }
+                            { required: true, message: "请输入应付金额", trigger: 'blur' }
                         ]
                     }
                 },
