@@ -28,9 +28,9 @@
                 ]
             },
             {
-                "path": "/user", "name": "user", "component": "dashboard", "title": "用户管理", "modelStyle": "icon-user-manage",
+                "path": "/user", "name": "user", "component": "dashboard", "title": "费用中心", "modelStyle": "icon-user-manage",
                 "children": [
-                    { "path": "list", "name": "list", "component": "user/list", "title": "用户列表" },
+                    { "path": "list", "name": "list", "component": "user/list", "title": "账户列表" },
                     { "path": "log", "name": "log", "component": "user/log", "title": "登陆日志" }
                 ]
             },

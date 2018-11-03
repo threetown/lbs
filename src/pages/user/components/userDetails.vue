@@ -16,23 +16,30 @@
                         <div class="bigtext">{{balance}}元</div>
                     </div>
                     <div style="padding-top: 10px;float: left;margin-left: 26px;">
-                        <Button type="primary" @click="handlerPayModel">充值</Button>
-                        <Button @click="handlerUserPay">扣款</Button>
+                        <Button type="primary" @click="handlerPayModel" size="large" style="width: 80px;">充值</Button>
+                        <!-- <Button @click="handlerUserPay">扣款</Button> -->
                     </div>
                 </div>
             </div>
             
             <h2 style="padding: 24px 0;font-weight: normal; color: #333; font-size: 16px; line-height: 24px;" >交易记录</h2>
+            <Tabs :value="currentQueryType" :animated="false" @on-click="triggerTabs" class="tabs-custom-style_card" type="card">
+                <TabPane :label="items.label" :name="items.value" v-for="items in queryType" :key="items.value"></TabPane>
+            </Tabs>
             <Row style="margin-bottom: 22px;">
                 <Col span="16">
-                    <Select size="large" v-model="search.statusCd" @on-change="getList" style="width: 150px">
+                    <Select v-if="currentQueryType === '1'" size="large" v-model="search.statusCd" @on-change="getList" style="width: 150px">
                         <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                    <Select size="large" v-model="search.currentMonth" @on-change="getList" style="width: 150px">
+                        <Option v-for="item in selectMonthDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </Col>
                 <Col span="8">
-                    <DatePicker size="large" type="daterange" placeholder="请选择查询时间" style="width: 220px; float: right;"
+                    <a href="javascript:;" style="float: right;font-size: 14px;">导出</a>
+                    <!-- <DatePicker size="large" type="daterange" placeholder="请选择查询时间" style="width: 220px; float: right;"
                         @on-change="handlerSelectDate"
-                        ></DatePicker>
+                        ></DatePicker> -->
                 </Col>
             </Row>
 
@@ -69,6 +76,7 @@
 
 <script>
     import { ajaxPostBalance, ajaxPostDealRecord, ajaxPostAccountTopUp } from 'src/service/user';
+    import { selectMonthDict } from "src/config/basicConfig"
 
     import userPay from "./userPay"
 
@@ -87,14 +95,21 @@
         },
         data () {
             return {
+                selectMonthDict,
                 balance: 0,
                 search: {
                     dateRange: [],
-                    statusCd: 2
+                    statusCd: 2,
+                    currentMonth: 'halfYearOfMonths'
                 },
                 statusList: [
-                    { value: 1, label: '充值' },
-                    { value: 2, label: '扣款' }
+                    { value: 1, label: '已结算' },
+                    { value: 2, label: '未结算' }
+                ],
+                currentQueryType: "1",
+                queryType: [
+                    { value: "1", label: '扣款记录' },
+                    { value: "2", label: '充值记录' }
                 ],
                 order: {
                     loading: false,
@@ -119,6 +134,10 @@
             }
         },
         methods: {
+            triggerTabs(v){
+                this.currentQueryType = v
+                console.log(v, 143)
+            },
             close(){
                 this.$emit("closeUserDetails");
             },
@@ -186,7 +205,6 @@
                 this.pay.loading = false;
             },
             handlerPay(name){
-
                 const self = this;
                 this.$refs[name].validate((valid) => {
                     if(valid) {
@@ -231,21 +249,21 @@
                 let columns = [
                     { title: '创建时间', key: 'createdDt' }
                 ];
-                if(this.search.statusCd === 2){
+                if(this.currentQueryType === '1'){
                     columns.push(
                         { title: '扣款月份', key: 'month' },
                         { title: '服务名称', key: 'serviceName' },
-                        { title: '总调用量', key: 'totalCallCnt' },
-                        { title: '有效调用量', key: 'goodCallCnt' },
-                        { title: '备注', key: 'remark' },
-                        { title: '合计费用', key: 'totalCost' }
+                        { title: '总访问量', key: 'totalCallCnt' },
+                        { title: '有效访问量', key: 'goodCallCnt' },
+                        { title: '实际访问量', key: 'feesCallCnt' },
+                        { title: '合计费用', key: 'totalCost' },
                     )
                 }else{
                     columns.push({ title: '充值月份', key: 'month' })
                 }
                 columns.push({ title: '变动金额', key: 'dealAmount' })
 
-                if(this.search.statusCd === 2){
+                if(this.search.statusCd === '1'){
                     columns.push({
                         title: '操作', key: 'action', align: 'center', width: 100, render: (h, params) => {
                             return h('div', {class: 'action-group'},

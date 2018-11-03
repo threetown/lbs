@@ -71,7 +71,8 @@
                     },
                     rules: {
                         price: [
-                            { required: true, message: "请输入应付金额", trigger: 'blur' }
+                            { required: true, message: "请输入应付金额", trigger: 'blur' },
+                            { pattern: /^[1-9]\d*$|^[1-9]\d*\.\d\d?$|^0\.\d\d?$/, message:"应付金额大于零", trigger: 'blur' }
                         ]
                     }
                 },
@@ -138,7 +139,6 @@
                         let resource = res.data.data;
                         if(resource && resource.length){
                             if(callback && typeof callback === "function"){
-                                console.log('go callback')
                                 callback(resource); // 回调
                             }
                         }else{
@@ -182,7 +182,6 @@
                         key: arrData
                     }
                     ajaxPostEsData(data).then(res => {
-                        console.log(res, 185)
                         if(res.state === 0){
                             self.getDataList()
                         }else{
@@ -211,6 +210,8 @@
                 ajaxPostCutPayment(data).then(res => {
                     if(res.state === 0){
                         self.$Message.success(res.message);
+                        // TODO: 更新可用金额 & 交易记录
+
                     }else{
                         self.$Message.error(res.message);
                     }
@@ -243,11 +244,11 @@
                         })
                         if(a && a.length>0){
                             if(a[0] === 0){
+                                self.triggerES(v)
+                            }else{
                                 self.order.data = v;
                                 self.initCountMoney(v)
                                 self.order.loading = false;
-                            }else{
-                                self.triggerES(v)
                             }
                         }
                     })

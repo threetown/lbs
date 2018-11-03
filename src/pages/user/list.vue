@@ -1,22 +1,30 @@
 <template>
     <div class="full-block-mod">
         <div class="Header clearfix">
-            <h2 class="title">用户列表<strong>关于用户的所有记录</strong></h2>
+            <h2 class="title">账户列表<strong>关于账户的所有记录</strong></h2>
         </div>
         <Row style="margin-bottom: 22px;">
             <Col span="16">
-                <Select size="large" v-model="search.statusCd" @on-change="getList" style="width: 150px">
+                <!-- <Select size="large" v-model="search.statusCd" @on-change="getList" style="width: 150px">
                     <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-            </Col>
-            <Col span="8">
+                </Select> -->
                 <Input size="large"
                     v-model.trim="search.keyword"
                     @on-enter="getList"
                     @on-click="getList"
                     icon="ios-search-strong"
-                    placeholder="请输入用户名或昵称"
-                    style="width: 260px;float: right;"></Input>
+                    placeholder="请输入用户名"
+                    style="width: 260px;"></Input>
+            </Col>
+            <Col span="8">
+            &nbsp;
+                <!-- <Input size="large"
+                    v-model.trim="search.keyword"
+                    @on-enter="getList"
+                    @on-click="getList"
+                    icon="ios-search-strong"
+                    placeholder="请输入用户名"
+                    style="width: 260px;float: right;"></Input> -->
             </Col>
         </Row>
         <div v-if="record.loading" :class="'Placeholder ' + record.state">{{record.loadTips}}</div>
@@ -63,8 +71,8 @@
             return {
                 statusList: [
                     { value: 1, label: '在用' },
-                    { value: 2, label: '删除(预警)' },
-                    { value: 3, label: '离职' },
+                    // { value: 2, label: '删除(预警)' },
+                    // { value: 3, label: '离职' },
                     { value: 4, label: '冻结(异常)' }
                 ],
                 search: {
@@ -81,22 +89,22 @@
                 },
                 recordColumns: [
                     { title: '用户名', key: 'staffName', align: 'center' },
-                    { title: '用户昵称', key: 'loginName', align: 'center' },
-                    { title: '联系方式', key: 'telephone', width: 126, align: 'center' },
-                    { title: '注册时间', key: 'createdDt', width: 136, align: 'center' },
+                    { title: '联系方式', key: 'telephone', align: 'center' },
+                    { title: '帐户余额', key: 'ableAmount', align: 'center' },
+                    // { title: '注册时间', key: 'createdDt', width: 136, align: 'center' },
                     { title: '状态', key: 'statusCd', align: 'center', width: 110, render: (h, params) => {
                             let texts = '';
                             let classname = '';
                             if(params.row.statusCd === 1){
                                 classname = 'status-success'
-                            }else if(params.row.statusCd === 2){
-                                classname = 'status-error'
-                            }else if(params.row.statusCd === 3){
-                                classname = 'status-waiting'
+                            // }else if(params.row.statusCd === 2){
+                            //     classname = 'status-error'
+                            // }else if(params.row.statusCd === 3){
+                            //     classname = 'status-waiting'
                             }else if(params.row.statusCd === 4){
                                 classname = 'status-waiting'
                             }
-                            texts = this.statusList.find((v) => { return v.value === params.row.statusCd}).label;;
+                            texts = this.statusList.find((v) => { return v.value === params.row.statusCd}).label;
                             return h('div',{},[
                                 h('span', {
                                     class: classname,
@@ -105,6 +113,14 @@
                         }
                     },
                     { title: '操作', key: 'level', align: 'center', render: (h, params) => {
+                        // let texts = '', classname = '';
+                        // if(params.row.statusCd === 1){
+                        //     classname = 'status-error'
+                        //     texts = '冻结账户'
+                        // }else if(params.row.statusCd === 4){
+                        //     classname = 'status-success'
+                        //     texts = '账户解冻'
+                        // }
                         return h('div', {class: 'action-group'}, [
                             h('span', {
                                 class: 'items',
@@ -123,21 +139,13 @@
                             //     }
                             // }, '配额管理'),
                             // h('span', {
-                            //     class: 'items',
+                            //     class: `items ${classname}`,
                             //     on: {
                             //         click: () => {
-                            //             // this.triggerCreateQuotaModal(params, 'edit')
+                            //             this.triggerDeleteUser(params)
                             //         }
                             //     }
-                            // }, '个人资料'),
-                            h('span', {
-                                class: 'items',
-                                on: {
-                                    click: () => {
-                                        this.triggerDeleteUser(params)
-                                    }
-                                }
-                            }, '删除')
+                            // }, texts)
                         ]);
                         }
                     }
@@ -196,7 +204,7 @@
                 ajaxPostUserList(data).then(res=>{
                     if(res.state === 0){
                         let result = res.data;
-                        if(result && result.data && result.data.rows.length){
+                        if(result && result.data && result.data.rows && result.data.rows.length){
                             self.record.data = result.data.rows;
                             self.record.total = result.data.total;
                             self.record.loading = false;
@@ -210,7 +218,7 @@
                     }
                 }).catch( reason => {
                     self.record.state = 'error';
-                    self.record.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    self.record.loadTips = '糟糕，服务器内部错误!';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
                 })
             },
             changeQueryPage(v){
