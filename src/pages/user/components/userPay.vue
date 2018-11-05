@@ -91,7 +91,7 @@
                     rules: {
                         price: [
                             { required: true, message: "请输入应付金额", trigger: 'blur' },
-                            { pattern: /^[1-9]\d*$|^[1-9]\d*\.\d\d?$|^0\.\d\d?$/, message:"应付金额大于零", trigger: 'blur' }
+                            { pattern: /^[1-9]\d*$|^[1-9]\d*\.\d\d?$|^0\.\d\d?$/, message:"请输入正确的金额", trigger: 'blur' }
                         ]
                     }
                 },

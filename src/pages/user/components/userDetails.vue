@@ -106,8 +106,8 @@
                     currentMonth: 6
                 },
                 statusList: [
-                    { value: "0", label: '已结算' },
-                    { value: "1", label: '未结算' }
+                    { value: "0", label: '未结算' },
+                    { value: "1", label: '已结算' }
                 ],
                 currentQueryType: "1",
                 queryType: [
@@ -126,7 +126,7 @@
                     rules: {
                         price: [
                             { required: true, message: "请输入充值金额", trigger: 'blur' },
-                            { pattern: /^[1-9]\d*$|^[1-9]\d*\.\d\d?$|^0\.\d\d?$/, message:"充值金额大于零", trigger: 'blur' }
+                            { pattern: /^[1-9]\d*$|^[1-9]\d*\.\d\d?$|^0\.\d\d?$/, message:"请输入正确的充值金额", trigger: 'blur' }
                         ]
                     },
                     Form: {
