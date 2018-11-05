@@ -272,7 +272,6 @@
             },
             openPay(params){
                 this.userPayState = true;
-                console.log(params.row)
                 this.payDeatils = params.row
             },
             init(){
