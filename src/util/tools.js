@@ -171,14 +171,13 @@ export const getPreMonthDay = (monthNum, date) => {
     }
 
     let dateArr = date.split('-');
-    let year = dateArr[0]; //获取当前日期的年份
+    let year = dateArr[0]-1; //获取当前日期的年份
     let month = dateArr[1]; //获取当前日期的月份
     let day = dateArr[2]; //获取当前日期的日
     let days = new Date(year, month, 0);
     days = days.getDate(); //获取当前日期中月的天数
     let year2 = year;
     let month2 = parseInt(month) - monthNum;
-    console.log(month2, 181)
     if (month2 <=0) {
         year2 = parseInt(year2) - parseInt(month2 / 12 == 0 ? 1 : Math.abs(month2) / 12);
         month2 = 12 - (Math.abs(month2) % 12);
@@ -193,5 +192,45 @@ export const getPreMonthDay = (monthNum, date) => {
         month2 = '0' + month2;
     }
     let t2 = year2 + '-' + month2 + '-' + day2;
+    return t2;
+}
+
+
+export const getPreMonth = (monthNum, date) => {
+    // 当前日期：
+    if(!date){
+        let cdate = new Date();
+        let cyear = cdate.getFullYear();
+        let cmonth = cdate.getMonth()+1>10?cdate.getMonth()+1:'0'+cdate.getMonth()+1;
+        let cday = cdate.getDate()>10?cdate.getDate():'0'+cdate.getDate();
+        let nowdatestr = cyear+"-"+cmonth+"-"+cday;
+        date = nowdatestr;
+    }
+
+    let dateArr = date.split('-');
+    let year = dateArr[0]; //获取当前日期的年份
+    let month = dateArr[1]; //获取当前日期的月份
+    let day = dateArr[2]; //获取当前日期的日
+    let days = new Date(year, month, 0);
+    days = days.getDate(); //获取当前日期中月的天数
+
+    // 1. 
+    let mod = monthNum%12;
+    let int = parseInt(monthNum/12);
+    let m = parseInt(month)
+    let y = year - int;
+
+    let m2 = 12;
+    if(mod < m){
+        m2 = m - mod
+    }else if(mod > m){
+        m2 = 12 - (mod - m)
+        y = y -1
+    }else{
+        y = y -1
+    }
+    m2 = Number(m2) < 10 ? `0${m2}` : m2;
+
+    let t2 = y + '-' + m2;
     return t2;
 }
