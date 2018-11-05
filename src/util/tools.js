@@ -157,3 +157,41 @@ export const countPrice = (num,limitNumber) => {
     }
     return parseFloat(result).toFixed(2);
 }
+
+// 前几个月
+export const getPreMonthDay = (monthNum, date) => {
+    // 当前日期：
+    if(!date){
+        let cdate = new Date();
+        let cyear = cdate.getFullYear();
+        let cmonth = cdate.getMonth()+1>10?cdate.getMonth()+1:'0'+cdate.getMonth()+1;
+        let cday = cdate.getDate()>10?cdate.getDate():'0'+cdate.getDate();
+        let nowdatestr = cyear+"-"+cmonth+"-"+cday;
+        date = nowdatestr;
+    }
+
+    let dateArr = date.split('-');
+    let year = dateArr[0]; //获取当前日期的年份
+    let month = dateArr[1]; //获取当前日期的月份
+    let day = dateArr[2]; //获取当前日期的日
+    let days = new Date(year, month, 0);
+    days = days.getDate(); //获取当前日期中月的天数
+    let year2 = year;
+    let month2 = parseInt(month) - monthNum;
+    console.log(month2, 181)
+    if (month2 <=0) {
+        year2 = parseInt(year2) - parseInt(month2 / 12 == 0 ? 1 : Math.abs(month2) / 12);
+        month2 = 12 - (Math.abs(month2) % 12);
+    }
+    let day2 = day;
+    let days2 = new Date(year2, month2, 0);
+    days2 = days2.getDate();
+    if (day2 > days2) {
+        day2 = days2;
+    }
+    if (month2 < 10) {
+        month2 = '0' + month2;
+    }
+    let t2 = year2 + '-' + month2 + '-' + day2;
+    return t2;
+}
