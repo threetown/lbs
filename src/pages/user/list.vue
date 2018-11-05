@@ -97,10 +97,6 @@
                             let classname = '';
                             if(params.row.statusCd === 1){
                                 classname = 'status-success'
-                            // }else if(params.row.statusCd === 2){
-                            //     classname = 'status-error'
-                            // }else if(params.row.statusCd === 3){
-                            //     classname = 'status-waiting'
                             }else if(params.row.statusCd === 4){
                                 classname = 'status-waiting'
                             }
@@ -113,14 +109,6 @@
                         }
                     },
                     { title: '操作', key: 'level', align: 'center', render: (h, params) => {
-                        // let texts = '', classname = '';
-                        // if(params.row.statusCd === 1){
-                        //     classname = 'status-error'
-                        //     texts = '冻结账户'
-                        // }else if(params.row.statusCd === 4){
-                        //     classname = 'status-success'
-                        //     texts = '账户解冻'
-                        // }
                         return h('div', {class: 'action-group'}, [
                             h('span', {
                                 class: 'items',
@@ -137,15 +125,7 @@
                             //             // this.triggerCreateQuotaModal(params, 'edit')
                             //         }
                             //     }
-                            // }, '配额管理'),
-                            // h('span', {
-                            //     class: `items ${classname}`,
-                            //     on: {
-                            //         click: () => {
-                            //             this.triggerDeleteUser(params)
-                            //         }
-                            //     }
-                            // }, texts)
+                            // }, '配额管理')
                         ]);
                         }
                     }

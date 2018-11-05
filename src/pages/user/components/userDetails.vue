@@ -7,7 +7,7 @@
             <div class="user-desc clearfix">
                 <div class="items items_info">
                     <div class="face"></div>
-                    <div class="username">{{currentUser.loginName}}</div>
+                    <div class="username">{{currentUser.staffName}}</div>
                     <div class="phone">电话：{{currentUser.telephone}}</div>
                 </div>
                 <div class="items">
@@ -289,18 +289,22 @@
                 let cdate = new Date();
                 let cyear = cdate.getFullYear();
                 let cmonth = cdate.getMonth()+1>10?cdate.getMonth()+1:'0'+cdate.getMonth()+1;
-                let cday = cdate.getDate()>10?cdate.getDate():'0'+cdate.getDate();
+                let lastD = new Date(cyear, cmonth, 0).getDate();
+                let cday = lastD>10 ? lastD: '0'+lastD;
                 let nowdatestr = cyear+"-"+cmonth+"-"+cday;
 
-                let data = tools.getPreMonthDay(key)
-                return [data, nowdatestr];
+                let data = tools.getPreMonth(key);
+                return [`${data}-01`, `${nowdatestr}`];
             },
             orderColumns(){
                 const self = this;
                 let columns = [];
                 if(this.currentQueryType === '1'){
+                    if(this.search.statusCd === "1"){
+                        columns.push({ title: '扣款时间', key: 'deductTime' })
+                    }
+                    
                     columns.push(
-                        { title: '扣款时间', key: 'deductTime' },
                         { title: '扣款月份', key: 'deductMonth', align: 'center' },
                         { title: '总调用量', key: 'totalCall', align: 'center' },
                         { title: '有效调用量', key: 'workCall', align: 'center' },

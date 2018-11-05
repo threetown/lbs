@@ -37,7 +37,7 @@
                                     <div style="font-size: 14px;"><b style="font-size: 16px;">{{order.money}}</b> 元</div>
                                 </FormItem>
                                 <FormItem label="应付金额：" prop="price">
-                                    <Input :disabled="pay.loading ? true : false" v-model="orderMoney" size="large" placeholder="请输入应付金额" style="width: 120px"/>
+                                    <Input :disabled="pay.loading ? true : false" v-model="order.payMoney" size="large" placeholder="请输入应付金额" style="width: 120px"/>
                                 </FormItem>
                                 
                                 <Button @click.prevent="handlerPay('payModel')" type="primary" size="large" :loading="pay.loading">账单结算</Button>
@@ -82,6 +82,7 @@
                     loadTips: '努力加载中，请稍等。。。',
                     data: [],
                     money: 0,
+                    payMoney: 0
                 },
                 pay: {
                     loading: false,
@@ -95,7 +96,6 @@
                         ]
                     }
                 },
-                orderMoney: 0,
                 orderColumns: [
                     { title: '应用名称', align: 'center', key: 'appName' },
                     { title: 'Key名称', align: 'center', key: 'keyName' },
@@ -222,7 +222,7 @@
                 })
                 let data = {
                     staffId: self.currentUser.staffId,
-                    money: Number(self.orderMoney),
+                    money: Number(self.order.payMoney),
                     yyyyMM: self.countCurrentMonth,
                     mapIdsMoney: arrData
                 }
@@ -249,7 +249,7 @@
                     return Number(tools.countPrice(v.shijifangwen))
                 })
                 countArr.map(v => { sum += v })
-                this.orderMoney = parseFloat(sum).toFixed(2)
+                this.order.payMoney = parseFloat(sum).toFixed(2)
             },
             initList(){
                 const self = this;
