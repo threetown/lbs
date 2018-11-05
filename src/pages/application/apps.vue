@@ -516,6 +516,8 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     let stateArr = data.serviceInfos.filter(item => item.state === '1')
                     this.createKeyForm.serviceNames = stateArr.map(item => item.serviceName)
                 }else if(type === 'create'){
+                    this.createKeyForm.name = '';
+                    this.createKeyForm.desc = '';
                     this.createKeyForm.appId = params.appId;
                     this.createKeyForm.type = self.serviceTypeResource[0] ? self.serviceTypeResource[0].code : ''; // 初始化高亮显示 默认取第一个
                 }
