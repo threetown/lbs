@@ -32,11 +32,11 @@
                         <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                     <Select size="large" v-model="search.currentMonth" @on-change="getList" style="width: 150px">
-                        <Option v-for="item in selectMonthDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        <Option v-for="item in selectMonthDict" :value="item.type" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </Col>
                 <Col span="8">
-                    <a href="javascript:;" style="float: right;font-size: 14px;">导出</a>
+                    <a v-if="!order.loading" href="javascript:;" @click="exportData" style="float: right;font-size: 14px;">导出</a>
                     <!-- <DatePicker size="large" type="daterange" placeholder="请选择查询时间" style="width: 220px; float: right;"
                         @on-change="handlerSelectDate"
                         ></DatePicker> -->
@@ -44,7 +44,7 @@
             </Row>
 
             <div v-if="order.loading" :class="'Placeholder ' + order.state">{{order.loadTips}}</div>
-            <Table v-if="!order.loading" border :columns="orderColumns" :data="order.data" class="custom-table"></Table>
+            <Table ref="userPayTable" v-if="!order.loading" border :columns="orderColumns" :data="order.data" class="custom-table"></Table>
 
             <Modal
                 v-model="pay.isOpen"
@@ -70,13 +70,15 @@
             </Modal> <!-- 充值 -->
         </div>
 
-        <user-pay v-if="userPayState" :currentUser="currentUser" @closeUserPay="closeUserPay"></user-pay>
+        <user-pay v-if="userPayState" :currentUser="currentUser" :payDeatils="payDeatils" @closeUserPay="closeUserPay"></user-pay>
     </div>
 </template>
 
 <script>
-    import { ajaxPostBalance, ajaxPostDealRecord, ajaxPostAccountTopUp } from 'src/service/user';
+    import { ajaxPostBalance, ajaxPostDeductList, ajaxPostDealRecord, ajaxPostAccountTopUp } from 'src/service/user';
     import { selectMonthDict } from "src/config/basicConfig"
+
+    import * as tools from 'src/util/tools'
 
     import userPay from "./userPay"
 
@@ -95,16 +97,17 @@
         },
         data () {
             return {
+                payDeatils: {},
                 selectMonthDict,
                 balance: 0,
                 search: {
                     dateRange: [],
-                    statusCd: 2,
-                    currentMonth: 'halfYearOfMonths'
+                    statusCd: "0",
+                    currentMonth: 6
                 },
                 statusList: [
-                    { value: 1, label: '已结算' },
-                    { value: 2, label: '未结算' }
+                    { value: "0", label: '已结算' },
+                    { value: "1", label: '未结算' }
                 ],
                 currentQueryType: "1",
                 queryType: [
@@ -136,7 +139,14 @@
         methods: {
             triggerTabs(v){
                 this.currentQueryType = v
-                console.log(v, 143)
+                this.search.currentMonth = 6
+                this.getList()
+            },
+            exportData(){
+                this.$refs.userPayTable.exportCsv({
+                    filename: '交易记录',
+                    original: false
+                });
             },
             close(){
                 this.$emit("closeUserDetails");
@@ -169,32 +179,53 @@
 
                 let data = {
                     staffId: this.currentUser.staffId,
-                    type: this.search.statusCd
+                    startTime: this.currentDateRange[0],
+                    endTime: this.currentDateRange[1]
                 }
-                if(self.search.dateRange && self.search.dateRange[0]){
-                    data = Object.assign(data, {startTime: self.search.dateRange[0]})
-                }
-                if(self.search.dateRange && self.search.dateRange[1]){
-                    data = Object.assign(data, {endTime: self.search.dateRange[1]})
-                }
-                ajaxPostDealRecord(data).then(res => {
-                    if(res.state === 0){
-                        let resource = res.data.data;
-                        if(resource && resource.length){
-                            self.order.data = resource;
-                            self.order.loading = false;
+
+                // 扣款记录
+                if(this.currentQueryType === '1'){
+                    data = Object.assign(data, { status: this.search.statusCd })
+                    ajaxPostDeductList(data).then(res => {
+                        if(res.state === 0){
+                            let resource = res.data.data;
+                            if(resource && resource.length){
+                                self.order.data = resource;
+                                self.order.loading = false;
+                            }else{
+                                self.order.state = 'empty'
+                                self.order.loadTips = '抱歉，暂无数据！'
+                            }
                         }else{
-                            self.order.state = 'empty'
-                            self.order.loadTips = '抱歉，暂无数据！'
+                            self.order.state = 'error';
+                            self.order.loadTips = res.message ? res.message : '糟糕，加载失败！';
                         }
-                    }else{
+                    }).catch( reason => {
                         self.order.state = 'error';
-                        self.order.loadTips = res.message ? res.message : '糟糕，加载失败！';
-                    }
-                }).catch( reason => {
-                    self.order.state = 'error';
-                    self.order.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
-                })
+                        self.order.loadTips = '糟糕，服务器内部错误';
+                    })
+                }else{
+                    // 充值记录
+                    data = Object.assign(data, { type: 1 })
+                    ajaxPostDealRecord(data).then(res => {
+                        if(res.state === 0){
+                            let resource = res.data.data;
+                            if(resource && resource.length){
+                                self.order.data = resource;
+                                self.order.loading = false;
+                            }else{
+                                self.order.state = 'empty'
+                                self.order.loadTips = '抱歉，暂无数据！'
+                            }
+                        }else{
+                            self.order.state = 'error';
+                            self.order.loadTips = res.message ? res.message : '糟糕，加载失败！';
+                        }
+                    }).catch( reason => {
+                        self.order.state = 'error';
+                        self.order.loadTips = '糟糕，服务器内部错误';//'错误提示：' + reason.statusText + '（'+ reason.status +'）';
+                    })
+                }
             },
             handlerPayModel(){
                 this.pay.isOpen = true;
@@ -227,6 +258,10 @@
                     }
                 })
             },
+            openDetails(params){
+                // 打开详情，已计算；未计算
+                console.log(params, 257)
+            },
             openCount(params){
                 let argu = { keyCode: params.row.keyCode };
                 let routeData = this.$router.resolve({
@@ -234,6 +269,11 @@
                     query: argu
                 });
                 window.open(routeData.href, '_blank')
+            },
+            openPay(params){
+                this.userPayState = true;
+                console.log(params.row)
+                this.payDeatils = params.row
             },
             init(){
                 this.getBalance()
@@ -244,40 +284,74 @@
             this.init()
         },
         computed: {
+            currentDateRange(){
+                let key = this.search.currentMonth;
+
+                let cdate = new Date();
+                let cyear = cdate.getFullYear();
+                let cmonth = cdate.getMonth()+1>10?cdate.getMonth()+1:'0'+cdate.getMonth()+1;
+                let cday = cdate.getDate()>10?cdate.getDate():'0'+cdate.getDate();
+                let nowdatestr = cyear+"-"+cmonth+"-"+cday;
+
+                let data = tools.getPreMonthDay(key)
+                return [data, nowdatestr];
+            },
             orderColumns(){
                 const self = this;
-                let columns = [
-                    { title: '创建时间', key: 'createdDt' }
-                ];
+                let columns = [];
                 if(this.currentQueryType === '1'){
                     columns.push(
-                        { title: '扣款月份', key: 'month' },
-                        { title: '服务名称', key: 'serviceName' },
-                        { title: '总访问量', key: 'totalCallCnt' },
-                        { title: '有效访问量', key: 'goodCallCnt' },
-                        { title: '实际访问量', key: 'feesCallCnt' },
-                        { title: '合计费用', key: 'totalCost' },
+                        { title: '扣款时间', key: 'deductTime' },
+                        { title: '扣款月份', key: 'deductMonth', align: 'center' },
+                        { title: '总调用量', key: 'totalCall', align: 'center' },
+                        { title: '有效调用量', key: 'workCall', align: 'center' },
+                        { title: '实际调用量', key: 'reallyCall', align: 'center' },
+                        { title: '实际费用（元）', key: 'reallyMoney', align: 'center' },
+                        { title: '状态', key: 'status', align: 'center', render: (h, params) => {
+                            let texts = '';
+                            let classname = '';
+                            if(params.row.status === 0){
+                                classname = 'status-error'
+                                texts = '未结算'
+                            }else if(params.row.status === 1){
+                                classname = 'status-success'
+                                texts = '已结算'
+                            }
+                                return h('div',{},[
+                                    h('span', {
+                                        class: classname,
+                                    }, texts)
+                                ])
+                            }
+                        },
+                        {
+                            title: '操作', key: 'action', align: 'center', width: 100, render: (h, params) => {
+                                let texts = '';
+                                let classname = '';
+                                if(params.row.status === 0){
+                                    texts = '结算'
+                                }else{
+                                    texts = '详情'
+                                }
+                                return h('div', {class: 'action-group'},
+                                [
+                                    h('span', {
+                                        class: 'items', on: {
+                                            click: () => {
+                                                this.openPay(params)
+                                            }
+                                        }
+                                    }, texts)
+                                ]);
+                            }
+                        }
                     )
                 }else{
-                    columns.push({ title: '充值月份', key: 'month' })
-                }
-                columns.push({ title: '变动金额', key: 'dealAmount' })
-
-                if(this.search.statusCd === '1'){
-                    columns.push({
-                        title: '操作', key: 'action', align: 'center', width: 100, render: (h, params) => {
-                            return h('div', {class: 'action-group'},
-                            [
-                                h('span', {
-                                    class: 'items', on: {
-                                        click: () => {
-                                            this.openCount(params)
-                                        }
-                                    }
-                                }, '详情')
-                            ]);
-                        }
-                    })
+                    columns.push(
+                        { title: '创建时间', key: 'createdDt' },
+                        { title: '充值月份', key: 'month' },
+                        { title: '变动金额', key: 'dealAmount' }
+                    )
                 }
                 return columns;
             }

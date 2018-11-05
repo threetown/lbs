@@ -72,10 +72,10 @@ let selectTimeDict = [
 ]
 
 let selectMonthDict = [
-    { label: '本月', value: 'today'},     // 按天统计今天的总数
-    { label: '近三个月', value: 'threeMonthOfDays'},  // 按天统计最近三月
-    { label: '近半年', value: 'halfYearOfMonths'},  // 按月统计最近半年
-    { label: '近一年', value: 'fullYearOfMonths'},  // 按月统计最近一年
+    { label: '本月', type: 1, value: 'month'},     // 按天统计今天的总数
+    { label: '近三个月', type: 3, value: 'threeMonths'},  // 按天统计最近三月
+    { label: '近半年', type: 6, value: 'halfYearOfMonths'},  // 按月统计最近半年
+    { label: '近一年', type: 12, value: 'fullYearOfMonths'},  // 按月统计最近一年
 ]
 
 let serverType = [

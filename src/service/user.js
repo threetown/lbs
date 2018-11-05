@@ -9,6 +9,9 @@ export const ajaxPostDeleteUser = (params) => fetch({ url: '/center/deleteUser/'
 // 用户管理 - 用户可用金额
 export const ajaxPostBalance = (params) => fetch({ url: '/center/userAccount/' + params, method: 'post' })
 
+// 帐户管理 - 扣款列表
+export const ajaxPostDeductList = (data) => fetch({ url: '/center/userAccount/deductList', method: 'post', data })
+
 // 用户管理 - 交易记录
 export const ajaxPostDealRecord = (data) => fetch({ url: '/center/userAccount/dealRecord', method: 'post', data })
 
