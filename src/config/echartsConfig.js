@@ -492,7 +492,7 @@ const echartsConfig = {
                     seriesArr.push({ name: e.name, type: e.type, data, barWidth: '24%', itemStyle: e.itemStyle})
                 }else{
                     data = lineBarArr.map((v) => {
-                        return (v.goodCallCnt/v.totalCallCnt).toFixed(2) * 1;
+                        return (v.goodCallCnt == 0 || v.totalCallCnt == 0) ? 0 : v.totalCallCnt(v.goodCallCnt/v.totalCallCnt).toFixed(2) * 100;
                     })
                     seriesArr.push({ name: e.name, type: e.type, data, yAxisIndex: 1, itemStyle: e.itemStyle})
                 }
