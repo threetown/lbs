@@ -13,7 +13,8 @@
                 "children": [
                     { "path": "project", "name": "project", "component": "data/project", "title": "可视化项目" },
                     { "path": "mydata", "name": "mydata", "component": "data/mydata", "title": "我的数据" },
-                    { "path": "mypro", "name": "mypro", "component": "data/mypro", "title": "我的项目" }
+                    { "path": "mypro", "name": "mypro", "component": "data/mypro", "title": "我的项目" },
+                    { "path": "special", "name": "special", "component": "data/special", "title": "专题维护" }
                 ]
             },
             {

@@ -51,6 +51,7 @@ let gender = [
 // let mapviewUrl = 'http://mapview.cindata.cn/mapv/commondata'  // 数据可视化
 // let mapviewProUrl = 'http://mapview.cindata.cn/mapv/visual'   // 数据可视化-我的项目
 
+let specialUrl = "http://gisapi.cindata.cn/pu/";
 
 /* 测试地址 */
 let LbsUrl = 'http://testlbs.cindata.net';        // LBS
@@ -95,5 +96,6 @@ export {
     SSOUrl,
     mapviewUrl,
     mapviewProUrl,
-    selectMonthDict
+    selectMonthDict,
+    specialUrl
 }
