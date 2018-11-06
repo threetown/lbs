@@ -16,7 +16,7 @@
                                 <FormItem label="合计金额：" style="margin-bottom: 12px;">
                                     <div style="font-size: 14px;"><b style="font-size: 16px;">{{payDeatils.totalCall}}</b> 元</div>
                                 </FormItem>
-                                <FormItem label="应付金额：" prop="price">
+                                <FormItem label="应付金额：">
                                     <div style="font-size: 14px;"><b style="font-size: 16px;">{{payDeatils.reallyMoney}}</b> 元</div>
                                 </FormItem>
                             </Form>
@@ -37,7 +37,7 @@
                                     <div style="font-size: 14px;"><b style="font-size: 16px;">{{order.money}}</b> 元</div>
                                 </FormItem>
                                 <FormItem label="应付金额：" prop="price">
-                                    <Input :disabled="pay.loading ? true : false" v-model="order.payMoney" size="large" placeholder="请输入应付金额" style="width: 120px"/>
+                                    <Input :disabled="pay.loading ? true : false" v-model="pay.Form.price" size="large" placeholder="请输入应付金额" style="width: 120px"/>
                                 </FormItem>
                                 
                                 <Button @click.prevent="handlerPay('payModel')" type="primary" size="large" :loading="pay.loading">账单结算</Button>
@@ -222,7 +222,7 @@
                 })
                 let data = {
                     staffId: self.currentUser.staffId,
-                    money: Number(self.order.payMoney),
+                    money: Number(self.pay.Form.price),
                     yyyyMM: self.countCurrentMonth,
                     mapIdsMoney: arrData
                 }
@@ -249,7 +249,7 @@
                     return Number(tools.countPrice(v.shijifangwen))
                 })
                 countArr.map(v => { sum += v })
-                this.order.payMoney = parseFloat(sum).toFixed(2)
+                this.pay.Form.price = parseFloat(sum).toFixed(2)
             },
             initList(){
                 const self = this;
