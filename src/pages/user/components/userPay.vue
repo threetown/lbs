@@ -307,11 +307,14 @@
                 return [`${y}-${m}-01`,`${y}-${m}-${lastDay}`];
             },
             countCurrentMonth(){
-                let date = new Date(this.countMonth),
-                    y = date.getFullYear(),
-                    m = date.getMonth();
-                let formatMonth = m+1 < 10 ? `0${m+1}` : `${m+1}`;
-                return `${y}${formatMonth}`;
+                // let date = new Date(this.countMonth),
+                //     y = date.getFullYear(),
+                //     m = date.getMonth();
+                // let formatMonth = m+1 < 10 ? `0${m+1}` : `${m+1}`;
+                let dateString = this.payDeatils.deductMonth
+                let y = dateString.substr(0,4),
+                    m = dateString.substr(4,2);
+                return `${y}${m}`;
             },
             curentMonth(){
                 let date = new Date();
