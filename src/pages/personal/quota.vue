@@ -264,7 +264,10 @@
                 const self = this;
                 this.Analysis.loading = true;
                 this.record.loading = true;
-                ajaxPostQuotaType().then(res => {
+                let data = {
+                    code: 'all'
+                }
+                ajaxPostQuotaType(data).then(res => {
                     if(res.state === 0){
                         let data = res.data.data;
                         if(data && data.length){
