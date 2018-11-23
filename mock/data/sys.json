@@ -1,0 +1,42 @@
+{
+    "getServiceOverview": {
+		"data":[
+			{
+				"type":"wait",
+				"value":46
+			},
+			{
+				"type":"error-server",
+				"value":0
+			},
+			{
+				"type":"warning",
+				"value":8
+			},
+			{
+				"type":"error-user",
+				"value":1
+			}
+		]
+    },
+    "getAccessOverview": {
+		"data":[
+			{
+				"type":"pv",
+				"value":57224,
+				"percent":-23.11
+			},
+			{
+				"type":"uv",
+				"value":19,
+				"percent":-5.0
+			},
+			{
+				"type":"av",
+				"value":0,
+				"percent":0.0
+			}
+		]
+	}
+    
+}
