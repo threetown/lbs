@@ -1,6 +1,72 @@
-# gxd
+# gxd-lbs
 
-> A Vue.js project
+> gxd-lbs subscription number project with vue.js. Documentation can be found at <https://vuejs-templates.github.io/webpack/>
+
+
+
+## 前端技术栈
+
+| 说明     | 备注                                    | 说明     | 备注                                    | 说明        | 备注                                                         |
+| -------- | --------------------------------------- | -------- | --------------------------------------- | ----------- | ------------------------------------------------------------ |
+| 前端框架 | [vue.js](https://cn.vuejs.org/)         | 组件库   | [iview](https://www.iviewui.com/)       | mock 假数据 | [json-server](https://github.com/typicode/json-server)       |
+| 路由管理 | [vue-router](https://router.vuejs.org/) | 图表插件 | [ECharts](http://echarts.baidu.com/)    | 表单验证    | [ async-validator](https://github.com/yiminghe/async-validator) |
+| 状态管理 | [vuex](https://vuex.vuejs.org/)         | AJAX请求 | [axios](https://github.com/axios/axios) | less        | [less](http://lesscss.cn/)                                   |
+
+
+
+## Project Structure
+
+```
+.
+├── build/                      # webpack config files
+│   └── ...
+├── config/
+│   ├── index.js                # main project config
+│   └── ...
+├── src/
+│   ├── main.js                 # app entry file
+│   ├── App.vue                 # main app component
+│   ├── components/             # ui components
+│   │   └── ...
+│   ├── assets/                 # module assets (processed by webpack)
+│   │   └── ...
+│   ├── config/                 # config
+│   │   └── ...
+│   ├── filters/                # filters
+│   │   └── ...
+│   ├── pages                   # views
+│   │   ├── dashboard.vue
+│   │   ├── application
+│   │   │   ├── apps.vue
+│   │   │   └── recyclebin.vue
+│   │   ├── personal
+│   │   │   ├── info.vue
+│   │   │   └── ...
+│   │   └── ...
+│   ├── router                  # vue-router
+│   │   ├── index.js
+│   │   └── router.js
+│   ├── service                 # api request config
+│   │   └── ...
+│   ├── store                   # vuex
+│   │   └── ...
+│   └── util                    # tools feature
+│       ├── auth                # 权限
+│       │   ├── index.js
+│       │   └── lazyLoading.js
+│       ├── fetch.js
+│       ├── pxtorem.js
+│       └── tools.js
+├── static/                     # pure static assets (directly copied)
+├── .babelrc                    # babel config
+├── .postcssrc.js               # postcss config
+├── .eslintrc.js                # eslint config
+├── .editorconfig               # editor config
+├── index.html                  # index.html template
+└── package.json                # build scripts and dependencies
+```
+
+
 
 ## Build Setup
 
@@ -36,8 +102,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
   # run project
   cnpm install && npm run dev
   ```
-
-  
 
 * Install plugins
 
@@ -109,7 +173,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
   </script>
   ```
 
-  
 
 ## API
 
