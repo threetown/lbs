@@ -1,303 +1,303 @@
 {
-	"getRegistMapList":{
-		"data":{
-			"rows":[
+	"getRegistMapList": {
+		"data": {
+			"rows": [
 				{
-					"concurrencyMax":50,
-					"createdDt":"2018-07-05 16:04:19",
-					"dailyTotalCnt":1000,
-					"serviceId":9,
-					"serviceName":"宁波地图服务9",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"2_addr_map_7a8390587efbbf17e944e80f8a188ee0",
-					"statusCd":1,
-					"version":"2018-11-09 20:10:54"
+					"concurrencyMax": 50,
+					"createdDt": "2018-07-05 16:04:19",
+					"dailyTotalCnt": 1000,
+					"serviceId": 9,
+					"serviceName": "宁波地图服务9",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "2_addr_map_7a8390587efbbf17e944e80f8a188ee0",
+					"statusCd": 1,
+					"version": "2018-11-09 20:10:54"
 				},
 				{
-					"concurrencyMax":100,
-					"createdDt":"2018-07-12 15:08:57",
-					"dailyTotalCnt":100,
-					"serviceId":13,
-					"serviceName":"基础地图服务",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"base_map",
-					"serviceUrl":"1_base_map_bcb73c84eeabc39ade7e133972869fcc",
-					"statusCd":1,
-					"version":"2018-09-21 16:07:42"
+					"concurrencyMax": 100,
+					"createdDt": "2018-07-12 15:08:57",
+					"dailyTotalCnt": 100,
+					"serviceId": 13,
+					"serviceName": "基础地图服务",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "base_map",
+					"serviceUrl": "1_base_map_bcb73c84eeabc39ade7e133972869fcc",
+					"statusCd": 1,
+					"version": "2018-09-21 16:07:42"
 				},
 				{
-					"concurrencyMax":2222,
-					"createdDt":"2018-07-16 16:35:15",
-					"dailyTotalCnt":2222222,
-					"serviceId":18,
-					"serviceName":"大庆地图服务",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_6fc4eaaf7cb33834fa6568887bb8095f",
-					"statusCd":1,
-					"version":"2018-09-21 16:08:06"
+					"concurrencyMax": 2222,
+					"createdDt": "2018-07-16 16:35:15",
+					"dailyTotalCnt": 2222222,
+					"serviceId": 18,
+					"serviceName": "大庆地图服务",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_6fc4eaaf7cb33834fa6568887bb8095f",
+					"statusCd": 1,
+					"version": "2018-09-21 16:08:06"
 				},
 				{
-					"concurrencyMax":1,
-					"createdDt":"2018-07-21 17:04:36",
-					"dailyTotalCnt":1,
-					"serviceId":22,
-					"serviceName":"淮北市地图资源",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_59b746a4d6ff913ca21fa5b9165458d8",
-					"statusCd":1,
-					"version":"2018-09-21 16:50:48"
+					"concurrencyMax": 1,
+					"createdDt": "2018-07-21 17:04:36",
+					"dailyTotalCnt": 1,
+					"serviceId": 22,
+					"serviceName": "淮北市地图资源",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_59b746a4d6ff913ca21fa5b9165458d8",
+					"statusCd": 1,
+					"version": "2018-09-21 16:50:48"
 				},
 				{
-					"concurrencyMax":10,
-					"createdDt":"2018-07-26 10:33:58",
-					"dailyTotalCnt":10,
-					"serviceId":23,
-					"serviceName":"阿克苏地区地图资源",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_9ffca31b7e5e9838b212fa3249269b67",
-					"statusCd":1,
-					"version":"2018-10-24 09:14:21"
+					"concurrencyMax": 10,
+					"createdDt": "2018-07-26 10:33:58",
+					"dailyTotalCnt": 10,
+					"serviceId": 23,
+					"serviceName": "阿克苏地区地图资源",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_9ffca31b7e5e9838b212fa3249269b67",
+					"statusCd": 1,
+					"version": "2018-10-24 09:14:21"
 				},
 				{
-					"concurrencyMax":10,
-					"createdDt":"2018-07-27 09:53:13",
-					"dailyTotalCnt":1000,
-					"serviceId":34,
-					"serviceName":"合肥市地图资源",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_934549eb2dc8b4d27a28cd623f98f7d4",
-					"statusCd":1,
-					"version":"2018-11-16 14:40:29"
+					"concurrencyMax": 10,
+					"createdDt": "2018-07-27 09:53:13",
+					"dailyTotalCnt": 1000,
+					"serviceId": 34,
+					"serviceName": "合肥市地图资源",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_934549eb2dc8b4d27a28cd623f98f7d4",
+					"statusCd": 1,
+					"version": "2018-11-16 14:40:29"
 				},
 				{
-					"concurrencyMax":0,
-					"createdDt":"2018-07-27 09:53:13",
-					"dailyTotalCnt":0,
-					"serviceId":41,
-					"serviceName":"池州市地图资源",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_66e45c207a3c2f4e3ac45cf4be48e91f",
-					"statusCd":1,
-					"version":"2018-07-27 09:53:13"
+					"concurrencyMax": 0,
+					"createdDt": "2018-07-27 09:53:13",
+					"dailyTotalCnt": 0,
+					"serviceId": 41,
+					"serviceName": "池州市地图资源",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_66e45c207a3c2f4e3ac45cf4be48e91f",
+					"statusCd": 1,
+					"version": "2018-07-27 09:53:13"
 				},
 				{
-					"concurrencyMax":0,
-					"createdDt":"2018-07-27 09:53:13",
-					"dailyTotalCnt":0,
-					"serviceId":42,
-					"serviceName":"宣城市地图资源",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_fae79c78cd11bdb21e64c50190f50c0f",
-					"statusCd":1,
-					"version":"2018-07-27 09:53:13"
+					"concurrencyMax": 0,
+					"createdDt": "2018-07-27 09:53:13",
+					"dailyTotalCnt": 0,
+					"serviceId": 42,
+					"serviceName": "宣城市地图资源",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_fae79c78cd11bdb21e64c50190f50c0f",
+					"statusCd": 1,
+					"version": "2018-07-27 09:53:13"
 				},
 				{
-					"concurrencyMax":0,
-					"createdDt":"2018-07-27 09:53:13",
-					"dailyTotalCnt":0,
-					"serviceId":43,
-					"serviceName":"大庆市地图资源",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_3d24f717eea0d189e418e1a525651c55",
-					"statusCd":1,
-					"version":"2018-07-27 09:53:13"
+					"concurrencyMax": 0,
+					"createdDt": "2018-07-27 09:53:13",
+					"dailyTotalCnt": 0,
+					"serviceId": 43,
+					"serviceName": "大庆市地图资源",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_3d24f717eea0d189e418e1a525651c55",
+					"statusCd": 1,
+					"version": "2018-07-27 09:53:13"
 				},
 				{
-					"concurrencyMax":11,
-					"createdDt":"2018-07-27 10:14:00",
-					"dailyTotalCnt":11,
-					"serviceId":44,
-					"serviceName":"伊春市地图资源",
-					"serviceTypeMajor":2,
-					"serviceTypeMinor":"addr_map",
-					"serviceUrl":"1_addr_map_edd152b50bca7274a82c63d5004ab63c",
-					"statusCd":1,
-					"version":"2018-07-27 10:14:00"
+					"concurrencyMax": 11,
+					"createdDt": "2018-07-27 10:14:00",
+					"dailyTotalCnt": 11,
+					"serviceId": 44,
+					"serviceName": "伊春市地图资源",
+					"serviceTypeMajor": 2,
+					"serviceTypeMinor": "addr_map",
+					"serviceUrl": "1_addr_map_edd152b50bca7274a82c63d5004ab63c",
+					"statusCd": 1,
+					"version": "2018-07-27 10:14:00"
 				}
 			],
-			"total":35
+			"total": 35
 		}
 	},
-    "getServiceOverview": {
-		"data":[
+	"getServiceOverview": {
+		"data": [
 			{
-				"type":"wait",
-				"value":46
+				"type": "wait",
+				"value": 46
 			},
 			{
-				"type":"error-server",
-				"value":0
+				"type": "error-server",
+				"value": 0
 			},
 			{
-				"type":"warning",
-				"value":8
+				"type": "warning",
+				"value": 8
 			},
 			{
-				"type":"error-user",
-				"value":1
+				"type": "error-user",
+				"value": 1
 			}
 		]
-    },
-    "getAccessOverview": {
-		"data":[
+	},
+	"getAccessOverview": {
+		"data": [
 			{
-				"type":"pv",
-				"value":57224,
-				"percent":-23.11
+				"type": "pv",
+				"value": 57224,
+				"percent": -23.11
 			},
 			{
-				"type":"uv",
-				"value":19,
-				"percent":-5.0
+				"type": "uv",
+				"value": 19,
+				"percent": -5.0
 			},
 			{
-				"type":"av",
-				"value":0,
-				"percent":0.0
+				"type": "av",
+				"value": 0,
+				"percent": 0.0
 			}
 		]
 	},
 	"mapTypeList": {
-		"dict":[
+		"dict": [
 			{
-				"code":"addr_map",
-				"name":"楼盘地图"
+				"code": "addr_map",
+				"name": "楼盘地图"
 			},
 			{
-				"code":"base_map",
-				"name":"基础底图"
+				"code": "base_map",
+				"name": "基础底图"
 			},
 			{
-				"code":"special_map",
-				"name":"专题地图"
+				"code": "special_map",
+				"name": "专题地图"
 			},
 			{
-				"code":"gather_map",
-				"name":"采集地图"
+				"code": "gather_map",
+				"name": "采集地图"
 			},
 			{
-				"code":"custom_map",
-				"name":"定制化地图"
+				"code": "custom_map",
+				"name": "定制化地图"
 			}
 		]
 	},
-    "solutionCode": {
-		"dict":[
+	"solutionCode": {
+		"dict": [
 			{
-				"code":"1",
-				"name":"智慧选址"
+				"code": "1",
+				"name": "智慧选址"
 			},
 			{
-				"code":"2",
-				"name":"智慧轨迹"
+				"code": "2",
+				"name": "智慧轨迹"
 			},
 			{
-				"code":"3",
-				"name":"投资地图"
+				"code": "3",
+				"name": "投资地图"
 			},
 			{
-				"code":"4",
-				"name":"数据可视化"
+				"code": "4",
+				"name": "数据可视化"
 			},
 			{
-				"code":"5",
-				"name":"项目管理"
+				"code": "5",
+				"name": "项目管理"
 			}
 		]
 	},
 	"addMapRegistBefore": {
-		"data":{
-			"rows":[
+		"data": {
+			"rows": [
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"淮南市地图资源",
-					"mapCode":"1_addr_map_8e9ce8cb8f150e18733d3d8ba233d4d3",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "淮南市地图资源",
+					"mapCode": "1_addr_map_8e9ce8cb8f150e18733d3d8ba233d4d3",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"铜陵市地图资源",
-					"mapCode":"1_addr_map_bce21085fa602dda5822d1f6f909c081",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "铜陵市地图资源",
+					"mapCode": "1_addr_map_bce21085fa602dda5822d1f6f909c081",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"安庆市地图资源",
-					"mapCode":"1_addr_map_af75a2faab4c8dc1586d587f646905ae",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "安庆市地图资源",
+					"mapCode": "1_addr_map_af75a2faab4c8dc1586d587f646905ae",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"黄山市地图资源",
-					"mapCode":"1_addr_map_f6c01653c3f159cb048354a9af010726",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "黄山市地图资源",
+					"mapCode": "1_addr_map_f6c01653c3f159cb048354a9af010726",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"六安市地图资源",
-					"mapCode":"1_addr_map_4d7fd71b5347aa9b0e97a6cc2ae8debd",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "六安市地图资源",
+					"mapCode": "1_addr_map_4d7fd71b5347aa9b0e97a6cc2ae8debd",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"亳州市地图资源",
-					"mapCode":"1_addr_map_f5f814a7f1b08f4a1f068d23b89616b4",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "亳州市地图资源",
+					"mapCode": "1_addr_map_f5f814a7f1b08f4a1f068d23b89616b4",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"七台河市地图资源",
-					"mapCode":"1_addr_map_553826be5b9751a03689470d25e271b5",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "七台河市地图资源",
+					"mapCode": "1_addr_map_553826be5b9751a03689470d25e271b5",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"南京市地图资源",
-					"mapCode":"1_addr_map_d9314bdf80adb269ca8e4e50f662c90c",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "南京市地图资源",
+					"mapCode": "1_addr_map_d9314bdf80adb269ca8e4e50f662c90c",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"无锡市地图资源",
-					"mapCode":"1_addr_map_370833db865d977e55f3fc25e61d46f3",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "无锡市地图资源",
+					"mapCode": "1_addr_map_370833db865d977e55f3fc25e61d46f3",
+					"dailyTotalCnt": 0
 				},
 				{
-					"concurrencyMax":0,
-					"typeName":"未知类型",
-					"mapType":"addr_map",
-					"mapName":"常州市地图资源",
-					"mapCode":"1_addr_map_d747e5a0896e486494eb6a0ed28430ac",
-					"dailyTotalCnt":0
+					"concurrencyMax": 0,
+					"typeName": "未知类型",
+					"mapType": "addr_map",
+					"mapName": "常州市地图资源",
+					"mapCode": "1_addr_map_d747e5a0896e486494eb6a0ed28430ac",
+					"dailyTotalCnt": 0
 				}
 			],
-			"total":407
+			"total": 407
 		}
 	}
 }

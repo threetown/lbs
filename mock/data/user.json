@@ -1,63 +1,206 @@
 {
     "getAmpAuthByCondition": {
         "data": {
-                "allAmpAuth": [
+            "allAmpAuth": [
                 {
-                    "path": "/application", "name": "application", "component": "dashboard", "title": "应用管理", "modelStyle": "icon-app",
+                    "path": "/application",
+                    "name": "application",
+                    "component": "dashboard",
+                    "title": "应用管理",
+                    "modelStyle": "icon-app",
                     "children": [
-                        { "path": "apps", "name": "apps", "component": "application/apps", "title": "我的应用" },
-                        { "path": "recyclebin", "name": "recyclebin", "component": "application/recyclebin", "title": "回收站" }
+                        {
+                            "path": "apps",
+                            "name": "apps",
+                            "component": "application/apps",
+                            "title": "我的应用"
+                        },
+                        {
+                            "path": "recyclebin",
+                            "name": "recyclebin",
+                            "component": "application/recyclebin",
+                            "title": "回收站"
+                        }
                     ]
                 },
                 {
-                    "path": "/data", "name": "data", "component": "dashboard", "title": "数据可视化", "modelStyle": "icon-bar",
+                    "path": "/data",
+                    "name": "data",
+                    "component": "dashboard",
+                    "title": "数据可视化",
+                    "modelStyle": "icon-bar",
                     "children": [
-                        { "path": "project", "name": "project", "component": "data/project", "title": "可视化项目" },
-                        { "path": "mydata", "name": "mydata", "component": "data/mydata", "title": "我的数据" },
-                        { "path": "mypro", "name": "mypro", "component": "data/mypro", "title": "我的项目" },
-                        { "path": "special", "name": "special", "component": "data/special", "title": "专题维护" }
+                        {
+                            "path": "project",
+                            "name": "project",
+                            "component": "data/project",
+                            "title": "可视化项目"
+                        },
+                        {
+                            "path": "mydata",
+                            "name": "mydata",
+                            "component": "data/mydata",
+                            "title": "我的数据"
+                        },
+                        {
+                            "path": "mypro",
+                            "name": "mypro",
+                            "component": "data/mypro",
+                            "title": "我的项目"
+                        },
+                        {
+                            "path": "special",
+                            "name": "special",
+                            "component": "data/special",
+                            "title": "专题维护"
+                        }
                     ]
                 },
                 {
-                    "path": "/sys", "name": "sys", "component": "dashboard", "title": "系统监控", "modelStyle": "icon-monitor",
+                    "path": "/sys",
+                    "name": "sys",
+                    "component": "dashboard",
+                    "title": "系统监控",
+                    "modelStyle": "icon-monitor",
                     "children": [
-                        { "path": "scree", "name": "scree", "component": "sys/scree", "title": "数据总览" },
-                        { "path": "business", "name": "business", "component": "sys/business", "title": "业务管理" },
-                        { "path": "service", "name": "service", "component": "sys/service", "title": "服务管理" },
-                        { "path": "database", "name": "database", "component": "sys/database", "title": "数据库连接池" },
-                        { "path": "track", "name": "track", "component": "sys/track", "title": "追踪服务" },
-                        { "path": "commit", "name": "commit", "component": "sys/commit", "title": "操作日志" }
+                        {
+                            "path": "scree",
+                            "name": "scree",
+                            "component": "sys/scree",
+                            "title": "数据总览"
+                        },
+                        {
+                            "path": "business",
+                            "name": "business",
+                            "component": "sys/business",
+                            "title": "业务管理"
+                        },
+                        {
+                            "path": "service",
+                            "name": "service",
+                            "component": "sys/service",
+                            "title": "服务管理"
+                        },
+                        {
+                            "path": "database",
+                            "name": "database",
+                            "component": "sys/database",
+                            "title": "数据库连接池"
+                        },
+                        {
+                            "path": "track",
+                            "name": "track",
+                            "component": "sys/track",
+                            "title": "追踪服务"
+                        },
+                        {
+                            "path": "commit",
+                            "name": "commit",
+                            "component": "sys/commit",
+                            "title": "操作日志"
+                        }
                     ]
                 },
                 {
-                    "path": "/user", "name": "user", "component": "dashboard", "title": "费用中心", "modelStyle": "icon-user-manage",
+                    "path": "/user",
+                    "name": "user",
+                    "component": "dashboard",
+                    "title": "费用中心",
+                    "modelStyle": "icon-user-manage",
                     "children": [
-                        { "path": "list", "name": "list", "component": "user/list", "title": "账户列表" },
-                        { "path": "log", "name": "log", "component": "user/log", "title": "登陆日志" }
+                        {
+                            "path": "list",
+                            "name": "list",
+                            "component": "user/list",
+                            "title": "账户列表"
+                        },
+                        {
+                            "path": "log",
+                            "name": "log",
+                            "component": "user/log",
+                            "title": "登陆日志"
+                        }
                     ]
                 },
                 {
-                    "path": "/solution", "name": "solution", "component": "dashboard", "title": "解决方案", "modelStyle": "icon-solution",
+                    "path": "/solution",
+                    "name": "solution",
+                    "component": "dashboard",
+                    "title": "解决方案",
+                    "modelStyle": "icon-solution",
                     "children": [
-                        { "path": "create", "name": "create", "component": "solution/create", "title": "创建应用" },
-                        { "path": "tpl", "name": "tpl", "component": "solution/tpl", "title": "配置模板" }
+                        {
+                            "path": "create",
+                            "name": "create",
+                            "component": "solution/create",
+                            "title": "创建应用"
+                        },
+                        {
+                            "path": "tpl",
+                            "name": "tpl",
+                            "component": "solution/tpl",
+                            "title": "配置模板"
+                        }
                     ]
                 },
                 {
-                    "path": "/personal", "name": "personal", "component": "dashboard", "title": "个人中心", "modelStyle": "icon-personal",
+                    "path": "/personal",
+                    "name": "personal",
+                    "component": "dashboard",
+                    "title": "个人中心",
+                    "modelStyle": "icon-personal",
                     "children": [
-                        { "path": "info", "name": "info", "component": "personal/info", "title": "帐号信息" },
-                        { "path": "count", "name": "count", "component": "personal/count", "title": "接口调用统计" },
-                        { "path": "quota", "name": "quota", "component": "personal/quota", "title": "配额管理" },
-                        { "path": "record", "name": "record", "component": "personal/record", "title": "配额申请记录" },
-                        { "path": "checkout", "name": "checkout", "component": "personal/checkout", "title": "配额申请审核" },
-                        { "path": "order", "name": "order", "component": "personal/order", "title": "账户管理" }
+                        {
+                            "path": "info",
+                            "name": "info",
+                            "component": "personal/info",
+                            "title": "帐号信息"
+                        },
+                        {
+                            "path": "count",
+                            "name": "count",
+                            "component": "personal/count",
+                            "title": "接口调用统计"
+                        },
+                        {
+                            "path": "quota",
+                            "name": "quota",
+                            "component": "personal/quota",
+                            "title": "配额管理"
+                        },
+                        {
+                            "path": "record",
+                            "name": "record",
+                            "component": "personal/record",
+                            "title": "配额申请记录"
+                        },
+                        {
+                            "path": "checkout",
+                            "name": "checkout",
+                            "component": "personal/checkout",
+                            "title": "配额申请审核"
+                        },
+                        {
+                            "path": "order",
+                            "name": "order",
+                            "component": "personal/order",
+                            "title": "账户管理"
+                        }
                     ]
                 },
                 {
-                    "path": "/msg", "name": "msg", "component": "dashboard", "title": "消息", "modelStyle": "icon-msg",
+                    "path": "/msg",
+                    "name": "msg",
+                    "component": "dashboard",
+                    "title": "消息",
+                    "modelStyle": "icon-msg",
                     "children": [
-                        { "path": "index", "name": "index", "component": "msg/index", "title": "消息" }
+                        {
+                            "path": "index",
+                            "name": "index",
+                            "component": "msg/index",
+                            "title": "消息"
+                        }
                     ]
                 }
             ],
@@ -65,9 +208,9 @@
             "staffName": "Leon",
             "staffId": 23073
         },
-        "message":"操作成功",
-        "page":0,
-        "state":0,
-        "success":true
+        "message": "操作成功",
+        "page": 0,
+        "state": 0,
+        "success": true
     }
 }

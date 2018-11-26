@@ -1,1139 +1,1139 @@
 {
-    "getApiRequestCountInfo": {
-		"data":[
+	"getApiRequestCountInfo": {
+		"data": [
 			{
-				"key_as_string":"00:00",
-				"key":1542902400000,
-				"doc_count":0
+				"key_as_string": "00:00",
+				"key": 1542902400000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"01:00",
-				"key":1542906000000,
-				"doc_count":10
+				"key_as_string": "01:00",
+				"key": 1542906000000,
+				"doc_count": 10
 			},
 			{
-				"key_as_string":"02:00",
-				"key":1542909600000,
-				"doc_count":20
+				"key_as_string": "02:00",
+				"key": 1542909600000,
+				"doc_count": 20
 			},
 			{
-				"key_as_string":"03:00",
-				"key":1542913200000,
-				"doc_count":30
+				"key_as_string": "03:00",
+				"key": 1542913200000,
+				"doc_count": 30
 			},
 			{
-				"key_as_string":"04:00",
-				"key":1542916800000,
-				"doc_count":50
+				"key_as_string": "04:00",
+				"key": 1542916800000,
+				"doc_count": 50
 			},
 			{
-				"key_as_string":"05:00",
-				"key":1542920400000,
-				"doc_count":60
+				"key_as_string": "05:00",
+				"key": 1542920400000,
+				"doc_count": 60
 			},
 			{
-				"key_as_string":"06:00",
-				"key":1542924000000,
-				"doc_count":10
+				"key_as_string": "06:00",
+				"key": 1542924000000,
+				"doc_count": 10
 			},
 			{
-				"key_as_string":"07:00",
-				"key":1542927600000,
-				"doc_count":80
+				"key_as_string": "07:00",
+				"key": 1542927600000,
+				"doc_count": 80
 			},
 			{
-				"key_as_string":"08:00",
-				"key":1542931200000,
-				"doc_count":70
+				"key_as_string": "08:00",
+				"key": 1542931200000,
+				"doc_count": 70
 			},
 			{
-				"key_as_string":"09:00",
-				"key":1542934800000,
-				"doc_count":60
+				"key_as_string": "09:00",
+				"key": 1542934800000,
+				"doc_count": 60
 			},
 			{
-				"key_as_string":"10:00",
-				"key":1542938400000,
-				"doc_count":50
+				"key_as_string": "10:00",
+				"key": 1542938400000,
+				"doc_count": 50
 			},
 			{
-				"key_as_string":"11:00",
-				"key":1542942000000,
-				"doc_count":40
+				"key_as_string": "11:00",
+				"key": 1542942000000,
+				"doc_count": 40
 			},
 			{
-				"key_as_string":"12:00",
-				"key":1542945600000,
-				"doc_count":30
+				"key_as_string": "12:00",
+				"key": 1542945600000,
+				"doc_count": 30
 			},
 			{
-				"key_as_string":"13:00",
-				"key":1542949200000,
-				"doc_count":20
+				"key_as_string": "13:00",
+				"key": 1542949200000,
+				"doc_count": 20
 			},
 			{
-				"key_as_string":"14:00",
-				"key":1542952800000,
-				"doc_count":50
+				"key_as_string": "14:00",
+				"key": 1542952800000,
+				"doc_count": 50
 			},
 			{
-				"key_as_string":"15:00",
-				"key":1542956400000,
-				"doc_count":90
+				"key_as_string": "15:00",
+				"key": 1542956400000,
+				"doc_count": 90
 			},
 			{
-				"key_as_string":"16:00",
-				"key":1542960000000,
-				"doc_count":100
+				"key_as_string": "16:00",
+				"key": 1542960000000,
+				"doc_count": 100
 			},
 			{
-				"key_as_string":"17:00",
-				"key":1542963600000,
-				"doc_count":80
+				"key_as_string": "17:00",
+				"key": 1542963600000,
+				"doc_count": 80
 			},
 			{
-				"key_as_string":"18:00",
-				"key":1542967200000,
-				"doc_count":60
+				"key_as_string": "18:00",
+				"key": 1542967200000,
+				"doc_count": 60
 			},
 			{
-				"key_as_string":"19:00",
-				"key":1542970800000,
-				"doc_count":50
+				"key_as_string": "19:00",
+				"key": 1542970800000,
+				"doc_count": 50
 			},
 			{
-				"key_as_string":"20:00",
-				"key":1542974400000,
-				"doc_count":30
+				"key_as_string": "20:00",
+				"key": 1542974400000,
+				"doc_count": 30
 			},
 			{
-				"key_as_string":"21:00",
-				"key":1542978000000,
-				"doc_count":60
+				"key_as_string": "21:00",
+				"key": 1542978000000,
+				"doc_count": 60
 			},
 			{
-				"key_as_string":"22:00",
-				"key":1542981600000,
-				"doc_count":20
+				"key_as_string": "22:00",
+				"key": 1542981600000,
+				"doc_count": 20
 			},
 			{
-				"key_as_string":"23:00",
-				"key":1542985200000,
-				"doc_count":80
+				"key_as_string": "23:00",
+				"key": 1542985200000,
+				"doc_count": 80
 			}
 		]
-    },
-    "getServiceLogCount": {
-		"countList":[
+	},
+	"getServiceLogCount": {
+		"countList": [
 			{
-				"key_as_string":"00:00",
-				"key":1542902400000,
-				"doc_count":0
+				"key_as_string": "00:00",
+				"key": 1542902400000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"01:00",
-				"key":1542906000000,
-				"doc_count":0
+				"key_as_string": "01:00",
+				"key": 1542906000000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"02:00",
-				"key":1542909600000,
-				"doc_count":0
+				"key_as_string": "02:00",
+				"key": 1542909600000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"03:00",
-				"key":1542913200000,
-				"doc_count":0
+				"key_as_string": "03:00",
+				"key": 1542913200000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"04:00",
-				"key":1542916800000,
-				"doc_count":0
+				"key_as_string": "04:00",
+				"key": 1542916800000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"05:00",
-				"key":1542920400000,
-				"doc_count":0
+				"key_as_string": "05:00",
+				"key": 1542920400000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"06:00",
-				"key":1542924000000,
-				"doc_count":0
+				"key_as_string": "06:00",
+				"key": 1542924000000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"07:00",
-				"key":1542927600000,
-				"doc_count":0
+				"key_as_string": "07:00",
+				"key": 1542927600000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"08:00",
-				"key":1542931200000,
-				"doc_count":0
+				"key_as_string": "08:00",
+				"key": 1542931200000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"09:00",
-				"key":1542934800000,
-				"doc_count":0
+				"key_as_string": "09:00",
+				"key": 1542934800000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"10:00",
-				"key":1542938400000,
-				"doc_count":0
+				"key_as_string": "10:00",
+				"key": 1542938400000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"11:00",
-				"key":1542942000000,
-				"doc_count":0
+				"key_as_string": "11:00",
+				"key": 1542942000000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"12:00",
-				"key":1542945600000,
-				"doc_count":0
+				"key_as_string": "12:00",
+				"key": 1542945600000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"13:00",
-				"key":1542949200000,
-				"doc_count":0
+				"key_as_string": "13:00",
+				"key": 1542949200000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"14:00",
-				"key":1542952800000,
-				"doc_count":0
+				"key_as_string": "14:00",
+				"key": 1542952800000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"15:00",
-				"key":1542956400000,
-				"doc_count":0
+				"key_as_string": "15:00",
+				"key": 1542956400000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"16:00",
-				"key":1542960000000,
-				"doc_count":0
+				"key_as_string": "16:00",
+				"key": 1542960000000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"17:00",
-				"key":1542963600000,
-				"doc_count":0
+				"key_as_string": "17:00",
+				"key": 1542963600000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"18:00",
-				"key":1542967200000,
-				"doc_count":0
+				"key_as_string": "18:00",
+				"key": 1542967200000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"19:00",
-				"key":1542970800000,
-				"doc_count":0
+				"key_as_string": "19:00",
+				"key": 1542970800000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"20:00",
-				"key":1542974400000,
-				"doc_count":0
+				"key_as_string": "20:00",
+				"key": 1542974400000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"21:00",
-				"key":1542978000000,
-				"doc_count":0
+				"key_as_string": "21:00",
+				"key": 1542978000000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"22:00",
-				"key":1542981600000,
-				"doc_count":0
+				"key_as_string": "22:00",
+				"key": 1542981600000,
+				"doc_count": 0
 			},
 			{
-				"key_as_string":"23:00",
-				"key":1542985200000,
-				"doc_count":0
+				"key_as_string": "23:00",
+				"key": 1542985200000,
+				"doc_count": 0
 			}
 		]
-    },
-    "getAccessCount": {
-		"countList":[
+	},
+	"getAccessCount": {
+		"countList": [
 			{
-				"key_as_string":"00:00",
-				"key":1542902400000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "00:00",
+				"key": 1542902400000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"01:00",
-				"key":1542906000000,
-				"doc_count":1,
-				"user_count":{
-					"value":1
+				"key_as_string": "01:00",
+				"key": 1542906000000,
+				"doc_count": 1,
+				"user_count": {
+					"value": 1
 				},
-				"access_count":{
-					"value":1
+				"access_count": {
+					"value": 1
 				}
 			},
 			{
-				"key_as_string":"02:00",
-				"key":1542909600000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "02:00",
+				"key": 1542909600000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"03:00",
-				"key":1542913200000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "03:00",
+				"key": 1542913200000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"04:00",
-				"key":1542916800000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "04:00",
+				"key": 1542916800000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"05:00",
-				"key":1542920400000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "05:00",
+				"key": 1542920400000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"06:00",
-				"key":1542924000000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "06:00",
+				"key": 1542924000000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"07:00",
-				"key":1542927600000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "07:00",
+				"key": 1542927600000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"08:00",
-				"key":1542931200000,
-				"doc_count":50,
-				"user_count":{
-					"value":2
+				"key_as_string": "08:00",
+				"key": 1542931200000,
+				"doc_count": 50,
+				"user_count": {
+					"value": 2
 				},
-				"access_count":{
-					"value":40
+				"access_count": {
+					"value": 40
 				}
 			},
 			{
-				"key_as_string":"09:00",
-				"key":1542934800000,
-				"doc_count":73,
-				"user_count":{
-					"value":4
+				"key_as_string": "09:00",
+				"key": 1542934800000,
+				"doc_count": 73,
+				"user_count": {
+					"value": 4
 				},
-				"access_count":{
-					"value":53
+				"access_count": {
+					"value": 53
 				}
 			},
 			{
-				"key_as_string":"10:00",
-				"key":1542938400000,
-				"doc_count":154,
-				"user_count":{
-					"value":5
+				"key_as_string": "10:00",
+				"key": 1542938400000,
+				"doc_count": 154,
+				"user_count": {
+					"value": 5
 				},
-				"access_count":{
-					"value":86
+				"access_count": {
+					"value": 86
 				}
 			},
 			{
-				"key_as_string":"11:00",
-				"key":1542942000000,
-				"doc_count":59,
-				"user_count":{
-					"value":4
+				"key_as_string": "11:00",
+				"key": 1542942000000,
+				"doc_count": 59,
+				"user_count": {
+					"value": 4
 				},
-				"access_count":{
-					"value":40
+				"access_count": {
+					"value": 40
 				}
 			},
 			{
-				"key_as_string":"12:00",
-				"key":1542945600000,
-				"doc_count":46,
-				"user_count":{
-					"value":4
+				"key_as_string": "12:00",
+				"key": 1542945600000,
+				"doc_count": 46,
+				"user_count": {
+					"value": 4
 				},
-				"access_count":{
-					"value":37
+				"access_count": {
+					"value": 37
 				}
 			},
 			{
-				"key_as_string":"13:00",
-				"key":1542949200000,
-				"doc_count":16,
-				"user_count":{
-					"value":2
+				"key_as_string": "13:00",
+				"key": 1542949200000,
+				"doc_count": 16,
+				"user_count": {
+					"value": 2
 				},
-				"access_count":{
-					"value":15
+				"access_count": {
+					"value": 15
 				}
 			},
 			{
-				"key_as_string":"14:00",
-				"key":1542952800000,
-				"doc_count":1159,
-				"user_count":{
-					"value":5
+				"key_as_string": "14:00",
+				"key": 1542952800000,
+				"doc_count": 1159,
+				"user_count": {
+					"value": 5
 				},
-				"access_count":{
-					"value":1083
+				"access_count": {
+					"value": 1083
 				}
 			},
 			{
-				"key_as_string":"15:00",
-				"key":1542956400000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "15:00",
+				"key": 1542956400000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"16:00",
-				"key":1542960000000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "16:00",
+				"key": 1542960000000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"17:00",
-				"key":1542963600000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "17:00",
+				"key": 1542963600000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"18:00",
-				"key":1542967200000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "18:00",
+				"key": 1542967200000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"19:00",
-				"key":1542970800000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "19:00",
+				"key": 1542970800000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"20:00",
-				"key":1542974400000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "20:00",
+				"key": 1542974400000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"21:00",
-				"key":1542978000000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "21:00",
+				"key": 1542978000000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"22:00",
-				"key":1542981600000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "22:00",
+				"key": 1542981600000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			},
 			{
-				"key_as_string":"23:00",
-				"key":1542985200000,
-				"doc_count":0,
-				"user_count":{
-					"value":0
+				"key_as_string": "23:00",
+				"key": 1542985200000,
+				"doc_count": 0,
+				"user_count": {
+					"value": 0
 				},
-				"access_count":{
-					"value":0
+				"access_count": {
+					"value": 0
 				}
 			}
 		]
-    },
-    "getUserLogCount": {
-		"countList":[
+	},
+	"getUserLogCount": {
+		"countList": [
 			{
-				"key_as_string":"00:00",
-				"key":1542902400000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "00:00",
+				"key": 1542902400000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"01:00",
-				"key":1542906000000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "01:00",
+				"key": 1542906000000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"02:00",
-				"key":1542909600000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "02:00",
+				"key": 1542909600000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"03:00",
-				"key":1542913200000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "03:00",
+				"key": 1542913200000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"04:00",
-				"key":1542916800000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "04:00",
+				"key": 1542916800000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"05:00",
-				"key":1542920400000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "05:00",
+				"key": 1542920400000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"06:00",
-				"key":1542924000000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "06:00",
+				"key": 1542924000000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"07:00",
-				"key":1542927600000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "07:00",
+				"key": 1542927600000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"08:00",
-				"key":1542931200000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "08:00",
+				"key": 1542931200000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"09:00",
-				"key":1542934800000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "09:00",
+				"key": 1542934800000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"10:00",
-				"key":1542938400000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "10:00",
+				"key": 1542938400000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"11:00",
-				"key":1542942000000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "11:00",
+				"key": 1542942000000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"12:00",
-				"key":1542945600000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "12:00",
+				"key": 1542945600000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"13:00",
-				"key":1542949200000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "13:00",
+				"key": 1542949200000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"14:00",
-				"key":1542952800000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "14:00",
+				"key": 1542952800000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"15:00",
-				"key":1542956400000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "15:00",
+				"key": 1542956400000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"16:00",
-				"key":1542960000000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "16:00",
+				"key": 1542960000000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"17:00",
-				"key":1542963600000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "17:00",
+				"key": 1542963600000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"18:00",
-				"key":1542967200000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "18:00",
+				"key": 1542967200000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"19:00",
-				"key":1542970800000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "19:00",
+				"key": 1542970800000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"20:00",
-				"key":1542974400000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "20:00",
+				"key": 1542974400000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"21:00",
-				"key":1542978000000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "21:00",
+				"key": 1542978000000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"22:00",
-				"key":1542981600000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "22:00",
+				"key": 1542981600000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"23:00",
-				"key":1542985200000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "23:00",
+				"key": 1542985200000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			}
 		]
-    },
-    "getCallLog": {
-		"data":[
+	},
+	"getCallLog": {
+		"data": [
 			{
-				"server":"调用了es楼盘边界查询服务",
-				"time":"2018-11-22 18:32:55",
-				"username":"智慧选址"
+				"server": "调用了es楼盘边界查询服务",
+				"time": "2018-11-22 18:32:55",
+				"username": "智慧选址"
 			},
 			{
-				"server":"调用了ChinaGray服务",
-				"time":"2018-11-22 18:32:54",
-				"username":"智慧选址"
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址"
 			},
 			{
-				"server":"调用了ChinaGray服务",
-				"time":"2018-11-22 18:32:54",
-				"username":"智慧选址"
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址"
 			},
 			{
-				"server":"调用了ChinaGray服务",
-				"time":"2018-11-22 18:32:54",
-				"username":"智慧选址"
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址"
 			},
 			{
-				"server":"调用了ChinaGray服务",
-				"time":"2018-11-22 18:32:54",
-				"username":"智慧选址"
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址"
 			}
 		]
-    },
-    "getUserCountByStatus": {
-		"count":75
-    },
-    "getUserLogCountToday": {
-		"countList":[
+	},
+	"getUserCountByStatus": {
+		"count": 75
+	},
+	"getUserLogCountToday": {
+		"countList": [
 			{
-				"key_as_string":"2018-11-23",
-				"key":1542902400000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-23",
+				"key": 1542902400000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			}
 		]
-    },
-    "getServerCountInfo": {
-		"data":[
+	},
+	"getServerCountInfo": {
+		"data": [
 			{
-				"name":"正常服务",
-				"value":74
+				"name": "正常服务",
+				"value": 74
 			},
 			{
-				"name":"未上线",
-				"value":11
+				"name": "未上线",
+				"value": 11
 			},
 			{
-				"name":"异常服务",
-				"value":0
+				"name": "异常服务",
+				"value": 0
 			}
 		]
-    },
-    "groupStaffCityInfo": {
-		"data":{
-			"provinceList":[
+	},
+	"groupStaffCityInfo": {
+		"data": {
+			"provinceList": [
 				{
-					"name":"黑龙江",
-					"value":9
+					"name": "黑龙江",
+					"value": 9
 				},
 				{
-					"name":"上海",
-					"value":3
+					"name": "上海",
+					"value": 3
 				},
 				{
-					"name":"广东",
-					"value":3
+					"name": "广东",
+					"value": 3
 				},
 				{
-					"name":"河南",
-					"value":2
+					"name": "河南",
+					"value": 2
 				},
 				{
-					"name":"河北",
-					"value":1
+					"name": "河北",
+					"value": 1
 				},
 				{
-					"name":"湖北",
-					"value":12
+					"name": "湖北",
+					"value": 12
 				},
 				{
-					"name":"北京",
-					"value":9
+					"name": "北京",
+					"value": 9
 				}
 			],
-			"cityList":[
+			"cityList": [
 				{
-					"name":"上海",
-					"value":3
+					"name": "上海",
+					"value": 3
 				},
 				{
-					"name":"新乡",
-					"value":1
+					"name": "新乡",
+					"value": 1
 				},
 				{
-					"name":"深圳",
-					"value":3
+					"name": "深圳",
+					"value": 3
 				},
 				{
-					"name":"哈尔滨",
-					"value":9
+					"name": "哈尔滨",
+					"value": 9
 				},
 				{
-					"name":"咸宁",
-					"value":1
+					"name": "咸宁",
+					"value": 1
 				},
 				{
-					"name":"信阳",
-					"value":1
+					"name": "信阳",
+					"value": 1
 				},
 				{
-					"name":"北京",
-					"value":9
+					"name": "北京",
+					"value": 9
 				},
 				{
-					"name":"武汉",
-					"value":11
+					"name": "武汉",
+					"value": 11
 				},
 				{
-					"name":"衡水",
-					"value":1
+					"name": "衡水",
+					"value": 1
 				}
 			]
 		}
-    },
-    "getUserLogCountMonth": {
-		"countList":[
+	},
+	"getUserLogCountMonth": {
+		"countList": [
 			{
-				"key_as_string":"2018-10-25",
-				"key":1540396800000,
-				"doc_count":0,
-				"total_count":74,
-				"incre_percent":0.0
+				"key_as_string": "2018-10-25",
+				"key": 1540396800000,
+				"doc_count": 0,
+				"total_count": 74,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-10-26",
-				"key":1540483200000,
-				"doc_count":0,
-				"total_count":74,
-				"incre_percent":0.0
+				"key_as_string": "2018-10-26",
+				"key": 1540483200000,
+				"doc_count": 0,
+				"total_count": 74,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-10-27",
-				"key":1540569600000,
-				"doc_count":0,
-				"total_count":74,
-				"incre_percent":0.0
+				"key_as_string": "2018-10-27",
+				"key": 1540569600000,
+				"doc_count": 0,
+				"total_count": 74,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-10-28",
-				"key":1540656000000,
-				"doc_count":0,
-				"total_count":74,
-				"incre_percent":0.0
+				"key_as_string": "2018-10-28",
+				"key": 1540656000000,
+				"doc_count": 0,
+				"total_count": 74,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-10-29",
-				"key":1540742400000,
-				"doc_count":0,
-				"total_count":74,
-				"incre_percent":0.0
+				"key_as_string": "2018-10-29",
+				"key": 1540742400000,
+				"doc_count": 0,
+				"total_count": 74,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-10-30",
-				"key":1540828800000,
-				"doc_count":0,
-				"total_count":74,
-				"incre_percent":0.0
+				"key_as_string": "2018-10-30",
+				"key": 1540828800000,
+				"doc_count": 0,
+				"total_count": 74,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-10-31",
-				"key":1540915200000,
-				"doc_count":0,
-				"total_count":74,
-				"incre_percent":0.0
+				"key_as_string": "2018-10-31",
+				"key": 1540915200000,
+				"doc_count": 0,
+				"total_count": 74,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-01",
-				"key":1541001600000,
-				"doc_count":1,
-				"total_count":75,
-				"incre_percent":1.35
+				"key_as_string": "2018-11-01",
+				"key": 1541001600000,
+				"doc_count": 1,
+				"total_count": 75,
+				"incre_percent": 1.35
 			},
 			{
-				"key_as_string":"2018-11-02",
-				"key":1541088000000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-02",
+				"key": 1541088000000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-03",
-				"key":1541174400000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-03",
+				"key": 1541174400000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-04",
-				"key":1541260800000,
-				"doc_count":0,
-				"total_count":75,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-04",
+				"key": 1541260800000,
+				"doc_count": 0,
+				"total_count": 75,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-05",
-				"key":1541347200000,
-				"doc_count":1,
-				"total_count":76,
-				"incre_percent":1.33
+				"key_as_string": "2018-11-05",
+				"key": 1541347200000,
+				"doc_count": 1,
+				"total_count": 76,
+				"incre_percent": 1.33
 			},
 			{
-				"key_as_string":"2018-11-06",
-				"key":1541433600000,
-				"doc_count":0,
-				"total_count":76,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-06",
+				"key": 1541433600000,
+				"doc_count": 0,
+				"total_count": 76,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-07",
-				"key":1541520000000,
-				"doc_count":1,
-				"total_count":77,
-				"incre_percent":1.32
+				"key_as_string": "2018-11-07",
+				"key": 1541520000000,
+				"doc_count": 1,
+				"total_count": 77,
+				"incre_percent": 1.32
 			},
 			{
-				"key_as_string":"2018-11-08",
-				"key":1541606400000,
-				"doc_count":0,
-				"total_count":77,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-08",
+				"key": 1541606400000,
+				"doc_count": 0,
+				"total_count": 77,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-09",
-				"key":1541692800000,
-				"doc_count":4,
-				"total_count":81,
-				"incre_percent":5.19
+				"key_as_string": "2018-11-09",
+				"key": 1541692800000,
+				"doc_count": 4,
+				"total_count": 81,
+				"incre_percent": 5.19
 			},
 			{
-				"key_as_string":"2018-11-10",
-				"key":1541779200000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-10",
+				"key": 1541779200000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-11",
-				"key":1541865600000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-11",
+				"key": 1541865600000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-12",
-				"key":1541952000000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-12",
+				"key": 1541952000000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-13",
-				"key":1542038400000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-13",
+				"key": 1542038400000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-14",
-				"key":1542124800000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-14",
+				"key": 1542124800000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-15",
-				"key":1542211200000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-15",
+				"key": 1542211200000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-16",
-				"key":1542297600000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-16",
+				"key": 1542297600000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-17",
-				"key":1542384000000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-17",
+				"key": 1542384000000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-18",
-				"key":1542470400000,
-				"doc_count":0,
-				"total_count":81,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-18",
+				"key": 1542470400000,
+				"doc_count": 0,
+				"total_count": 81,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-19",
-				"key":1542556800000,
-				"doc_count":1,
-				"total_count":82,
-				"incre_percent":1.23
+				"key_as_string": "2018-11-19",
+				"key": 1542556800000,
+				"doc_count": 1,
+				"total_count": 82,
+				"incre_percent": 1.23
 			},
 			{
-				"key_as_string":"2018-11-20",
-				"key":1542643200000,
-				"doc_count":0,
-				"total_count":82,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-20",
+				"key": 1542643200000,
+				"doc_count": 0,
+				"total_count": 82,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-21",
-				"key":1542729600000,
-				"doc_count":0,
-				"total_count":82,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-21",
+				"key": 1542729600000,
+				"doc_count": 0,
+				"total_count": 82,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-22",
-				"key":1542816000000,
-				"doc_count":0,
-				"total_count":82,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-22",
+				"key": 1542816000000,
+				"doc_count": 0,
+				"total_count": 82,
+				"incre_percent": 0.0
 			},
 			{
-				"key_as_string":"2018-11-23",
-				"key":1542902400000,
-				"doc_count":0,
-				"total_count":82,
-				"incre_percent":0.0
+				"key_as_string": "2018-11-23",
+				"key": 1542902400000,
+				"doc_count": 0,
+				"total_count": 82,
+				"incre_percent": 0.0
 			}
 		]
-    },
-    "getAccessCountWeek": {
-		"countList":[
+	},
+	"getAccessCountWeek": {
+		"countList": [
 			{
-				"key_as_string":"2018-11-17",
-				"key":1542384000000,
-				"doc_count":42501,
-				"user_count":{
-					"value":7
+				"key_as_string": "2018-11-17",
+				"key": 1542384000000,
+				"doc_count": 42501,
+				"user_count": {
+					"value": 7
 				},
-				"access_count":{
-					"value":23620
+				"access_count": {
+					"value": 23620
 				}
 			},
 			{
-				"key_as_string":"2018-11-18",
-				"key":1542470400000,
-				"doc_count":551793,
-				"user_count":{
-					"value":9
+				"key_as_string": "2018-11-18",
+				"key": 1542470400000,
+				"doc_count": 551793,
+				"user_count": {
+					"value": 9
 				},
-				"access_count":{
-					"value":549492
+				"access_count": {
+					"value": 549492
 				}
 			},
 			{
-				"key_as_string":"2018-11-19",
-				"key":1542556800000,
-				"doc_count":676859,
-				"user_count":{
-					"value":25
+				"key_as_string": "2018-11-19",
+				"key": 1542556800000,
+				"doc_count": 676859,
+				"user_count": {
+					"value": 25
 				},
-				"access_count":{
-					"value":630301
+				"access_count": {
+					"value": 630301
 				}
 			},
 			{
-				"key_as_string":"2018-11-20",
-				"key":1542643200000,
-				"doc_count":116470,
-				"user_count":{
-					"value":17
+				"key_as_string": "2018-11-20",
+				"key": 1542643200000,
+				"doc_count": 116470,
+				"user_count": {
+					"value": 17
 				},
-				"access_count":{
-					"value":73087
+				"access_count": {
+					"value": 73087
 				}
 			},
 			{
-				"key_as_string":"2018-11-21",
-				"key":1542729600000,
-				"doc_count":95522,
-				"user_count":{
-					"value":18
+				"key_as_string": "2018-11-21",
+				"key": 1542729600000,
+				"doc_count": 95522,
+				"user_count": {
+					"value": 18
 				},
-				"access_count":{
-					"value":61604
+				"access_count": {
+					"value": 61604
 				}
 			},
 			{
-				"key_as_string":"2018-11-22",
-				"key":1542816000000,
-				"doc_count":123710,
-				"user_count":{
-					"value":20
+				"key_as_string": "2018-11-22",
+				"key": 1542816000000,
+				"doc_count": 123710,
+				"user_count": {
+					"value": 20
 				},
-				"access_count":{
-					"value":74426
+				"access_count": {
+					"value": 74426
 				}
 			},
 			{
-				"key_as_string":"2018-11-23",
-				"key":1542902400000,
-				"doc_count":66572,
-				"user_count":{
-					"value":16
+				"key_as_string": "2018-11-23",
+				"key": 1542902400000,
+				"doc_count": 66572,
+				"user_count": {
+					"value": 16
 				},
-				"access_count":{
-					"value":53167
+				"access_count": {
+					"value": 53167
 				}
 			}
 		]
-    },
-    "getServieRanking": {
-		"data":[
+	},
+	"getServieRanking": {
+		"data": [
 			{
-				"name":"ChinaGray",
-				"value":33712.0
+				"name": "ChinaGray",
+				"value": 33712.0
 			},
 			{
-				"name":"地址导航查询服务-v3",
-				"value":13056.0
+				"name": "地址导航查询服务-v3",
+				"value": 13056.0
 			},
 			{
-				"name":"es地址导航3",
-				"value":535.0
+				"name": "es地址导航3",
+				"value": 535.0
 			},
 			{
-				"name":"人员轨迹查询服务",
-				"value":69.0
+				"name": "人员轨迹查询服务",
+				"value": 69.0
 			},
 			{
-				"name":"轨迹有效日期查询服务",
-				"value":37.0
+				"name": "轨迹有效日期查询服务",
+				"value": 37.0
 			}
 		]
 	}
