@@ -3,53 +3,53 @@
         <div class="tabs-placeholder" v-if="serviceType.loading">
             <div class="ivu-tabs-bar ivu-tabs-bar header">
                 <ul class="ivu-tabs-nav">
-                    <li class="ivu-tabs-tab" v-for="items in 3"></li>
+                    <li class="ivu-tabs-tab" v-for="items in 5"></li>
                 </ul>
             </div>
             <div :class="'Placeholder ' + serviceType.state">{{serviceType.loadTips}}</div>
         </div>
         <Tabs v-if="!serviceType.loading" :value="serviceType.value " :animated="false" @on-click="triggerTabs">
-            <TabPane :label="items.name" :name="items.value" v-for="items in serviceType.data" :key="items.value">
-                <div class="mormal-tabs-bd">
-                    <Row style="margin-bottom: 22px;">
-                        <Col span="16">
-                            <Select size="large" v-if="serviceType.value === '2'" v-model="search.server" style="width:200px" @on-change="changeQueryService">
-                                <Option v-for="item in search.serverList" :value="item.value" :key="item.value">{{ item.name }}</Option>
-                            </Select>
-                            <Select size="large" v-model="search.state" style="width:200px" @on-change="changeQueryState">
-                                <Option v-for="item in search.stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
-                        </Col>
-                        <Col span="8">
-                            <Input size="large"
-                                v-model.trim="search.keyword"
-                                @on-enter="getServerList"
-                                @on-click="getServerList"
-                                icon="ios-search-strong"
-                                placeholder="请输入关键字"
-                                style="width: 220px;float: right;"></Input>
-                        </Col>
-                    </Row>
-
-                    <div v-if="serviceResource.loading" :class="'Placeholder ' + serviceResource.state">{{serviceResource.loadTips}}</div>
-                    <Table v-if="!serviceResource.loading" class="custom-table" border :columns="mapColumns" :data="serviceResource.data"></Table>
-                    <div class="page-placeholder" v-show="!serviceResource.loading">
-                        <Page :total="serviceResource.total"
-                            :current="serviceResource.page"
-                            :page-size="serviceResource.rows"
-                            @on-change="changeQueryPage"
-                            show-total
-                        ></Page>
-                    </div>
-                </div>
-            </TabPane>
+            <TabPane :label="items.name" :name="items.value" v-for="items in serviceType.data" :key="items.value"></TabPane>
             <div slot="extra">
                 <Button type="primary" icon="ios-plus-outline" size="large" @click.prevent="triggerAddServer">新增服务</Button>
             </div>
         </Tabs>
 
+        <div class="mormal-tabs-bd">
+            <Row style="margin-bottom: 22px;">
+                <Col span="16">
+                    <Select size="large" v-if="serviceType.value === '2'" v-model="search.server" style="width:200px" @on-change="changeQueryService">
+                        <Option v-for="item in search.serverList" :value="item.value" :key="item.value">{{ item.name }}</Option>
+                    </Select>
+                    <Select size="large" v-model="search.state" style="width:200px" @on-change="changeQueryState">
+                        <Option v-for="item in search.stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </Col>
+                <Col span="8">
+                    <Input size="large"
+                        v-model.trim="search.keyword"
+                        @on-enter="getServerList"
+                        @on-click="getServerList"
+                        icon="ios-search-strong"
+                        placeholder="请输入关键字"
+                        style="width: 220px;float: right;"></Input>
+                </Col>
+            </Row>
+            <div v-if="serviceResource.loading" :class="'Placeholder ' + serviceResource.state">{{serviceResource.loadTips}}</div>
+            <Table v-if="!serviceResource.loading" class="custom-table" border :columns="mapColumns" :data="serviceResource.data"></Table>
+            <div class="page-placeholder" v-show="!serviceResource.loading">
+                <Page :total="serviceResource.total"
+                    :current="serviceResource.page"
+                    :page-size="serviceResource.rows"
+                    @on-change="changeQueryPage"
+                    show-total
+                ></Page>
+            </div>
+        </div>
+
         <Modal
             v-model="mapServer.isOpen"
+            :mask-closable="false"
             class-name="custom-modal vertical-center-modal"
             width="782">
             <Icon type="ios-close-empty" slot="close" @click="closeMapServerModal('MapServerForm')"></Icon>
@@ -86,6 +86,7 @@
 
         <Modal
             v-model="Modal.service.isOpen"
+            :mask-closable="false"
             class-name="custom-modal vertical-center-modal"
             width="510">
             <Icon type="ios-close-empty" slot="close" @click="closeServiceModal('serviceForm')"></Icon>
@@ -114,6 +115,7 @@
 
         <Modal
             v-model="Modal.delete.isOpen"
+            :mask-closable="false"
             class-name="custom-modal custom-warning-modal vertical-center-modal"
             width="378">
             <h2 class="title" slot="header">{{Modal.delete.type}}服务</h2>
@@ -129,6 +131,7 @@
 
         <Modal
             v-model="Count.isOpen"
+            :mask-closable="false"
             class-name="custom-modal vertical-center-modal"
             width="912">
             <Icon type="ios-close-empty" slot="close" @click="closeCountModal('CountForm')"></Icon>
@@ -235,7 +238,17 @@
                             serviceTypeMinor: '',
                             serviceTypeMajor: ''
                         },
-                        rule: {},
+                        rule: {
+                            serviceName: [
+                                { required: true, message: "请输入服务名称", trigger: 'blur' },
+                                { max: 15, message:"服务名称不能超过15个字符", trigger: 'blur' },
+                                { pattern: /^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"请使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }  
+                            ],
+                            serviceUrl: [
+                                { required: true, message: "请输入URL", trigger: 'blur' },
+                                // { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
+                            ]
+                        },
                         type: '',
                         isOpen: false,
                         loading: false
@@ -303,36 +316,9 @@
                     this.Modal.service.Form.concurrencyMax = data.concurrencyMax
                     this.Modal.service.Form.serviceId = data.serviceId
                     this.Modal.service.Form.serviceTypeMinor = data.serviceTypeMinor
-                    if(this.serviceType.value === '2'){
-                        this.Modal.service.rule = {}
-                    }else{
-                        this.Modal.service.rule = {
-                            serviceName: [
-                                { required: true, message: "请输入服务名称", trigger: 'blur' },
-                                { max: 15, message:"服务名称不能超过15个字符", trigger: 'blur' },
-                                { pattern: /^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"请使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }  
-                            ],
-                            serviceUrl: [
-                                { required: true, message: "请输入URL", trigger: 'blur' },
-                                // { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
-                            ]
-                        }
-                    }
-                    
-                }else{
-                    this.Modal.service.rule = {
-                        serviceName: [
-                            { required: true, message: "请输入服务名称", trigger: 'blur' },
-                            { max: 15, message:"服务名称不能超过15个字符", trigger: 'blur' },
-                            { pattern: /^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/, message:"请使用字母、汉字、数字、下划线、中划线", trigger: 'blur' }  
-                        ],
-                        serviceUrl: [
-                            { required: true, message: "请输入URL", trigger: 'blur' },
-                            // { pattern: /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/, message:"请输入正确的URL", trigger: 'blur' }
-                        ]
-                    }
                 }
                 this.Modal.service.type = type;
+                this.Modal.service.loading = false;
                 this.Modal.service.isOpen = true;
             },
             closeServiceModal(name){
