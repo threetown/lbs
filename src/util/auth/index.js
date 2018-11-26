@@ -38,6 +38,10 @@ auth.initRouter = function (vm) {
             // 顶部-消息数和昵称
             vm.$store.commit(types.AUTH_USER_NICKNAME, data.staffName)
             vm.$store.commit(types.AUTH_USER_MESSAGE, data.unReadNotice)
+            let userData = data;
+            delete userData.allAmpAuth
+            vm.$store.commit(types.RECORD_USERINFO, userData)
+            
             vm.$Loading.finish()
         }else{
             vm.$Loading.error();
@@ -47,9 +51,9 @@ auth.initRouter = function (vm) {
     }).catch(err =>{
         vm.$Loading.error()
         setTimeout(gloabLoading, 10)
-        setTimeout(function(){
-            window.location = basicConfig.url.jump
-        },100)
+        // setTimeout(function(){
+        //     window.location = basicConfig.url.jump
+        // },100)
     });
 };
 

@@ -51,7 +51,7 @@ let gender = [
 // let mapviewUrl = 'http://mapview.cindata.cn/mapv/commondata'  // 数据可视化
 // let mapviewProUrl = 'http://mapview.cindata.cn/mapv/visual'   // 数据可视化-我的项目
 
-// let specialUrl = "http://gisapi.cindata.cn/pu/";
+// let specialUrl = "http://gisapi.cindata.cn/pu";
 
 /* 测试地址 */
 let LbsUrl = 'http://testlbs.cindata.net';        // LBS
@@ -59,7 +59,7 @@ let SSOUrl = 'http://testsso.cindata.net';        // SSO
 let APIUrl = 'http://testconsoleapi.cindata.net'; // API请求地址
 let mapviewUrl = 'http://testmapview.cindata.net/mapv/commondata'  // 数据可视化-我的数据
 let mapviewProUrl = 'http://testmapview.cindata.net/mapv/visual'   // 数据可视化-我的项目
-let specialUrl = "http://gisapi.cindata.cn/testpu/";
+let specialUrl = "http://gisapi.cindata.cn/testpu";
 
 let url = {
     home: LbsUrl + '/gxdyun',

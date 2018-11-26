@@ -8,13 +8,19 @@ const state = {
     routers: [
         otherRouter
     ],
+    userData: {},
     nickname: '--',
     message: 0
 }
 
 // actions
 const actions = {
-
+    recordUserInfo({ commit }, res) {
+        commit(types.RECORD_USERINFO, res)
+    },
+    userLogout({ commit }) {
+        commit(types.LOGOUT)
+    }
 }
 
 // getters
@@ -33,6 +39,14 @@ const mutations = {
     },
     [types.AUTH_MENU_LIST](state, res) {
         state.MenuList = res
+    },
+    [types.RECORD_USERINFO](state, res) {
+        localStorage.setItem('userData', JSON.stringify(res))
+        state.userData = res
+    },
+    [types.LOGOUT]() {
+        localStorage.removeItem('userData')
+        state.userData = {}
     },
     [types.AUTH_USER_NICKNAME](state, res) {
         state.nickname = res
