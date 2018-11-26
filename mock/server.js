@@ -23,6 +23,8 @@ server.use(jsonServer.rewriter({
  ,'/center/getServieRanking/0': '/getServieRanking'
  ,'/center/getServiceOverview': '/getServiceOverview'
  ,'/center/getAccessOverview': '/getAccessOverview'
+ ,'/center/dict/list/map_type': '/mapTypeList'
+ ,'/center/dict/list/solution_code': '/solutionCode'
 }))
 
 // 支持加载多个db文件
@@ -57,11 +59,19 @@ server.post('/center/getApiRequestCountInfo', (req, res) => {
   res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
 })
 
-// server.post('/center/getServiceOverview', (req, res) => {
-//     let db = router.db
-//     let data = db.get('getServiceOverview').value()
-//     res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
-// })
+server.post('/center/map/getRegistMapList', (req, res) => {
+    let db = router.db
+    let data = db.get('getRegistMapList').value()
+    res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
+})
+
+server.post('/center/map/addMapRegistBefore', (req, res) => {
+  let db = router.db
+  let data = db.get('addMapRegistBefore').value()
+  res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
+})
+
+
 
 server.use(router)
 
