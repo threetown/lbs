@@ -51,9 +51,9 @@ auth.initRouter = function (vm) {
     }).catch(err =>{
         vm.$Loading.error()
         setTimeout(gloabLoading, 10)
-        // setTimeout(function(){
-        //     window.location = basicConfig.url.jump
-        // },100)
+        setTimeout(function(){
+            window.location = basicConfig.url.jump
+        },100)
     });
 };
 
