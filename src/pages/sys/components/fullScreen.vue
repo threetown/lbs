@@ -56,7 +56,7 @@
                     <div class="commonTitle">每日实时服务使用情况排名</div>
                     <div class="custom-dark-tabs">
                         <Tabs type="card" @on-click="getServerRank">
-                            <TabPane v-for="tab in serverType.list" :key="tab.value" :label="tab.label"></TabPane>
+                            <TabPane v-for="tab in serverType.list" :key="tab.value" :label="tab.label" :name="tab.value"></TabPane>
                         </Tabs>
                     </div>
                     <div style="position: relative; height: 1.5rem">
