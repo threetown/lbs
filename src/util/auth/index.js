@@ -22,8 +22,8 @@ auth.initRouter = function (vm) {
         content: '努力加载中，请稍等...',
         duration: 0
     })
-    fetch({ url: '/static/mock/data/menu.json', method: 'get' }).then(res => {
-    // fetch({ url: '/center/user/getAmpAuthByCondition', method: 'post' }).then(res => {
+    // fetch({ url: '/static/mock/data/menu.json', method: 'get' }).then(res => {
+    fetch({ url: '/center/user/getAmpAuthByCondition', method: 'post' }).then(res => {
         if(res.state === 0){
             let data = res.data;
             auth.initRouterNode(constRoutes, data.allAmpAuth);
