@@ -234,3 +234,24 @@ export const getPreMonth = (monthNum, date) => {
     let t2 = y + '-' + m2;
     return t2;
 }
+
+//含时间
+export const getFormatterData = (date) =>{
+    var datetime = date.getFullYear()
+    + "-"// "年"
+    + ((date.getMonth() + 1) > 10 ? (date.getMonth() + 1) : "0"
+            + (date.getMonth() + 1))
+    + "-"// "月"
+    + (date.getDate() < 10 ? "0" + date.getDate() : date
+            .getDate())
+    + " "
+    + (date.getHours() < 10 ? "0" + date.getHours() : date
+            .getHours())
+    + ":"
+    + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date
+            .getMinutes())
+    + ":"
+    + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date
+            .getSeconds());
+    return datetime;
+}

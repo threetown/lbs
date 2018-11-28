@@ -180,6 +180,7 @@ export default {
                 if(this.selectRelIds && this.selectRelIds.relIds){
                     ajaxDelMsg(this.selectRelIds).then(res =>{
                         if(res.success){
+                            this.$Message.success(res.message);
                             //关闭确认框
                             this.isOpenDeleteModal = false;
                             //刷新表格
@@ -204,6 +205,7 @@ export default {
                 if(this.selectRelIds && this.selectRelIds.relIds){
                     ajaxUpdateMsg(this.selectRelIds).then(res =>{
                         if(res.success){
+                            this.$Message.success(res.message);
                             this.getMsgList();
                         }
                         }).catch( reason => {

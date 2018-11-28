@@ -255,6 +255,14 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                             return h('div',
                             {class: 'action-group'},
                             [
+                                 h('span', {
+                                    class: 'items',
+                                    on: {
+                                        click: () => {
+                                            this.triggerRenewalModal(params.row)
+                                        }
+                                    }
+                                }, '续期'),
                                 h('span', {
                                     class: 'items',
                                     on: {
@@ -271,14 +279,6 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                                         }
                                     }
                                 }, '编辑'),
-                                // h('span', {
-                                //     class: 'items',
-                                //     on: {
-                                //         click: () => {
-                                //             this.triggerRenewalModel(params.row)
-                                //         }
-                                //     }
-                                // }, '续期'),
                                 h('span', {
                                     class: 'items',
                                     on: {
@@ -401,7 +401,8 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                 },
                 RenewalRange: {
                     disabledDate: (date) => {
-                        return date && date.valueOf() < new Date(this.RenewalForm.endDate).valueOf()
+                        // return date && date.valueOf() < new Date(this.RenewalForm.endDate).valueOf()
+                        return date && date.valueOf() < (new Date()).valueOf()
                     }
                 }
             }
@@ -672,6 +673,14 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     }
                 })
             },
+            //显示续期modal
+            triggerRenewalModal(params){
+                this.isOpenRenewal = true;
+                this.RenewalForm.keyId = params.keyId;
+                //日期
+                this.RenewalForm.endDate = params.endDt;
+                // this.RenewalForm.mouth = params.endDt;
+            },
             triggerViewUrlModal(params){
                 const self = this;
                 this.url.isOpen = true;
@@ -703,12 +712,6 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     self.panelAppType = res.data.dict;
                 })
             },
-            triggerRenewalModel(params){
-                this.isOpenRenewal = true;
-                this.RenewalForm.keyId = params.keyId;
-                this.RenewalForm.endDate = params.endDt;
-                // this.RenewalForm.mouth = params.endDt;
-            },
             closeRenewalModal(name){
                 this.$refs[name].resetFields();
                 this.isOpenRenewal = false;
@@ -719,7 +722,7 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                     if(valid) {
                         let data = {
                             keyId: self.RenewalForm.keyId,
-                            month: self.RenewalForm.mouth,
+                            month: tools.getFormatterData(self.RenewalForm.mouth),
                             contact: self.RenewalForm.username,
                             contactTel: self.RenewalForm.phone
                         }
