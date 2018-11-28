@@ -72,9 +72,31 @@
                     transform: rotate(0deg);
                 }
             }
+             //已读状态
+            .msgReadStyle{
+                color:#777;
+            }
+             //已读状态
+            .msgUnReadStyle{
+                color:#333;
+            }
         }
         .bd{
             // display: none;
+
+            .msgCont{
+                color:#333;
+                font-size: 14px;
+                background: #eee;
+
+                .ivu-card{
+                    background: #eee;
+
+                    .ivu-card-body{
+                        padding: 16px;
+                    }
+                }
+            }
         }
         &.active{
             .arrow{
@@ -87,4 +109,8 @@
             }
         }
     }
+}
+.tablePage{
+    padding: 15px 0;
+    text-align: center;
 }
