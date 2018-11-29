@@ -60,7 +60,7 @@
                     "path": "/sys",
                     "name": "sys",
                     "component": "dashboard",
-                    "title": "系统监控",
+                    "title": "系统管理",
                     "modelStyle": "icon-monitor",
                     "children": [
                         {
@@ -70,16 +70,28 @@
                             "title": "数据总览"
                         },
                         {
-                            "path": "business",
-                            "name": "business",
-                            "component": "sys/business",
-                            "title": "业务管理"
-                        },
-                        {
                             "path": "service",
                             "name": "service",
                             "component": "sys/service",
                             "title": "服务管理"
+                        },
+                        {
+                            "path": "checkout",
+                            "name": "checkout",
+                            "component": "personal/checkout",
+                            "title": "配额申请审核"
+                        },
+                        {
+                            "path": "order",
+                            "name": "order",
+                            "component": "personal/order",
+                            "title": "账户管理"
+                        },
+                        {
+                            "path": "business",
+                            "name": "business",
+                            "component": "sys/business",
+                            "title": "业务管理"
                         },
                         {
                             "path": "database",
@@ -173,18 +185,6 @@
                             "name": "record",
                             "component": "personal/record",
                             "title": "配额申请记录"
-                        },
-                        {
-                            "path": "checkout",
-                            "name": "checkout",
-                            "component": "personal/checkout",
-                            "title": "配额申请审核"
-                        },
-                        {
-                            "path": "order",
-                            "name": "order",
-                            "component": "personal/order",
-                            "title": "账户管理"
                         }
                     ]
                 },

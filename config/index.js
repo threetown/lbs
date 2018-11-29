@@ -16,9 +16,9 @@ module.exports = {
         // target: 'http://10.202.1.237:11222',
         // target: 'http://10.202.1.240:11222',
         // target: 'http://192.168.50.36:11002', // 测试服务器
-        target: 'http://10.202.1.237:11222', // 何
+        // target: 'http://10.202.1.237:11222', // 何
         // target: 'http://172.21.121.97:11002',
-        // target: 'http://localhost:9090', // mock server
+        target: 'http://localhost:9090', // mock server
         pathRewrite: {
           '^/center': '/center'
         }

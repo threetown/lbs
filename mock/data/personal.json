@@ -1,0 +1,256 @@
+{
+    "getAppAndKey": {
+		"data":[
+			{
+				"keyCode":"bedfce3ba985440d9efabe46c2a69983",
+				"appName":"娃哈哈",
+				"keyId":176
+			},
+			{
+				"keyCode":"61aa48e0f30a4e00847b858726616217",
+				"appName":"娃哈哈",
+				"keyId":177
+			},
+			{
+				"keyCode":"8251282fa5834aa1bd89dbb42308bb0e",
+				"appName":"娃哈哈",
+				"keyId":178
+			},
+			{
+				"keyCode":"25f10231ae194a37a8aa0e9e5c554752",
+				"appName":"youtube",
+				"keyId":210
+			},
+			{
+				"keyCode":"08814fc566544ef8a309fca7ade8cfbe",
+				"appName":"1111",
+				"keyId":274
+			}
+		]
+    },
+    "getRelStaffKey": {
+		"data":{
+			"rows":[
+				{
+					"relId":1666,
+					"concurrencyMax":100,
+					"createdDt":"2018-07-27 18:02:04",
+					"alreadyUse":0,
+					"keyId":176,
+					"statusCd":"删除",
+					"serviceId":5,
+					"serviceName":"户接口",
+					"version":"2018-11-10 18:09:52",
+					"staffId":23073,
+					"dailyTotalCnt":10000000,
+					"ratio":0
+				},
+				{
+					"relId":1667,
+					"concurrencyMax":1001,
+					"createdDt":"2018-09-28 15:16:47",
+					"alreadyUse":0,
+					"keyId":176,
+					"statusCd":"删除",
+					"serviceId":1,
+					"serviceName":"街道办接口",
+					"version":"2018-10-24 09:45:18",
+					"staffId":23073,
+					"dailyTotalCnt":1000000013,
+					"ratio":0
+				},
+				{
+					"relId":1668,
+					"concurrencyMax":100,
+					"createdDt":"2018-09-28 15:16:47",
+					"alreadyUse":0,
+					"keyId":176,
+					"statusCd":"正常",
+					"serviceId":2,
+					"serviceName":"小区接口",
+					"version":"2018-09-28 15:16:47",
+					"staffId":23073,
+					"dailyTotalCnt":10000001,
+					"ratio":0
+				},
+				{
+					"relId":1669,
+					"concurrencyMax":100,
+					"createdDt":"2018-09-28 15:16:47",
+					"alreadyUse":0,
+					"keyId":176,
+					"statusCd":"正常",
+					"serviceId":3,
+					"serviceName":"楼栋接口",
+					"version":"2018-09-28 15:16:47",
+					"staffId":23073,
+					"dailyTotalCnt":10000000,
+					"ratio":0
+				},
+				{
+					"relId":1670,
+					"concurrencyMax":100,
+					"createdDt":"2018-09-28 15:16:47",
+					"alreadyUse":0,
+					"keyId":176,
+					"statusCd":"正常",
+					"serviceId":4,
+					"serviceName":"单元接口",
+					"version":"2018-09-28 15:16:47",
+					"staffId":23073,
+					"dailyTotalCnt":10000000,
+					"ratio":0
+                },
+                {
+					"relId":860,
+					"concurrencyMax":11,
+					"createdDt":"2018-08-16 11:14:03",
+					"alreadyUse":0,
+					"keyId":210,
+					"statusCd":"正常",
+					"serviceId":44,
+					"serviceName":"伊春市地图资源",
+					"version":"2018-08-16 11:14:03",
+					"staffId":23073,
+					"dailyTotalCnt":11,
+					"ratio":0
+				},
+				{
+					"relId":861,
+					"concurrencyMax":0,
+					"createdDt":"2018-08-16 11:14:03",
+					"alreadyUse":0,
+					"keyId":210,
+					"statusCd":"正常",
+					"serviceId":48,
+					"serviceName":"佳木斯市地图资源",
+					"version":"2018-08-16 11:14:03",
+					"staffId":23073,
+					"dailyTotalCnt":0,
+					"ratio":0
+                },
+                {
+					"relId":860,
+					"concurrencyMax":11,
+					"createdDt":"2018-08-16 11:14:03",
+					"alreadyUse":0,
+					"keyId":210,
+					"statusCd":"正常",
+					"serviceId":44,
+					"serviceName":"伊春市地图资源",
+					"version":"2018-08-16 11:14:03",
+					"staffId":23073,
+					"dailyTotalCnt":11,
+					"ratio":0
+				},
+				{
+					"relId":861,
+					"concurrencyMax":0,
+					"createdDt":"2018-08-16 11:14:03",
+					"alreadyUse":0,
+					"keyId":210,
+					"statusCd":"正常",
+					"serviceId":48,
+					"serviceName":"佳木斯市地图资源",
+					"version":"2018-08-16 11:14:03",
+					"staffId":23073,
+					"dailyTotalCnt":0,
+					"ratio":0
+                },
+                {
+					"relId":860,
+					"concurrencyMax":11,
+					"createdDt":"2018-08-16 11:14:03",
+					"alreadyUse":0,
+					"keyId":210,
+					"statusCd":"正常",
+					"serviceId":44,
+					"serviceName":"伊春市地图资源",
+					"version":"2018-08-16 11:14:03",
+					"staffId":23073,
+					"dailyTotalCnt":11,
+					"ratio":0
+				},
+				{
+					"relId":861,
+					"concurrencyMax":0,
+					"createdDt":"2018-08-16 11:14:03",
+					"alreadyUse":0,
+					"keyId":210,
+					"statusCd":"正常",
+					"serviceId":48,
+					"serviceName":"佳木斯市地图资源",
+					"version":"2018-08-16 11:14:03",
+					"staffId":23073,
+					"dailyTotalCnt":0,
+					"ratio":0
+				}
+			],
+			"total":11
+		}
+	},
+    "daily_total_cnt": {
+		"dict":[
+			{
+				"code":"1",
+				"name":"1000"
+			},
+			{
+				"code":"2",
+				"name":"2000"
+			},
+			{
+				"code":"3",
+				"name":"5000"
+			},
+			{
+				"code":"4",
+				"name":"10000"
+			},
+			{
+				"code":"5",
+				"name":"20000"
+			},
+			{
+				"code":"6",
+				"name":"50000"
+			},
+			{
+				"code":"7",
+				"name":"100000"
+			}
+		]
+    },
+    "concurrency_max": {
+		"dict":[
+			{
+				"code":"1",
+				"name":"50"
+			},
+			{
+				"code":"2",
+				"name":"100"
+			},
+			{
+				"code":"3",
+				"name":"200"
+			},
+			{
+				"code":"4",
+				"name":"500"
+			},
+			{
+				"code":"5",
+				"name":"1000"
+			},
+			{
+				"code":"6",
+				"name":"2000"
+			},
+			{
+				"code":"7",
+				"name":"5000"
+			}
+		]
+	}
+}

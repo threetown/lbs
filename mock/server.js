@@ -25,6 +25,8 @@ server.use(jsonServer.rewriter({
  ,'/center/getAccessOverview': '/getAccessOverview'
  ,'/center/dict/list/map_type': '/mapTypeList'
  ,'/center/dict/list/solution_code': '/solutionCode'
+ ,'/center/dict/list/daily_total_cnt': '/daily_total_cnt'
+ ,'/center/dict/list/concurrency_max': '/concurrency_max'
 }))
 
 // 支持加载多个db文件
@@ -86,6 +88,18 @@ server.post('/center/user/findUserNoticeList', (req, res) => {
 server.post('/center/solution/find', (req, res) => {
   let db = router.db
   let data = db.get('solutionFind').value()
+  res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
+})
+
+server.post('/center/user/getAppAndKey', (req, res) => {
+  let db = router.db
+  let data = db.get('getAppAndKey').value()
+  res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
+})
+
+server.post('/center/user/getRelStaffKey', (req, res) => {
+  let db = router.db
+  let data = db.get('getRelStaffKey').value()
   res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
 })
 
