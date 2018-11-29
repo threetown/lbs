@@ -8,6 +8,7 @@
             <Select size="large" v-if="!Analysis.loading" v-model="Analysis.currentType" @on-change="queryQueryList" style="width:420px">
                 <Option v-for="item in Analysis.typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
+            <Button class="fr" type="primary" icon="ios-loop-strong" size="large" @click="getQuotaList">刷新</Button>
         </div>
         
         <div v-if="record.loading" :class="'Placeholder ' + record.state">{{record.loadTips}}</div>
@@ -227,7 +228,8 @@
                 this.getQuotaList()
             },
             changeQueryPage(value){
-                this.getQuotaList({ page: value })
+                this.record.page = value;
+                this.getQuotaList()
             },
             getQuotaList(params){
                 const self = this;
