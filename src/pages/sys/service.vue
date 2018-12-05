@@ -15,7 +15,7 @@
             </div>
         </Tabs>
 
-        <div class="mormal-tabs-bd">
+        <div v-if="!serviceType.loading" class="mormal-tabs-bd">
             <Row style="margin-bottom: 22px;">
                 <Col span="16">
                     <Select size="large" v-if="serviceType.value === '2'" v-model="search.server" style="width:200px" @on-change="changeQueryService">
