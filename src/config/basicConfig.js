@@ -62,9 +62,24 @@ let specialUrl = "http://gisapi.cindata.cn/testpu";
 
 let url = {
     home: LbsUrl + '/gxdyun',
-    logout: LbsUrl + '/amp/client/logout',
+    logout: APIUrl + '/amp/client/logout',
     jump: SSOUrl + '/sso/login?callbackUrl=' + LbsUrl + '&p=gxdyun'
 }
+
+/* 测试本地地址 */
+// let LbsUrl = 'http://127.0.0.1:11003';        // LBS
+// let SSOUrl = 'http://127.0.0.1:8084';             // SSO
+// let callbackUrl = 'http://127.0.0.1:8080'         // 回调
+// let APIUrl = 'http://127.0.0.1:11002';            // API请求地址
+// let mapviewUrl = 'http://testmapview.cindata.net/mapv/commondata'  // 数据可视化-我的数据
+// let mapviewProUrl = 'http://testmapview.cindata.net/mapv/visual'   // 数据可视化-我的项目
+// let specialUrl = "http://gisapi.cindata.cn/testpu";
+
+// let url = {
+//     home: LbsUrl + '/gxdyun',
+//     logout: APIUrl + '/amp/client/logout',
+//     jump: SSOUrl + '/sso/login?callbackUrl=' + callbackUrl + '&p=center'
+// }
 
 let selectTimeDict = [
     { label: '近30天', value: 'monthOfDays'},  // 按天统计最近一月

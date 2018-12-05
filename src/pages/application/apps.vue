@@ -255,14 +255,14 @@ IP格式，如: 202.198.16.3,202.202.2.0 。填写多个IP地址，请用英文�
                             return h('div',
                             {class: 'action-group'},
                             [
-                                //  h('span', {
-                                //     class: 'items',
-                                //     on: {
-                                //         click: () => {
-                                //             this.triggerRenewalModal(params.row)
-                                //         }
-                                //     }
-                                // }, '续期'),
+                                 h('span', {
+                                    class: 'items',
+                                    on: {
+                                        click: () => {
+                                            this.triggerRenewalModal(params.row)
+                                        }
+                                    }
+                                }, '续期'),
                                 h('span', {
                                     class: 'items',
                                     on: {
