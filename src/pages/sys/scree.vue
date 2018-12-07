@@ -72,7 +72,8 @@
                 </div>
                 <div class="detailRight commonStyle">
                     <div class="userDynamicsPanel">
-                        <ul class="topTitle">
+                        <!-- 无滚动 -->
+                        <!-- <ul class="topTitle">
                             <span class="title">用户动态</span>
                         </ul>
                         <ul class="topCont" style="height:436px">
@@ -85,19 +86,11 @@
                                     <span class="date">{{items.time}}</span>
                                 </div>
                             </li>
-                        </ul>
+                        </ul> -->
+                        <!-- 滚动 -->
+                        <div v-if="userRecordLog.loading" class="loadingTip">{{userRecordLog.loadTips}}</div>
+                        <marquee-circle  v-if="!userRecordLog.loading" :isEmpty = "userRecordLog.isEmpty" :marqueeData="userRecordLog.data" :marqueeTitle="userRecordLog.title" :marqueeLength="userRecordLog.marqueeLength"></marquee-circle>
                     </div>
-                    <!-- <div class="normal-block-mod">
-                        <div class="mormal-block-hd ivu-row">
-                            <h2 class="mbm-title">用户动态</h2>
-                        </div>
-                        <div class="mormal-block-bd">
-                            <ul class="dynamic-list">
-                                <div style="text-align: center;line-height: 126px;" v-if="callLog.loading">{{callLog.loadTips}}</div>
-                                <li v-if="!callLog.loading" v-for="items in overviewUserLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
-                            </ul>
-                        </div>
-                    </div> -->
                 </div>
             </Row>
             <Row type="flex" class="warningPanel">
@@ -218,6 +211,7 @@
     import verticalBarChart from 'components/echarts/vertical-bar-chart';
     import leonLineEchart from "components/echarts/leon-line-chart";
     import marquee from 'components/marquee'
+    import marqueeCircle from 'components/marqueeCircle'
 
     import fullScreen from "./components/fullScreen"
 
@@ -230,7 +224,8 @@
             leonLineEchart,
             fullScreen,
             verticalBarChart,
-            marquee
+            marquee,
+            marqueeCircle
         },
         data() {
             return {
@@ -290,6 +285,14 @@
                     style:{
                          height: '160px'
                     }
+                },
+                userRecordLog:{
+                    data:'',
+                    title:'用户动态',
+                    isEmpty:false,
+                    marqueeLength:13,
+                    loading: false,
+                    loadTips: '努力加载中，请稍等...'
                 },
                 serviceAbnormal:{
                     data:[],
@@ -369,16 +372,19 @@
             },
             getCallLog(){
                 const self = this;
-                this.callLog.loading = true;
-                this.callLog.loadTips = '努力加载中，请稍等...'
+                this.userRecordLog.loading = true;
                 ajaxGetCallLog().then(res => {
                     if(res.state === 0){
                         let result = res.data.data;
                         if(result && result.length){
+                            //store
                             self.recordUserLog(result);
-                            self.callLog.loading = false;
+                            //set to components
+                            this.userRecordLog.data = result.map(item => ({title:item.username,info:item.server,createTime:item.time}));
+                            this.userRecordLog.loading = false;
                         }else{
-                            self.callLog.loadTips = '抱歉，暂无数据！'
+                            this.userRecordLog.loading = false;
+                            this.userRecordLog.isEmpty = true;
                         }
                         
                     }else{
@@ -747,7 +753,6 @@
                             background-color: #f0f2f5 !important; 
                         }
                     }
-                    
                 }
                 .topContRight{
                     width: 90%;
@@ -818,7 +823,6 @@
                 top:10px;
                 left: -29px; 
            }
-
         }
     }
 }
