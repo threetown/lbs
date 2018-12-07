@@ -27,7 +27,7 @@
                                     <span class="more" @click="moreClick('serviceTop')">更多</span>
                                 </ul>
                                 <ul class="topCont">
-                                    <div v-if="serviceTop.loading"></div>
+                                    <div v-if="serviceTop.loading" class="loadingTip">{{serviceTop.loadTips}}</div>
                                     <div v-if="!serviceTop.loading">
                                         <div class="topContLeft">
                                             <li v-for="i in 5" :key="i"><span :class="((i != 4) && (i != 5)) ? '' : 'rankCircle' ">{{i}}</span></li>
@@ -44,8 +44,8 @@
                                     <span class="more" @click="moreClick('userTop')">更多</span>
                                 </ul>
                                 <ul class="topCont">
-                                    <div v-if="serviceTop.loading"></div>
-                                    <div v-if="!serviceTop.loading">
+                                    <div v-if="userTop.loading" class="loadingTip">{{userTop.loadTips}}</div>
+                                    <div v-if="!userTop.loading">
                                         <div class="topContLeft">
                                              <li v-for="i in 5" :key="i"><span :class="((i != 4) && (i != 5)) ? '' : 'rankCircle' ">{{i}}</span></li>
                                         </div>
@@ -59,13 +59,13 @@
                     <div class="detailPart">
                         <div class="detailCont">
                             <!-- 异常服务 -->
-                            <div v-if="serviceAbnormal.loading"></div>
-                            <marquee v-if="!serviceAbnormal.loading"  :marqueeData="serviceAbnormal.data" :marqueeTitle = "serviceAbnormal.title" :marqueeLength = 5 @moreClick="moreClick('abnormalService')"></marquee>
+                            <div v-if="serviceAbnormal.loading" class="loadingTip">{{serviceAbnormal.loadTips}}</div>
+                            <marquee v-if="!serviceAbnormal.loading" :isEmpty = "serviceAbnormal.isEmpty"  :marqueeData="serviceAbnormal.data" :marqueeTitle = "serviceAbnormal.title" :marqueeLength = "serviceAbnormal.marqueeLength" @moreClick="moreClick('abnormalService')"></marquee>
                         </div>
                         <div class="detailCont">
                             <!-- 异常用户 -->
-                            <div v-if="userAbnormal.loading"></div>
-                            <marquee v-if="!userAbnormal.loading" :marqueeData="userAbnormal.data" :marqueeTitle = "userAbnormal.title" :marqueeLength = 5 @moreClick="moreClick('abnormalUser')"></marquee>
+                            <div v-if="userAbnormal.loading" class="loadingTip">{{userAbnormal.loadTips}}</div>
+                            <marquee v-if="!userAbnormal.loading" :isEmpty = "userAbnormal.isEmpty" :marqueeData="userAbnormal.data" :marqueeTitle = "userAbnormal.title" :marqueeLength = "userAbnormal.marqueeLength" @moreClick="moreClick('abnormalUser')"></marquee>
                         </div>
                     </div>   
                   
@@ -103,13 +103,13 @@
             <Row type="flex" class="warningPanel">
                 <div class="quotaWarningCont">
                     <!-- 配额预警 -->
-                    <div v-if="quotaWarning.loading"></div>
-                    <marquee v-if="!quotaWarning.loading"  :marqueeData="quotaWarning.data" :marqueeTitle = "quotaWarning.title" :marqueeLength = 5 @moreClick="moreClick('quotaWarning')"></marquee>
+                    <div v-if="quotaWarning.loading" class="loadingTip">{{quotaWarning.loadTips}}</div>
+                    <marquee v-if="!quotaWarning.loading" :isEmpty = "quotaWarning.isEmpty"  :marqueeData="quotaWarning.data" :marqueeTitle = "quotaWarning.title" :marqueeLength = "quotaWarning.marqueeLength" @moreClick="moreClick('quotaWarning')"></marquee>
                 </div>
                 <div class="fundsWarningCont">
                     <!-- 账户预警 -->
-                    <div v-if="fundsWarning.loading"></div>
-                    <marquee v-if="!fundsWarning.loading"  :marqueeData="fundsWarning.data" :marqueeTitle = "fundsWarning.title" :marqueeLength = 5 @moreClick="moreClick('fundsWarning')"></marquee>
+                    <div v-if="fundsWarning.loading" class="loadingTip">{{fundsWarning.loadTips}}</div>
+                    <marquee v-if="!fundsWarning.loading" :isEmpty = "fundsWarning.isEmpty"  :marqueeData="fundsWarning.data" :marqueeTitle = "fundsWarning.title" :marqueeLength = "fundsWarning.marqueeLength" @moreClick="moreClick('fundsWarning')"></marquee>
                 </div>
             </Row>
         </Row>
@@ -275,6 +275,7 @@
                 todayUserCount: 0,
                 serviceTop:{
                     loading:false,
+                    loadTips: '努力加载中，请稍等...',
                     id:'serviceTopChart',
                     serviceTopData: [],
                     style:{
@@ -283,6 +284,7 @@
                 },
                 userTop:{
                     loading:false,
+                    loadTips: '努力加载中，请稍等...',
                     id:'userTopChart',
                     userTopData: [],
                     style:{
@@ -292,22 +294,34 @@
                 serviceAbnormal:{
                     data:[],
                     loading:false,
+                    loadTips: '努力加载中，请稍等...',
                     title:'异常服务',
+                    isEmpty:false,
+                    marqueeLength:5
                 },
                 userAbnormal:{
                     data:[],
                     loading:false,
+                    loadTips: '努力加载中，请稍等...',
                     title:'异常用户',
+                    isEmpty:false,
+                    marqueeLength:5
                 },
                 quotaWarning:{
                     data:[],
                     loading:false,
+                    loadTips: '努力加载中，请稍等...',
                     title:'配额不足预警',
+                    isEmpty:false,
+                    marqueeLength:5
                 },
                 fundsWarning:{
                     data:[],
                     loading:false,
+                    loadTips: '努力加载中，请稍等...',
                     title:'余额不足账户预警',
+                    isEmpty:false,
+                    marqueeLength:5
                 },
                 moreClickType:[
                     {
@@ -471,10 +485,12 @@
                 const self = this;
                 self.serviceTop.loading = true;
                 ajaxGetServiceTopList().then(res => {
-                    if(res.data){
+                    if(res.data && res.data.data.length){
                         var arrData = res.data.data;
                         self.serviceTop.serviceTopData = arrData.map(item => ({ name:item.serviceName,value:item.value }));
                         self.serviceTop.loading = false;
+                    }else{
+                        self.serviceTop.loadTips = '暂无数据';
                     }
                 })
             },
@@ -482,10 +498,12 @@
                 const self = this;
                 self.userTop.loading = true;
                 ajaxGetUserTopList().then(res => {
-                    if(res.data){
+                    if(res.data && res.data.data.length){
                         var arrData = res.data.data;
                         self.userTop.userTopData = arrData.map(item => ({name:item.userName,value:item.value}));
                         self.userTop.loading = false;
+                    }else{
+                        self.userTop.loadTips = '暂无数据';
                     }
                 })
             },
@@ -494,7 +512,7 @@
                     if(item.type == type){
                         this.$router.push({
                             name: item.to,
-                            query: item.params
+                            query: item.params  //todo
                         });
                     }
                 })
@@ -503,10 +521,13 @@
                 const self = this;
                 self.serviceAbnormal.loading = true;
                 ajaxGetServiceAbnormalList().then(res => {
-                    if(res.data){
+                    if(res.data && res.data.data.length){
                         var arrData = res.data.data;
                         self.serviceAbnormal.data = arrData.map(item => ({title:item.serviceName,info:item.info,createTime:item.createTime}));
                         self.serviceAbnormal.loading = false;
+                    }else{
+                        self.serviceAbnormal.loading = false;
+                        self.serviceAbnormal.isEmpty = true;
                     }
                 })
             },
@@ -514,10 +535,13 @@
                 const self = this;
                 self.userAbnormal.loading = true;
                 ajaxGetUserAbnormalList().then(res => {
-                    if(res.data){
+                    if(res.data && res.data.data.length){
                         var arrData = res.data.data;
                         self.userAbnormal.data = arrData.map(item => ({title:item.userName,info:item.info,createTime:item.createTime}));
                         self.userAbnormal.loading = false;
+                    }else{
+                        self.userAbnormal.loading = false;
+                        self.userAbnormal.isEmpty = true;
                     }
                 })
             },
@@ -525,10 +549,13 @@
                 const self = this;
                 self.quotaWarning.loading = true;
                 ajaxGetInsufficientQuotaList().then(res => {
-                    if(res.data){
+                    if(res.data && res.data.data.length){
                         var arrData = res.data.data;
                         self.quotaWarning.data = arrData.map(item => ({title:item.userName, title1:item.appName, title2:item.serviceName, info:item.info,createTime:item.createTime}));
                         self.quotaWarning.loading = false;
+                    }else{
+                        self.quotaWarning.loading = false;
+                        self.quotaWarning.isEmpty = true;
                     }
                 })
             },
@@ -536,10 +563,13 @@
                 const self = this;
                 self.fundsWarning.loading = true;
                 ajaxGetInsufficientFundsList().then(res => {
-                    if(res.data){
+                    if(res.data && res.data.data.length){
                         var arrData = res.data.data;
                         self.fundsWarning.data = arrData.map(item => ({title:item.userName,info:item.info,createTime:item.createTime}));
                         self.fundsWarning.loading = false;
+                    }else{
+                        self.fundsWarning.loading = false;
+                        self.fundsWarning.isEmpty = true;
                     }
                 })
             },
@@ -834,6 +864,13 @@
                 padding: 10px 24px;
                 height: 180px;
             }
+    .loadingTip{
+        height: 180px;
+        font-size:14px;
+        margin-top:50px;
+        color:#666;
+        text-align: center;
+    }
     }
 
 }

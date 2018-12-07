@@ -5,7 +5,7 @@
             <span class="more" @click="moreClick">更多</span>
         </ul>
         <ul class="marqueeList js-scrollList" :style="{'height': marqueeListH}" >
-            <li v-for="item in marqueeData" class="marqueeRow">
+            <li v-show="!empty" v-for="item in marqueeData" class="marqueeRow">
                 <div class="marqueeColLeft" :title="item.title + item.info">
                     <span class="rowHigh">{{item.title}}</span>
                     <span v-if="item.title1">的{{item.title1}}中</span>
@@ -14,7 +14,7 @@
                 </div>
                 <div class="marqueeColRight">{{item.createTime}}</div>
             </li>
-            <p v-show="empty" style="font-size:0.16rem;margin-top:0.6rem;text-align: center;">暂无数据</p>
+            <p v-show="empty" style="font-size:14px;margin-top:50px;text-align: center;">暂无数据</p>
         </ul>
     </div>
 
@@ -26,10 +26,10 @@ import '@/lib/jquery-advanced-news-ticker/newsTicker';
 
 export default {
     name: "marquee",
-    props:['marqueeData','marqueeTitle','marqueeLength'],
+    props:['marqueeData','marqueeTitle','marqueeLength',"isEmpty"],
     data: function () {
         return {
-            empty:false,
+            empty:this.isEmpty,
             marqueeListH:  '116px'
         }
     },

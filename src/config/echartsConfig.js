@@ -847,7 +847,7 @@ const echartsConfig = {
                 textStyle: {
                     fontSize:14,
                     color: '#666',
-                    textAlign:'left'
+                    textAlign:'left' 
                 }
             },
             splitLine: { show: false }
@@ -865,7 +865,7 @@ const echartsConfig = {
                     position: 'right',
                     textStyle: {
                         fontSize:14,
-                        color: '#666'
+                        color: '#666',
                     },
                     formatter(v) {
                         let text = v.data.value.toString();
