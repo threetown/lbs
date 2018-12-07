@@ -27,6 +27,12 @@ server.use(jsonServer.rewriter({
  ,'/center/dict/list/solution_code': '/solutionCode'
  ,'/center/dict/list/daily_total_cnt': '/daily_total_cnt'
  ,'/center/dict/list/concurrency_max': '/concurrency_max'
+ ,'/center/getServiceTopList': '/getServiceTopList'
+ ,'/center/getUserTopList': '/getUserTopList'
+ ,'/center/getServiceAbnormalList': '/getServiceAbnormalList'
+ ,'/center/getUserAbnormalList': '/getUserAbnormalList'
+ ,'/center/getInsufficientQuotaList': '/getInsufficientQuotaList'
+ ,'/center/getInsufficientFundsList': '/getInsufficientFundsList'
 }))
 
 // 支持加载多个db文件
@@ -77,6 +83,12 @@ server.post('/center/user/list', (req, res) => {
   let db = router.db
   let data = db.get('userList').value()
   res.jsonp({ data: data, status: 0, success: true, info:"操作成功", total: 32 })
+})
+
+server.post('/center/userAccount/getUserList', (req, res) => {
+  let db = router.db
+  let data = db.get('getUserList').value()
+  res.jsonp({ data: data, state: 0,success: true, info:"操作成功", total: 9 })
 })
 
 server.post('/center/user/findUserNoticeList', (req, res) => {

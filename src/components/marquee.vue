@@ -8,6 +8,8 @@
             <li v-for="item in marqueeData" class="marqueeRow">
                 <div class="marqueeColLeft" :title="item.title + item.info">
                     <span class="rowHigh">{{item.title}}</span>
+                    <span v-if="item.title1">的{{item.title1}}中</span>
+                    <span v-if="item.title2" class="rowHigh">{{item.title2}}</span>
                     <span>{{item.info}}</span>
                 </div>
                 <div class="marqueeColRight">{{item.createTime}}</div>
@@ -67,6 +69,7 @@ export default {
     line-height: 55px;
     text-align: center;
     color:#108EFF;
+    cursor: pointer;
 }
 .marqueeList{
     padding: 10px 24px;

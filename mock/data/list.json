@@ -896,5 +896,147 @@
 			"telephone": "13433333344",
 			"version": "2018-10-31 14:56:48"
 		}
-	]
+	],
+	"getUserList":{
+		"data":{
+			"rows":[
+				{
+					"ableAmount":1.0,
+					"createdDt":"2018-11-01 15:09:19",
+					"email":null,
+					"expDt":"2018-12-31 15:09:19",
+					"loginName":"admin",
+					"remark":"管理员",
+					"staffCode":"0",
+					"staffId":0,
+					"staffName":"管理员",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"13812345678",
+					"version":"2018-11-01 15:09:19"
+				},
+				{
+					"ableAmount":36435.6,
+					"createdDt":null,
+					"email":"492726813@qq.com",
+					"expDt":"2019-01-19 15:28:10",
+					"loginName":"gongjing",
+					"remark":"测试",
+					"staffCode":"0001",
+					"staffId":421,
+					"staffName":"龚静",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"18502734258",
+					"version":"2018-11-20 15:28:10"
+				},
+				{
+					"ableAmount":993000.3,
+					"createdDt":null,
+					"email":null,
+					"expDt":null,
+					"loginName":"wangyu",
+					"remark":"测试",
+					"staffCode":"0002",
+					"staffId":441,
+					"staffName":"秦宇",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"18502734212",
+					"version":"2018-11-02 19:45:18"
+				},
+				{
+					"ableAmount":9.17896949E7,
+					"createdDt":null,
+					"email":null,
+					"expDt":"2019-01-25 12:08:58",
+					"loginName":"chenxiaofeng",
+					"remark":"测试",
+					"staffCode":"0004",
+					"staffId":481,
+					"staffName":"陈晓锋",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"18062699585",
+					"version":"2018-11-26 12:08:58"
+				},
+				{
+					"ableAmount":100000.0,
+					"createdDt":null,
+					"email":null,
+					"expDt":"2018-12-09 15:12:45",
+					"loginName":"zhangxuebing",
+					"remark":"测试",
+					"staffCode":"0005",
+					"staffId":501,
+					"staffName":"张雪冰",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"18502734252",
+					"version":"2018-10-10 15:12:45"
+				},
+				{
+					"ableAmount":0.0,
+					"createdDt":"2018-02-24 00:00:00",
+					"email":null,
+					"expDt":"2019-01-31 10:25:31",
+					"loginName":"fanxiaokun",
+					"remark":"测试1",
+					"staffCode":"0006",
+					"staffId":521,
+					"staffName":"樊孝坤",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"15011396580",
+					"version":"2018-07-28 10:25:31"
+				},
+				{
+					"ableAmount":900.0,
+					"createdDt":null,
+					"email":null,
+					"expDt":null,
+					"loginName":"yuanshijun",
+					"remark":"测试",
+					"staffCode":"0007",
+					"staffId":541,
+					"staffName":"袁士君",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"1850273424",
+					"version":"2018-07-14 22:33:17"
+				},
+				{
+					"ableAmount":0.0,
+					"createdDt":"2018-02-24 00:00:00",
+					"email":null,
+					"expDt":"2018-03-03 00:00:00",
+					"loginName":"chenliwei",
+					"remark":"测试",
+					"staffCode":"0011",
+					"staffId":641,
+					"staffName":"陈立伟",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"18502734252",
+					"version":"2018-02-24 00:00:00"
+				},
+				{
+					"ableAmount":0.0,
+					"createdDt":null,
+					"email":null,
+					"expDt":"2018-04-28 00:00:00",
+					"loginName":"zhou",
+					"remark":"测试",
+					"staffCode":"0012",
+					"staffId":661,
+					"staffName":"周洪保",
+					"staffType":null,
+					"statusCd":1,
+					"telephone":"18502734252",
+					"version":"2018-03-26 00:00:00"
+				}
+			],
+			"total": 9
+		}
+	}
 }

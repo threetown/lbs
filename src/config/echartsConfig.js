@@ -808,6 +808,94 @@ const echartsConfig = {
             }]
         };
         return option;
+    },
+    verticalBarChartOptions(params){
+        let seriesName = [],
+        seriesData = [],
+        length = 5;
+    if (params && params instanceof Array && params.length) {
+        seriesData = params.slice().sort((a, b) => a.value - b.value) // 从小到大
+        console.log(seriesData.length, 648)
+        let seriesDataLength = seriesData.length;
+        if (seriesDataLength < length) {
+            let l = length - seriesDataLength;
+            for (let i = 0; i < l; i++) {
+                seriesData.unshift({ name: '', value: '' })
+            }
+        }
+        seriesName = seriesData.map(item => item.name)
+    }
+
+    let option = {
+        grid: { left: '0', top: '0', right: '5%', bottom: '0', width:'90%', containLabel: true },
+        tooltip: {show: true},
+        xAxis: {
+            type: 'value',
+            show: true,
+            axisLine: { show: false },
+            axisTick: { show: false },
+            axisLabel: { show: false },
+            splitLine: { show: false },
+        },
+        yAxis: [{
+            type: 'category',
+            data: seriesName,
+            axisLine: { show: false },
+            axisTick: { show: false },
+            axisLabel: { 
+                show: true,
+                textStyle: {
+                    fontSize:14,
+                    color: '#666',
+                    textAlign:'left'
+                }
+            },
+            splitLine: { show: false }
+        }],
+        series: [{
+            name: '',
+            type: 'bar',
+            barWidth: 12,
+            // barMaxHeight:90,
+            barMinHeight:10,
+            silent: false,
+            label: {
+                normal: {
+                    show: true,
+                    position: 'right',
+                    textStyle: {
+                        fontSize:14,
+                        color: '#666'
+                    },
+                    formatter(v) {
+                        let text = v.data.value.toString();
+                        return text.length < 10 
+                            ? text 
+                            : `${text.substr(0,6)}`+'...'
+                    }
+                }
+            },
+            itemStyle: {
+                normal: {
+                    barBorderRadius: 0,
+                    color: {
+                        type: 'bar',
+                        colorStops: [
+                            { offset: 1, color: '#108EFF' },
+                        ],
+                        globalCoord: false, // 缺省为 false
+                    }
+                },
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+            data: seriesData
+        }]
+    };
+    return option;
     }
 }
 

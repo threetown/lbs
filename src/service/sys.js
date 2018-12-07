@@ -30,6 +30,26 @@ export const ajaxGetServerRank = (params) => fetch({ url: '/center/getServieRank
 // 数据总览 - 当前用户总数
 export const ajaxCurrentUserCount = () => fetch({ url: '/center/getUserCountByStatus', method: 'get'})
 
+//数据总览  -服务调用Top5
+export const ajaxGetServiceTopList = () => fetch({ url: '/center/getServiceTopList', method: 'get'})
+
+//数据总览  -活跃用户Top5
+export const ajaxGetUserTopList = () => fetch({ url: '/center/getUserTopList', method: 'get'})
+
+//异常服务
+export const ajaxGetServiceAbnormalList = () => fetch({ url: '/center/getServiceAbnormalList', method: 'get'})
+
+//异常用户
+export const ajaxGetUserAbnormalList = () => fetch({ url: '/center/getUserAbnormalList', method: 'get'})
+
+//配额不足预警
+export const ajaxGetInsufficientQuotaList = () => fetch({ url: '/center/getInsufficientQuotaList', method: 'get'})
+
+//用户账户余额不足预警
+export const ajaxGetInsufficientFundsList = () => fetch({ url: '/center/getInsufficientFundsList', method: 'get'})
+
+
+
 /**
  * 系统管理 - 服务管理
  */

@@ -47,20 +47,30 @@ export const convertServiceOverview = (resourceArr) => {
 export const convertAccessOverview = (resourceArr) => {
     let configs = [
         {
+            type: 'tv',
+            name: '业务总量',
+            value: 0,
+            dayPercent: 0,
+            weekPercent:0
+        },
+        {
             type: 'pv',
             name: '今日访问次数-PV',
             value: 0,
-            percent: 0
+            dayPercent: 0,
+            weekPercent:0
         }, {
             type: 'uv',
             name: '今日访问用户-UV',
             value: 0,
-            percent: 0
+            dayPercent: 0,
+            weekPercent:0
         }, {
             type: 'av',
             name: '昨日新增用户',
             value: 0,
-            percent: 0
+            dayPercent: 0,
+            weekPercent:0
         }
     ]
     if(resourceArr && resourceArr instanceof Array){
@@ -70,7 +80,10 @@ export const convertAccessOverview = (resourceArr) => {
                 const ele = resourceArr[j];
                 if(el.type === ele.type){
                     el.value = ele.value;
-                    el.percent = ele.percent;
+                    //日环比
+                    el.dayPercent = ele.dayPercent;
+                    //周同比
+                    el.weekPercent = ele.weekPercent;
                 }
             }            
         }

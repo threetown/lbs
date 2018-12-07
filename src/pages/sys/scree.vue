@@ -1,43 +1,118 @@
 <template>
-    <div>
-        <Row :gutter="16" class="mb-12">
-            <Col span="12">
-                <Row type="flex" justify="space-between" class="countPanel">
-                    <Col v-if="service.loading" v-for="i in 4" :key="i"></Col>
-                    <Col v-if="!service.loading" v-for="items in overviewService" :key="items.type">
-                        <div :class="'dataPanel '+ items.type">
-                            <i :class="'iconfont '+ items.icon"></i>
-                            <div class="data">
-                                <div class="num">{{items.value}}</div>
-                                <div class="tips">{{items.name}}</div>
+    <div class="dataScreenWrapper">
+        <Row  :gutter="16" class="mb-12" style="margin-left:0;margin-right:0">
+            <Row type="flex" justify="space-between" class="countPanel">
+                <Col v-if="access.loading" v-for="i in 4" :key="i"></Col>
+                <Col v-if="!access.loading" v-for="items in overviewAccess">
+                    <div class="name">{{items.name}}</div>
+                    <div class="num">{{items.value}}</div>
+                    <div class="info">
+                        <div class="infoItem">周同比
+                            <i class="iconfont" :class="(items.weekPercent < 0) ? 'icon-fall' : 'icon-rise'">
+                            </i>{{Math.abs(items.weekPercent)}}%
+                        </div>
+                        <div class="infoItem">日环比
+                            <i class="iconfont" :class="(items.dayPercent < 0) ? 'icon-fall' : 'icon-rise'">
+                            </i>{{Math.abs(items.dayPercent)}}%
+                        </div>
+                    </div>
+                </Col>
+            </Row>
+            <Row type="flex" justify="space-between" class="detailPanel">
+                <div class="detailLeft commonStyle">
+                    <div class="detailPart">
+                            <div class="detailCont">
+                                <ul class="topTitle">
+                                    <span class="title">服务调用Top5</span>
+                                    <span class="more" @click="moreClick('serviceTop')">更多</span>
+                                </ul>
+                                <ul class="topCont">
+                                    <div v-if="serviceTop.loading"></div>
+                                    <div v-if="!serviceTop.loading">
+                                        <div class="topContLeft">
+                                            <li v-for="i in 5" :key="i"><span :class="((i != 4) && (i != 5)) ? '' : 'rankCircle' ">{{i}}</span></li>
+                                        </div>
+                                        <div class="topContRight">
+                                            <vertical-bar-chart :id="serviceTop.id" :option="serviceTop.serviceTopData" :style="serviceTop.style"></vertical-bar-chart>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                            <div class="detailCont">
+                                <ul class="topTitle">
+                                    <span class="title">活跃用户Top5</span>
+                                    <span class="more" @click="moreClick('userTop')">更多</span>
+                                </ul>
+                                <ul class="topCont">
+                                    <div v-if="serviceTop.loading"></div>
+                                    <div v-if="!serviceTop.loading">
+                                        <div class="topContLeft">
+                                             <li v-for="i in 5" :key="i"><span :class="((i != 4) && (i != 5)) ? '' : 'rankCircle' ">{{i}}</span></li>
+                                        </div>
+                                        <div class="topContRight">
+                                            <vertical-bar-chart :id="userTop.id" :option="userTop.userTopData" :style="userTop.style"></vertical-bar-chart>
+                                        </div>
+                                    </div>
+                                </ul>
                             </div>
                         </div>
-                    </Col>
-                </Row>
-                <ul class="todayData">
-                    <div class="loading" v-if="access.loading">数据正在加载中...</div>
-                    <li v-if="!access.loading" v-for="items in overviewAccess">
-                        <span class="name">{{items.name}}</span>
-                        <span class="num">{{items.value}}</span>
-                        <span class="info">昨日同比 <i class="iconfont" :class="(items.percent < 0) ? 'icon-fall' : 'icon-rise'"></i>{{Math.abs(items.percent)}}%</span>
-                    </li>
-                </ul>
-            </Col>
-            <Col span="12">
-                <div class="normal-block-mod">
-                    <div class="mormal-block-hd ivu-row">
-                        <h2 class="mbm-title">用户动态</h2>
-                    </div>
-                    <div class="mormal-block-bd">
-                        <ul class="dynamic-list">
-                            <div style="text-align: center;line-height: 126px;" v-if="callLog.loading">{{callLog.loadTips}}</div>
-                            <li v-if="!callLog.loading" v-for="items in overviewUserLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
+                    <div class="detailPart">
+                        <div class="detailCont">
+                            <!-- 异常服务 -->
+                            <div v-if="serviceAbnormal.loading"></div>
+                            <marquee v-if="!serviceAbnormal.loading"  :marqueeData="serviceAbnormal.data" :marqueeTitle = "serviceAbnormal.title" :marqueeLength = 5 @moreClick="moreClick('abnormalService')"></marquee>
+                        </div>
+                        <div class="detailCont">
+                            <!-- 异常用户 -->
+                            <div v-if="userAbnormal.loading"></div>
+                            <marquee v-if="!userAbnormal.loading" :marqueeData="userAbnormal.data" :marqueeTitle = "userAbnormal.title" :marqueeLength = 5 @moreClick="moreClick('abnormalUser')"></marquee>
+                        </div>
+                    </div>   
+                  
+                </div>
+                <div class="detailRight commonStyle">
+                    <div class="userDynamicsPanel">
+                        <ul class="topTitle">
+                            <span class="title">用户动态</span>
+                        </ul>
+                        <ul class="topCont" style="height:436px">
+                            <div style="text-align: center;line-height: 436px;" v-if="callLog.loading">{{callLog.loadTips}}</div>
+                            <li v-if="!callLog.loading" v-for="items in overviewUserLog">
+                                <div class="userLogCont" :title="items.username+items.server+items.time">
+                                    <span class="userLine"></span>
+                                    <span class="userBlank">{{items.username}}</span>
+                                    <span class="userServer">{{items.server}}</span>
+                                    <span class="date">{{items.time}}</span>
+                                </div>
+                            </li>
                         </ul>
                     </div>
+                    <!-- <div class="normal-block-mod">
+                        <div class="mormal-block-hd ivu-row">
+                            <h2 class="mbm-title">用户动态</h2>
+                        </div>
+                        <div class="mormal-block-bd">
+                            <ul class="dynamic-list">
+                                <div style="text-align: center;line-height: 126px;" v-if="callLog.loading">{{callLog.loadTips}}</div>
+                                <li v-if="!callLog.loading" v-for="items in overviewUserLog"><b class="t-blank">{{items.username}}</b> {{items.server}}<span class="date">{{items.time}}</span></li>
+                            </ul>
+                        </div>
+                    </div> -->
                 </div>
-            </Col>
+            </Row>
+            <Row type="flex" class="warningPanel">
+                <div class="quotaWarningCont">
+                    <!-- 配额预警 -->
+                    <div v-if="quotaWarning.loading"></div>
+                    <marquee v-if="!quotaWarning.loading"  :marqueeData="quotaWarning.data" :marqueeTitle = "quotaWarning.title" :marqueeLength = 5 @moreClick="moreClick('quotaWarning')"></marquee>
+                </div>
+                <div class="fundsWarningCont">
+                    <!-- 账户预警 -->
+                    <div v-if="fundsWarning.loading"></div>
+                    <marquee v-if="!fundsWarning.loading"  :marqueeData="fundsWarning.data" :marqueeTitle = "fundsWarning.title" :marqueeLength = 5 @moreClick="moreClick('fundsWarning')"></marquee>
+                </div>
+            </Row>
         </Row>
-
         <div class="full-echart-panel mb-12">
             <div class="header">
                 <h2 class="title">业务分析 <strong>{{businessSelectType}}业务总量分析</strong></h2>
@@ -123,11 +198,26 @@
 
 <script>
     import { selectTimeDict } from "src/config/basicConfig"
-    import { ajaxGetServiceOverview, ajaxGetAccessOverview, ajaxGetServiceLogCount, ajaxGetAccessLogCount, ajaxGetUserLogCount, ajaxGetCallLog, ajaxCurrentUserCount } from 'src/service/sys'
+    import { 
+        ajaxGetServiceOverview, 
+        ajaxGetAccessOverview, 
+        ajaxGetServiceLogCount,
+        ajaxGetAccessLogCount, 
+        ajaxGetUserLogCount, 
+        ajaxGetCallLog, 
+        ajaxCurrentUserCount,
+        ajaxGetServiceTopList,
+        ajaxGetUserTopList,
+        ajaxGetServiceAbnormalList,
+        ajaxGetUserAbnormalList,
+        ajaxGetInsufficientQuotaList,
+        ajaxGetInsufficientFundsList } from 'src/service/sys'
     import * as method from 'src/util/sys/'
 
     import leonAreaLineEchart from "components/echarts/leon-area-line-chart";
+    import verticalBarChart from 'components/echarts/vertical-bar-chart';
     import leonLineEchart from "components/echarts/leon-line-chart";
+    import marquee from 'components/marquee'
 
     import fullScreen from "./components/fullScreen"
 
@@ -138,7 +228,9 @@
         components: {
             leonAreaLineEchart,
             leonLineEchart,
-            fullScreen
+            fullScreen,
+            verticalBarChart,
+            marquee
         },
         data() {
             return {
@@ -180,7 +272,75 @@
                     loading: false
                 },
                 currentUserCount: 0,
-                todayUserCount: 0
+                todayUserCount: 0,
+                serviceTop:{
+                    loading:false,
+                    id:'serviceTopChart',
+                    serviceTopData: [],
+                    style:{
+                         height: '160px'
+                    }
+                },
+                userTop:{
+                    loading:false,
+                    id:'userTopChart',
+                    userTopData: [],
+                    style:{
+                         height: '160px'
+                    }
+                },
+                serviceAbnormal:{
+                    data:[],
+                    loading:false,
+                    title:'异常服务',
+                },
+                userAbnormal:{
+                    data:[],
+                    loading:false,
+                    title:'异常用户',
+                },
+                quotaWarning:{
+                    data:[],
+                    loading:false,
+                    title:'配额不足预警',
+                },
+                fundsWarning:{
+                    data:[],
+                    loading:false,
+                    title:'余额不足账户预警',
+                },
+                moreClickType:[
+                    {
+                        type:'serviceTop',
+                        to:'service',
+                        params:''
+                    },
+                    {
+                        type:'userTop',
+                        to:'list',
+                        params:''
+                    },
+                    {
+                        type:'abnormalService',
+                        to:'service',
+                        params:''
+                    },
+                    {
+                        type:'abnormalUser',
+                        to:'list',
+                        params:''
+                    },
+                    {
+                        type:'quotaWarning',
+                        to:'list',
+                        params:''
+                    },
+                    {
+                        type:'fundsWarning',
+                        to:'list',
+                        params:''
+                    }
+                ],
             }
         },
         methods: {
@@ -307,6 +467,82 @@
                     }
                 })
             },
+            getServiceTopList(){
+                const self = this;
+                self.serviceTop.loading = true;
+                ajaxGetServiceTopList().then(res => {
+                    if(res.data){
+                        var arrData = res.data.data;
+                        self.serviceTop.serviceTopData = arrData.map(item => ({ name:item.serviceName,value:item.value }));
+                        self.serviceTop.loading = false;
+                    }
+                })
+            },
+            getUserTopList(){
+                const self = this;
+                self.userTop.loading = true;
+                ajaxGetUserTopList().then(res => {
+                    if(res.data){
+                        var arrData = res.data.data;
+                        self.userTop.userTopData = arrData.map(item => ({name:item.userName,value:item.value}));
+                        self.userTop.loading = false;
+                    }
+                })
+            },
+            moreClick(type){
+                this.moreClickType.map(item => {
+                    if(item.type == type){
+                        this.$router.push({
+                            name: item.to,
+                            query: item.params
+                        });
+                    }
+                })
+            },
+            getServiceAbnormalList(){
+                const self = this;
+                self.serviceAbnormal.loading = true;
+                ajaxGetServiceAbnormalList().then(res => {
+                    if(res.data){
+                        var arrData = res.data.data;
+                        self.serviceAbnormal.data = arrData.map(item => ({title:item.serviceName,info:item.info,createTime:item.createTime}));
+                        self.serviceAbnormal.loading = false;
+                    }
+                })
+            },
+            getUserAbnormalList(){
+                const self = this;
+                self.userAbnormal.loading = true;
+                ajaxGetUserAbnormalList().then(res => {
+                    if(res.data){
+                        var arrData = res.data.data;
+                        self.userAbnormal.data = arrData.map(item => ({title:item.userName,info:item.info,createTime:item.createTime}));
+                        self.userAbnormal.loading = false;
+                    }
+                })
+            },
+            getInsufficientQuotaList(){
+                const self = this;
+                self.quotaWarning.loading = true;
+                ajaxGetInsufficientQuotaList().then(res => {
+                    if(res.data){
+                        var arrData = res.data.data;
+                        self.quotaWarning.data = arrData.map(item => ({title:item.userName, title1:item.appName, title2:item.serviceName, info:item.info,createTime:item.createTime}));
+                        self.quotaWarning.loading = false;
+                    }
+                })
+            },
+            getInsufficientFundsList(){
+                const self = this;
+                self.fundsWarning.loading = true;
+                ajaxGetInsufficientFundsList().then(res => {
+                    if(res.data){
+                        var arrData = res.data.data;
+                        self.fundsWarning.data = arrData.map(item => ({title:item.userName,info:item.info,createTime:item.createTime}));
+                        self.fundsWarning.loading = false;
+                    }
+                })
+            },
             init(){
                 this.getServiceOverview();
                 this.getAccessOverview();
@@ -315,7 +551,19 @@
                 this.selectUserLogAnalysis();
                 this.getCallLog();
                 this.getCurrentUserCount();
-                this.getTodayUserCount()
+                this.getTodayUserCount();
+                //获取服务top
+                this.getServiceTopList();
+                //获取用户top
+                this.getUserTopList();
+                //获取异常服务
+                this.getServiceAbnormalList();
+                //获取异常用户
+                this.getUserAbnormalList();
+                //获取配额不足预警
+                this.getInsufficientQuotaList();
+                //获取余额不足账户
+                this.getInsufficientFundsList();
             }
         },
         created: function() {
@@ -337,7 +585,7 @@
 
 <style lang="less">
 .mb-12 {
-  margin-bottom: 12px;
+  margin-bottom: 22px;
 }
 .triggerButton{
     position: fixed;
@@ -387,115 +635,207 @@
 }
 
 .countPanel {
-    height: 92px;
-  margin-bottom: 12px;
+    margin-bottom: 22px;
   .ivu-col {
     background: #fff;
     width: 23%;
+    // height: 100%;
+    padding: 20px 30px;
   }
-}
-.dataPanel {
-  position: relative;
-  height: 92px;
-  padding: 22px 5px 22px 62px;
-  i {
-    position: absolute;
-    left: 10px;
-    top: 25px;
-    font-size: 18px;
-    line-height: 38px;
-    width: 38px;
-    height: 38px;
-    text-align: center;
-    border-radius: 50%;
-    background-color: #d6f2ff;
-    color: #00a0eb;
+
+  .name{
+      line-height: 46px;
+      font-size: 16px;
+      color: #666;
+
   }
-  .data {
-    .num {
-      font-size: 20px;
-      line-height: 24px;
-      font-family: "MicrosoftYaHei";
-      font-weight: bold;
-      color: #333;
-    }
-    .tips {
+  .num{
+       line-height: 58px;
+       font-size: 30px;
+       font-weight: bold;
+       color: #333;
+  }
+  .info{
         color: #999;
         font-size: 14px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-  &.warning {
-    i {
-      color: #ff6c00;
-      background-color: #ffe5cc;
-    }
-  }
-  &.error-server,
-  &.error-user {
-    i {
-      color: #f71a1a;
-      background-color: #ffdfdf;
-    }
-  }
-}
-.todayData {
-  position: relative;
-  background-color: #fff;
-  overflow: hidden;
-  height: 120px;
-  padding: 22px;
-  text-align: center;
-  .loading{
-      position: absolute;
-      top: 47%;
-      width: 100%;
-      color: #999;
-  }
-  li {
-    position: relative;
-    width: 33.33%;
-    float: left;
-    height: 76px;
-    &::before {
-      position: absolute;
-      content: "";
-      right: 0;
-      top: 50%;
-      margin-top: -27px;
-      width: 1px;
-      height: 54px;
-      background-color: #e5e5e5;
-    }
-    &:last-child::before {
-      display: none;
-    }
-    .name{
-        color: #666;
-    }
-    .num {
-      font-size: 26px;
-      color: #008aff;
-      display: block;
-      line-height: 34px;
-    }
-    .info {
-        font-size: 14px;
-        color: #999;
-        i{
-            font-size: 18px;
-            vertical-align: top;
-            &.icon-fall{
-                color: #00A317;
+        .infoItem{
+            width: 48%;
+            float: left;
+            line-height: 50px;
+
+            i{
+                font-size: 18px;
+                vertical-align: top;
+                &.icon-fall{
+                    color: #00A317;
+                }
+                &.icon-rise{
+                    color: #F71A1A;
+                }
             }
-            &.icon-rise{
-                color: #F71A1A;
+        }
+      
+  }
+}
+
+.detailPanel{
+
+    .detailLeft{
+        float: left;
+        width: 70%;
+        .detailPart{
+            height: 236px;
+            margin-bottom: 22px;
+            .detailCont{
+                float: left;
+                width: 46%;
+                margin-right: 4%;
+                background: #fff;      
+                .topContLeft{
+                    width: 8%;
+                    float: left;
+                    margin-right: 6px;
+                    li{
+                        text-align: center;
+                        font-size: 14px;
+                        height: 32px;
+                        line-height: 32px;
+                        position: relative;
+                        span{
+                            width: 20px;
+                            height: 20px;
+                            position: absolute;
+                            top:6px;
+                            left: 6px;
+                            color:#fff;
+                            line-height: 20px;
+                            background-color: #314659;
+                            border-radius: 50%;
+                        } 
+                        .rankCircle{
+                            color: #333 !important;
+                            background-color: #f0f2f5 !important; 
+                        }
+                    }
+                    
+                }
+                .topContRight{
+                    width: 90%;
+                    float: left;
+                }
             }
         }
     }
-  }
+    .detailRight{
+        float: left;
+        width: 30%;
+        .userDynamicsPanel{
+           background: #fff;
+           li{
+               position: relative;
+                .userLogCont{
+                        width: calc(100% - 40px);
+                        height: 32px;
+                        margin-left: 40px;
+                        text-align: left;
+                        line-height: 32px;
+                        font-size: 14px;
+                        clear: both;
+                        position: relative;
+                    .userLine{
+                        position: absolute;
+                        width: 12px;
+                        height: 12px;
+                        left: -34px;
+                        top:10px;
+                        border:2px solid #108EFF;
+                        border-radius: 50%;
+                        background-color:#fff;
+                    }
+                    .userBlank{
+                        float: left;
+                        font-weight: bold;
+                        color: #333;
+                        width: 15%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .userServer{
+                            float: left;
+                            width: 45%;
+                            margin-left: 6px;
+                            color:#108EFF;  
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                    }
+                    .date{
+                        float: right;
+                        width: 35%;
+                        color: #666;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+           } 
+           li:not(:last-child) > .userLogCont::before{
+                content: '';
+                height: 30px;
+                border-left: 2px solid #f0f0f0;
+                position: absolute;
+                top:10px;
+                left: -29px; 
+           }
+
+        }
+    }
+}
+
+.warningPanel{
+    .quotaWarningCont{
+        float: left;
+        width: 48%;
+        margin-right:3%;
+    }
+    .fundsWarningCont{
+        float: left;
+        width: 49%;
+    }
+}
+
+.dataScreenWrapper{
+
+    .commonStyle{  
+
+        .topTitle{
+                height: 56px;
+                border-bottom: 1px solid rgb(233, 233, 233);
+                .title{
+                    float: left;
+                    padding-left: 24px;
+                    font-size: 16px;
+                    line-height: 56px;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                .more{
+                    float: right;
+                    padding-right: 24px;
+                    font-size: 12px;
+                    line-height: 56px;
+                    text-align: center;
+                    color:#108EFF;
+                    cursor: pointer;
+                }
+            }
+            .topCont{
+                padding: 10px 24px;
+                height: 180px;
+            }
+    }
+
 }
 
 .full-echart-panel {
