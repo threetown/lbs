@@ -761,6 +761,80 @@
 			}
 		]
 	},
+	"getUserCallLog":{
+		"data": [
+			{
+				"server": "调用了es楼盘边界查询服务",
+				"time": "2018-11-22 18:32:55",
+				"username": "智慧选址1"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址2"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址3"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址4"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址5"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址6"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址7"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址8"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址9"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址10"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址11"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址12"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址13"
+			},
+			{
+				"server": "调用了ChinaGray服务",
+				"time": "2018-11-22 18:32:54",
+				"username": "智慧选址14"
+			}
+		]
+	},
 	"getUserCountByStatus": {
 		"count": 75
 	},

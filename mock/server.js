@@ -27,12 +27,14 @@ server.use(jsonServer.rewriter({
  ,'/center/dict/list/solution_code': '/solutionCode'
  ,'/center/dict/list/daily_total_cnt': '/daily_total_cnt'
  ,'/center/dict/list/concurrency_max': '/concurrency_max'
- ,'/center/getServiceTopList': '/getServiceTopList'
- ,'/center/getUserTopList': '/getUserTopList'
- ,'/center/getServiceAbnormalList': '/getServiceAbnormalList'
- ,'/center/getUserAbnormalList': '/getUserAbnormalList'
- ,'/center/getInsufficientQuotaList': '/getInsufficientQuotaList'
- ,'/center/getInsufficientFundsList': '/getInsufficientFundsList'
+ ,'/center/menudata/getServiceTopList': '/getServiceTopList'
+ ,'/center/menudata/getUserTopList': '/getUserTopList'
+ ,'/center/menudata/getServiceAbnormalList': '/getServiceAbnormalList'
+ ,'/center/menudata/getUserAbnormalList': '/getUserAbnormalList'
+ ,'/center/menudata/getInsufficientQuotaList': '/getInsufficientQuotaList'
+ ,'/center/menudata/getInsufficientFundsList': '/getInsufficientFundsList'
+ ,'/center/menudata/getUserCallLog': '/getUserCallLog'
+ ,'/center/menudata/getAccessOverview': '/getAccessOverview'
 }))
 
 // 支持加载多个db文件

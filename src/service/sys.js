@@ -4,7 +4,8 @@ import fetch from 'src/util/fetch';
 export const ajaxGetServiceOverview = () => fetch({ url: '/center/getServiceOverview', method: 'get' })
 
 // 数据总览 - 访问统计
-export const ajaxGetAccessOverview = () => fetch({ url: '/center/getAccessOverview', method: 'get' })
+// export const ajaxGetAccessOverview = () => fetch({ url: '/center/getAccessOverview', method: 'get' })  //旧API
+export const ajaxGetAccessOverview = () => fetch({ url: '/center/menudata/getAccessOverview', method: 'get' })   //新API
 
 // 数据总览 - 业务分析
 export const ajaxGetServiceLogCount = (params) => fetch({ url: '/center/getServiceLogCount/' + params, method: 'get' })
@@ -31,22 +32,26 @@ export const ajaxGetServerRank = (params) => fetch({ url: '/center/getServieRank
 export const ajaxCurrentUserCount = () => fetch({ url: '/center/getUserCountByStatus', method: 'get'})
 
 //数据总览  -服务调用Top5
-export const ajaxGetServiceTopList = () => fetch({ url: '/center/getServiceTopList', method: 'get'})
+export const ajaxGetServiceTopList = () => fetch({ url: '/center/menudata/getServiceTopList', method: 'get'})
 
 //数据总览  -活跃用户Top5
-export const ajaxGetUserTopList = () => fetch({ url: '/center/getUserTopList', method: 'get'})
+export const ajaxGetUserTopList = () => fetch({ url: '/center/menudata/getUserTopList', method: 'get'})
 
 //异常服务
-export const ajaxGetServiceAbnormalList = () => fetch({ url: '/center/getServiceAbnormalList', method: 'get'})
+export const ajaxGetServiceAbnormalList = () => fetch({ url: '/center/menudata/getServiceAbnormalList', method: 'get'})
 
 //异常用户
-export const ajaxGetUserAbnormalList = () => fetch({ url: '/center/getUserAbnormalList', method: 'get'})
+export const ajaxGetUserAbnormalList = () => fetch({ url: '/center/menudata/getUserAbnormalList', method: 'get'})
 
 //配额不足预警
-export const ajaxGetInsufficientQuotaList = () => fetch({ url: '/center/getInsufficientQuotaList', method: 'get'})
+export const ajaxGetInsufficientQuotaList = () => fetch({ url: '/center/menudata/getInsufficientQuotaList', method: 'get'})
 
 //用户账户余额不足预警
-export const ajaxGetInsufficientFundsList = () => fetch({ url: '/center/getInsufficientFundsList', method: 'get'})
+export const ajaxGetInsufficientFundsList = () => fetch({ url: '/center/menudata/getInsufficientFundsList', method: 'get'})
+
+// 数据总览new - 用户动态
+export const ajaxGetUserCallLog = () => fetch({ url: '/center/menudata/getUserCallLog', method: 'get' })
+
 
 
 

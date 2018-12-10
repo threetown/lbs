@@ -88,7 +88,7 @@
                             </li>
                         </ul> -->
                         <!-- 滚动 -->
-                        <div v-if="userRecordLog.loading" class="loadingTip">{{userRecordLog.loadTips}}</div>
+                        <div v-if="userRecordLog.loading" class="loadingTip" style="margin-top:0;padding-top:55px;">{{userRecordLog.loadTips}}</div>
                         <marquee-circle  v-if="!userRecordLog.loading" :isEmpty = "userRecordLog.isEmpty" :marqueeData="userRecordLog.data" :marqueeTitle="userRecordLog.title" :marqueeLength="userRecordLog.marqueeLength"></marquee-circle>
                     </div>
                 </div>
@@ -197,14 +197,15 @@
         ajaxGetServiceLogCount,
         ajaxGetAccessLogCount, 
         ajaxGetUserLogCount, 
-        ajaxGetCallLog, 
+        // ajaxGetCallLog, 
         ajaxCurrentUserCount,
         ajaxGetServiceTopList,
         ajaxGetUserTopList,
         ajaxGetServiceAbnormalList,
         ajaxGetUserAbnormalList,
         ajaxGetInsufficientQuotaList,
-        ajaxGetInsufficientFundsList } from 'src/service/sys'
+        ajaxGetInsufficientFundsList,
+        ajaxGetUserCallLog } from 'src/service/sys'
     import * as method from 'src/util/sys/'
 
     import leonAreaLineEchart from "components/echarts/leon-area-line-chart";
@@ -373,7 +374,7 @@
             getCallLog(){
                 const self = this;
                 this.userRecordLog.loading = true;
-                ajaxGetCallLog().then(res => {
+                ajaxGetUserCallLog().then(res => {
                     if(res.state === 0){
                         let result = res.data.data;
                         if(result && result.length){
@@ -388,7 +389,7 @@
                         }
                         
                     }else{
-                        this.callLog.loadTips = '糟糕，加载失败！'
+                        this.userRecordLog.loadTips = '糟糕，加载失败！'
                     }
                 })
             },
@@ -766,6 +767,7 @@
         width: 30%;
         .userDynamicsPanel{
            background: #fff;
+           height: 492px;
            li{
                position: relative;
                 .userLogCont{
@@ -828,14 +830,17 @@
 }
 
 .warningPanel{
+
     .quotaWarningCont{
         float: left;
         width: 48%;
         margin-right:3%;
+        background: #fff;
     }
     .fundsWarningCont{
         float: left;
         width: 49%;
+        background: #fff;
     }
 }
 
@@ -844,39 +849,38 @@
     .commonStyle{  
 
         .topTitle{
-                height: 56px;
-                border-bottom: 1px solid rgb(233, 233, 233);
-                .title{
-                    float: left;
-                    padding-left: 24px;
-                    font-size: 16px;
-                    line-height: 56px;
-                    font-weight: bold;
-                    text-align: center;
-                }
-                .more{
-                    float: right;
-                    padding-right: 24px;
-                    font-size: 12px;
-                    line-height: 56px;
-                    text-align: center;
-                    color:#108EFF;
-                    cursor: pointer;
-                }
+            height: 56px;
+            border-bottom: 1px solid rgb(233, 233, 233);
+            .title{
+                float: left;
+                padding-left: 24px;
+                font-size: 16px;
+                line-height: 56px;
+                font-weight: bold;
+                text-align: center;
             }
-            .topCont{
-                padding: 10px 24px;
-                height: 180px;
+            .more{
+                float: right;
+                padding-right: 24px;
+                font-size: 12px;
+                line-height: 56px;
+                text-align: center;
+                color:#108EFF;
+                cursor: pointer;
             }
+        }
+        .topCont{
+            padding: 10px 24px;
+            height: 180px;
+        }
+    }
     .loadingTip{
         height: 180px;
         font-size:14px;
-        margin-top:50px;
+        margin-top:55px;
         color:#666;
         text-align: center;
     }
-    }
-
 }
 
 .full-echart-panel {
