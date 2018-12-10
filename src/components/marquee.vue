@@ -89,7 +89,7 @@ export default {
 }
 
 .marqueeColLeft{
-    width: 60%;
+    width: calc(100% - 136px);
     float: left;
     text-align: left;
     overflow: hidden;
@@ -98,7 +98,7 @@ export default {
 }
 
 .marqueeColRight{
-    width: 40%;
+    width: 136px;
     float: left;
     text-align: right;
 }

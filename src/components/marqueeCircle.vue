@@ -131,7 +131,7 @@ export default {
 }
 
 .marqueeColLeft{
-    width: calc(60% - 30px);
+    width: calc(100% - 166px);
     float: left;
     margin-left: 10px;
     text-align: left;
@@ -141,7 +141,7 @@ export default {
 }
 
 .marqueeColRight{
-    width: 40%;
+    width: 136px;
     float: left;
     text-align: right;
 }

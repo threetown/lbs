@@ -676,7 +676,7 @@
     background: #fff;
     width: 23%;
     // height: 100%;
-    padding: 20px 30px;
+    padding: 30px 40px;
   }
 
   .name{
