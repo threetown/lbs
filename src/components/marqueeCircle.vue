@@ -72,6 +72,11 @@ export default {
     color:#108EFF;
     cursor: pointer;
 }
+
+.more:hover{
+    text-decoration: underline;
+}
+
 .marqueeList{
     padding: 11px 24px;
 }

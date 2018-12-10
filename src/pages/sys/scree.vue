@@ -868,6 +868,10 @@
                 color:#108EFF;
                 cursor: pointer;
             }
+
+            .more:hover{
+                text-decoration: underline;
+            }
         }
         .topCont{
             padding: 10px 24px;
