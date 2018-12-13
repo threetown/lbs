@@ -571,6 +571,13 @@
                 this.Count.title = params.row.serviceName
                 this.showCount()
             },
+            triggerDetailModal(params){
+                //todo
+                this.$router.push({
+                    name: 'serviceCallDetail',
+                    query: params 
+                });
+            },
             selectCount(v){
                 this.showCount({ countType: v })
             },
@@ -666,7 +673,7 @@
                         }
                     },
                     {
-                        title: '操作', key: 'action', align: 'center', width: 150, render: (h, params) => {
+                        title: '操作', key: 'action', align: 'center', width: 220, render: (h, params) => {
                             return h('div', {class: 'action-group'},
                             [
                                 h('span', {
@@ -682,7 +689,14 @@
                                             this.triggerCountModal(params)
                                         }
                                     }
-                                }, '数据统计')
+                                }, '数据统计'),
+                                h('span', {
+                                class: 'items', on: {
+                                    click: () => {
+                                        this.triggerDetailModal(params)
+                                    }
+                                }
+                            }, '明细')
                             ]);
                         }
                     })

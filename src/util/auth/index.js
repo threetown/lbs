@@ -26,7 +26,10 @@ auth.initRouter = function (vm) {
     // fetch({ url: '/center/user/getAmpAuthByCondition', method: 'post' }).then(res => {
         if(res.state === 0){
             let data = res.data;
-            auth.initRouterNode(constRoutes, data.allAmpAuth);
+            //
+            let newData = auth.generateNewMenuData(data.allAmpAuth);
+            auth.initRouterNode(constRoutes, newData);
+
             auth.initRouterNode(otherRoutes, otherRouter);
             // 添加主界面路由
             vm.$store.commit(types.AUTH_APP_ROUTER, constRoutes.filter(item => item.children.length > 0));
@@ -49,10 +52,11 @@ auth.initRouter = function (vm) {
         }
         setTimeout(gloabLoading, 10)
     }).catch(err =>{
+        console.log(err);
         vm.$Loading.error()
         setTimeout(gloabLoading, 10)
         setTimeout(function(){
-            window.location = basicConfig.url.jump
+            // window.location = basicConfig.url.jump
         },100)
     });
 };
@@ -71,11 +75,18 @@ auth.initRouterNode = function (routers, data) {
         meta.permission = menu.permission ? menu.permission : null;
         meta.title = menu.title ? menu.title : null;
         meta.icon = menu.modelStyle ? menu.modelStyle : null;
+        //是否展示
 
+        menu.isHide = menu.isHide ? menu.isHide : null;
         menu.meta = meta;
 
         routers.push(menu);
     }
 };
+auth.generateNewMenuData = function(data){ 
+    let route =  { "path": "serviceCallDetail", "name": "serviceCallDetail", "component": "sys/serviceCallDetail", "title": "服务详情", "isHide":true};
+    data[2].children.push(route);
+    return data;
+}
 
 export default auth;

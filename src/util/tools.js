@@ -255,3 +255,20 @@ export const getFormatterData = (date) =>{
             .getSeconds());
     return datetime;
 }
+
+//可以传 date year month
+export const getCurDateByKey = (key) =>{
+    let cdate = new Date();
+    let cyear = cdate.getFullYear();
+    let cmonth = cdate.getMonth()+1>10?cdate.getMonth()+1:'0'+cdate.getMonth()+1;
+    let cday = cdate.getDate()>10?cdate.getDate():'0'+cdate.getDate();
+    let nowdatestr='';
+    if(key == 'year'){
+        nowdatestr = cyear+"";
+    }else if(key =='month'){
+        nowdatestr = cyear+"-"+cmonth;
+    }else if(key =='date'){
+        nowdatestr = cyear+"-"+cmonth+"-"+cday;
+    }
+    return nowdatestr;
+}

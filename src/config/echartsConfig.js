@@ -552,6 +552,133 @@ const echartsConfig = {
 
         return option;
     },
+    lineSingleBarLightChartOptions(params){
+        let result = {
+            seriesData: [],
+            legendData: [],
+            xAxisData: []
+        };
+
+        if(params && params.data){
+            let lineBarArr = params.data;
+            // 数据
+            let seriesArr = [];
+            let data = [];
+            if(params.type){ 
+                data = lineBarArr.map(v => { return v['yAxis'] });  //todo
+                seriesArr.push({ name: params.name, type: 'bar', data, barWidth: '24%', itemStyle:{normal:{ color:'#108EFF'}}})
+                result.seriesData = seriesArr;
+                // x轴
+                result.xAxisData = lineBarArr.map((v) => {
+                    // const x = v.month.toString();
+                    // return `${x.substr(0,4)}-${x.substr(4,2)}`
+                    return v.xAxis;
+                })
+                // legend
+                result.legendData = params.legend;
+            }
+        }
+        let option = {
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: '#fff',
+                    textStyle: { color: '#666' },
+                    axisPointer: { type: 'shadow' },
+                    formatter:'{a0}：{c0}',
+                    extraCssText: 'box-shadow: 0 0 5px rgba(0,0,0,0.3)'
+                },
+                grid: { left: '0', right: '0', bottom: '0', top: '10', width:'100%',containLabel: true },
+                // legend:{
+                //     name: result.legendData,
+                //     textStyle: { color: this.labelColor },
+                // },
+                xAxis: {
+                    type: 'category',
+                    axisTick:  { show: false },
+                    axisLine:  { lineStyle: { color: this.lineColor } },
+                    splitLine: { show: false, lineStyle: { color: this.lineColor } },
+                    data: result.xAxisData,
+                    axisLabel: { textStyle: { color: this.labelColor } },
+                },
+                yAxis: [{
+                    type: 'value',
+                    splitLine: {  show: true,lineStyle: { color: '#f0f0f0', borderType:"dotted" } },
+                    splitArea: { show: true, areaStyle: { color: this.areaColor } },
+                    axisLine:  { lineStyle: { color: this.lineColor } },
+                    axisTick:  { show: false },
+                    axisLabel: { textStyle: { color: this.labelColor } }
+                }],
+                series: result.seriesData
+            };
+        return option;
+    },
+    circlePieLightChartOptions(params){
+        let result = {
+            seriesData: [],
+            legendData: [],
+        };
+        if(params && params.length){
+            result.legendData = params.map(item => {
+                return {
+                    name:item.name,
+                }
+            });
+            result.seriesData = params;
+        }
+        let option = {
+                grid: { left: '10', right: '10%', bottom: '0', top: '38', containLabel: true },
+                // color: ['#41cb73', '#fad336', '#f2637b', '#975fe4','#3a9ff', '#36cbca', '#41cb73', '#c23531','#2f4554','#d48265'],
+                legend: {
+                    orient: 'vertical',
+                    right: '30%',
+                    y: '40',
+                    icon: 'circle',
+                    itemGap:20,
+                    data:result.legendData,
+                    formatter: function (name) {
+                        var total = 0;
+                        var target;
+                        for (var i = 0, l = params.length; i < l; i++) {
+                        total += params[i].value;
+                        if (params[i].name == name) {
+                            target = params[i].value;
+                            }
+                        }
+                        return name + '---' + ((target/total)*100).toFixed(2) + '%';
+                    }
+                },
+                series: [
+                    {
+                        type:'pie',
+                        radius: ['40%', '55%'],
+                        center: ['30%', '50%'],
+                        label: {
+                            normal: {
+                                formatter: '{b|{b}：}{c}  {per|{d}%}  ',
+                                rich: {
+                                    per: {
+                                        color: '#eee',
+                                        backgroundColor: '#108EFF',
+                                        padding: [2, 4],
+                                        borderRadius: 2
+                                    }
+                                },
+                                // textStyle: { color: '#333' }
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '14',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        data:result.seriesData
+                    }
+                ]
+            };
+        return option;
+    },
     darkLineAreaChartOptions(params) {
         let option = {
             // title: {

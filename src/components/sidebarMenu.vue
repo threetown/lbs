@@ -6,10 +6,10 @@
             </MenuItem> -->
             <Submenu v-if="item.children.length >= 1" :name="item.name" :key="item.path">
                 <template slot="title">
-                    <i class="iconfont" :class="item.meta.icon"></i><span>{{item.title}}</span>
+                    <i v-if="!item.isHide" class="iconfont" :class="item.meta.icon"></i><span>{{item.title}}</span>
                 </template>
                 <template v-for="child in item.children">
-                    <MenuItem :name="child.name" :key="child.name"><span>{{ child.title }}</span></MenuItem>
+                    <MenuItem v-if="!child.isHide" :name="child.name" :key="child.name"><span>{{ child.title }}</span></MenuItem>
                 </template>
             </Submenu>
         </template>
