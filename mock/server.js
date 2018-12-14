@@ -117,13 +117,13 @@ server.post('/center/user/getRelStaffKey', (req, res) => {
   res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
 })
 
-server.post('/center/menudata/getServiceCallDetail', (req, res) => {
+server.post('/center/getServiceCallDetail', (req, res) => {
   let db = router.db
   let data = db.get('getServiceCallDetail').value()
   res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })
 })
 
-server.post('/center/menudata/getServiceDetailByDate', (req, res) => {
+server.post('/center/getServiceDetailByDate', (req, res) => {
   let db = router.db
   let data = db.get('getServiceDetailByDate').value()
   res.jsonp({ data: data, state: 0, success: true, message:"操作成功" })

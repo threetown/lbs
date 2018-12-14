@@ -18,7 +18,7 @@
                 </Row>
             </div>
             <div class="tableCont">
-                <div v-if="tableData.loading">{{tableData.loadTips}}</div>
+                <div v-if="tableData.loading" :class="'Placeholder ' + tableData.state">{{tableData.loadTips}}</div>
                 <Table v-if="!tableData.loading" class="" border :columns="tableData.columns" :data="tableData.data"></Table>
                 <div v-show="!tableData.loading" class="tablePage">
                     <Page :total="tableData.total"
@@ -131,6 +131,7 @@ export default {
             tableData:{
                 loading:false,
                 loadTips:'努力加载中，请稍等...',
+                state:'loading',
                 columns:[
                    {
                         title: '服务名称',
@@ -261,10 +262,12 @@ export default {
                         this.serviceDetail = arrData;
                         this.generateTableData(arrData);
                     }else{
+                        this.tableData.state = 'empty';
                         this.tableData.loadTips="抱歉，暂无数据！";
                     }
                    
                 }else{
+                    this.tableData.state = 'error';
                     this.tableData.loadTips="糟糕，加载失败！";
                 }
             })
@@ -400,8 +403,8 @@ export default {
                 dateType:this.dateType,
                 dateValue:this.curDate,
                 serviceId:this.nameModel,
-                appId:this.curRow.appId,
-                appName:this.curRow.appName
+                appId:this.curRow.row.appId,
+                appName:this.curRow.row.appName
 
             };
             ajaxRequestServiceDetailByDate(params).then(res =>{

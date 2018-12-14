@@ -381,7 +381,7 @@
                             //store
                             self.recordUserLog(result);
                             //set to components
-                            this.userRecordLog.data = result.map(item => ({title:item.username,info:item.server,createTime:item.time}));
+                            this.userRecordLog.data = result.map(item => ({title:item.username,info:item.info,createTime:item.time}));
                             this.userRecordLog.loading = false;
                         }else{
                             this.userRecordLog.loading = false;

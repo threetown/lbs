@@ -75,7 +75,7 @@ export const ajaxMapServerRegist = (data) => fetch({ url: '/center/map/addMapReg
 export const ajaxRequestCount = (data) => fetch({ url: '/center/getApiRequestCountInfo', method: 'post', data})
 
 // 服务调用详情
-export const ajaxRequestServiceCallDetail = (data) => fetch({ url: '/center/menudata/getServiceCallDetail', method: 'post', data})
+export const ajaxRequestServiceCallDetail = (data) => fetch({ url: '/center/getServiceCallDetail', method: 'post', data})
 
 // 服务调用详情
-export const ajaxRequestServiceDetailByDate = (data) => fetch({ url: '/center/menudata/getServiceDetailByDate', method: 'post', data})
+export const ajaxRequestServiceDetailByDate = (data) => fetch({ url: '/center/getServiceDetailByDate', method: 'post', data})

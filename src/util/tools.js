@@ -260,8 +260,8 @@ export const getFormatterData = (date) =>{
 export const getCurDateByKey = (key) =>{
     let cdate = new Date();
     let cyear = cdate.getFullYear();
-    let cmonth = cdate.getMonth()+1>10?cdate.getMonth()+1:'0'+cdate.getMonth()+1;
-    let cday = cdate.getDate()>10?cdate.getDate():'0'+cdate.getDate();
+    let cmonth = cdate.getMonth() + 1 < 10 ? '0'+ (cdate.getMonth() + 1) : cdate.getMonth()+1;
+    let cday =  cdate.getDate() < 10 ? '0'+ cdate.getDate() : cdate.getDate();
     let nowdatestr='';
     if(key == 'year'){
         nowdatestr = cyear+"";
