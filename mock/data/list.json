@@ -1166,7 +1166,7 @@
 						}
 					}
 				],
-				"code": "6",
+				"code": 6,
 				"name": "短信服务"
 			},
 			{
@@ -1226,9 +1226,21 @@
 										"appName":"地图2应用",
 										"totalCall":90,
 										"todayCall":20
+									},
+									{
+										"appId":29,
+										"appName":"地图9应用",
+										"totalCall":170,
+										"todayCall":10
+									},
+									{
+										"appId":30,
+										"appName":"地图10应用",
+										"totalCall":90,
+										"todayCall":20
 									}
 								],
-								"total":8
+								"total":10
 							}
 						}
 					},
@@ -1287,14 +1299,26 @@
 										"appName":"淮北市地图资源8",
 										"totalCall":120,
 										"todayCall":10
+									},
+									{
+										"appId":39,
+										"appName":"淮北市地图资源9",
+										"totalCall":100,
+										"todayCall":10
+									},
+									{
+										"appId":40,
+										"appName":"淮北市地图资源10",
+										"totalCall":120,
+										"todayCall":10
 									}
 								],
-								"total":8
+								"total":10
 							}
 						}
 					}
 				],
-				"code": "2",
+				"code": 2,
 				"name": "地图服务"
 			},
 			{
@@ -1422,7 +1446,7 @@
 						}
 					}
 				],
-				"code": "1",
+				"code": 1,
 				"name": "地址解析服务"
 			}
 		]

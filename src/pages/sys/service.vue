@@ -573,9 +573,14 @@
             },
             triggerDetailModal(params){
                 //todo
+                let param = {
+                    serviceId:params.row.serviceId,
+                    serviceName:params.row.serviceName,
+                    serviceTypeMajor:params.row.serviceTypeMajor,
+                }
                 this.$router.push({
                     name: 'serviceCallDetail',
-                    query: params 
+                    query: param 
                 });
             },
             selectCount(v){

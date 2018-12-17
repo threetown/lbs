@@ -22,8 +22,8 @@ auth.initRouter = function (vm) {
         content: '努力加载中，请稍等...',
         duration: 0
     })
-    fetch({ url: '/static/mock/data/menu.json', method: 'get' }).then(res => {
-    // fetch({ url: '/center/user/getAmpAuthByCondition', method: 'post' }).then(res => {
+    // fetch({ url: '/static/mock/data/menu.json', method: 'get' }).then(res => {
+    fetch({ url: '/center/user/getAmpAuthByCondition', method: 'post' }).then(res => {
         if(res.state === 0){
             let data = res.data;
             //
@@ -84,8 +84,31 @@ auth.initRouterNode = function (routers, data) {
     }
 };
 auth.generateNewMenuData = function(data){ 
-    let route =  { "path": "serviceCallDetail", "name": "serviceCallDetail", "component": "sys/serviceCallDetail", "title": "服务详情", "isHide":true};
-    data[2].children.push(route);
+    //不展示在菜单项的内部子路由 手动配置 需设置parentName 与菜单项name一致
+    let routes = [
+        {
+            "path": "serviceCallDetail",
+            "name": "serviceCallDetail", 
+            "component": "sys/serviceCallDetail",
+            "title": "服务详情", 
+            "isHide":true,
+            "parentName":'sys',
+        },
+        {
+            "path": "userDetails",
+            "name": "userDetails", 
+            "component": "user/components/userDetails",
+            "title": "用户详情", 
+            "isHide":true,
+            "parentName":'sys',
+        }
+    ]
+    routes.map(route =>{
+        let index = data.find((v,index) => {return route['parentName'] == v['name']});
+        index.children.push(route);
+    })
+    // let route =  { "path": "serviceCallDetail", "name": "serviceCallDetail", "component": "sys/serviceCallDetail", "title": "服务详情", "isHide":true};
+    // data[2].children.push(route);
     return data;
 }
 

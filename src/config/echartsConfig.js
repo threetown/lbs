@@ -630,7 +630,7 @@ const echartsConfig = {
                 // color: ['#41cb73', '#fad336', '#f2637b', '#975fe4','#3a9ff', '#36cbca', '#41cb73', '#c23531','#2f4554','#d48265'],
                 legend: {
                     orient: 'vertical',
-                    right: '30%',
+                    right: '20%',
                     y: '40',
                     icon: 'circle',
                     itemGap:20,
@@ -644,17 +644,17 @@ const echartsConfig = {
                             target = params[i].value;
                             }
                         }
-                        return name + '---' + ((target/total)*100).toFixed(2) + '%';
+                        return name + '  ' + target + '  ' + ((target/total)*100).toFixed(2) + '%';
                     }
                 },
                 series: [
                     {
                         type:'pie',
                         radius: ['40%', '55%'],
-                        center: ['30%', '50%'],
+                        center: ['35%', '50%'],
                         label: {
                             normal: {
-                                formatter: '{b|{b}：}{c}  {per|{d}%}  ',
+                                formatter: '{b|{b}：}{c}  {per|{d}%}',
                                 rich: {
                                     per: {
                                         color: '#eee',

@@ -1,7 +1,7 @@
 <template>
     <div class="full-block-mod">
         <div class="Header clearfix">
-            <h2 class="title">账户列表<strong>关于账户的所有记录</strong></h2>
+            <h2 class="title">用户列表<strong>关于用户的所有记录</strong></h2>
         </div>
         <Row style="margin-bottom: 22px;">
             <Col span="16">
@@ -53,19 +53,19 @@
             </div>
         </Modal> <!-- 删除 -->
 
-        <user-details v-if="userModal" :currentUser="currentUser" @closeUserDetails="closeUserDetails"></user-details>
+        <!-- <user-details v-if="userModal" :currentUser="currentUser" @closeUserDetails="closeUserDetails"></user-details> -->
     </div>
 </template>
 
 <script>
     import { ajaxPostUserList, ajaxPostDeleteUser } from 'src/service/user';
 
-    import userDetails from "./components/userDetails"
+    // import userDetails from "./components/userDetails"
     
     export default {
         name: 'personal-record',
         components: {
-            userDetails
+            // userDetails
         },
         data () {
             return {
@@ -205,8 +205,12 @@
                 this.getList({ page: v })
             },
             triggerUserModal(params){
-                this.userModal = true;
-                this.currentUser = params;
+                 this.$router.push({
+                    name: 'userDetails',
+                    query: params 
+                });
+                // this.userModal = true;
+                // this.currentUser = params;
             },
             init(){
                 this.getList()

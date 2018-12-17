@@ -126,8 +126,8 @@ export default {
             serviceNameOptions:[],
             //当前服务名称
             serviceName:'',
-            typeModel: 0,
-            nameModel: 0,
+            typeModel: undefined,
+            nameModel: undefined,
             tableData:{
                 loading:false,
                 loadTips:'努力加载中，请稍等...',
@@ -241,7 +241,10 @@ export default {
     methods:{
         init(params){
             this.paramsData = params;
-            this.getServiceCallDetail(params);
+            this.typeModel = parseInt(this.paramsData.serviceTypeMajor);
+            this.nameModel = parseInt(this.paramsData.serviceId);
+            this.serviceName = this.paramsData.serviceName;
+            this.getServiceCallDetail();
         },
         returnService(){
             this.$router.push({
@@ -251,14 +254,23 @@ export default {
         getServiceCallDetail(params){
             let self = this;
             let data = {};
-            data.serviceId = params.serviceId;
-            data.serviceTypeMajor = params.serviceTypeMajor;
+            //获取服务详情列表 分页
+            data.serviceId = this.nameModel;
+            data.serviceTypeMajor = this.typeModel;
+            data.rows = this.tableData.rows;
+            data.page = this.tableData.page;
+
+            this.tableData.state = 'loading';
+            this.lineChart.loading = true;
+            this.pieChart.loading = true;
             this.tableData.loading = true;
             ajaxRequestServiceCallDetail(data).then(res => {
                 if(res.state === 0){
                     let arrData = res.data.data;
                     if(arrData.length > 0){
                         this.tableData.loading = false;
+                        this.lineChart.loading = false;
+                        this.pieChart.loading = false;
                         this.serviceDetail = arrData;
                         this.generateTableData(arrData);
                     }else{
@@ -273,15 +285,17 @@ export default {
             })
         },
         generateTableData(data){
-            if(this.paramsData.serviceTypeMajor && this.paramsData.serviceId){
-                this.typeModel = this.paramsData.serviceTypeMajor.toString();
-                this.nameModel = this.paramsData.serviceId;
-                this.serviceName = this.paramsData.serviceName;
-            }else{
-                this.typeModel = data[0].code;
-                this.nameModel = data[0].children[0].serviceId;
-                this.serviceName = data[0].children[0].serviceName;
-            }
+            // if(!this.nameModel && !this.typeModel){
+            //     if(this.paramsData.serviceTypeMajor && this.paramsData.serviceId){
+            //         this.typeModel = this.paramsData.serviceTypeMajor.toString();
+            //         this.nameModel = this.paramsData.serviceId;
+            //         this.serviceName = this.paramsData.serviceName;
+            //     }else{
+            //         this.typeModel = data[0].code;
+            //         this.nameModel = data[0].children[0].serviceId;
+            //         this.serviceName = data[0].children[0].serviceName;
+            //     }
+            // }
             //服务类型
             this.serviceTypeOptions = data.map((item,index) => {
                 return {
@@ -336,9 +350,9 @@ export default {
                     value:item.serviceId
                 }
             });
+            //改变服务类型默认选择第一个服务名称
             this.nameModel = serviceNameData[0].serviceId;
             this.serviceName = serviceNameData[0].serviceName;
-            //
             let arrTableData = serviceNameData.find(item => item.serviceId == this.nameModel).children;
             arrTableData.data.rows.map(item => item.serviceName = this.serviceName);
             this.tableData.data = arrTableData.data.rows;
@@ -362,7 +376,13 @@ export default {
             this.generateChartData(this.tableData.data);
             this.genarateCirclePieData(this.tableData.data);
         },
-        changeQueryPage(){
+        changeQueryPage(v){
+            //分页 todo
+            let params = {};
+            params.serviceId = this.nameModel;
+            params.serviceTypeMajor = this.typeModel;
+            this.tableData.page = v;
+            this.getServiceCallDetail(params);
 
         },
         linechartBtnClick(){
@@ -424,12 +444,20 @@ export default {
         
         },
         dateSelectChange(){
+            if(this.dateType == 'year'){
+                this.dataFormater = 'yyyy';
+            }else if(this.dateType == 'month'){
+                this.dataFormater = 'yyyy-MM';
+            }else if(this.dateType == 'date'){
+                this.dataFormater = 'yyyy-MM-dd';
+            }
+            this.curDate = tools.transDateByKey(this.curDate,this.dateType);
             this.getDetailChartByDate();
         }
     },
     created(){
         const self = this;
-        this.init(self.$route.query.row);
+        this.init(self.$route.query);
     }
 }
 </script>

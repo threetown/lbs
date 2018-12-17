@@ -1,5 +1,5 @@
 <template>
-    <div class="user-details-fullscreen" :currentUser="currentUser">
+    <div class="user-details-fullscreen">
         <div class="header">
             <a href="javascript:;" @click="close" style="display: inline-block;line-height: 22px;"><Icon type="ios-arrow-left" size="22" style="vertical-align: top;"/> 返回</a>
         </div>
@@ -88,15 +88,16 @@
             userPay
         },
         props: {
-            currentUser: {
-                type: Object,
-                default() {
-                    return {}
-                }
-            }
+            // currentUser: {
+            //     type: Object,
+            //     default() {
+            //         return {}
+            //     }
+            // }
         },
         data () {
             return {
+                currentUser:{},
                 payDeatils: {},
                 selectMonthDict,
                 balance: 0,
@@ -149,7 +150,10 @@
                 });
             },
             close(){
-                this.$emit("closeUserDetails");
+                this.$router.push({
+                    name: 'list' 
+                });
+                // this.$emit("closeUserDetails");
             },
             closeUserPay(){
                 this.userPayState = false;
@@ -282,6 +286,10 @@
         mounted() {
             this.init()
         },
+         created(){
+            const self = this;
+            this.currentUser = self.$route.query;
+        },
         computed: {
             currentDateRange(){
                 let key = this.search.currentMonth;
@@ -360,12 +368,12 @@
             }
         },
         watch: {
-            currentUser: {
-                handler() {
-                    this.init();
-                },
-                deep: true
-            }
+            // currentUser: {
+            //     handler() {
+            //         this.init();
+            //     },
+            //     deep: true
+            // }
         }
     }
 </script>
@@ -412,15 +420,15 @@
     }
 }
 .user-details-fullscreen {
-    position: fixed;
-    overflow: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    -webkit-overflow-scrolling: touch;
-    outline: 0;
+    // position: fixed;
+    // overflow: auto;
+    // top: 0;
+    // right: 0;
+    // bottom: 0;
+    // left: 0;
+    // z-index: 1000;
+    // -webkit-overflow-scrolling: touch;
+    // outline: 0;
     background-color: #fff;
     .header{
         border-bottom: 1px solid #e9eaec;
@@ -428,14 +436,15 @@
         line-height: 1;
     }
     .content{
-        width: 100%;
-        overflow: auto;
-        position: absolute;
-        top: 51px;
-        bottom: 0;
-        padding: 16px;
-        font-size: 12px;
-        line-height: 1.5;
+        // width: 100%;
+        // overflow: auto;
+        // position: absolute;
+        // top: 51px;
+        // bottom: 0;
+        // padding: 16px;
+        // font-size: 12px;
+        // line-height: 1.5;
+        padding: 20px;
     }
 }
 </style>

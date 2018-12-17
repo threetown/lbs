@@ -18,7 +18,7 @@
                 ]
             },
             {
-                "path": "/sys", "name": "sys", "component": "dashboard", "title": "系统监控", "modelStyle": "icon-monitor",
+                "path": "/sys", "name": "sys", "component": "dashboard", "title": "系统管理", "modelStyle": "icon-monitor",
                 "children": [
                     { "path": "scree", "name": "scree", "component": "sys/scree", "title": "数据总览" },
                     { "path": "business", "name": "business", "component": "sys/business", "title": "业务管理" },
@@ -61,7 +61,8 @@
             }
         ],
         "unReadNotice": 6,
-        "staffName": "Leon"
+        "staffName": "Leon",
+        "staffId":1
     },
     "state": 0
 }

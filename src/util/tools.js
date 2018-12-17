@@ -272,3 +272,18 @@ export const getCurDateByKey = (key) =>{
     }
     return nowdatestr;
 }
+
+export const transDateByKey = (cdate,key) =>{
+    let strDate='';
+    let cyear = cdate.getFullYear();
+    let cmonth = cdate.getMonth() + 1 < 10 ? '0'+ (cdate.getMonth() + 1) : cdate.getMonth()+1;
+    let cday =  cdate.getDate() < 10 ? '0'+ cdate.getDate() : cdate.getDate();
+    if(key == 'year'){
+        strDate = cyear+"";
+    }else if(key =='month'){
+        strDate = cyear+'-'+cmonth;
+    }else if(key =='date'){
+        strDate = cyear+"-"+cmonth+"-"+cday;
+    }
+    return strDate;
+}
