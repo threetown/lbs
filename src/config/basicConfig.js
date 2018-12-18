@@ -62,7 +62,7 @@ let specialUrl = "http://gisapi.cindata.cn/testpu";
 
 let url = {
     home: LbsUrl + '/gxdyun',
-    logout: APIUrl + '/amp/client/logout',
+    logout: LbsUrl + '/amp/client/logout',
     jump: SSOUrl + '/sso/login?callbackUrl=' + LbsUrl + '&p=gxdyun'
 }
 
