@@ -45,41 +45,27 @@ let gender = [
 ]
 
 /* 生产地址 */
-// let LbsUrl = 'http://lbs.cindata.cn';        // LBS
-// let SSOUrl = 'http://sso.cindata.cn';        // SSO
-// let APIUrl = 'http://consoleapi.cindata.cn'; // API请求地址
-// let mapviewUrl = 'http://mapview.cindata.cn/mapv/commondata'  // 数据可视化
-// let mapviewProUrl = 'http://mapview.cindata.cn/mapv/visual'   // 数据可视化-我的项目
-// let specialUrl = "http://gisapi.cindata.cn/pu";
+let LbsUrl = 'http://lbs.cindata.cn';        // LBS
+let SSOUrl = 'http://sso.cindata.cn';        // SSO
+let APIUrl = 'http://consoleapi.cindata.cn'; // API请求地址
+let mapviewUrl = 'http://mapview.cindata.cn/mapv/commondata'  // 数据可视化
+let mapviewProUrl = 'http://mapview.cindata.cn/mapv/visual'   // 数据可视化-我的项目
+let specialUrl = "http://gisapi.cindata.cn/pu";
 
-/* 测试地址 */
-let LbsUrl = 'http://testlbs.cindata.net';        // LBS
-let SSOUrl = 'http://testsso.cindata.net';        // SSO
-let APIUrl = 'http://testconsoleapi.cindata.net'; // API请求地址
-let mapviewUrl = 'http://testmapview.cindata.net/mapv/commondata'  // 数据可视化-我的数据
-let mapviewProUrl = 'http://testmapview.cindata.net/mapv/visual'   // 数据可视化-我的项目
-let specialUrl = "http://gisapi.cindata.cn/testpu";
+if(process.env.BUILD_ENV === 'dev'){ /* 测试地址 */
+    LbsUrl = 'http://testlbs.cindata.net';        // LBS
+    SSOUrl = 'http://testsso.cindata.net';        // SSO
+    APIUrl = 'http://testconsoleapi.cindata.net'; // API请求地址
+    mapviewUrl = 'http://testmapview.cindata.net/mapv/commondata'  // 数据可视化-我的数据
+    mapviewProUrl = 'http://testmapview.cindata.net/mapv/visual'   // 数据可视化-我的项目
+    specialUrl = "http://gisapi.cindata.cn/testpu";
+}
 
 let url = {
     home: LbsUrl + '/gxdyun',
-    logout: APIUrl + '/amp/client/logout',
+    logout: LbsUrl + '/amp/client/logout',
     jump: SSOUrl + '/sso/login?callbackUrl=' + LbsUrl + '&p=gxdyun'
 }
-
-/* 测试本地地址 */
-// let LbsUrl = 'http://127.0.0.1:11003';        // LBS
-// let SSOUrl = 'http://127.0.0.1:8084';             // SSO
-// let callbackUrl = 'http://127.0.0.1:8080'         // 回调
-// let APIUrl = 'http://127.0.0.1:11002';            // API请求地址
-// let mapviewUrl = 'http://testmapview.cindata.net/mapv/commondata'  // 数据可视化-我的数据
-// let mapviewProUrl = 'http://testmapview.cindata.net/mapv/visual'   // 数据可视化-我的项目
-// let specialUrl = "http://gisapi.cindata.cn/testpu";
-
-// let url = {
-//     home: LbsUrl + '/gxdyun',
-//     logout: APIUrl + '/amp/client/logout',
-//     jump: SSOUrl + '/sso/login?callbackUrl=' + callbackUrl + '&p=center'
-// }
 
 let selectTimeDict = [
     { label: '近30天', value: 'monthOfDays'},  // 按天统计最近一月
